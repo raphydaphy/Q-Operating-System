@@ -1,5 +1,7 @@
 //Simple keyboard recognision script for Q OS by Raph Hennessy
-//Will update later to support more keys [eta:2 months]
+//Update 1: added support for shift keys and escape button with simple print messages and no buffstr addition
+//Update 1: When Ctrl is pressed and certain kernel programs such as nano are in use it will exit the program
+//Update 1: We need to allow Ctrl keybinds such as Ctrl + O to save and Ctrl + X to exit
 
 #ifndef KB_H
 #define KB_H
@@ -15,15 +17,24 @@ string readStr()
     uint8 reading = 1;
     while(reading)
     {
+	//exit the nano program when the enter key is pressed
+	if (progexit = 1)
+	{
+	  clearScreen();
+	  updateCursor();
+	  nano = 0;
+	}
+	
+	//Detect keypress and return string of characters pressed to the buffstr char array
         if(inportb(0x64) & 0x1)                 
         {
             switch(inportb(0x60))
             { 
-      /*case 1:
-                printch('(char)27);           Escape button
-                buffstr[i] = (char)27;
+        case 1:
+                print("\n\nProgram Needs To Exit Here...\n",0x0F);           //Escape button
+                //buffstr[i] = (char)27;
                 i++;
-                break;*/
+                break;
         case 2:
                 printch('1',0x0F);
                 buffstr[i] = '1';
@@ -89,11 +100,11 @@ string readStr()
                 i--;
                 buffstr[i] = 0;
                 break;
-       /* case 15:
-                printch('\t',0x0F);          Tab button
+        case 15:
+                printch('\t',0x0F);          //Tab button
                 buffstr[i] = '\t';
                 i++;
-                break;*/
+                break;
         case 16:
                 printch('q',0x0F);
                 buffstr[i] = 'q';
@@ -154,17 +165,31 @@ string readStr()
                 buffstr[i] = ']';
                 i++;
                 break;
-        case 28:
-               // printch('\n');
-               // buffstr[i] = '\n';
-                  i++;
-               reading = 0;
+        case 28:				//This is the enter key, we need to add more functionality to it with nano and other commands
+                if (nano == 1)
+		{
+		  printch('\n',0x0F);
+		  buffstr[i] = '\n';
+		  i++;
+		}
+		else
+		{
+		  reading = 0;
+		}
                 break;
-      /*  case 29:
-                printch('q');           Left Control
-                buffstr[i] = 'q';
-                i++;
-                break;*/
+        case 29:
+	  
+		if (nano == 1) {
+		  progexit = 1;
+		  print("You have closed the nano window by pressing Ctrl.",0x0F);
+		}
+		else
+		{
+		  print("We need to add the Control Key to the current task's memory to create keybinds",0x0F);          // Left Control
+		  //buffstr[i] = 'ctrl';
+		  i++;
+		}
+                break;
         case 30:
                 printch('a',0x0F);
                 buffstr[i] = 'a';
@@ -225,16 +250,16 @@ string readStr()
                 buffstr[i] = (char)44;
                 i++;
                 break;
-     /* case 42:                                 Left shift 
-                printch('q',0x0F);
+      case 42:                                 //Left shift 
+                print("Left Shift was pressed, we need to put letters in CAPS while it is held down.",0x0F);
                 buffstr[i] = 'q';
                 i++;
                 break;
-        case 43:                                 \ (< for somekeyboards)   
-                printch((char)92);
+        case 43:                                 //\ (< for somekeyboards)   
+                printch((char)92,0x0F);
                 buffstr[i] = 'q';
                 i++;
-                break;*/
+                break;
         case 44:
                 printch('z',0x0F);
                 buffstr[i] = 'z';
@@ -295,11 +320,11 @@ string readStr()
                 buffstr[i] = '/';
                 i++;
                 break;            
-      /*case 56:
-                printch(' ');           Right shift
+      case 56:
+                print("RightShift was pressed, while it is held down letters should be in CAPS.",0x0F);          // Right shift
                 buffstr[i] = ' ';
                 i++;
-                break;*/           
+                break;           
         case 57:
                 printch(' ',0x0F);
                 buffstr[i] = ' ';
