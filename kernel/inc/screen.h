@@ -6,6 +6,11 @@
 #include "types.h"
 #include "system.h"
 #include "string.h"
+//Variables for the kernel functions
+uint8 nano = 0;
+uint8 progexit = 0;
+
+//Variables for screen.h functions
 int cursorX = 0, cursorY = 0;
 const uint8 sw = 80,sh = 25,sd = 2;                                                     //define the screen width, height, and depth.
 void clearLine(uint8 from,uint8 to)
