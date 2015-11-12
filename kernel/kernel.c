@@ -16,7 +16,7 @@ kmain()
     {
       print("\nShowing Help for Q OS ",0x0F);
     }
-    else if(strEql(ch,"do "))
+    else if(strEql(ch,"do"))
     {
       print("\n>  ",0x0F);
       string tmp = readStr();
@@ -24,6 +24,7 @@ kmain()
       {
 	print("\nrepeat>  ",0x0F);
 	string tmp = readStr();
+	nano = 1;
 	while(1)
 	  {
 	  printch('\n',0x0F);
@@ -39,15 +40,15 @@ kmain()
 	print("The 'do' command does not support the command you entered or it does not exist ",0x0F);
       }
     }
-    else if(strEql(ch,"ls "))
+    else if(strEql(ch,"ls"))
     {
       print("\nNo Files Found on Disk ",0x0F);
     }
-    else if(strEql(ch,"cd "))
+    else if(strEql(ch,"cd"))
     {
-      print("\nThe specified directory was not ound ",0x0F);
+      print("\nThe specified directory was not found ",0x0F);
     }
-    else if(strEql(ch,"nano "))
+    else if(strEql(ch,"nano"))
     {
       nano = 1;
       clearScreen();
@@ -58,11 +59,11 @@ kmain()
       cursorX = 0;
       cursorY = 1;
       updateCursor();
-      string ln1 = readStr();
+      string nanoOutput = readStr();
     }
-    else if(strEql(ch,"cat"))
+    else if(strEql(ch,"clear"))
     {
-      print("\n",0x0F);
+      clearScreen();
     }
     else if(strEql(ch,"sudo"))
     {
