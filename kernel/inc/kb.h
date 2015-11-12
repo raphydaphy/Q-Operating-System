@@ -1,340 +1,125 @@
-//Simple keyboard recognision script for Q OS by Raph Hennessy
-//Update 1: added support for shift keys and escape button with simple print messages and no buffstr addition
-//Update 1: When Ctrl is pressed and certain kernel programs such as nano are in use it will exit the program
-//Update 1: We need to allow Ctrl keybinds such as Ctrl + O to save and Ctrl + X to exit
+//This file has most of the C functions for Q OS at the moment
+//I will be moving functions into seperate files later [eta:2 months]
 
-#ifndef KB_H
-#define KB_H
-#include "screen.h"
-#include "system.h"
+#ifndef SCREEN_H
+#define SCREEN_H
 #include "types.h"
+#include "system.h"
+#include "string.h"
+//Variables for the kernel functions
+uint8 nano = 0;
+uint8 progexit = 0;
 
-string readStr()
+//Variables for screen.h functions
+int cursorX = 0, cursorY = 0;
+const uint8 sw = 80,sh = 25,sd = 2;                                                     //define the screen width, height, and depth.
+void clearLine(uint8 from,uint8 to)
 {
-    char buff;
-    string buffstr;
-    uint8 i = 0;
-    uint8 reading = 1;
-    while(reading)
-    {
-	//exit the nano program when the enter key is pressed
-	if (progexit = 1)
-	{
-	  clearScreen();
-	  updateCursor();
-	  nano = 0;
-	}
-	
-	//Detect keypress and return string of characters pressed to the buffstr char array
-        if(inportb(0x64) & 0x1)                 
+        uint16 i = sw * from * sd;
+        string vidmem=(string)0xb8000;
+        for(i;i<(sw*to*sd);i++)
         {
-            switch(inportb(0x60))
-            { 
-        case 1:
-                print("\n\nProgram Needs To Exit Here...\n",0x0F);           //Escape button
-                //buffstr[i] = (char)27;
-                i++;
-                break;
-        case 2:
-                printch('1',0x0F);
-                buffstr[i] = '1';
-                i++;
-                break;
-        case 3:
-                printch('2',0x0F);
-                buffstr[i] = '2';
-                i++;
-                break;
-        case 4:
-                printch('3',0x0F);
-                buffstr[i] = '3';
-                i++;
-                break;
-        case 5:
-                printch('4',0x0F);
-                buffstr[i] = '4';
-                i++;
-                break;
-        case 6:
-                printch('5',0x0F);
-                buffstr[i] = '5';
-                i++;
-                break;
-        case 7:
-                printch('6',0x0F);
-                buffstr[i] = '6';
-                i++;
-                break;
-        case 8:
-                printch('7',0x0F);
-                buffstr[i] = '7';
-                i++;
-                break;
-        case 9:
-                printch('8',0x0F);
-                buffstr[i] = '8';
-                i++;
-                break;
-        case 10:
-                printch('9',0x0F);
-                buffstr[i] = '9';
-                i++;
-                break;
-        case 11:
-                printch('0',0x0F);
-                buffstr[i] = '0';
-                i++;
-                break;
-        case 12:
-                printch('-',0x0F);
-                buffstr[i] = '-';
-                i++;
-                break;
-        case 13:
-                printch('=',0x0F);
-                buffstr[i] = '=';
-                i++;
-                break;
-        case 14:
-                printch('\b',0x0F);
-                i--;
-                buffstr[i] = 0;
-                break;
-        case 15:
-                printch('\t',0x0F);          //Tab button
-                buffstr[i] = '\t';
-                i++;
-                break;
-        case 16:
-                printch('q',0x0F);
-                buffstr[i] = 'q';
-                i++;
-                break;
-        case 17:
-                printch('w',0x0F);
-                buffstr[i] = 'w';
-                i++;
-                break;
-        case 18:
-                printch('e',0x0F);
-                buffstr[i] = 'e';
-                i++;
-                break;
-        case 19:
-                printch('r',0x0F);
-                buffstr[i] = 'r';
-                i++;
-                break;
-        case 20:
-                printch('t',0x0F);
-                buffstr[i] = 't';
-                i++;
-                break;
-        case 21:
-                printch('y',0x0F);
-                buffstr[i] = 'y';
-                i++;
-                break;
-        case 22:
-                printch('u',0x0F);
-                buffstr[i] = 'u';
-                i++;
-                break;
-        case 23:
-                printch('i',0x0F);
-                buffstr[i] = 'i';
-                i++;
-                break;
-        case 24:
-                printch('o',0x0F);
-                buffstr[i] = 'o';
-                i++;
-                break;
-        case 25:
-                printch('p',0x0F);
-                buffstr[i] = 'p';
-                i++;
-                break;
-        case 26:
-                printch('[',0x0F);
-                buffstr[i] = '[';
-                i++;
-                break;
-        case 27:
-                printch(']',0x0F);
-                buffstr[i] = ']';
-                i++;
-                break;
-        case 28:				//This is the enter key, we need to add more functionality to it with nano and other commands
-                if (nano == 1)
-		{
-		  printch('\n',0x0F);
-		  buffstr[i] = '\n';
-		  i++;
-		}
-		else
-		{
-		  reading = 0;
-		}
-                break;
-        case 29:
-	  
-		if (nano == 1) {
-		  progexit = 1;
-		  print("You have closed the nano window by pressing Ctrl.",0x0F);
-		}
-		else
-		{
-		  print("We need to add the Control Key to the current task's memory to create keybinds",0x0F);          // Left Control
-		  //buffstr[i] = 'ctrl';
-		  i++;
-		}
-                break;
-        case 30:
-                printch('a',0x0F);
-                buffstr[i] = 'a';
-                i++;
-                break;
-        case 31:
-                printch('s',0x0F);
-                buffstr[i] = 's';
-                i++;
-                break;
-        case 32:
-                printch('d',0x0F);
-                buffstr[i] = 'd';
-                i++;
-                break;
-        case 33:
-                printch('f',0x0F);
-                buffstr[i] = 'f';
-                i++;
-                break;
-        case 34:
-                printch('g',0x0F);
-                buffstr[i] = 'g';
-                i++;
-                break;
-        case 35:
-                printch('h',0x0F);
-                buffstr[i] = 'h';
-                i++;
-                break;
-        case 36:
-                printch('j',0x0F);
-                buffstr[i] = 'j';
-                i++;
-                break;
-        case 37:
-                printch('k',0x0F);
-                buffstr[i] = 'k';
-                i++;
-                break;
-        case 38:
-                printch('l',0x0F);
-                buffstr[i] = 'l';
-                i++;
-                break;
-        case 39:
-                printch(';',0x0F);
-                buffstr[i] = ';';
-                i++;
-                break;
-        case 40:
-                printch((char)44,0x0F);               //   Single quote (')
-                buffstr[i] = (char)44;
-                i++;
-                break;
-        case 41:
-                printch((char)44,0x0F);               // Back tick (`)
-                buffstr[i] = (char)44;
-                i++;
-                break;
-      case 42:                                 //Left shift 
-                print("Left Shift was pressed, we need to put letters in CAPS while it is held down.",0x0F);
-                buffstr[i] = 'q';
-                i++;
-                break;
-        case 43:                                 //\ (< for somekeyboards)   
-                printch((char)92,0x0F);
-                buffstr[i] = 'q';
-                i++;
-                break;
-        case 44:
-                printch('z',0x0F);
-                buffstr[i] = 'z';
-                i++;
-                break;
-        case 45:
-                printch('x',0x0F);
-                buffstr[i] = 'x';
-                i++;
-                break;
-        case 46:
-                printch('c',0x0F);
-                buffstr[i] = 'c';
-                i++;
-                break;
-        case 47:
-                printch('v',0x0F);
-                buffstr[i] = 'v';
-                i++;
-                break;                
-        case 48:
-                printch('b',0x0F);
-                buffstr[i] = 'b';
-                i++;
-                break;               
-        case 49:
-                printch('n',0x0F);
-                buffstr[i] = 'n';
-                i++;
-                break;                
-        case 50:
-                printch('m',0x0F);
-                buffstr[i] = 'm';
-                i++;
-                break;               
-        case 51:
-                printch(',',0x0F);
-                buffstr[i] = ',';
-                i++;
-                break;                
-        case 52:
-                printch('.',0x0F);
-                buffstr[i] = '.';
-                i++;
-                break;            
-        case 53:
-                printch('/',0x0F);
-                buffstr[i] = '/';
-                i++;
-                break;            
-        case 54:
-                printch('.',0x0F);
-                buffstr[i] = '.';
-                i++;
-                break;            
-        case 55:
-                printch('/',0x0F);
-                buffstr[i] = '/';
-                i++;
-                break;            
-      case 56:
-                print("RightShift was pressed, while it is held down letters should be in CAPS.",0x0F);          // Right shift
-                buffstr[i] = ' ';
-                i++;
-                break;           
-        case 57:
-                printch(' ',0x0F);
-                buffstr[i] = ' ';
-                i++;
-                break;
-            }
+                vidmem[i] = 0x0;
         }
-    }
-    buffstr[i] = 0;                   
-    return buffstr;
 }
+void updateCursor()
+{
+    unsigned temp;
+
+    temp = cursorY * sw + cursorX;                                                      // Position = (y * width) +  x
+
+    outportb(0x3D4, 14);                                                                // CRT Control Register to Select Cursor Location
+    outportb(0x3D5, temp >> 8);                                                         // ASM to send the high byte across the bus
+    outportb(0x3D4, 15);                                                                // Another CRT Control Register to Select Send Low byte
+    outportb(0x3D5, temp);                                                              // Use ASM outportb function again to send the Low byte of the cursor location
+}
+void clearScreen()
+{
+        clearLine(0,sh-1);
+        cursorX = 0;
+        cursorY = 0;
+        updateCursor();
+}
+
+void scrollUp(uint8 lineNumber)
+{
+        string vidmem = (string)0xb8000;
+        uint16 i = 0;
+        clearLine(0,lineNumber-1);                                        
+        for (i;i<sw*(sh-1)*2;i++)
+        {
+                vidmem[i] = vidmem[i+sw*2*lineNumber];
+        }
+        clearLine(sh-1-lineNumber,sh-1);
+        if((cursorY - lineNumber) < 0 ) 
+        {
+                cursorY = 0;
+                cursorX = 0;
+        } 
+        else 
+        {
+                cursorY -= lineNumber;
+        }
+        updateCursor();
+}
+
+
+void newLineCheck()
+{
+        if(cursorY >=sh-1)
+        {
+                scrollUp(1);
+        }
+}
+
+void printch(char c,int b)
+{
+    string vidmem = (string) 0xb8000;     
+    switch(c)
+    {
+        case (0x08):
+                if(cursorX > 0) 
+                {
+	                cursorX--;									
+                        vidmem[(cursorY * sw + cursorX)*sd]=0x00;	                              
+	        }
+	        break;
+       /* case (0x09):
+                cursorX = (cursorX + 8) & ~(8 - 1); 
+                break;*/
+        case ('\r'):
+                cursorX = 0;
+                break;
+        case ('\n'):
+                cursorX = 0;
+                cursorY++;
+                break;
+        default:
+                vidmem [((cursorY * sw + cursorX))*sd] = c;
+                vidmem [((cursorY * sw + cursorX))*sd+1] = b;
+                cursorX++; 
+                break;
+	
+    }
+    if(cursorX >= sw)                                                                   
+    {
+        cursorX = 0;                                                                
+        cursorY++;                                                                    
+    }
+    updateCursor();
+    newLineCheck();
+}
+
+void print (string ch,int bh)
+{
+        uint16 i = 0;
+        uint8 length = strlength(ch)-1;              
+        for(i;i<length;i++)
+        {
+                printch(ch[i],bh);
+        }
+}
+
+
 #endif
 
