@@ -49,15 +49,16 @@ kmain()
     }
     else if(strEql(ch,"nano "))
     {
+      nano = 1;
       clearScreen();
       print("                        Q-OS Nano Text Editor Version 0.1                        ",0xF0);
-      print("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n",0x0F);
+      print("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n",0x0F);
       print("                         Built for Q-OS by Raph Hennessy                        ",0xF0);
       
       cursorX = 0;
       cursorY = 1;
       updateCursor();
-      readStr();
+      string ln1 = readStr();
     }
     else if(strEql(ch,"cat"))
     {
