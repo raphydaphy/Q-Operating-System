@@ -24,6 +24,7 @@ string readStr()
 	  updateCursor();
 	  nano = 0;
 	  progexit = 0;
+	  print("Q-Kernel>  ",0x0F);
 	}
 	
 	//Detect keypress and return string of characters pressed to the buffstr char array
@@ -172,6 +173,10 @@ string readStr()
 		  printch('\n',0x0F);
 		  buffstr[i] = '\n';
 		  i++;
+		  if (cursorY > 23)
+		  {
+		    scrollUp(1);
+		  }
 		}
 		else
 		{
@@ -182,7 +187,7 @@ string readStr()
 	  
 		if (nano == 1) {
 		  progexit = 1;
-		  print("You have closed the nano window by pressing Ctrl.",0x0F);
+		  reading = 0;
 		}
 		else
 		{
