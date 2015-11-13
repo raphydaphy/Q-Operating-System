@@ -7,8 +7,11 @@
 #include "system.h"
 #include "string.h"
 //Variables for the kernel functions
-uint8 nano = 0;
+uint8 writing = 0;
 uint8 progexit = 0;
+uint8 layout = 0;
+uint8 ctrl = 0;
+string writerContents = "Welcome to the Writer program. Start typing to modify this file. Anything you type will override the current contents of the file.";
 
 //Variables for screen.h functions
 int cursorX = 0, cursorY = 0;
@@ -119,7 +122,6 @@ void print (string ch,int bh)
                 printch(ch[i],bh);
         }
 }
-
 
 #endif
 
