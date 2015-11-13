@@ -17,7 +17,7 @@ kmain()
     layout = 1;
     if(strEql(ch,"help "))
     {
-      print("\nShowing Help for Q OS \nnano         cd\nls           do",0x0F);
+      print("\nShowing Help for Q OS \nwriter       cd\nls           do",0x0F);
     }
     else if(strEql(ch,"do"))
     {
@@ -59,10 +59,6 @@ kmain()
       cursorX = 0;
       cursorY = 1;
       print("                           Q-OS Text Editor Version 0.2                          ",0x80);
-      cursorY - 1;
-      cursorX = 0;
-      updateCursor();
-      print(writerContents,0x0F);
       cursorY = 24;
       cursorX = 0;
       //updateCursor();
@@ -72,11 +68,24 @@ kmain()
       cursorY = 1;
       updateCursor();
       layout = 0;
+      print(writerContents,0x0F);
       string writerContents = readStr();
     }
     else if(strEql(ch,"clear"))
     {
       clearScreen();
+      cursorX = 0;
+      cursorY = 0;
+      updateCursor();
+    }
+    else if(strEql(ch,"clear -i"))
+    {
+      layout = 1;
+      clearScreen();
+      print("================================================================================\n",0x3F);
+      print("                             Welcome to Q OS                                    \n",0x3F);
+      print("================================================================================\n",0x3F);
+      layout = 0;
     }
     else if(strEql(ch,"sudo"))
     {
