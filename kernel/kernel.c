@@ -1,20 +1,23 @@
-#include "inc/screen.h"
 #include "inc/kb.h"
 kmain()
 {
+  layout = 1;
   clearScreen();
-  print("================================================================================\n",0x0F);
-  print("                             Welcome to Q OS\n\n",0x0F);
-  print("================================================================================\n",0x0F);
+  print("================================================================================\n",0x3F);
+  print("                             Welcome to Q OS                                    \n",0x3F);
+  print("================================================================================\n",0x3F);
+  layout = 0;
 
   while (1)
   {
-    print("\nQ-Kernel>  ",0x0F);
-
+    layout = 1;
+    print("\nQ-Kernel>  ",0x08);
+    layout = 0;
     string ch = readStr();
+    layout = 1;
     if(strEql(ch,"help "))
     {
-      print("\nShowing Help for Q OS ",0x0F);
+      print("\nShowing Help for Q OS \nnano         cd\nls           do",0x0F);
     }
     else if(strEql(ch,"do"))
     {
@@ -24,7 +27,7 @@ kmain()
       {
 	print("\nrepeat>  ",0x0F);
 	string tmp = readStr();
-	nano = 1;
+	writing = 1;
 	while(1)
 	  {
 	  printch('\n',0x0F);
@@ -48,18 +51,28 @@ kmain()
     {
       print("\nThe specified directory was not found ",0x0F);
     }
-    else if(strEql(ch,"nano"))
+    else if(strEql(ch,"writer"))
     {
-      nano = 1;
+      layout = 1;
+      writing = 1;
       clearScreen();
-      print("                        Q-OS Nano Text Editor Version 0.1                        ",0xF0);
-      print("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n",0x0F);
-      print("                         Built for Q-OS by Raph Hennessy                        ",0xF0);
+      cursorX = 0;
+      cursorY = 1;
+      print("                           Q-OS Text Editor Version 0.2                          ",0x80);
+      cursorY - 1;
+      cursorX = 0;
+      updateCursor();
+      print(writerContents,0x0F);
+      cursorY = 24;
+      cursorX = 0;
+      //updateCursor();
+      print("                            Press Control to exit                          ",0x80);
       
       cursorX = 0;
       cursorY = 1;
       updateCursor();
-      string nanoOutput = readStr();
+      layout = 0;
+      string writerContents = readStr();
     }
     else if(strEql(ch,"clear"))
     {
@@ -82,5 +95,6 @@ kmain()
       print("\nCommand Not Found ",0x0F);
     }
     print("\n",0x0F);
+    layout = 0;
   }
 }
