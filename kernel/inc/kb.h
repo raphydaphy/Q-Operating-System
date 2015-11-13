@@ -1,7 +1,6 @@
 //Simple keyboard recognision script for Q OS by Raph Hennessy
-//Update 1: added support for shift keys and escape button with simple print messages and no buffstr addition
-//Update 1: When Ctrl is pressed and certain kernel programs such as nano are in use it will exit the program
-//Update 1: We need to allow Ctrl keybinds such as Ctrl + O to save and Ctrl + X to exit
+//Update 2: changed all instances of nano to writer
+//Update 2: writer now saves what you type (in theory)
 
 #ifndef KB_H
 #define KB_H
@@ -17,21 +16,31 @@ string readStr()
     uint8 reading = 1;
     while(reading)
     {
-	//exit the nano program when the enter key is pressed
-	if (progexit == 1 && nano == 1)
+      ctrl = 0;
+	//exit the writer program when the enter key is pressed
+	if (progexit == 1 && writing == 1)
 	{
 	  clearScreen();
 	  updateCursor();
-	  nano = 0;
+	  writing = 0;
 	  progexit = 0;
-	  print("Q-Kernel>  ",0x0F);
+	  print("Q-Kernel>  ",0x08);
 	}
+	
 	
 	//Detect keypress and return string of characters pressed to the buffstr char array
         if(inportb(0x64) & 0x1)                 
         {
             switch(inportb(0x60))
             { 
+	
+        case 29:
+		ctrl = 1;
+		if (writing == 1) {
+		  progexit = 1;
+		  reading = 0;
+		}
+                //break;
         case 1:
                 print("\n\nProgram Needs To Exit Here...\n",0x0F);           //Escape button
                 //buffstr[i] = (char)27;
@@ -148,9 +157,9 @@ string readStr()
                 i++;
                 break;
         case 24:
-                printch('o',0x0F);
-                buffstr[i] = 'o';
-                i++;
+		printch('o',0x0F);
+		buffstr[i] = 'o';
+		i++;
                 break;
         case 25:
                 printch('p',0x0F);
@@ -167,33 +176,16 @@ string readStr()
                 buffstr[i] = ']';
                 i++;
                 break;
-        case 28:				//This is the enter key, we need to add more functionality to it with nano and other commands
-                if (nano == 1)
+        case 28:				//This is the enter key, we need to add more functionality to it with Writer and other commands
+                if (writing == 1)
 		{
 		  printch('\n',0x0F);
 		  buffstr[i] = '\n';
 		  i++;
-		  if (cursorY > 23)
-		  {
-		    scrollUp(1);
-		  }
 		}
 		else
 		{
 		  reading = 0;
-		}
-                break;
-        case 29:
-	  
-		if (nano == 1) {
-		  progexit = 1;
-		  reading = 0;
-		}
-		else
-		{
-		  print("We need to add the Control Key to the current task's memory to create keybinds",0x0F);          // Left Control
-		  //buffstr[i] = 'ctrl';
-		  i++;
 		}
                 break;
         case 30:
@@ -202,9 +194,9 @@ string readStr()
                 i++;
                 break;
         case 31:
-                printch('s',0x0F);
+		printch('s',0x0F);
                 buffstr[i] = 's';
-                i++;
+                i++;	 
                 break;
         case 32:
                 printch('d',0x0F);
@@ -336,8 +328,38 @@ string readStr()
                 buffstr[i] = ' ';
                 i++;
                 break;
+	case 72:
+		if (writing == 1)		//Up arrow
+		{
+		  cursorY = cursorY - 1;
+		  //cursorX = cursorX - 1;
+		}
+		break;
+	case 75:				//Left Arrow
+		if (writing == 1)
+		{
+		  cursorX = cursorX - 1;
+		  //cursorY = cursorY - 1;
+		}
+	case 77:				//Right Arrow
+		if (writing == 1)
+		{
+		  cursorX = cursorX + 1;
+		  //cursorY = cursorY - 1;
+		}
+	case 80:				//Down Arrow
+		if (writing == 1)
+		{
+		  cursorY = cursorY + 1;
+		  //cursorX = cursorX - 1;
+		}
+		break;
             }
         }
+        if (ctrl == 1)
+	{
+	  print("Ctrl = 1 ",0x0F);
+	}
     }
     buffstr[i] = 0;                   
     return buffstr;
