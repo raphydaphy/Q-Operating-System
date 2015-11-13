@@ -54,19 +54,11 @@ kmain()
     else if(strEql(ch,"writer"))
     {
       layout = 1;
-      writing = 1;
       clearScreen();
-      cursorX = 0;
-      cursorY = 1;
-      print("                           Q-OS Text Editor Version 0.2                          ",0x80);
-      cursorY = 24;
-      cursorX = 0;
-      //updateCursor();
-      print("                            Press Control to exit                          ",0x80);
-      
-      cursorX = 0;
-      cursorY = 1;
-      updateCursor();
+      print("================================================================================\n",0x3F);
+      print("                      Q OS Text Editor Version 0.2                              \n",0x3F);
+      print("================================================================================\n",0x3F);
+      writing = 1;
       layout = 0;
       print(writerContents,0x0F);
       string writerContents = readStr();
