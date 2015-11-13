@@ -1,6 +1,6 @@
 //Simple keyboard recognision script for Q OS by Raph Hennessy
 //Update 2: changed all instances of nano to writer
-//Update 2: writer now saves what you type (in theory)
+//Update 2: writer now saves what you type
 
 #ifndef KB_H
 #define KB_H
@@ -332,7 +332,7 @@ string readStr()
 		if (writing == 1)		//Up arrow
 		{
 		  cursorY = cursorY - 1;
-		  //cursorX = cursorX - 1;
+		  cursorX = cursorX - 1;
 		}
 		break;
 	case 75:				//Left Arrow
@@ -351,7 +351,7 @@ string readStr()
 		if (writing == 1)
 		{
 		  cursorY = cursorY + 1;
-		  //cursorX = cursorX - 1;
+		  cursorX = cursorX - 1;
 		}
 		break;
             }
