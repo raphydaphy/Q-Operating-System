@@ -1,4 +1,4 @@
-#include "inc/kb.h"
+#include "inc/kb."
 kmain()
 {
   layout = 1;
@@ -20,9 +20,9 @@ kmain()
     layout = 1;
     if(strEql(ch,"help"))
     {
-      print("\nShowing Help for Q OS \nwriter       cd\nls           do",0x0F);
+      print("\nWorking Commands in Q OS: \nwriter\nclear\nexecute",0x0F);
     }
-    else if(strEql(ch,"do"))
+    else if(strEql(ch,"execute"))
     {
       print("\n>  ",0x0F);
       string tmp = readStr();
@@ -37,20 +37,22 @@ kmain()
 	  print(tmp,0x0F);
 	}
       }
-      if(strEql(tmp,"execute"))
+      if(strEql(tmp,"c"))
       {
-	print("\n",0x0F);
+	print("\nc>  ",0x0F);
+	string c = readStr();
+	
       }
       else
       {
 	print("The 'do' command does not support the command you entered or it does not exist ",0x0F);
       }
     }
-    else if(strEql(ch,"ls"))
+    else if(strEql(ch,"list"))
     {
       print("\nNo Files Found on Disk ",0x0F);
     }
-    else if(strEql(ch,"cd"))
+    else if(strEql(ch,"switch"))
     {
       print("\nThe specified directory was not found ",0x0F);
     }
@@ -82,15 +84,11 @@ kmain()
       print("================================================================================\n",0x3F);
       layout = 0;
     }
-    else if(strEql(ch,"sudo"))
+    else if(strEql(ch,"newdir"))
     {
       print("\n",0x0F);
     }
-    else if(strEql(ch,"exit"))
-    {
-      print("\n",0x0F);
-    }
-    else if(strEql(ch,"run"))
+    else if(strEql(ch,"erase"))
     {
       print("\n",0x0F);
     }
