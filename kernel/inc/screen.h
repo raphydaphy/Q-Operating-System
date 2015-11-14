@@ -11,6 +11,10 @@ uint8 writing = 0;
 uint8 progexit = 0;
 uint8 layout = 0;
 uint8 ctrl = 0;
+uint8 typingCmd = 0;
+uint8 startCmdY = 0;
+uint8 startCmdX = 0;
+uint8 newCmd = 0;
 string writerContents = "Welcome to the Writer program. Start typing to modify this file. Anything you type will override the current contents of the file.";
 
 //Variables for screen.h functions
