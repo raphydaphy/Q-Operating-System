@@ -1,4 +1,4 @@
-#include "inc/kb."
+#include "inc/kb.h"
 kmain()
 {
   layout = 1;
