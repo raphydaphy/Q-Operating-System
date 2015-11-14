@@ -13,9 +13,12 @@ kmain()
     layout = 1;
     print("\nQ-Kernel>  ",0x08);
     layout = 0;
+    typingCmd = 1;
+    newCmd = 1;
     string ch = readStr();
+    typingCmd = 0;
     layout = 1;
-    if(strEql(ch,"help "))
+    if(strEql(ch,"help"))
     {
       print("\nShowing Help for Q OS \nwriter       cd\nls           do",0x0F);
     }
