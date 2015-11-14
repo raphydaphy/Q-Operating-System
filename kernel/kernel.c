@@ -1,4 +1,4 @@
-#include "inc/kb.h"
+#include "inc/kbDetect.h"
 kmain()
 {
   layout = 1;
@@ -7,7 +7,7 @@ kmain()
   print("                             Welcome to Q OS                                    \n",0x3F);
   print("================================================================================\n",0x3F);
   layout = 0;
-
+  
   while (1)
   {
     layout = 1;
@@ -21,6 +21,10 @@ kmain()
     if(strEql(ch,"help"))
     {
       print("\nWorking Commands in Q OS: \nwriter\nclear\nexecute",0x0F);
+    }
+    else if(ch == "hi")
+    {
+      print("hi!",0x0F);
     }
     else if(strEql(ch,"execute"))
     {
