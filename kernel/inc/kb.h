@@ -1,6 +1,5 @@
 //Simple keyboard recognision script for Q OS by Raph Hennessy
-//Update 2: changed all instances of nano to writer
-//Update 2: writer now saves what you type
+//Update 3: Users can't delete the kernel command prompt anymore - this is an issue that started in the initial commit version
 
 #ifndef KB_H
 #define KB_H
@@ -27,6 +26,21 @@ string readStr()
 	  print("Q-Kernel>  ",0x08);
 	}
 	
+	if (typingCmd)
+	{
+	  if (cursorX < 11 && cursorY == startCmdY)
+	  {
+	    cursorX = 11;
+	  }
+	}
+	
+	if (newCmd && typingCmd)
+	{
+	  startCmdX = cursorX;
+	  startCmdY = cursorY;
+	  newCmd = 0;
+	}
+	
 	
 	//Detect keypress and return string of characters pressed to the buffstr char array
         if(inportb(0x64) & 0x1)                 
@@ -39,8 +53,9 @@ string readStr()
 		if (writing == 1) {
 		  progexit = 1;
 		  reading = 0;
+		  //writing = 0;
 		}
-                //break;
+                break;
         case 1:
                 print("\n\nProgram Needs To Exit Here...\n",0x0F);           //Escape button
                 //buffstr[i] = (char)27;
