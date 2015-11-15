@@ -11,7 +11,7 @@ kmain()
   while (1)
   {
     layout = 1;
-    print("\nQ-Kernel>  ",0x08);
+    print("\nQ-Kernel>  ", 0x08);
     layout = 0;
     typingCmd = 1;
     newCmd = 1;
@@ -24,15 +24,15 @@ kmain()
     }
     else if(ch == "hi")
     {
-      print("hi!",0x0F);
+      print("hi!", 0x0F);
     }
     else if(strEql(ch,"execute"))
     {
-      print("\n>  ",0x0F);
+      print("\n>  ", 0x0F);
       string tmp = readStr();
       if(strEql(tmp,"repeat"))
       {
-	print("\nrepeat>  ",0x0F);
+	print("\nrepeat>  ", 0x0F);
 	string tmp = readStr();
 	writing = 1;
 	while(1)

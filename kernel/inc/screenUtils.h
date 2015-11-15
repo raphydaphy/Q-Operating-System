@@ -10,7 +10,11 @@
 uint8 writing; 
 uint8 progexit; 
 uint8 layout; 
-uint8 ctrl; 
+uint8 alt;
+uint8 ctrl;
+uint8 lshift;
+uint8 rshift;
+uint8 capslock;
 uint8 typingCmd; 
 uint8 startCmdY; 
 uint8 startCmdX; 
