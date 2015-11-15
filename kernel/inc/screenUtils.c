@@ -68,7 +68,7 @@ void newLineCheck()
         }
 }
 
-void printch(char c,int b)
+void printch(char c, int b)
 {
     string vidmem = (string) 0xb8000;     
     switch(c)
@@ -77,12 +77,20 @@ void printch(char c,int b)
                 if(cursorX > 0) 
                 {
 	                cursorX--;									
-                        vidmem[(cursorY * sw + cursorX)*sd]=0x00;	                              
+                        vidmem[(cursorY * sw + cursorX)*sd]=0x00;
 	        }
 	        break;
        /* case (0x09):
                 cursorX = (cursorX + 8) & ~(8 - 1); 
                 break;*/
+        case ('\t'): {
+            int modX = cursorX % 4; // Tabs are 4 spaces wide
+            modX = modX == 0? 4 : modX;
+            while(modX--) {
+                printch(' ', b);
+            }
+            break;
+        }
         case ('\r'):
                 cursorX = 0;
                 break;
@@ -106,13 +114,24 @@ void printch(char c,int b)
     newLineCheck();
 }
 
-void print (string ch,int bh)
+void print(string ch, int bh)
 {
-        uint16 i = 0;
-        uint8 length = strlength(ch)-1;              
-        for(i;i<length;i++)
-        {
-                printch(ch[i],bh);
-        }
+    uint16 i = 0;
+    uint8 length = strlength(ch);
+    for(i; i < length; i++)
+    {
+        printch(ch[i], bh);
+    }
 }
 
+void moveCursorX(int x) {
+    cursorX += x;
+    updateCursor();
+    newLineCheck();
+}
+
+void moveCursorY(int y) {
+    cursorY += y;
+    updateCursor();
+    newLineCheck();
+}

@@ -1,12 +1,17 @@
 #include "inc/kbDetect.h"
 kmain()
 {
-  layout = 1;
-  clearScreen();
-  print("================================================================================\n",0x3F);
-  print("                             Welcome to Q OS                                    \n",0x3F);
-  print("================================================================================\n",0x3F);
-  layout = 0;
+    layout = 1;
+    clearScreen();
+    print("================================================================================", 0x3F);
+    print("                             Welcome to Q OS                                    ", 0x3F);
+    print("================================================================================", 0x3F);
+    layout = 0;
+
+    print("\nKeybindings in Q OS:", 0x0F);
+    print("\n\tCtrl-b -> left", 0x0F);
+    print("\n\tCtrl-f -> right", 0x0F);
+    print("\n\tCtrl-a -> home\n", 0x0F);
   
   while (1)
   {
@@ -18,9 +23,9 @@ kmain()
     string ch = readStr();
     typingCmd = 0;
     layout = 1;
-    if(strEql(ch,"help"))
+    if(strEql(ch, "help"))
     {
-      print("\nWorking Commands in Q OS: \nwriter\nclear\nexecute",0x0F);
+        print("\nWorking Commands in Q OS: \nwriter\nclear\nexecute", 0x0F);
     }
     else if(ch == "hi")
     {
@@ -37,8 +42,8 @@ kmain()
 	writing = 1;
 	while(1)
 	  {
-	  printch('\n',0x0F);
-	  print(tmp,0x0F);
+	  printch('\n', 0x0F);
+	  print(tmp, 0x0F);
 	}
       }
       if(strEql(tmp,"c"))
@@ -54,19 +59,19 @@ kmain()
     }
     else if(strEql(ch,"list"))
     {
-      print("\nNo Files Found on Disk ",0x0F);
+      print("\nNo Files Found on Disk ", 0x0F);
     }
     else if(strEql(ch,"switch"))
     {
-      print("\nThe specified directory was not found ",0x0F);
+      print("\nThe specified directory was not found ", 0x0F);
     }
     else if(strEql(ch,"writer"))
     {
       layout = 1;
       clearScreen();
-      print("================================================================================\n",0x3F);
-      print("                      Q OS Text Editor Version 0.2                              \n",0x3F);
-      print("================================================================================\n",0x3F);
+      print("================================================================================",0x3F);
+      print("                      Q OS Text Editor Version 0.2                              ",0x3F);
+      print("================================================================================",0x3F);
       writing = 1;
       layout = 0;
       print(writerContents,0x0F);
@@ -83,9 +88,9 @@ kmain()
     {
       layout = 1;
       clearScreen();
-      print("================================================================================\n",0x3F);
-      print("                             Welcome to Q OS                                    \n",0x3F);
-      print("================================================================================\n",0x3F);
+      print("================================================================================",0x3F);
+      print("                             Welcome to Q OS                                    ",0x3F);
+      print("================================================================================",0x3F);
       layout = 0;
     }
     else if(strEql(ch,"newdir"))

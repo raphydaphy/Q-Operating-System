@@ -53,8 +53,7 @@ string readStr()
     while(reading)
     {
         //print(buffstr,0x0F);
-        ctrl = 0;
-    	//exit the writer program when the enter key is pressed
+    	//exit the writer program when the Ctrl-Z key is pressed
 	    if (progexit == 1 && writing == 1)
 	    {
 	        clearScreen();
@@ -90,10 +89,12 @@ string readStr()
             case 157:       // Left Ctrl Up
                 ctrl = 0;   // Toggle Off
                 break;
-            case 1:
-                print("\n\nProgram Needs To Exit Here...\n",0x0F);           //Escape button
-                //buffstr[i] = (char)27;
-                i++;
+            case 1:         // Esc (Ctrl-z)
+                if (writing == 1) {
+    	            progexit = 1;
+		            reading = 0;
+	                //writing = 0;
+	            } else i = pushCtrlChar(i, buffstr, 'Z');
                 break;
             case 2:
                 i = pushShiftChar(i, buffstr, '1', '!');
@@ -192,7 +193,9 @@ string readStr()
 	            }
                 break;
             case 30:
-                i = pushShiftChar(i, buffstr, 'a', 'A');
+                if (ctrl == 1) {
+   		            moveCursorX(-cursorX + 11);
+                } else i = pushShiftChar(i, buffstr, 'a', 'A');
                 break;
             case 31:
                 i = pushShiftChar(i, buffstr, 's', 'S');
@@ -201,7 +204,9 @@ string readStr()
                 i = pushShiftChar(i, buffstr, 'd', 'D');
                 break;
             case 33:
-                i = pushShiftChar(i, buffstr, 'f', 'F');
+                if (ctrl == 1) {
+   		            moveCursorX(1);
+                } else i = pushShiftChar(i, buffstr, 'f', 'F');
                 break;
             case 34:
                 i = pushShiftChar(i, buffstr, 'g', 'G');
@@ -233,7 +238,7 @@ string readStr()
             case 43:        // \ for english keyboard
                 i = pushShiftChar(i, buffstr, '\\', '|');
                 break;
-            case 44:
+            case 44:        // z or Ctrl-Z
    		        if (ctrl == 1) {
    		            if (writing == 1) {
 	    	            progexit = 1;
@@ -253,7 +258,7 @@ string readStr()
                 break;
             case 48:
                 if (ctrl == 1) {
-   		            cursorX = cursorX - 1;
+   		            moveCursorX(-1);
                 } else i = pushShiftChar(i, buffstr, 'b', 'B');
                 break;
             case 49:
@@ -275,7 +280,7 @@ string readStr()
                 rshift = 1;     // Toggle On
                 break;
             case 55:            // (Keypad) *
-                printch('*',0x0F);
+                printch('*', 0x0F);
                 buffstr[i] = '*';
                 i++;
                 break;
@@ -283,7 +288,7 @@ string readStr()
                 alt = 1;        // Toggle On
                 break;
             case 57:
-                printch(' ',0x0F);
+                printch(' ', 0x0F);
                 buffstr[i] = ' ';
                 i++;
                 break;
@@ -300,18 +305,10 @@ string readStr()
 	            }
 		        break;
 	        case 75:				//Left Arrow
-		        if (writing == 1)
-		        {
-		            cursorX = cursorX - 1;
-    		        //cursorY = cursorY - 1;
-	    	    }
+	            moveCursorX(-1);
 	    	    break;
     	    case 77:				//Right Arrow
-	    	    if (writing == 1)
-	    	    {
-	    	      cursorX = cursorX + 1;
-	    	      //cursorY = cursorY - 1;
-	    	    }
+                moveCursorX(1);
 	    	    break;
 	        case 80:				//Down Arrow
 	    	    if (writing == 1)

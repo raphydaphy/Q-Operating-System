@@ -26,13 +26,15 @@ int cursorX, cursorY;
 const uint8 sw, sh, sd;
 
 //define functions for screen.c
-void clearLine(uint8 from,uint8 to);
+void clearLine(uint8, uint8);
 void updateCursor();
 void clearScreen();
-void scrollUp(uint8 lineNumber);
+void scrollUp(uint8);
 void newLineCheck();
-void printch(char c,int b);
-void print (string ch,int bh);
+void printch(char, int);
+void print (string, int);
+void moveCursorX(int);
+void moveCursorY(int);
 
 //end the if statment at the start of the file
 #endif
