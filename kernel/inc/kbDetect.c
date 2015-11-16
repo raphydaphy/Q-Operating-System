@@ -287,8 +287,10 @@ string readStr()
                 else i = pushShiftChar(i, buffstr, 'k', 'K');
                 break;
             case 38:
-                if (ctrl == 1 || alt == 1)
-                    i = pushCtrlChar(i, buffstr, 'L');
+                if (ctrl == 1) {
+                    clearScreen();
+                    return "skip"; // Returns command "skip" which does nothing
+                } else if (alt == 1) i = pushCtrlChar(i, buffstr, 'L');
                 else i = pushShiftChar(i, buffstr, 'l', 'L');
                 break;
             case 39:
