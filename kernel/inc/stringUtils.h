@@ -3,9 +3,10 @@
 
 #include "intTypeDefs.h"
 
-uint16 strlength(string ch);
+uint16 strlength(string);
 
-uint8 strEql(string ch1,string ch2);
+uint8 strEql(string, string);
 
+string strTrim(string);
 
 #endif
