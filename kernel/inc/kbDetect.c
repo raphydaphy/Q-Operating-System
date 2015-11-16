@@ -94,17 +94,17 @@ string readStr()
             switch(inportb(0x60))
             { 
             case 29:        // Left Ctrl Down
-		        ctrl = 1;   // Toggle On
+                ctrl = 1;   // Toggle On
                 break;
             case 157:       // Left Ctrl Up
                 ctrl = 0;   // Toggle Off
                 break;
             case 1:         // Esc (Ctrl-z)
                 if (writing == 1) {
-    	            progexit = 1;
-		            reading = 0;
-	                //writing = 0;
-	            } else i = pushCtrlChar(i, buffstr, 'Z');
+                    progexit = 1;
+                    reading = 0;
+                    //writing = 0;
+	        } else i = pushCtrlChar(i, buffstr, 'Z');
                 break;
             case 2:
                 i = pushShiftChar(i, buffstr, '1', '!');
@@ -209,11 +209,11 @@ string readStr()
                 break;
             case 25:
                 if (ctrl == 1) {
-    		        if (writing == 1)
-        	        {
-		                cursorY = cursorY - 1;
-		                cursorX = cursorX - 1;
-	                } else i = pushCtrlChar(i, buffstr, 'P');
+                    if (writing == 1)
+        	    {
+                        cursorY = cursorY - 1;
+                        cursorX = cursorX - 1;
+                    } else i = pushCtrlChar(i, buffstr, 'P');
                 } else if (alt == 1) i = pushCtrlChar(i, buffstr, 'P');
                 else i = pushShiftChar(i, buffstr, 'p', 'P');
                 break;
@@ -229,22 +229,22 @@ string readStr()
                 break;
             case 28:				//This is the enter key, we need to add more functionality to it with Writer and other commands
                 if (writing == 1)
-	            {
-	                printch('\n',0x0F);
-        		    buffstr[i] = '\n';
-	                i++;
-	            }
-	            else
-	            {
-	                reading = 0;
-	            }
+                {
+                    printch('\n',0x0F);
+                    buffstr[i] = '\n';
+                    i++;
+                }
+                else
+                {
+                    reading = 0;
+                }
                 break;
             case 30:
                 if (ctrl == 1) {
                     if (writing == 1)
-	        	    {
-	        	      cursorX = 0;
-	        	    } else moveCursorX(-cursorX + 11);
+                    {
+                        cursorX = 0;
+                    } else moveCursorX(-cursorX + 11);
                 } else if (alt == 1) i = pushCtrlChar(i, buffstr, 'A');
                 else i = pushShiftChar(i, buffstr, 'a', 'A');
                 break;
@@ -262,8 +262,8 @@ string readStr()
                 break;
             case 33:
                 if (ctrl == 1)
-   		            moveCursorX(1);
-	            else if (alt == 1) i = pushCtrlChar(i, buffstr, 'F');
+                    moveCursorX(1);
+                else if (alt == 1) i = pushCtrlChar(i, buffstr, 'F');
                 else i = pushShiftChar(i, buffstr, 'f', 'F');
                 break;
             case 34:
@@ -287,8 +287,10 @@ string readStr()
                 else i = pushShiftChar(i, buffstr, 'k', 'K');
                 break;
             case 38:
-                if (ctrl == 1 || alt == 1)
-                    i = pushCtrlChar(i, buffstr, 'L');
+                if (ctrl == 1) {
+                    clearScreen();
+                    return "skip"; // Returns command "skip" which does nothing
+                } else if (alt == 1) i = pushCtrlChar(i, buffstr, 'L');
                 else i = pushShiftChar(i, buffstr, 'l', 'L');
                 break;
             case 39:
@@ -307,14 +309,14 @@ string readStr()
                 i = pushShiftChar(i, buffstr, '\\', '|');
                 break;
             case 44:        // z or Ctrl-Z
-   		        if (ctrl == 1) {
-   		            if (writing == 1) {
-	    	            progexit = 1;
-    		            reading = 0;
-		                //writing = 0;
-		            } else i = pushCtrlChar(i, buffstr, 'Z');
-	            } else if (alt == 1) i = pushCtrlChar(i, buffstr, 'Z');
-        		else i = pushShiftChar(i, buffstr, 'z', 'Z');
+                if (ctrl == 1) {
+                    if (writing == 1) {
+                        progexit = 1;
+                        reading = 0;
+                        //writing = 0;
+                    } else i = pushCtrlChar(i, buffstr, 'Z');
+                } else if (alt == 1) i = pushCtrlChar(i, buffstr, 'Z');
+                else i = pushShiftChar(i, buffstr, 'z', 'Z');
                 break;
             case 45:
                 if (ctrl == 1 || alt == 1)
@@ -333,18 +335,18 @@ string readStr()
                 break;
             case 48:
                 if (ctrl == 1) {
-   		            moveCursorX(-1);
-        	    } else if (alt == 1) i = pushCtrlChar(i, buffstr, 'B');
+                    moveCursorX(-1);
+                } else if (alt == 1) i = pushCtrlChar(i, buffstr, 'B');
                 else i = pushShiftChar(i, buffstr, 'b', 'B');
                 break;
             case 49:
                 if (ctrl == 1) {
                     if (writing == 1)
-	        	    {
-	        	      cursorY = cursorY + 1;
-	        	      cursorX = cursorX - 1;
-	        	    } else i = pushCtrlChar(i, buffstr, 'N');
-        	    } else if (alt == 1) i = pushCtrlChar(i, buffstr, 'N');
+                    {
+                        cursorY = cursorY + 1;
+                        cursorX = cursorX - 1;
+                    } else i = pushCtrlChar(i, buffstr, 'N');
+                } else if (alt == 1) i = pushCtrlChar(i, buffstr, 'N');
                 else i = pushShiftChar(i, buffstr, 'n', 'N');
                 break;
             case 50:
@@ -382,32 +384,32 @@ string readStr()
                     capslock = 1;   // Toggle On
     	        else capslock = 0;  // Toggle Off
                 break;
-	        case 72:                //Up arrow
-		        if (writing == 1)
-		        {
-		            cursorY = cursorY - 1;
-		            cursorX = cursorX - 1;
-	            }
-		        break;
-	        case 75:				//Left Arrow
-	            moveCursorX(-1);
-	    	    break;
+	    case 72:                //Up arrow
+                if (writing == 1)
+                {
+                    cursorY = cursorY - 1;
+                    cursorX = cursorX - 1;
+                }
+                break;
+            case 75:				//Left Arrow
+                moveCursorX(-1);
+                break;
     	    case 77:				//Right Arrow
                 moveCursorX(1);
-	    	    break;
-	        case 80:				//Down Arrow
-	    	    if (writing == 1)
-	    	    {
-	    	      cursorY = cursorY + 1;
-	    	      cursorX = cursorX - 1;
-	    	    }
-	    	    break;
-	    	case 170:           // Left shift released (http://wiki.osdev.org/PS2_Keyboard)
-	    	    lshift = 0;     // Toggle Off
-	    	    break;
-	    	case 182:           // Right shift released (http://wiki.osdev.org/PS2_Keyboard)
-	    	    rshift = 0;     // Toggle Off
-	    	    break;
+                break;
+            case 80:				//Down Arrow
+                if (writing == 1)
+                {
+                    cursorY = cursorY + 1;
+                    cursorX = cursorX - 1;
+                }
+                break;
+            case 170:           // Left shift released (http://wiki.osdev.org/PS2_Keyboard)
+                lshift = 0;     // Toggle Off
+                break;
+            case 182:           // Right shift released (http://wiki.osdev.org/PS2_Keyboard)
+                rshift = 0;     // Toggle Off
+                break;
             case 184:           // Left/Right alt Off
                 alt = 0;        // Toggle Off
                 break;
