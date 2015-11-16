@@ -9,63 +9,65 @@ string writerContents = "Welcome to the Writer program. Start typing to modify t
 int cursorX = 0, cursorY = 0;
 const uint8 sw = 80,sh = 26,sd = 2;
 
-void clearLine(uint8 from,uint8 to)
+void clearLine(uint8 from, uint8 to)
 {
-        uint16 i = sw * from * sd;
-        string vidmem=(string)0xb8000;
-        for(i;i<(sw*to*sd);i++)
-        {
-                vidmem[i] = 0x0;
-        }
+    uint16 i = sw * from * sd;
+    string vidmem=(string)0xb8000;
+    for(i; i < (sw * to * sd); i++)
+    {
+        vidmem[i] = 0x0;
+    }
 }
+
 void updateCursor()
 {
     unsigned temp;
 
-    temp = cursorY * sw + cursorX;                                                      // Position = (y * width) +  x
+    temp = cursorY * sw + cursorX;                                              // Position = (y * width) +  x
 
-    outportb(0x3D4, 14);                                                                // CRT Control Register to Select Cursor Location
-    outportb(0x3D5, temp >> 8);                                                         // ASM to send the high byte across the bus
-    outportb(0x3D4, 15);                                                                // Another CRT Control Register to Select Send Low byte
-    outportb(0x3D5, temp);                                                              // Use ASM outportb function again to send the Low byte of the cursor location
+    outportb(0x3D4, 14);                                                        // CRT Control Register to Select Cursor Location
+    outportb(0x3D5, temp >> 8);                                                 // ASM to send the high byte across the bus
+    outportb(0x3D4, 15);                                                        // Another CRT Control Register to Select Send Low byte
+    outportb(0x3D5, temp);                                                      // Use ASM outportb function again to send the Low byte of the cursor location
 }
+
 void clearScreen()
 {
-        clearLine(0,sh-1);
-        cursorX = 0;
-        cursorY = 0;
-        updateCursor();
+    clearLine(0, sh - 1);
+    cursorX = 0;
+    cursorY = 0;
+    updateCursor();
 }
 
 void scrollUp(uint8 lineNumber)
 {
-        string vidmem = (string)0xb8000;
-        uint16 i = 0;
-        clearLine(0,lineNumber-1);                                        
-        for (i;i<sw*(sh-1)*2;i++)
-        {
-                vidmem[i] = vidmem[i+sw*2*lineNumber];
-        }
-        clearLine(sh-1-lineNumber,sh-1);
-        if((cursorY - lineNumber) < 0 ) 
-        {
-                cursorY = 0;
-                cursorX = 0;
-        } 
-        else 
-        {
-                cursorY -= lineNumber;
-        }
-        updateCursor();
+    string vidmem = (string) 0xb8000;
+    uint16 i = 0;
+    clearLine(0, lineNumber - 1);
+    for (i; i<sw * (sh - 1) * 2; i++)
+    {
+        vidmem[i] = vidmem[i+sw*2*lineNumber];
+    }
+    clearLine(sh-1-lineNumber,sh-1);
+    if((cursorY - lineNumber) < 0 ) 
+    {
+        cursorY = 0;
+        cursorX = 0;
+    } 
+    else 
+    {
+        cursorY -= lineNumber;
+    }
+    updateCursor();
 }
 
 
 void newLineCheck()
 {
-        if(cursorY >=sh-1)
-        {
-                scrollUp(1);
-        }
+    if(cursorY >= sh - 1)
+    {
+        scrollUp(1);
+    }
 }
 
 void printch(char c, int b)
@@ -73,42 +75,39 @@ void printch(char c, int b)
     string vidmem = (string) 0xb8000;     
     switch(c)
     {
-        case (0x08):
-                if(cursorX > 0) 
-                {
-	                cursorX--;									
-                        vidmem[(cursorY * sw + cursorX)*sd]=0x00;
+        case (0x08): // Backspace
+            if(cursorX > 0) 
+            {
+                cursorX--;									
+                vidmem[(cursorY * sw + cursorX)*sd] = 0x00;
 	        }
 	        break;
-       /* case (0x09):
-                cursorX = (cursorX + 8) & ~(8 - 1); 
-                break;*/
         case ('\t'): {
             int modX = cursorX % 4; // Tabs are 4 spaces wide
-            modX = modX == 0? 4 : modX;
+            modX = modX == 0 ? 4 : modX;
             while(modX--) {
                 printch(' ', b);
             }
             break;
         }
         case ('\r'):
-                cursorX = 0;
-                break;
+            cursorX = 0;
+            break;
         case ('\n'):
-                cursorX = 0;
-                cursorY++;
-                break;
+            cursorX = 0;
+            cursorY++;
+            break;
         default:
-                vidmem [((cursorY * sw + cursorX))*sd] = c;
-                vidmem [((cursorY * sw + cursorX))*sd+1] = b;
-                cursorX++; 
-                break;
+            vidmem [((cursorY * sw + cursorX))*sd] = c;
+            vidmem [((cursorY * sw + cursorX))*sd+1] = b;
+            cursorX++;
+            break;
 	
     }
-    if(cursorX >= sw)                                                                   
+    if(cursorX >= sw)
     {
-        cursorX = 0;                                                                
-        cursorY++;                                                                    
+        cursorX = 0;
+        cursorY++;
     }
     updateCursor();
     newLineCheck();

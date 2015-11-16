@@ -19,13 +19,23 @@ uint8 pushShiftChar(uint8 i, string buffstr, char noShift, char withShift) {
 
 uint8 backspaceOne(uint8 i, string buffstr) {
     printch('\b', 0x0F);
-    i--; 
-    buffstr[i] = 0;
+    i--;
+    char old = buffstr[i];
+    if(old == '\t') {
+        int delCount = i % 4;
+        delCount = delCount == 0? 4 : delCount;
+        while(delCount--) {
+            buffstr[i] = 0;
+            printch('\b', 0x0F);
+            i--;
+        }
+        i++;
+    } else buffstr[i] = 0;
     return i;
 }
 
 uint8 backspaceMul(uint8 i, string buffstr) {
-    char old = ' '; // This is a place holder
+    char old; // This is a place holder
     do {
         printch('\b', 0x0F);
         i--;
@@ -145,40 +155,77 @@ string readStr()
                 i = pushShiftChar(i, buffstr, '\t', '\t');
                 break;
             case 16:
-                i = pushShiftChar(i, buffstr, 'q', 'Q');
+                if (ctrl == 1) {
+                    i = pushCtrlChar(i, buffstr, 'Q');
+                } else if (alt == 1) i = pushCtrlChar(i, buffstr, 'P');
+                else i = pushShiftChar(i, buffstr, 'q', 'Q');
                 break;
             case 17:
-                i = pushShiftChar(i, buffstr, 'w', 'W');
+                if (ctrl == 1) {
+                    i = pushCtrlChar(i, buffstr, 'W');
+                } else if (alt == 1) i = pushCtrlChar(i, buffstr, 'P');
+                else i = pushShiftChar(i, buffstr, 'w', 'W');
                 break;
             case 18:
-                i = pushShiftChar(i, buffstr, 'e', 'E');
+                if (ctrl == 1) {
+                    i = pushCtrlChar(i, buffstr, 'E');
+                } else if (alt == 1) i = pushCtrlChar(i, buffstr, 'P');
+                else i = pushShiftChar(i, buffstr, 'e', 'E');
                 break;
             case 19:
-                i = pushShiftChar(i, buffstr, 'r', 'R');
+                if (ctrl == 1) {
+                    i = pushCtrlChar(i, buffstr, 'R');
+                } else if (alt == 1) i = pushCtrlChar(i, buffstr, 'P');
+                else i = pushShiftChar(i, buffstr, 'r', 'R');
                 break;
             case 20:
-                i = pushShiftChar(i, buffstr, 't', 'T');
+                if (ctrl == 1) {
+                    i = pushCtrlChar(i, buffstr, 'T');
+                } else if (alt == 1) i = pushCtrlChar(i, buffstr, 'P');
+                else i = pushShiftChar(i, buffstr, 't', 'T');
                 break;
             case 21:
-                i = pushShiftChar(i, buffstr, 'y', 'Y');
+                if (ctrl == 1) {
+                    i = pushCtrlChar(i, buffstr, 'Y');
+                } else if (alt == 1) i = pushCtrlChar(i, buffstr, 'P');
+                else i = pushShiftChar(i, buffstr, 'y', 'Y');
                 break;
             case 22:
-                i = pushShiftChar(i, buffstr, 'u', 'U');
+                if (ctrl == 1) {
+                    i = pushCtrlChar(i, buffstr, 'U');
+                } else if (alt == 1) i = pushCtrlChar(i, buffstr, 'P');
+                else i = pushShiftChar(i, buffstr, 'u', 'U');
                 break;
             case 23:
-                i = pushShiftChar(i, buffstr, 'i', 'I');
+                if (ctrl == 1) {
+                    i = pushCtrlChar(i, buffstr, 'I');
+                } else if (alt == 1) i = pushCtrlChar(i, buffstr, 'P');
+                else i = pushShiftChar(i, buffstr, 'i', 'I');
                 break;
             case 24:
-                i = pushShiftChar(i, buffstr, 'o', 'O');
+                if (ctrl == 1 || alt == 1)
+                    i = pushCtrlChar(i, buffstr, 'O');
+                else i = pushShiftChar(i, buffstr, 'o', 'O');
                 break;
             case 25:
-                i = pushShiftChar(i, buffstr, 'p', 'P');
+                if (ctrl == 1) {
+    		        if (writing == 1)
+        	        {
+		                cursorY = cursorY - 1;
+		                cursorX = cursorX - 1;
+	                } else i = pushCtrlChar(i, buffstr, 'P');
+                } else if (alt == 1) i = pushCtrlChar(i, buffstr, 'P');
+                else i = pushShiftChar(i, buffstr, 'p', 'P');
                 break;
             case 26:
-                i = pushShiftChar(i, buffstr, '[', '{');
+                if (ctrl == 1)
+                    i = pushCtrlChar(i, buffstr, '[');
+                else i = pushShiftChar(i, buffstr, '[', '{');
                 break;
             case 27:
-                i = pushShiftChar(i, buffstr, ']', '}');
+                if (ctrl == 1)
+                    i = pushCtrlChar(i, buffstr, ']');
+                else i = pushShiftChar(i, buffstr, ']', '}');
                 break;
             case 28:				//This is the enter key, we need to add more functionality to it with Writer and other commands
                 if (writing == 1)
@@ -194,34 +241,55 @@ string readStr()
                 break;
             case 30:
                 if (ctrl == 1) {
-   		            moveCursorX(-cursorX + 11);
-                } else i = pushShiftChar(i, buffstr, 'a', 'A');
+                    if (writing == 1)
+	        	    {
+	        	      cursorX = 0;
+	        	    } else moveCursorX(-cursorX + 11);
+                } else if (alt == 1) i = pushCtrlChar(i, buffstr, 'A');
+                else i = pushShiftChar(i, buffstr, 'a', 'A');
                 break;
             case 31:
-                i = pushShiftChar(i, buffstr, 's', 'S');
+                if (ctrl == 1)
+                    i = pushCtrlChar(i, buffstr, 'S');
+                else if (alt == 1) i = pushCtrlChar(i, buffstr, 'D');
+                else i = pushShiftChar(i, buffstr, 's', 'S');
                 break;
             case 32:
-                i = pushShiftChar(i, buffstr, 'd', 'D');
+                if (ctrl == 1)
+                    i = pushCtrlChar(i, buffstr, 'D');
+                else if (alt == 1) i = pushCtrlChar(i, buffstr, 'D');
+                else i = pushShiftChar(i, buffstr, 'd', 'D');
                 break;
             case 33:
-                if (ctrl == 1) {
+                if (ctrl == 1)
    		            moveCursorX(1);
-                } else i = pushShiftChar(i, buffstr, 'f', 'F');
+	            else if (alt == 1) i = pushCtrlChar(i, buffstr, 'F');
+                else i = pushShiftChar(i, buffstr, 'f', 'F');
                 break;
             case 34:
-                i = pushShiftChar(i, buffstr, 'g', 'G');
+                if (ctrl == 1 || alt == 1)
+                    i = pushCtrlChar(i, buffstr, 'G');
+                else i = pushShiftChar(i, buffstr, 'g', 'G');
                 break;
             case 35:
-                i = pushShiftChar(i, buffstr, 'h', 'H');
+                if (ctrl == 1 || alt == 1)
+                    i = pushCtrlChar(i, buffstr, 'H');
+                else i = pushShiftChar(i, buffstr, 'h', 'H');
                 break;
             case 36:
-                i = pushShiftChar(i, buffstr, 'j', 'J');
+                if (ctrl == 1 || alt == 1)
+                    i = pushCtrlChar(i, buffstr, 'J');
+                else i = pushShiftChar(i, buffstr, 'j', 'J');
                 break;
             case 37:
-                i = pushShiftChar(i, buffstr, 'k', 'K');
+                if (ctrl == 1 || alt == 1)
+                    i = pushCtrlChar(i, buffstr, 'K');
+                else i = pushShiftChar(i, buffstr, 'k', 'K');
                 break;
             case 38:
-                i = pushShiftChar(i, buffstr, 'l', 'L');
+                if (ctrl == 1 || alt == 1)
+                    i = pushCtrlChar(i, buffstr, 'L');
+                else i = pushShiftChar(i, buffstr, 'l', 'L');
                 break;
             case 39:
                 i = pushShiftChar(i, buffstr, ';', ':');
@@ -245,27 +313,44 @@ string readStr()
     		            reading = 0;
 		                //writing = 0;
 		            } else i = pushCtrlChar(i, buffstr, 'Z');
-        		} else i = pushShiftChar(i, buffstr, 'z', 'Z');
+	            } else if (alt == 1) i = pushCtrlChar(i, buffstr, 'Z');
+        		else i = pushShiftChar(i, buffstr, 'z', 'Z');
                 break;
             case 45:
-                i = pushShiftChar(i, buffstr, 'x', 'X');
+                if (ctrl == 1 || alt == 1)
+                    i = pushCtrlChar(i, buffstr, 'X');
+                else i = pushShiftChar(i, buffstr, 'x', 'X');
                 break;
             case 46:
-                i = pushShiftChar(i, buffstr, 'c', 'C');
+                if (ctrl == 1 || alt == 1)
+                    i = pushCtrlChar(i, buffstr, 'C');
+                else i = pushShiftChar(i, buffstr, 'c', 'C');
                 break;
             case 47:
-                i = pushShiftChar(i, buffstr, 'v', 'V');
+                if (ctrl == 1 || alt == 1)
+                    i = pushCtrlChar(i, buffstr, 'V');
+                else i = pushShiftChar(i, buffstr, 'v', 'V');
                 break;
             case 48:
                 if (ctrl == 1) {
    		            moveCursorX(-1);
-                } else i = pushShiftChar(i, buffstr, 'b', 'B');
+        	    } else if (alt == 1) i = pushCtrlChar(i, buffstr, 'B');
+                else i = pushShiftChar(i, buffstr, 'b', 'B');
                 break;
             case 49:
-                i = pushShiftChar(i, buffstr, 'n', 'N');
+                if (ctrl == 1) {
+                    if (writing == 1)
+	        	    {
+	        	      cursorY = cursorY + 1;
+	        	      cursorX = cursorX - 1;
+	        	    } else i = pushCtrlChar(i, buffstr, 'N');
+        	    } else if (alt == 1) i = pushCtrlChar(i, buffstr, 'N');
+                else i = pushShiftChar(i, buffstr, 'n', 'N');
                 break;
             case 50:
-                i = pushShiftChar(i, buffstr, 'm', 'M');
+                if (ctrl == 1 || alt == 1)
+                    i = pushCtrlChar(i, buffstr, 'M');
+                else i = pushShiftChar(i, buffstr, 'm', 'M');
                 break;
             case 51:
                 i = pushShiftChar(i, buffstr, ',', '<');
@@ -297,8 +382,8 @@ string readStr()
                     capslock = 1;   // Toggle On
     	        else capslock = 0;  // Toggle Off
                 break;
-	        case 72:
-		        if (writing == 1)		//Up arrow
+	        case 72:                //Up arrow
+		        if (writing == 1)
 		        {
 		            cursorY = cursorY - 1;
 		            cursorX = cursorX - 1;
