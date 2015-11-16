@@ -9,18 +9,51 @@ uint16 strlength(string ch)
 
 uint8 strEql(string ch1,string ch2)                     
 {
-    uint8 result = 1;
-    uint8 size = strlength(ch1);
-    if(size != strlength(ch2)) result = 0;
-    else 
+    /* Zero from strcmp means ch1 eq ch2 */
+    return strcmp(ch1, ch2) == 0;
+}
+
+// Compare two strings. Should return -1 if 
+// str1 < str2, 0 if they are equal or 1 otherwise.
+uint8 strcmp(string str1, string str2)
+{
+    int i = 0;
+    int failed = 0;
+    while(str1[i] != '\0' && str2[i] != '\0')
     {
-        uint8 i = 0;
-        for(i; i <= size; i++)
+        if(str1[i] != str2[i])
         {
-            if(ch1[i] != ch2[i]) result = 0;
+            failed = 1;
+            break;
         }
+        i++;
     }
-    return result;
+    // why did the loop exit?
+    if((str1[i] == '\0' && str2[i] != '\0') || (str1[i] != '\0' && str2[i] == '\0'))
+        failed = 1;
+    return failed;
+}
+
+// Copy the NULL-terminated string src into dest, and
+// return dest.
+string strcpy(string dest, string src)
+{
+    do
+      *dest++ = *src++;
+    while (*src != 0);
+}
+
+// Concatenate the NULL-terminated string src onto
+// the end of dest, and return dest.
+string strcat(string dest, string src)
+{
+    while (*dest != 0)
+        *dest = *dest++;
+
+    do
+        *dest++ = *src++;
+    while (*src != 0);
+    return dest;
 }
 
 uint8 isspace(char ch) {
