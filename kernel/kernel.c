@@ -1,6 +1,10 @@
 #include "inc/kbDetect.h"
+#include "inc/descriptorTables.h"
+
 kmain()
 {
+    init_descriptor_tables();
+
     layout = 1;
     clearScreen();
     print("================================================================================", 0x3F);
@@ -34,7 +38,7 @@ kmain()
         }
         else if(strEql(ch, "skip"))
         {
-            /* It literally does nothing... (Useful at callback) */
+            // It literally does nothing... (Useful at callback) 
         }
         else if(strEql(ch, "hi"))
         {
