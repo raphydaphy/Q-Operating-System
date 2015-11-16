@@ -104,7 +104,7 @@ string readStr()
                     progexit = 1;
                     reading = 0;
                     //writing = 0;
-	        } else i = pushCtrlChar(i, buffstr, 'Z');
+                } else i = pushCtrlChar(i, buffstr, 'Z');
                 break;
             case 2:
                 i = pushShiftChar(i, buffstr, '1', '!');
@@ -210,7 +210,7 @@ string readStr()
             case 25:
                 if (ctrl == 1) {
                     if (writing == 1)
-        	    {
+                    {
                         cursorY = cursorY - 1;
                         cursorX = cursorX - 1;
                     } else i = pushCtrlChar(i, buffstr, 'P');
