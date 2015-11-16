@@ -12,6 +12,9 @@ kmain()
     print("\n\tCtrl-b -> left", 0x0F);
     print("\n\tCtrl-f -> right", 0x0F);
     print("\n\tCtrl-a -> home", 0x0F);
+    print("\n\tCtrl-p -> up", 0x0F);
+    print("\n\tCtrl-n -> down", 0x0F);
+    print("\n\tCtrl-z -> quit", 0x0F);
     print("\n\tCtrl-l -> clear", 0x0F);
     print("\n", 0x0F);
 
