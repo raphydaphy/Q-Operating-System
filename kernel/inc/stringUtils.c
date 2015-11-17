@@ -9,14 +9,54 @@ uint16 strlength(string ch)
 
 bool strEql(string ch1,string ch2)                     
 {
-    uint16 i = 0;
-    while(ch1[i] && ch2[i]) {
-        if(ch1[i] != ch2[i]) {
-            return false;
+    /* Zero from strcmp means ch1 eq ch2 */
+    return strcmp(ch1, ch2) == 0;
+}
+
+// Compare two strings. Should return -1 if 
+// str1 < str2, 0 if they are equal or 1 otherwise.
+uint8 strcmp(string str1, string str2)
+{
+    int i = 0;
+    int failed = 0;
+    while(str1[i] != '\0' && str2[i] != '\0')
+    {
+        if(str1[i] != str2[i])
+        {
+            failed = 1;
+            break;
         }
         i++;
     }
-    return true;
+    // why did the loop exit?
+    if((str1[i] == '\0' && str2[i] != '\0') || (str1[i] != '\0' && str2[i] == '\0'))
+        failed = 1;
+    return failed;
+}
+
+// Copy the NULL-terminated string src into dest, and
+// return dest.
+string strcpy(string dest, string src)
+{
+    do
+      *dest++ = *src++;
+    while (*src != 0);
+    return dest;
+}
+
+// Concatenate the NULL-terminated string src onto
+// the end of dest, and return dest.
+string strcat(string dest, string src)
+{
+    while (*dest != 0) {
+        *dest = *dest;
+        dest++;
+    }
+
+    do
+        *dest++ = *src++;
+    while (*src != 0);
+    return dest;
 }
 
 bool isspace(char ch) {
@@ -67,13 +107,4 @@ string strTrim(string str)
     }
 
     return str;
-}
-/*Sets content of a string*/
-void strSet(string target, string source) {
-    int i = 0;
-    while(source[i]) {
-        target[i] = source[i];
-        i++;
-    }
-    target[i] = 0;
 }

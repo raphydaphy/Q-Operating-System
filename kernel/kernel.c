@@ -1,15 +1,33 @@
+#include "inc/timer.h"
+#include "inc/paging.h"
 #include "inc/kbDetect.h"
-void kmain()
+#include "inc/descriptorTables.h"
+
+void launchShell();
+
+int kmain()
 {
+    init_descriptor_tables();
     clearScreen();
+    asm volatile("sti");
+    initialize_paging();
+    
     print("================================================================================", 0x3F);
     print("                             Welcome to Q OS                                    ", 0x3F);
     print("================================================================================", 0x3F);
 
+    launchShell();
+    return 0;
+}
+
+void launchShell() {
     print("\nKeybindings in Q OS:", 0x0F);
     print("\n\tCtrl-b -> left", 0x0F);
     print("\n\tCtrl-f -> right", 0x0F);
     print("\n\tCtrl-a -> home", 0x0F);
+    print("\n\tCtrl-p -> up", 0x0F);
+    print("\n\tCtrl-n -> down", 0x0F);
+    print("\n\tCtrl-z -> quit", 0x0F);
     print("\n\tCtrl-l -> clear", 0x0F);
     print("\n", 0x0F);
 
@@ -20,7 +38,7 @@ void kmain()
     char writerContents[editorBufSide];
     writerContents[0] = 0;
     
-    while (1)
+    while (true)
     {
         print("\nQ-Kernel>  ", 0x08);
         typingCmd = true;
@@ -34,7 +52,7 @@ void kmain()
         }
         else if(strEql(bufStr, "skip"))
         {
-            /* It literally does nothing... (Useful at callback) */
+            // It literally does nothing... (Useful at callback) 
         }
         else if(strEql(bufStr, "hi"))
         {
@@ -112,4 +130,3 @@ void kmain()
         print("\n",0x0F);
     }
 }
-

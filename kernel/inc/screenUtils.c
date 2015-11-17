@@ -74,34 +74,33 @@ void printch(char c, int b)
     string vidmem = (string) 0xb8000;     
     switch(c)
     {
-        case (0x08): // Backspace
-            if(cursorX > 0) 
-            {
-                cursorX--;									
-                vidmem[(cursorY * sw + cursorX)*sd] = 0x00;
-	        }
-	        break;
-        case ('\t'): {
-            int modX = cursorX % 4; // Tabs are 4 spaces wide
-            modX = modX == 0 ? 4 : modX;
-            while(modX--) {
-                printch(' ', b);
-            }
-            break;
+    case (0x08): // Backspace
+        if(cursorX > 0) 
+        {
+            cursorX--;									
+            vidmem[(cursorY * sw + cursorX)*sd] = 0x00;
         }
-        case ('\r'):
-            cursorX = 0;
-            break;
-        case ('\n'):
-            cursorX = 0;
-            cursorY++;
-            break;
-        default:
-            vidmem [((cursorY * sw + cursorX))*sd] = c;
-            vidmem [((cursorY * sw + cursorX))*sd+1] = b;
-            cursorX++;
-            break;
-	
+        break;
+    case ('\t'): {
+        int modX = cursorX % 4; // Tabs are 4 spaces wide
+        modX = modX == 0 ? 4 : modX;
+        while(modX--) {
+            printch(' ', b);
+        }
+        break;
+    }
+    case ('\r'):
+        cursorX = 0;
+        break;
+    case ('\n'):
+        cursorX = 0;
+        cursorY++;
+        break;
+    default:
+        vidmem [((cursorY * sw + cursorX))*sd] = c;
+        vidmem [((cursorY * sw + cursorX))*sd+1] = b;
+        cursorX++;
+        break;
     }
     if(cursorX >= sw)
     {
@@ -118,6 +117,71 @@ void print(string ch, int bh)
     for(uint16 i = 0; i < length; i++)
     {
         printch(ch[i], bh);
+    }
+}
+
+void printint(uint32 n, int bh) {
+    if (n == 0)
+    {
+        printch('0', bh);
+        return;
+    }
+
+    int32 acc = n;
+    char c[32];
+    int i = 0;
+    while (acc > 0)
+    {
+        c[i] = '0' + acc % 10;
+        acc /= 10;
+        i++;
+    }
+    c[i] = 0;
+
+    char c2[32];
+    c2[i--] = 0;
+    int j = 0;
+    while(i >= 0)
+    {
+        c2[i--] = c[j++];
+    }
+    print(c2, bh);
+}
+
+void printhex(uint32 n, int bh)
+{
+    int32 tmp;
+    print("0x", bh);
+    char noZeroes = 1;
+    int i;
+    for (i = 28; i > 0; i -= 4)
+    {
+        tmp = (n >> i) & 0xF;
+        if (tmp == 0 && noZeroes != 0)
+        {
+            continue;
+        }
+    
+        if (tmp >= 0xA)
+        {
+            noZeroes = 0;
+            printch(tmp-0xA+'a', bh);
+        }
+        else
+        {
+            noZeroes = 0;
+            printch(tmp+'0', bh);
+        }
+    }
+  
+    tmp = n & 0xF;
+    if (tmp >= 0xA)
+    {
+        printch(tmp-0xA+'a', bh);
+    }
+    else
+    {
+        printch(tmp+'0', bh);
     }
 }
 

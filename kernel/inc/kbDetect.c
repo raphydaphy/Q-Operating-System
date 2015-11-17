@@ -199,7 +199,7 @@ void readStr(string buffstr, int bufSize)
                 if (ctrl == 1) {
                     clearScreen();
                     // Returns command "skip" which does nothing
-                    strSet(buffstr, "skip");
+                    strcpy(buffstr, "skip");
                     handled = true;
                     return; 
                 }

@@ -7,8 +7,12 @@ uint16 strlength(string);
 
 bool strEql(string, string);
 
-string strTrim(string);
+uint8 strcmp(string, string);
 
-void strSet(string, string);
+string strcpy(string, string);
+
+string strcat(string, string);
+
+string strTrim(string);
 
 #endif
