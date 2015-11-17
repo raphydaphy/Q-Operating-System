@@ -7,23 +7,6 @@ void launchShell();
 
 int kmain()
 {
-    // Initialise all the ISRs and segmentation
-    init_descriptor_tables();
-    // Initialise the screen (by clearing it)
-    clearScreen();
-    asm volatile("sti");
-    initialize_paging();
-    print("Hello, paging!\n", 0x0F);
-
-    uint32* ptr = (uint32*) 0xA0000000;
-    uint32 do_page_fault = *ptr;
-
-    return 0;
-}
-
-/*
-int kmain()
-{
     init_descriptor_tables();
     clearScreen();
     asm volatile("sti");
@@ -38,7 +21,6 @@ int kmain()
     launchShell();
     return 0;
 }
-*/
 
 void launchShell() {
     print("\nKeybindings in Q OS:", 0x0F);
