@@ -14,6 +14,8 @@
 #define FS_SYMLINK     0x06
 #define FS_MOUNTPOINT  0x08 // Is the file an active mountpoint?
 
+#define MAX_FNAME_LEN  128
+
 struct fs_node;
 
 // These typedefs define the type of callbacks - called when read/write/open/close
@@ -27,7 +29,7 @@ typedef struct fs_node * (*finddir_type_t)(struct fs_node*,char *name);
 
 typedef struct fs_node
 {
-    char name[128];     // The filename.
+    char name[MAX_FNAME_LEN]; // The filename.
     uint32 mask;        // The permissions mask.
     uint32 uid;         // The owning user.
     uint32 gid;         // The owning group.
