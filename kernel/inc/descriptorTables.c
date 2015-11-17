@@ -56,7 +56,6 @@ static void init_idt()
     idt_ptr.limit = sizeof(idt_entry_t) * 256 -1;
     idt_ptr.base  = (uint32) &idt_entries;
 
-    //This does not use the "byteUtils.h"
     memset(&idt_entries, 0, sizeof(idt_entry_t) * 256);
 
     idt_set_gate( 0, (uint32)isr0 , 0x08, 0x8E);
