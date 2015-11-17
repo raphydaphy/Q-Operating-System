@@ -50,3 +50,16 @@ This is using the all new <code>do</code> command to execute javascript inside t
 Although the <code>do</code> syntax itself is simple to use, what you can create with <code>do</code> is incredible. The Terminal now allows you to create and store variables that are stored in memory until you close the window. But that's not even the best part. The <code>do</code> command supports a huge number of programming languages. Examine this command:<br>
 <code>do asm add eax, ebx</code><br>
 Yes, Q OS even supports running Assembly Language code directly in the Terminal. All this power is possible by intergrating multiple language compilers into the Terminal that run when the correct <code>do</code> syntax is supplied by the user and generate an output when nessesary.
+
+
+Custom Programming Language
+---------------------------
+
+
+Q OS is designed to be unique. It will be the first Operating System that can run on any device. It is the OS equivelant of a responsitive website. Resize the display and the OS will automatically change to suit the display you are using. Due to this, Q OS can be used as a Desktop OS, a Tablet OS, a Printer OS, a Smartwatch OS, a Smart Fridge OS or really an OS for Anything. That's the essense of what we are going to make Q OS become. 
+
+
+This is where we have a problem. There is no currently existing programming language that can execute Assembly-level code that will work on any CPU with any kind of device. This is because Assembly instructions are CPU specific, but Q Instructions are not. Yes - I am making a programming language for Q OS that will allow it to become the most configurable OS ever built if development continues at a steady pace and changes are rapidly made to improve the OS.
+
+
+You can see the progress made for the Q Language in the [Q Programming Language](https://github.com/raphydaphy/Q-Programming-Language) GitHub repository. It will be a huge project to create the language and in no way is current work on Q OS that is written in C and Assembly going to be wasted - converting C code to simple Q code will be a rather simple process with little manual input required. But the point of Q is not to replace C for OS Development - it is to create an entirely new language that incorporates features seen in the highest level languages like Javascript and Java all the way to the very lowest language - Assembly.
