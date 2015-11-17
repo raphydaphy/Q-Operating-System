@@ -3,7 +3,8 @@
 
 #include "intTypeDefs.h"
 
-void memcpy(uint8*, const uint8*, uint32);
-void memset(uint8*, uint8, uint32);
+void* memcpy(void*, const void*, uint32);
+void* memset(void*, char, uint32);
+uint16* memsetw(uint16*, uint16, uint32);
 
 #endif
