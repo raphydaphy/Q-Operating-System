@@ -1,32 +1,41 @@
 #include "descriptorTables.h"
+#include "isr.h"
 
+// Lets us access our ASM functions from our C code.
 extern void gdt_flush(uint32);
+extern void idt_flush(uint32);
+
+// Internal function prototypes.
 static void init_gdt();
-static void gdt_set_gate(int32, uint32, uint32, uint8, uint8);
+static void init_idt();
+static void gdt_set_gate(int32,uint32,uint32,uint8,uint8);
+static void idt_set_gate(uint8,uint32,uint16,uint8);
 
 gdt_entry_t gdt_entries[5];
 gdt_ptr_t   gdt_ptr;
-
-extern void idt_flush(uint32);
-static void init_idt();
-static void idt_set_gate(uint8, uint32, uint16, uint8);
-
 idt_entry_t idt_entries[256];
 idt_ptr_t   idt_ptr;
+
+// Extern the ISR handler array so we can nullify them on startup.
+extern isr_t interrupt_handlers[];
 
 // Initialisation routine - zeroes all the interrupt service routines,
 // initialises the GDT and IDT.
 void init_descriptor_tables()
 {
-    // Initialize both tables.
+
+    // Initialise the global descriptor table.
     init_gdt();
+    // Initialise the interrupt descriptor table.
     init_idt();
+    // Nullify all the interrupt handlers.
+    memset(&interrupt_handlers, 0, sizeof(isr_t)*256);
 }
 
 static void init_gdt()
 {
     gdt_ptr.limit = (sizeof(gdt_entry_t) * 5) - 1;
-    gdt_ptr.base  = (uint32) &gdt_entries;
+    gdt_ptr.base  = (uint32)&gdt_entries;
 
     gdt_set_gate(0, 0, 0, 0, 0);                // Null segment
     gdt_set_gate(1, 0, 0xFFFFFFFF, 0x9A, 0xCF); // Code segment
@@ -34,7 +43,7 @@ static void init_gdt()
     gdt_set_gate(3, 0, 0xFFFFFFFF, 0xFA, 0xCF); // User mode code segment
     gdt_set_gate(4, 0, 0xFFFFFFFF, 0xF2, 0xCF); // User mode data segment
 
-    gdt_flush((uint32) &gdt_ptr);
+    gdt_flush((uint32)&gdt_ptr);
 }
 
 // Set the value of one GDT entry.
@@ -46,7 +55,7 @@ static void gdt_set_gate(int32 num, uint32 base, uint32 limit, uint8 access, uin
 
     gdt_entries[num].limit_low   = (limit & 0xFFFF);
     gdt_entries[num].granularity = (limit >> 16) & 0x0F;
-
+    
     gdt_entries[num].granularity |= gran & 0xF0;
     gdt_entries[num].access      = access;
 }
@@ -54,9 +63,21 @@ static void gdt_set_gate(int32 num, uint32 base, uint32 limit, uint8 access, uin
 static void init_idt()
 {
     idt_ptr.limit = sizeof(idt_entry_t) * 256 -1;
-    idt_ptr.base  = (uint32) &idt_entries;
+    idt_ptr.base  = (uint32)&idt_entries;
 
-    memset(&idt_entries, 0, sizeof(idt_entry_t) * 256);
+    memset(&idt_entries, 0, sizeof(idt_entry_t)*256);
+
+    // Remap the irq table.
+    outportb(0x20, 0x11);
+    outportb(0xA0, 0x11);
+    outportb(0x21, 0x20);
+    outportb(0xA1, 0x28);
+    outportb(0x21, 0x04);
+    outportb(0xA1, 0x02);
+    outportb(0x21, 0x01);
+    outportb(0xA1, 0x01);
+    outportb(0x21, 0x0);
+    outportb(0xA1, 0x0);
 
     idt_set_gate( 0, (uint32)isr0 , 0x08, 0x8E);
     idt_set_gate( 1, (uint32)isr1 , 0x08, 0x8E);
@@ -90,8 +111,24 @@ static void init_idt()
     idt_set_gate(29, (uint32)isr29, 0x08, 0x8E);
     idt_set_gate(30, (uint32)isr30, 0x08, 0x8E);
     idt_set_gate(31, (uint32)isr31, 0x08, 0x8E);
+    idt_set_gate(32, (uint32)irq0, 0x08, 0x8E);
+    idt_set_gate(33, (uint32)irq1, 0x08, 0x8E);
+    idt_set_gate(34, (uint32)irq2, 0x08, 0x8E);
+    idt_set_gate(35, (uint32)irq3, 0x08, 0x8E);
+    idt_set_gate(36, (uint32)irq4, 0x08, 0x8E);
+    idt_set_gate(37, (uint32)irq5, 0x08, 0x8E);
+    idt_set_gate(38, (uint32)irq6, 0x08, 0x8E);
+    idt_set_gate(39, (uint32)irq7, 0x08, 0x8E);
+    idt_set_gate(40, (uint32)irq8, 0x08, 0x8E);
+    idt_set_gate(41, (uint32)irq9, 0x08, 0x8E);
+    idt_set_gate(42, (uint32)irq10, 0x08, 0x8E);
+    idt_set_gate(43, (uint32)irq11, 0x08, 0x8E);
+    idt_set_gate(44, (uint32)irq12, 0x08, 0x8E);
+    idt_set_gate(45, (uint32)irq13, 0x08, 0x8E);
+    idt_set_gate(46, (uint32)irq14, 0x08, 0x8E);
+    idt_set_gate(47, (uint32)irq15, 0x08, 0x8E);
 
-    idt_flush((uint32) &idt_ptr);
+    idt_flush((uint32)&idt_ptr);
 }
 
 static void idt_set_gate(uint8 num, uint32 base, uint16 sel, uint8 flags)

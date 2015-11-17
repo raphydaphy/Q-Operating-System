@@ -150,6 +150,43 @@ void printint(uint32 n, int bh) {
     print(c2, bh);
 }
 
+void printhex(uint32 n, int bh)
+{
+    int32 tmp;
+    print("0x", bh);
+    char noZeroes = 1;
+    int i;
+    for (i = 28; i > 0; i -= 4)
+    {
+        tmp = (n >> i) & 0xF;
+        if (tmp == 0 && noZeroes != 0)
+        {
+            continue;
+        }
+    
+        if (tmp >= 0xA)
+        {
+            noZeroes = 0;
+            printch(tmp-0xA+'a', bh);
+        }
+        else
+        {
+            noZeroes = 0;
+            printch(tmp+'0', bh);
+        }
+    }
+  
+    tmp = n & 0xF;
+    if (tmp >= 0xA)
+    {
+        printch(tmp-0xA+'a', bh);
+    }
+    else
+    {
+        printch(tmp+'0', bh);
+    }
+}
+
 void moveCursorX(int x) {
     cursorX += x;
     updateCursor();
