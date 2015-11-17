@@ -1,35 +1,61 @@
+#include "multiboot.h"
+
+#include "inc/fs.h"
 #include "inc/timer.h"
+#include "inc/error.h"
 #include "inc/paging.h"
+#include "inc/initrd.h"
 #include "inc/kbDetect.h"
 #include "inc/descriptorTables.h"
 
+extern uint32 placement_address;
+
 void launchShell();
 
-int kmain()
+int kmain(struct multiboot *mboot_ptr)
 {
     init_descriptor_tables();
     clearScreen();
 //    asm volatile("sti");
-    
-    uint32 a = kmalloc(8);
+    // Find the location of our initial ramdisk.
+    ASSERT(mboot_ptr->mods_count > 0);
+    uint32 initrd_location = *((uint32*)mboot_ptr->mods_addr);
+    uint32 initrd_end = *(uint32*)(mboot_ptr->mods_addr+4);
+    // Don't trample our module with placement accesses, please!
+    placement_address = initrd_end;
+
+    // Start paging.
     initialize_paging();
-    
-    uint32 b = kmalloc(8);
-    uint32 c = kmalloc(8);
-    print("a: ", 0x0F);
-    printhex(a, 0x0F);
-    print(", b: ", 0x0F);
-    printhex(b, 0x0F);
-    print("\nc: ", 0x0F);
-    printhex(c, 0x0F);
 
-    kfree(c);
-    kfree(b);
-    uint32 d = kmalloc(12);
-    print(", d: ", 0x0F);
-    printhex(d, 0x0F);
+    // Initialise the initial ramdisk, and set it as the filesystem root.
+    fs_root = initialize_initrd(initrd_location);
 
-    
+    // list the contents of /
+    int i = 0;
+    struct dirent *node = 0;
+    while ( (node = readdir_fs(fs_root, i)) != 0)
+    {
+        print("Found file ", 0x08);
+        print(node->name, 0x08);
+        fs_node_t *fsnode = finddir_fs(fs_root, node->name);
+
+        if ((fsnode->flags&0x7) == FS_DIRECTORY)
+        {
+            print("\n\t(directory)\n", 0x08);
+        }
+        else
+        {
+            print("\n\t contents: \"", 0x08);
+            char buf[256];
+            uint32 sz = read_fs(fsnode, 0, 256, buf);
+            int j;
+            for (j = 0; j < sz; j++)
+                printch(buf[j], 0x08);
+            print("\"\n", 0x08);
+        }
+        i++;
+    }
+
     /*
     layout = 1;
     print("================================================================================", 0x3F);
