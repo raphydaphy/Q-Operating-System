@@ -9,9 +9,28 @@ int kmain()
 {
     init_descriptor_tables();
     clearScreen();
-    asm volatile("sti");
+//    asm volatile("sti");
+    
+    uint32 a = kmalloc(8);
     initialize_paging();
     
+    uint32 b = kmalloc(8);
+    uint32 c = kmalloc(8);
+    print("a: ", 0x0F);
+    printhex(a, 0x0F);
+    print(", b: ", 0x0F);
+    printhex(b, 0x0F);
+    print("\nc: ", 0x0F);
+    printhex(c, 0x0F);
+
+    kfree(c);
+    kfree(b);
+    uint32 d = kmalloc(12);
+    print(", d: ", 0x0F);
+    printhex(d, 0x0F);
+
+    
+    /*
     layout = 1;
     print("================================================================================", 0x3F);
     print("                             Welcome to Q OS                                    ", 0x3F);
@@ -19,6 +38,7 @@ int kmain()
     layout = 0;
 
     launchShell();
+    */
     return 0;
 }
 

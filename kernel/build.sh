@@ -13,9 +13,10 @@ gcc -m32 -c inc/timer.c -o o/timer.o -ffreestanding
 gcc -m32 -c inc/kheap.c -o o/kheap.o -ffreestanding
 gcc -m32 -c inc/paging.c -o o/paging.o -ffreestanding
 gcc -m32 -c inc/error.c -o o/error.o -ffreestanding
+gcc -m32 -c inc/orderedArray.c -o o/orderedArray.o -ffreestanding
 nasm -f elf32 inc/gdt.asm -o o/gdt.asm.o
 nasm -f elf32 inc/interrupt.asm -o o/interrupt.asm.o
-ld -m elf_i386 -T link.ld -o q/boot/kernel.bin kernel.asm.o kernel.c.o o/assemblyFunctions.o o/stringUtils.o o/byteUtils.o o/screenUtils.o o/kbDetect.o o/descriptorTables.o o/gdt.asm.o o/interrupt.asm.o o/isr.o o/timer.o o/kheap.o o/paging.o o/error.o
+ld -m elf_i386 -T link.ld -o q/boot/kernel.bin kernel.asm.o kernel.c.o o/assemblyFunctions.o o/stringUtils.o o/byteUtils.o o/screenUtils.o o/kbDetect.o o/descriptorTables.o o/gdt.asm.o o/interrupt.asm.o o/isr.o o/timer.o o/kheap.o o/paging.o o/error.o o/orderedArray.o
 grub-mkrescue -o q.iso q/
 qemu-system-i386 -kernel q/boot/kernel.bin			#qemu dosen't seem to work with Update 3.1+ versions of Q OS
 
