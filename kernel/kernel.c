@@ -1,7 +1,9 @@
 #include "inc/kbDetect.h"
 #include "inc/descriptorTables.h"
 
-kmain()
+void launchShell();
+
+int kmain()
 {
     init_descriptor_tables();
 
@@ -12,6 +14,11 @@ kmain()
     print("================================================================================", 0x3F);
     layout = 0;
 
+    launchShell();
+    return 0;
+}
+
+void launchShell() {
     print("\nKeybindings in Q OS:", 0x0F);
     print("\n\tCtrl-b -> left", 0x0F);
     print("\n\tCtrl-f -> right", 0x0F);
@@ -121,4 +128,3 @@ kmain()
         layout = 0;
     }
 }
-

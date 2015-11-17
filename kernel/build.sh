@@ -1,3 +1,5 @@
+mkdir o
+
 nasm -f elf32 kernel.asm -o kernel.asm.o
 gcc -m32 -c kernel.c -o kernel.c.o -ffreestanding
 gcc -m32 -c inc/assemblyFunctions.c -o o/assemblyFunctions.o -ffreestanding

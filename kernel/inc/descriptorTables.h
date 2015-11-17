@@ -3,7 +3,7 @@
  */
 
 #include "assemblyFunctions.h"
-// #include "byteUtils.h"
+#include "byteUtils.h"
 
 struct gdt_entry_struct
  {
