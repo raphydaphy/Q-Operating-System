@@ -1,5 +1,5 @@
 o/
-q/boot/*.bin
+q/
 *.o
 *.iso
 *.*~
