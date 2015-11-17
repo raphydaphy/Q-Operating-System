@@ -5,11 +5,11 @@ CC:=gcc
 #C coompiler flags
 CFLAGS:=-m32 -ffreestanding -Wall 
 #object file directory
-ODIR:=obj
+ODIR:=kernel/o
 #source directory
 DIR:=kernel
 #OS image output directory
-IMGDIR:=image
+IMGDIR:=kernel/q
 
 #compile the project
 all:
@@ -39,3 +39,9 @@ iso:
 #create crub.cfg file
 	@echo -e "set timeout=15\nset default=0\n\nmenuentry "Q-OS" {\n   multiboot /boot/kernel.bin\n   boot\n}\n" > $(IMGDIR)/boot/grub/grub.cfg
 	@grub-mkrescue -o q-os.iso $(IMGDIR)/
+	
+.PHONY clean:
+# -f needed to  avoid error when file doesn't exist
+	@rm -rf $(ODIR)
+	@rm -rf $(IMGDIR)
+	@rm -f q-os.iso
