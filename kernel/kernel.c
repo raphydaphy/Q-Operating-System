@@ -10,53 +10,23 @@
 
 extern uint32 placement_address;
 
+void catFile(fs_node_t*);
+void listTree();
 void launchShell();
+uint32 findInitrd(struct multiboot*);
 
-int kmain(struct multiboot *mboot_ptr)
+int kmain(struct multiboot* mboot_ptr)
 {
-    init_descriptor_tables();
     clearScreen();
-//    asm volatile("sti");
-    // Find the location of our initial ramdisk.
-    ASSERT(mboot_ptr->mods_count > 0);
-    uint32 initrd_location = *((uint32*)mboot_ptr->mods_addr);
-    uint32 initrd_end = *(uint32*)(mboot_ptr->mods_addr+4);
-    // Don't trample our module with placement accesses, please!
-    placement_address = initrd_end;
+    init_descriptor_tables();
+    asm volatile("sti");
 
-    // Start paging.
+    uint32 initrd_location = findInitrd(mboot_ptr);
     initialize_paging();
 
-    // Initialise the initial ramdisk, and set it as the filesystem root.
+    // Initialize the initial ramdisk, and set it as the filesystem root.
     fs_root = initialize_initrd(initrd_location);
 
-    // list the contents of /
-    int i = 0;
-    struct dirent *node = 0;
-    while ( (node = readdir_fs(fs_root, i)) != 0)
-    {
-        print("Found file ", 0x08);
-        print(node->name, 0x08);
-        fs_node_t *fsnode = finddir_fs(fs_root, node->name);
-
-        if ((fsnode->flags&0x7) == FS_DIRECTORY)
-        {
-            print("\n\t(directory)\n", 0x08);
-        }
-        else
-        {
-            print("\n\t contents: \"", 0x08);
-            char buf[256];
-            uint32 sz = read_fs(fsnode, 0, 256, buf);
-            int j;
-            for (j = 0; j < sz; j++)
-                printch(buf[j], 0x08);
-            print("\"\n", 0x08);
-        }
-        i++;
-    }
-
-    /*
     layout = 1;
     print("================================================================================", 0x3F);
     print("                             Welcome to Q OS                                    ", 0x3F);
@@ -64,11 +34,61 @@ int kmain(struct multiboot *mboot_ptr)
     layout = 0;
 
     launchShell();
-    */
     return 0;
 }
 
-void launchShell() {
+#define RBUFF 256
+void catFile(fs_node_t* fsnode)
+{
+    printch('\n', 0x0F);
+    if ((fsnode->flags & 0x7) == FS_FILE)
+    {
+        char buf[RBUFF];
+        uint32 sz = read_fs(fsnode, 0, RBUFF, buf);
+        int j;
+        for (j = 0; j < sz; j++)
+            printch(buf[j], 0x0F);
+        printch('\n', 0x0F);
+    }
+}
+
+void listTree() {
+    // list the contents of
+    int i = 0;
+    struct dirent *node = 0;
+    while ((node = readdir_fs(fs_root, i)) != 0)
+    {
+        fs_node_t *fsnode = finddir_fs(fs_root, node->name);
+
+        if ((fsnode->flags & 0x7) == FS_DIRECTORY)
+        {
+            print("dir \t", 0x0F);
+            print(node->name, 0x0F);
+            printch('/', 0x0F);
+        }
+        else
+        {
+            print("file\t", 0x0F);
+            print(node->name, 0x0F);
+        }
+        printch('\n', 0x0F);
+        i++;
+    }
+}
+
+uint32 findInitrd(struct multiboot* mboot_ptr)
+{
+    // Find the location of our initial ramdisk.
+    ASSERT(mboot_ptr->mods_count > 0);
+    uint32 initrd_location = *((uint32*)mboot_ptr->mods_addr);
+    uint32 initrd_end = *(uint32*)(mboot_ptr->mods_addr+4);
+    // Don't trample our module with placement accesses, please!
+    placement_address = initrd_end;
+    return initrd_location;
+}
+
+void kbHelp()
+{
     print("\nKeybindings in Q OS:", 0x0F);
     print("\n\tCtrl-b -> left", 0x0F);
     print("\n\tCtrl-f -> right", 0x0F);
@@ -78,7 +98,12 @@ void launchShell() {
     print("\n\tCtrl-z -> quit", 0x0F);
     print("\n\tCtrl-l -> clear", 0x0F);
     print("\n", 0x0F);
+}
 
+#define COMMAND_HELP "\nWorking Commands in Q OS: \nwriter\nclear\nexecute\nhi\nskip\nfiles\ncat"
+
+void launchShell() {
+    kbHelp();
     while (1)
     {
         layout = 1;
@@ -89,9 +114,14 @@ void launchShell() {
         string ch = readStr();
         typingCmd = 0;
         layout = 1;
-        if(strEql(ch, "help"))
+        if (strEql(strTrim(ch), ""))
         {
-            print("\nWorking Commands in Q OS: \nwriter\nclear\nexecute\nhi\nskip", 0x0F);
+            print(COMMAND_HELP, 0x0F);
+        }
+        else if(strEql(ch, "help"))
+        {
+            kbHelp();
+            print(COMMAND_HELP, 0x0F);
         }
         else if(strEql(ch, "skip"))
         {
@@ -100,6 +130,18 @@ void launchShell() {
         else if(strEql(ch, "hi"))
         {
             print("\nHello!", 0x3F);
+        }
+        else if(strEql(ch, "files"))
+        {
+            print("\n", 0x0F);
+            listTree();
+        }
+        else if(strEql(ch, "cat"))
+        {
+            print("\nFile Name>  ", 0x0F);
+            string tmp = readStr();
+            ASSERT(strlength(tmp) < MAX_FNAME_LEN);
+            catFile(finddir_fs(fs_root, tmp));
         }
         else if(strEql(ch,"execute"))
         {
