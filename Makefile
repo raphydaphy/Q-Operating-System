@@ -1,47 +1,67 @@
+.DEFAULT_GOAL:=all
 #assembly compiler
-AA:=nasm
+ASM:=nasm
+#ASM flags
+ASMFLAGS:=-f elf32
+
 #C compiler
 CC:=gcc
 #C coompiler flags
-CFLAGS:=-m32 -ffreestanding -Wall 
+WARNINGS:=-Wall #-Wextra -pedantic -Wshadow -Wpointer-arith -Wcast-align \
+            #-Wwrite-strings -Wmissing-prototypes -Wmissing-declarations \
+            #-Wredundant-decls -Wnested-externs -Winline -Wno-long-long \
+            #-Wuninitialized -Wconversion -Wstrict-prototypes
+CFLAGS:=-m32 -ffreestanding $(WARNINGS)
 #object file directory
+
 ODIR:=kernel/o
 #source directory
 DIR:=kernel
 #OS image output directory
 IMGDIR:=kernel/q
 
+#source and header files
+CSOURCES:=$(shell find $(DIR) -type f -name "*.c")
+HSOURCES:=$(shell find $(DIR) -type f -name "*.h")
+ASOURCES:=$(shell find $(DIR) -type f -name "*.asm")
+
+#object files
+COBJECTS:=$(patsubst %.c,%.o,$(CSOURCES))
+AOBJECTS:=$(patsubst %.asm,%.ao,$(ASOURCES))
+
+ALLFILES:=$(SRCFILES) $(HDRFILES)
+
+DEPFILES:=$(patsubst %.c,%.d,$(CSOURCES))
+
+ISO:=Q-OS.iso
+KERNEL:=kernel.bin
+
+-include $(DEPFILES)
+
 #compile the project
-all:
-	@mkdir -p $(ODIR)
-	@$(AA) -f elf32 $(DIR)/kernel.asm -o $(ODIR)/kernel.asm.o
-	@$(CC) -c $(DIR)/kernel.c -o $(ODIR)/kernel.o $(CFLAGS)
-	@$(CC) -c $(DIR)/inc/assemblyFunctions.c -o $(ODIR)/assemblyFunctions.o $(CFLAGS)
-	@$(CC) -c $(DIR)/inc/stringUtils.c -o $(ODIR)/stringUtils.o $(CFLAGS)
-	@$(CC) -c $(DIR)/inc/byteUtils.c -o $(ODIR)/byteUtils.o $(CFLAGS)
-	@$(CC) -c $(DIR)/inc/descriptorTables.c -o $(ODIR)/descriptorTables.o $(CFLAGS)
-	@$(CC) -c $(DIR)/inc/isr.c -o $(ODIR)/isr.o $(CFLAGS)
-	@$(CC) -c $(DIR)/inc/timer.c -o $(ODIR)/timer.o $(CFLAGS)
-	@$(CC) -c $(DIR)/inc/kheap.c -o $(ODIR)/kheap.o $(CFLAGS)
-	@$(CC) -c $(DIR)/inc/paging.c -o $(ODIR)/paging.o $(CFLAGS)
-	@$(CC) -c $(DIR)/inc/error.c -o $(ODIR)/error.o $(CFLAGS)
-	@$(CC) -c $(DIR)/inc/screenUtils.c -o $(ODIR)/screenUtils.o $(CFLAGS)
-	@$(CC) -c $(DIR)/inc/kbDetect.c -o $(ODIR)/kbDetect.o $(CFLAGS)
-	@$(AA) -f elf32 $(DIR)/inc/gdt.asm -o $(ODIR)/gdt.asm.o
-	@$(AA) -f elf32 $(DIR)/inc/interrupt.asm -o $(ODIR)/interrupt.asm.o
-	@mkdir -p $(IMGDIR)/boot
+.PHONY all: $(ISO)
 
-	@ld -m elf_i386 -T $(DIR)/link.ld -o $(IMGDIR)/boot/kernel.bin $(ODIR)/gdt.asm.o $(ODIR)/interrupt.asm.o $(ODIR)/error.o $(ODIR)/paging.o $(ODIR)/kheap.o $(ODIR)/byteUtils.o $(ODIR)/descriptorTables.o $(ODIR)/isr.o $(ODIR)/timer.o $(ODIR)/kernel.asm.o $(ODIR)/kernel.o $(ODIR)/assemblyFunctions.o $(ODIR)/stringUtils.o $(ODIR)/screenUtils.o $(ODIR)/kbDetect.o
-
-#create iso file
-iso:
+$(ISO): $(KERNEL)
 	@mkdir -p $(IMGDIR)/boot/grub
-#create crub.cfg file
+	@mkdir -p $(ODIR)
 	@echo -e "set timeout=15\nset default=0\n\nmenuentry "Q-OS" {\n   multiboot /boot/kernel.bin\n   boot\n}\n" > $(IMGDIR)/boot/grub/grub.cfg
-	@grub-mkrescue -o q-os.iso $(IMGDIR)/
-	
+	@grub-mkrescue -o $(ISO) $(IMGDIR)/
+
+$(KERNEL): $(CSOURCES) $(ASOURCES) $(COBJECTS) $(AOBJECTS)
+	@mkdir -p $(IMGDIR)/boot/
+	@ld -m elf_i386 -T $(DIR)/link.ld $(AOBJECTS) $(COBJECTS) -o $(IMGDIR)/boot/$@
+
+%.o: %.c Makefile
+	@$(CC) $(CFLAGS) -MMD -MP -c $< -o $@
+
+%.ao: %.asm
+	$(ASM) $(ASMFLAGS) -o $@ $<
+
+qemu: $(ISO)
+	qemu-system-i386 $(ISO)
+
 .PHONY clean:
 # -f needed to  avoid error when file doesn't exist
 	@rm -rf $(ODIR)
 	@rm -rf $(IMGDIR)
-	@rm -f q-os.iso
+	@rm -f $(ISO)
