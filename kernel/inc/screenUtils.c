@@ -2,8 +2,9 @@
 #include "screenUtils.h"
 
 //Initialize the variables created in screen.h
-uint8 writing = 0, progexit = 0, layout = 0, ctrl = 0, typingCmd = 0, startCmdY = 0, startCmdX = 0, newCmd = 0;
-string writerContents = "Welcome to the Writer program. Start typing to modify this file. Anything you type will override the current contents of the file.";
+bool writing = 0, progexit = 0, layout = 0, ctrl = 0, typingCmd = 0;
+uint8 startCmdY = 0, startCmdX = 0;
+bool newCmd = 0;
 
 //Setup variables needed for this file
 int cursorX = 0, cursorY = 0;
@@ -11,9 +12,8 @@ const uint8 sw = 80,sh = 26,sd = 2;
 
 void clearLine(uint8 from, uint8 to)
 {
-    uint16 i = sw * from * sd;
     string vidmem=(string)0xb8000;
-    for(i; i < (sw * to * sd); i++)
+    for(uint16 i = sw * from * sd; i < (sw * to * sd); i++)
     {
         vidmem[i] = 0x0;
     }
@@ -42,9 +42,8 @@ void clearScreen()
 void scrollUp(uint8 lineNumber)
 {
     string vidmem = (string) 0xb8000;
-    uint16 i = 0;
     clearLine(0, lineNumber - 1);
-    for (i; i<sw * (sh - 1) * 2; i++)
+    for (uint16 i = 0; i<sw * (sh - 1) * 2; i++)
     {
         vidmem[i] = vidmem[i+sw*2*lineNumber];
     }
@@ -115,9 +114,8 @@ void printch(char c, int b)
 
 void print(string ch, int bh)
 {
-    uint16 i = 0;
     uint8 length = strlength(ch);
-    for(i; i < length; i++)
+    for(uint16 i = 0; i < length; i++)
     {
         printch(ch[i], bh);
     }
@@ -125,6 +123,14 @@ void print(string ch, int bh)
 
 void moveCursorX(int x) {
     cursorX += x;
+    while(cursorX < 0) {
+        cursorX += sw;
+        cursorY -= 1;
+    }
+    while(cursorX >= sw) {
+        cursorX -= sw;
+        cursorY += 1;
+    }
     updateCursor();
     newLineCheck();
 }

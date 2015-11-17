@@ -7,19 +7,17 @@
 #include "stringUtils.h"
 
 //define variables for kernel.c
-uint8 writing; 
-uint8 progexit; 
-uint8 layout; 
-uint8 alt;
-uint8 ctrl;
-uint8 lshift;
-uint8 rshift;
-uint8 capslock;
-uint8 typingCmd; 
+bool writing; 
+bool progexit; 
+bool alt;
+bool ctrl;
+bool lshift;
+bool rshift;
+bool capslock;
+bool typingCmd; 
 uint8 startCmdY; 
 uint8 startCmdX; 
-uint8 newCmd;
-string writerContents;
+bool newCmd;
 
 //define variables for screen.c
 int cursorX, cursorY;

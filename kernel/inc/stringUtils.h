@@ -5,8 +5,10 @@
 
 uint16 strlength(string);
 
-uint8 strEql(string, string);
+bool strEql(string, string);
 
 string strTrim(string);
+
+void strSet(string, string);
 
 #endif

@@ -2,31 +2,27 @@
 
 uint16 strlength(string ch)
 {
-    uint16 i = 1;
-    while(ch[i++]);  
-    return --i;
+    uint16 i = 0;
+    while(ch[++i]);  
+    return i;
 }
 
-uint8 strEql(string ch1,string ch2)                     
+bool strEql(string ch1,string ch2)                     
 {
-    uint8 result = 1;
-    uint8 size = strlength(ch1);
-    if(size != strlength(ch2)) result = 0;
-    else 
-    {
-        uint8 i = 0;
-        for(i; i <= size; i++)
-        {
-            if(ch1[i] != ch2[i]) result = 0;
+    uint16 i = 0;
+    while(ch1[i] && ch2[i]) {
+        if(ch1[i] != ch2[i]) {
+            return false;
         }
+        i++;
     }
-    return result;
+    return true;
 }
 
-uint8 isspace(char ch) {
+bool isspace(char ch) {
     if (ch == ' ' || ch == '\t' || ch == '\r' || ch == '\n' || ch == '\f' || ch == '\0')
-        return 1; // True
-    return 0; // False
+        return true;
+    return false;
 }
 
 string strTrim(string str)
@@ -71,4 +67,13 @@ string strTrim(string str)
     }
 
     return str;
+}
+/*Sets content of a string*/
+void strSet(string target, string source) {
+    int i = 0;
+    while(source[i]) {
+        target[i] = source[i];
+        i++;
+    }
+    target[i] = 0;
 }
