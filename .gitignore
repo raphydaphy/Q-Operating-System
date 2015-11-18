@@ -9,3 +9,5 @@ kernel/q/
 *.img
 *~
 *.swp
+*.d
+genInitrd/make_initrd

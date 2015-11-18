@@ -205,7 +205,7 @@ void readStr(string buffstr, int bufSize)
                 }
                 break;
             case 42:        //Left shift 
-                lshift = 1;
+                lshift = true;
                 break;
             case 44:        // z or Ctrl-Z
                 if (ctrl) {
@@ -217,14 +217,14 @@ void readStr(string buffstr, int bufSize)
                 }
                 break;
             case 48:
-                if (ctrl == 1) {
+                if (ctrl) {
                     moveCursorX(-1);
                     handled = true;
                 }
                 break;
             case 49:
-                if (ctrl == 1) {
-                    if (writing == 1)
+                if (ctrl) {
+                    if (writing)
                     {
                         cursorY = cursorY + 1;
                         cursorX = cursorX - 1;
@@ -263,6 +263,8 @@ void readStr(string buffstr, int bufSize)
                 }
                 break;
             case 170:           // Left shift released (http://wiki.osdev.org/PS2_Keyboard)
+                lshift = false;
+                break;
             case 182:           // Right shift released (http://wiki.osdev.org/PS2_Keyboard)
                 rshift = false;     // Toggle Off
                 break;
