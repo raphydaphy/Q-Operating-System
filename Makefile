@@ -11,7 +11,7 @@ WARNINGS:=-Wall -Wextra #-pedantic -Wshadow -Wpointer-arith -Wcast-align \
             #-Wwrite-strings -Wmissing-prototypes -Wmissing-declarations \
             #-Wredundant-decls -Wnested-externs -Winline -Wno-long-long \
             #-Wuninitialized -Wconversion -Wstrict-prototypes
-CFLAGS:=-m32 -ffreestanding $(WARNINGS)
+CFLAGS:=-m32 -ffreestanding -std=c99 $(WARNINGS)
 #object file directory
 
 ODIR:=kernel/o
