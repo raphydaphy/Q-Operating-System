@@ -10,9 +10,9 @@
 
 extern uint32 placement_address;
 
-void catFile(fs_node_t*);
 void listTree();
 void launchShell();
+void catFile(fs_node_t*);
 uint32 findInitrd(struct multiboot*);
 
 int kmain(struct multiboot* mboot_ptr)
@@ -42,8 +42,8 @@ void catFile(fs_node_t* fsnode)
     if ((fsnode->flags & 0x7) == FS_FILE)
     {
         char buf[RBUFF];
-        uint32 sz = read_fs(fsnode, 0, RBUFF, buf);
-        int j;
+        uint32 sz = read_fs(fsnode, 0, RBUFF, (uint8*) buf);
+        uint32 j;
         for (j = 0; j < sz; j++)
             printch(buf[j], 0x0F);
         printch('\n', 0x0F);

@@ -17,7 +17,7 @@ int main(char argc, char **argv)
 	
 	int nheaders = (argc-1)/2;
 	struct initrd_header headers[64];
-	printf("size of header: %d\n", sizeof(struct initrd_header));
+	printf("size of header: %lu\n", sizeof(struct initrd_header));
 	unsigned int off = sizeof(struct initrd_header) * 64 + sizeof(int);
 
 	int i;
