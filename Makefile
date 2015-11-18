@@ -35,13 +35,19 @@ DEPFILES:=$(patsubst %.c,%.d,$(CSOURCES))
 
 ISO:=Q-OS.iso
 KERNEL:=kernel.bin
+INITRD:=initrd.img
+GENINITRD_DIR:=genInitrd
+#note: this should be replaced with something better
+INITRD_REMOVE:=./make_initrd ./make_initrd.c ./initrd.img ./README.md
+INITRD_CONTENT:=$(filter-out $(INITRD_REMOVE),$(shell cd $(GENINITRD_DIR); find -type f))
+GENINITRD_ARGS:=$(foreach file,$(INITRD_CONTENT),$(patsubst ./%,%,$(file)) $(patsubst ./%,%,$(file)))
 
 -include $(DEPFILES)
 
 #compile the project
 .PHONY all: $(ISO)
 
-$(ISO): $(KERNEL)
+$(ISO): $(KERNEL) $(INITRD)
 	@mkdir -p $(IMGDIR)/boot/grub
 	@mkdir -p $(ODIR)
 	@grub-mkrescue -o $(ISO) $(IMGDIR)/
@@ -49,6 +55,12 @@ $(ISO): $(KERNEL)
 $(KERNEL): $(CSOURCES) $(ASOURCES) $(COBJECTS) $(AOBJECTS)
 	@mkdir -p $(IMGDIR)/boot/
 	@ld -m elf_i386 -T $(DIR)/link.ld $(AOBJECTS) $(COBJECTS) -o $(IMGDIR)/boot/$@
+
+$(INITRD):
+
+	@gcc $(GENINITRD_DIR)/make_initrd.c -o $(GENINITRD_DIR)/make_initrd
+	@cd $(GENINITRD_DIR); ./make_initrd $(GENINITRD_ARGS)
+	@cp $(GENINITRD_DIR)/initrd.img $(IMGDIR)/boot/
 
 %.o: %.c Makefile
 	@$(CC) $(CFLAGS) -MMD -MP -c $< -o $@
