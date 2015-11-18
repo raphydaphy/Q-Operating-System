@@ -1,3 +1,6 @@
+#ifndef ISR_H
+#define ISR_H
+
 #include "screenUtils.h"
 
 #define IRQ0 32
@@ -30,3 +33,5 @@ typedef struct registers
 // first parameter.
 typedef void (*isr_t)(registers_t);
 void register_interrupt_handler(uint8 n, isr_t handler);
+
+#endif
