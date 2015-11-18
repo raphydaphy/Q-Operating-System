@@ -20,6 +20,6 @@ nasm -f elf32 inc/gdt.asm -o o/gdt.asm.o
 nasm -f elf32 inc/interrupt.asm -o o/interrupt.asm.o
 ld -m elf_i386 -T link.ld -o q/boot/kernel.bin kernel.asm.o kernel.c.o o/assemblyFunctions.o o/stringUtils.o o/byteUtils.o o/screenUtils.o o/kbDetect.o o/descriptorTables.o o/gdt.asm.o o/interrupt.asm.o o/isr.o o/timer.o o/kheap.o o/paging.o o/error.o o/orderedArray.o o/fs.o o/initrd.o
 grub-mkrescue -o q.iso q/
-qemu-system-i386 q.iso			#qemu dosen't seem to work with Update 3.1+ versions of Q OS
+qemu-system-i386 -cdrom q.iso			#qemu dosen't seem to work with Update 3.1+ versions of Q OS
 
 read a
