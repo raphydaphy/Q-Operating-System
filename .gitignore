@@ -1,10 +1,11 @@
 o/
 q/
 kernel/q/
-*.*o
+*.ao
+*.o
+*.d
 *.out
 *.iso
 *.img
-*.*~
+*~
 *.swp
-kernel/q/boot/grub/grub.cfg
