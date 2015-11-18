@@ -1,11 +1,13 @@
 o/
 q/
 kernel/q/
+*.ao
 *.o
+*.d
 *.out
 *.iso
 *.img
-*.*~
+*~
 *.swp
 *.d
 genInitrd/make_initrd
