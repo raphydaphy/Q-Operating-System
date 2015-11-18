@@ -3,7 +3,7 @@
 extern void panic(const string message, const string file, uint32 line)
 {
     // We encountered a massive problem and have to stop.
-    asm volatile("cli"); // Disable interrupts.
+    __asm__ __volatile__("cli"); // Disable interrupts.
 
     print("PANIC(", 0x0F);
     print(message, 0x0F);
@@ -19,7 +19,7 @@ extern void panic(const string message, const string file, uint32 line)
 extern void panic_assert(const string file, uint32 line, const string desc)
 {
     // An assertion failed, and we have to panic.
-    asm volatile("cli"); // Disable interrupts.
+    __asm__ __volatile__("cli"); // Disable interrupts.
 
     print("ASSERTION-FAILED(", 0x0F);
     print(desc, 0x0F);
@@ -31,4 +31,3 @@ extern void panic_assert(const string file, uint32 line, const string desc)
     // Halt by going into an infinite loop.
     for(;;);
 }
-
