@@ -15,7 +15,7 @@ Tiny Files
 When we program in the 21st Century, we have so much more processing power and resources available than in the early days of computing that we often waste large portions of storage and CPU power just by writing inefficient and messy code. As computers continue to get more powerful, so will the level of inefficiency in a typical program such as a word processor where the programmers will save time while developing the software by writing - as I mentioned before - inefficient code that has no benifit whatsoever to the end user. 
 
 
-If we, as programmers, continue to let our code become more ineficient just because we are able to with such powerful computers that are available to nearly everybody in the world now, computers will have to cost more than they are actually worth because of the excessive computational power and storage space they will need to cope with such ineficient programming. An example of this incredible waste of storage space can be seen in how an entire program used to fit within a 64KB space on a disk, but now you can't even write a letter in that amount of space using a word processer such as Microsoft Word or Apple's 'Pages'. Obviously, applications have became more advanced, but so have the languages we have available to use to create them with. Theoretically this should allow us to create more advanced programs in only a little more space, but our bad habits as programmers have prevented this from happening.
+If we, as programmers, continue to let our code become more inefficient just because we are able to with such powerful computers that are available to nearly everybody in the world now, computers will have to cost more than they are actually worth because of the excessive computational power and storage space they will need to cope with such ineficient programming. An example of this incredible waste of storage space can be seen in how an entire program used to fit within a 64KB space on a disk, but now you can't even write a letter in that amount of space using a word processer such as Microsoft Word or Apple's 'Pages'. Obviously, applications have became more advanced, but so have the languages we have available to use to create them with. Theoretically this should allow us to create more advanced programs in only a little more space, but our bad habits as programmers have prevented this from happening.
 
 
 In Q OS, I aim to solve this problem in two main ways. The first of which is by giving any computer with a freshly installed copy of Q OS (when it is complete) built in programs that suit most people's needs in computing such as a word processor, web browser, presentation and chart creation programs and other typical preinstalled software, but the entire package of built-in apps will all fit within less than a 1GB space. This is not even a very hard goal to acomplish when the right routines and programming habbits are adopted in order to create tiny code files.
@@ -44,12 +44,17 @@ Terminal Rethought
 After over a decade of Unix-style terminals, many users will have began to discover the limitations of command line interaction with your computer. In Q OS, I am redesigning the command line interface from the ground up. This begins with over 2000 brand new commands. The most powerful of any of these is arguablely the new <code>do</code> command, however. Here is a brief example of what this powerful command lets you do with the forthcoming Q OS Terminal:
 
 
-<code>do js for(i=0;i<10;i++) { console.log(i); }</code><br>
-This is using the all new <code>do</code> command to execute javascript inside the terminal. The syntax for the <code>do</code> commmand is as follows:<br>
-<code>do language code</code><br>
-Although the <code>do</code> syntax itself is simple to use, what you can create with <code>do</code> is incredible. The Terminal now allows you to create and store variables that are stored in memory until you close the window. But that's not even the best part. The <code>do</code> command supports a huge number of programming languages. Examine this command:<br>
-<code>do asm add eax, ebx</code><br>
-Yes, Q OS even supports running Assembly Language code directly in the Terminal. All this power is possible by intergrating multiple language compilers into the Terminal that run when the correct <code>do</code> syntax is supplied by the user and generate an output when nessesary.
+`do js for(i=0;i<10;i++) { console.log(i); }`
+
+This is using the all new `do` command to execute javascript inside the terminal. The syntax for the `do` commmand is as follows:
+
+`do language code`
+
+Although the `do` syntax itself is simple to use, what you can create with `do` is incredible. The Terminal now allows you to create and store variables that are stored in memory until you close the window. But that's not even the best part. The `do` command supports a huge number of programming languages. Examine this command:
+
+`do asm add eax, ebx`
+
+Yes, Q OS even supports running Assembly Language code directly in the Terminal. All this power is possible by intergrating multiple language compilers into the Terminal that run when the correct `do` syntax is supplied by the user and generate an output when nessesary.
 
 
 Custom Programming Language
