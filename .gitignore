@@ -1,6 +1,8 @@
 o/
 q/
 *.o
+*.out
 *.iso
+*.img
 *.*~
 *.swp
