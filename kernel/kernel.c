@@ -27,11 +27,9 @@ int kmain(struct multiboot* mboot_ptr)
     // Initialize the initial ramdisk, and set it as the filesystem root.
     fs_root = initialize_initrd(initrd_location);
 
-    layout = 1;
     print("================================================================================", 0x3F);
     print("                             Welcome to Q OS                                    ", 0x3F);
     print("================================================================================", 0x3F);
-    layout = 0;
 
     launchShell();
     return 0;
@@ -104,111 +102,111 @@ void kbHelp()
 
 void launchShell() {
     kbHelp();
-    while (1)
+    //allocate some memory for command string buffer. 1kB should be enough for now
+    const int bufSize = 128;
+    const int editorBufSide = 1024;
+    char bufStr[bufSize];
+    char writerContents[editorBufSide];
+    writerContents[0] = 0;
+    while (true)
     {
-        layout = 1;
         print("\nQ-Kernel>  ", 0x08);
-        layout = 0;
-        typingCmd = 1;
-        newCmd = 1;
-        string ch = readStr();
-        typingCmd = 0;
-        layout = 1;
-        if (strEql(strTrim(ch), ""))
+        typingCmd = true;
+        newCmd = true;
+        readStr(bufStr, bufSize);
+        typingCmd = false;
+
+        if (strEql(strTrim(bufStr), ""))
         {
             print(COMMAND_HELP, 0x0F);
         }
-        else if(strEql(ch, "help"))
+        else if(strEql(bufStr, "help"))
         {
             kbHelp();
             print(COMMAND_HELP, 0x0F);
         }
-        else if(strEql(ch, "skip"))
+        else if(strEql(bufStr, "skip"))
         {
             // It literally does nothing... (Useful at callback) 
         }
-        else if(strEql(ch, "hi"))
+        else if(strEql(bufStr, "hi"))
         {
             print("\nHello!", 0x3F);
         }
-        else if(strEql(ch, "files"))
+        else if(strEql(bufStr, "files"))
         {
             print("\n", 0x0F);
             listTree();
         }
-        else if(strEql(ch, "cat"))
+        else if(strEql(bufStr, "cat"))
         {
             print("\nFile Name>  ", 0x0F);
-            string tmp = readStr();
-            ASSERT(strlength(tmp) < MAX_FNAME_LEN);
-            catFile(finddir_fs(fs_root, tmp));
+            readStr(bufStr, bufSize);
+            ASSERT(strlength(bufStr) < MAX_FNAME_LEN);
+            catFile(finddir_fs(fs_root, bufStr));
         }
-        else if(strEql(ch,"execute"))
+        else if(strEql(bufStr,"execute"))
         {
             print("\n>  ", 0x0F);
-            string tmp = readStr();
-            if(strEql(tmp,"repeat"))
+            readStr(bufStr, bufSize);
+            if(strEql(bufStr,"repeat"))
             {
 	            print("\nrepeat>  ", 0x0F);
-	            string tmp = readStr();
+	            readStr(bufStr, bufSize);
 	            writing = 1;
-	            while(1)
+	            while(true)
 	            {
 	                printch('\n', 0x0F);
-	                print(tmp, 0x0F);
+	                print(bufStr, 0x0F);
 	            }
-            }
-            if(strEql(tmp,"c"))
+            } 
+            else if(strEql(bufStr,"c"))
             {
 	            print("\nc>  ",0x0F);
-	            string c = readStr();
+	            readStr(bufStr, bufSize);
             }
             else
             {
 	            print("The 'do' command does not support the command you entered or it does not exist ", 0x0F);
             }
         }
-        else if(strEql(ch,"list"))
+        else if(strEql(bufStr,"list"))
         {
             print("\nNo Files Found on Disk ", 0x0F);
         }
-        else if(strEql(ch,"switch"))
+        else if(strEql(bufStr,"switch"))
         {
             print("\nThe specified directory was not found ", 0x0F);
         }
-        else if(strEql(ch,"writer"))
+        else if(strEql(bufStr,"writer"))
         {
-            layout = 1;
             clearScreen();
             print("================================================================================", 0x3F);
             print("                      Q OS Text Editor Version 0.2                              ", 0x3F);
             print("================================================================================", 0x3F);
-            writing = 1;
-            layout = 0;
-            print(writerContents, 0x0F);
-            string writerContents = readStr();
+            writing = true;
+            readStr(writerContents, bufSize);
+            writing = false;
         }
-        else if(strEql(ch,"clear"))
+        else if(strEql(bufStr,"clear"))
         {
             clearScreen();
             cursorX = 0;
             cursorY = 0;
             updateCursor();
         }
-        else if(strEql(ch,"clear -i"))
+        else if(strEql(bufStr,"clear -i"))
         {
-            layout = 1;
             clearScreen();
             print("================================================================================", 0x3F);
             print("                             Welcome to Q OS                                    ", 0x3F);
             print("================================================================================", 0x3F);
-            layout = 0;
         }
-        else if(strEql(ch,"newdir"))
+        else if(strEql(bufStr,"newdir"))
         {
             print("\n",0x0F);
         }
-        else if(strEql(ch,"erase"))
+        else if(strEql(bufStr,"erase"))
         {
             print("\n",0x0F);
         }
@@ -217,6 +215,5 @@ void launchShell() {
             print("\nCommand Not Found ",0x0F);
         }
         print("\n",0x0F);
-        layout = 0;
     }
 }

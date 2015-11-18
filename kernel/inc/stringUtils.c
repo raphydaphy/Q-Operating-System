@@ -2,12 +2,12 @@
 
 uint16 strlength(string ch)
 {
-    uint16 i = 1;
-    while(ch[i++]);  
-    return --i;
+    uint16 i = 0;
+    while(ch[++i]);  
+    return i;
 }
 
-uint8 strEql(string ch1,string ch2)                     
+bool strEql(string ch1,string ch2)                     
 {
     /* Zero from strcmp means ch1 eq ch2 */
     return strcmp(ch1, ch2) == 0;
@@ -41,14 +41,17 @@ string strcpy(string dest, string src)
     do
       *dest++ = *src++;
     while (*src != 0);
+    return dest;
 }
 
 // Concatenate the NULL-terminated string src onto
 // the end of dest, and return dest.
 string strcat(string dest, string src)
 {
-    while (*dest != 0)
-        *dest = *dest++;
+    while (*dest != 0) {
+        *dest = *dest;
+        dest++;
+    }
 
     do
         *dest++ = *src++;
@@ -56,10 +59,10 @@ string strcat(string dest, string src)
     return dest;
 }
 
-uint8 isspace(char ch) {
+bool isspace(char ch) {
     if (ch == ' ' || ch == '\t' || ch == '\r' || ch == '\n' || ch == '\f' || ch == '\0')
-        return 1; // True
-    return 0; // False
+        return true;
+    return false;
 }
 
 string strTrim(string str)
