@@ -7,4 +7,5 @@ kernel/q/
 *.img
 *.*~
 *.swp
-kernel/q/boot/grub/grub.cfg
+*.d
+genInitrd/make_initrd
