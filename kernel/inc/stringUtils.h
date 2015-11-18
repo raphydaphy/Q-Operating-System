@@ -5,7 +5,7 @@
 
 uint16 strlength(string);
 
-uint8 strEql(string, string);
+bool strEql(string, string);
 
 uint8 strcmp(string, string);
 
