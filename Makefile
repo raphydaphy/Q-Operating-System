@@ -7,7 +7,7 @@ ASMFLAGS:=-f elf32
 #C compiler
 CC:=gcc
 #C coompiler flags
-WARNINGS:=-Wall #-Wextra -pedantic -Wshadow -Wpointer-arith -Wcast-align \
+WARNINGS:=-Wall -Wextra #-pedantic -Wshadow -Wpointer-arith -Wcast-align \
             #-Wwrite-strings -Wmissing-prototypes -Wmissing-declarations \
             #-Wredundant-decls -Wnested-externs -Winline -Wno-long-long \
             #-Wuninitialized -Wconversion -Wstrict-prototypes
@@ -44,7 +44,6 @@ KERNEL:=kernel.bin
 $(ISO): $(KERNEL)
 	@mkdir -p $(IMGDIR)/boot/grub
 	@mkdir -p $(ODIR)
-	@echo -e "set timeout=15\nset default=0\n\nmenuentry "Q-OS" {\n   multiboot /boot/kernel.bin\n   boot\n}\n" > $(IMGDIR)/boot/grub/grub.cfg
 	@grub-mkrescue -o $(ISO) $(IMGDIR)/
 
 $(KERNEL): $(CSOURCES) $(ASOURCES) $(COBJECTS) $(AOBJECTS)
@@ -63,5 +62,5 @@ qemu: $(ISO)
 .PHONY clean:
 # -f needed to  avoid error when file doesn't exist
 	@rm -rf $(ODIR)
-	@rm -rf $(IMGDIR)
+	@rm -f $(IMGDIR)/boot/$(KERNEL)
 	@rm -f $(ISO)
