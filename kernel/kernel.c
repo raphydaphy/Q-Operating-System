@@ -19,7 +19,7 @@ int kmain(struct multiboot* mboot_ptr)
 {
     clearScreen();
     init_descriptor_tables();
-    asm volatile("sti");
+    __asm__ __volatile__("sti");
 
     uint32 initrd_location = findInitrd(mboot_ptr);
     initialize_paging();
