@@ -69,7 +69,7 @@ $(INITRD):
 	$(ASM) $(ASMFLAGS) -o $@ $<
 
 qemu: $(ISO)
-	qemu-system-i386 $(ISO)
+	qemu-system-i386 -cdrom $(ISO)
 
 .PHONY clean:
 # -f needed to  avoid error when file doesn't exist
