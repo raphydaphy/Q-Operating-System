@@ -11,14 +11,16 @@ void register_interrupt_handler(uint8 n, isr_t handler)
 // This gets called from our ASM interrupt handler stub.
 void isr_handler(registers_t regs)
 {
-    print("recieved interrupt: ", 0x0F);
-    printint(regs.int_no, 0x0F);
-    printch('\n', 0x0F);
-
     if (interrupt_handlers[regs.int_no] != 0)
     {
         isr_t handler = interrupt_handlers[regs.int_no];
         handler(regs);
+    }
+    else
+    {
+        print("unhandled interrupt: ", 0x0F);
+        printint(regs.int_no, 0x0F);
+        printch('\n', 0x0F);
     }
 }
 
