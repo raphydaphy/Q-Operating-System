@@ -25,22 +25,6 @@ const char charsCapsLock[256] =    {
    '\'', '`',  0 ,'\\', 'Z', 'X', 'C', 'V', 'B', 'N', 
     'M', ',', '.', '/',  0 , '*',  0 , ' ',  0 ,
 };
-uint8 pushShiftChar(uint8 i, string buffstr, char noShift, char withShift) {
-    char inc = noShift;
-    uint8 shiftMask = lshift | rshift;
-    if (noShift >= 97 && noShift <= 122) { // Range that capslock work: [a-z]
-        if ((shiftMask ^ capslock) == 1) {
-            inc = withShift;
-        }
-    } else {
-        if (shiftMask == 1) { // Check shifts only
-            inc = withShift;
-        }
-    }
-    printch(inc, 0x0F);
-    buffstr[i] = inc;
-    return ++i;
-}
 
 uint8 backspaceOne(uint8 i, string buffstr) {
     printch('\b', 0x0F);
@@ -81,16 +65,22 @@ uint8 pushCtrlChar(uint8 i, string buffstr, char caps) {
 
 int charKeyPressed(string buffstr, uint8 ch, int i) {
     int toPrint = 0xFF;
-    if(lshift || rshift) {
+    bool shiftMask = lshift || rshift;
+    /* Shift and Caps on should be lowercase */
+    if(shiftMask && !capslock) {
         toPrint = charsShift[ch];
-    } else if(capslock) {
+    } else if(capslock && !shiftMask) {
         toPrint = charsCapsLock[ch];
     } else {
         toPrint = chars[ch];
     }
-    if(alt || ctrl) {
-        return pushCtrlChar(i, buffstr, toPrint);
-    } 
+    if(ctrl) {
+        /* Ctrl key pushes an Uppercase */
+        return pushCtrlChar(i, buffstr, charsCapsLock[ch]);
+    } else if (alt) {
+        /* Alt key pushes a lowercase */
+        return pushCtrlChar(i, buffstr, chars[ch]);
+    }
     buffstr[i] = toPrint;
     printch(toPrint, 0x0F);
     return ++i;
