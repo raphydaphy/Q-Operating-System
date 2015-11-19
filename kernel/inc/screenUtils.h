@@ -20,7 +20,7 @@ uint8 startCmdX;
 bool newCmd;
 
 //define variables for screen.c
-int cursorX, cursorY;
+uint32 cursorX, cursorY, deleteStopX; // Since cursors cannot be negative
 const uint8 sw, sh, sd;
 
 //define functions for screen.c
@@ -35,6 +35,8 @@ void printint(uint32, int);
 void printhex(uint32, int);
 void moveCursorX(int);
 void moveCursorY(int);
+/* Only call kprintch in kernels */
+void kprintch(char, int, bool);
 
 //end the if statment at the start of the file
 #endif

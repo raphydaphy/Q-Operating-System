@@ -27,7 +27,7 @@ const char charsCapsLock[256] =    {
 };
 
 uint8 backspaceOne(uint8 i, string buffstr) {
-    printch('\b', 0x0F);
+    kprintch('\b', 0x0F, false);
     i--;
     char old = buffstr[i];
     if(old == '\t') {
@@ -35,7 +35,7 @@ uint8 backspaceOne(uint8 i, string buffstr) {
         delCount = delCount == 0? 4 : delCount;
         while(delCount--) {
             buffstr[i] = 0;
-            printch('\b', 0x0F);
+            kprintch('\b', 0x0F, false);
             i--;
         }
         i++;
@@ -46,7 +46,7 @@ uint8 backspaceOne(uint8 i, string buffstr) {
 uint8 backspaceMul(uint8 i, string buffstr) {
     char old; // This is a place holder
     do {
-        printch('\b', 0x0F);
+        kprintch('\b', 0x0F, false);
         i--;
         old = buffstr[i];
         buffstr[i] = 0;
@@ -58,7 +58,7 @@ uint8 pushCtrlChar(uint8 i, string buffstr, char caps) {
     printch('^', 0x0F);
     buffstr[i] = '^';
     i++;
-    printch(caps, 0x0F);
+    kprintch(caps, 0x0F, false);
     buffstr[i] = caps;
     return ++i;
 }
@@ -82,13 +82,12 @@ int charKeyPressed(string buffstr, uint8 ch, int i) {
         return pushCtrlChar(i, buffstr, chars[ch]);
     }
     buffstr[i] = toPrint;
-    printch(toPrint, 0x0F);
+    kprintch(toPrint, 0x0F, false);
     return ++i;
 }
 
 /*
- * bufSize is used to prevent deleting proper output. If bufSize
- * is zero, than the entire line can be deleted
+ * TODO: bufSize should be used to check for unexpected behaviour
  */
 void readStr(string buffstr, uint32 bufSize)
 {
@@ -107,11 +106,11 @@ void readStr(string buffstr, uint32 bufSize)
 	        print("Q-Kernel>  ", 0x08);
 	    }
 
-        if (bufSize > 0)
+        if (deleteStopX > 0)
         {
-	        if (cursorX < bufSize)
+	        if (cursorX < deleteStopX)
 	        {
-	            cursorX = bufSize;
+	            cursorX = deleteStopX;
 	        }
         }
 
