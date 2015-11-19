@@ -119,6 +119,7 @@ void kprintch(char c, int b, bool incDelStop)
 void printch(char c, int b)
 {
     kprintch(c, b, true);
+    startCmdY = cursorY;
 }
 
 void print(string ch, int bh)

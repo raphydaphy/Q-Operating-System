@@ -108,7 +108,7 @@ void readStr(string buffstr, uint32 bufSize)
 
         if (deleteStopX > 0)
         {
-	        if (cursorX < deleteStopX)
+	        if ((cursorX < deleteStopX) && (cursorY == startCmdY))
 	        {
 	            cursorX = deleteStopX;
 	        }
