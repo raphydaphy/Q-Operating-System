@@ -7,7 +7,7 @@ uint8 startCmdY = 0, startCmdX = 0;
 bool newCmd = 0;
 
 //Setup variables needed for this file
-int cursorX = 0, cursorY = 0;
+uint32 cursorX = 0, cursorY = 0, deleteStopX = 0;
 const uint8 sw = 80,sh = 26,sd = 2;
 
 void clearLine(uint8 from, uint8 to)
@@ -69,7 +69,7 @@ void newLineCheck()
     }
 }
 
-void printch(char c, int b)
+void kprintch(char c, int b, bool incDelStop)
 {
     string vidmem = (string) 0xb8000;     
     switch(c)
@@ -77,7 +77,8 @@ void printch(char c, int b)
     case (0x08): // Backspace
         if(cursorX > 0) 
         {
-            cursorX--;									
+            cursorX--;
+            if (incDelStop) deleteStopX--;
             vidmem[(cursorY * sw + cursorX)*sd] = 0x00;
         }
         break;
@@ -91,24 +92,33 @@ void printch(char c, int b)
     }
     case ('\r'):
         cursorX = 0;
+        if (incDelStop) deleteStopX = 0;
         break;
     case ('\n'):
         cursorX = 0;
+        if (incDelStop) deleteStopX = 0;
         cursorY++;
         break;
     default:
         vidmem [((cursorY * sw + cursorX))*sd] = c;
         vidmem [((cursorY * sw + cursorX))*sd+1] = b;
         cursorX++;
+        if (incDelStop) deleteStopX++;
         break;
     }
     if(cursorX >= sw)
     {
         cursorX = 0;
+        if (incDelStop) deleteStopX = 0;
         cursorY++;
     }
     updateCursor();
     newLineCheck();
+}
+
+void printch(char c, int b)
+{
+    kprintch(c, b, true);
 }
 
 void print(string ch, int bh)
