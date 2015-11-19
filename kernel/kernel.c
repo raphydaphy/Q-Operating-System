@@ -113,7 +113,7 @@ void launchShell() {
         print("\nQ-Kernel>  ", 0x08);
         typingCmd = true;
         newCmd = true;
-        readStr(bufStr, 11); //Length of Prompt
+        readStr(bufStr, 0);
         typingCmd = false;
 
         if (strEql(strTrim(bufStr), ""))
@@ -141,18 +141,18 @@ void launchShell() {
         else if(strEql(bufStr, "cat"))
         {
             print("\nFile Name>  ", 0x0F);
-            readStr(bufStr, 12);
+            readStr(bufStr, 0);
             ASSERT(strlength(bufStr) < MAX_FNAME_LEN);
             catFile(finddir_fs(fs_root, bufStr));
         }
         else if(strEql(bufStr,"execute"))
         {
             print("\ntype>  ", 0x0F);
-            readStr(bufStr, 7);
+            readStr(bufStr, 0);
             if(strEql(bufStr,"repeat"))
             {
 	            print("\nrepeat>  ", 0x0F);
-	            readStr(bufStr, 9);
+	            readStr(bufStr, 0);
 	            writing = 1;
 	            while(true)
 	            {
@@ -163,7 +163,7 @@ void launchShell() {
             else if(strEql(bufStr,"c"))
             {
 	            print("\nc>  ",0x0F);
-	            readStr(bufStr, 4);
+	            readStr(bufStr, 0);
             }
             else
             {

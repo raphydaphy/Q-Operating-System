@@ -55,7 +55,7 @@ uint8 backspaceMul(uint8 i, string buffstr) {
 }
 
 uint8 pushCtrlChar(uint8 i, string buffstr, char caps) {
-    printch('^', 0x0F);
+    kprintch('^', 0x0F, false);
     buffstr[i] = '^';
     i++;
     kprintch(caps, 0x0F, false);
