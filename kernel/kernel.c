@@ -167,7 +167,7 @@ void launchShell() {
             }
             else
             {
-	            print("The 'execute' command does not support the command you entered or it does not exist ", 0x0F);
+	            print("\nThe 'execute' command does not support the command you entered or it does not exist ", 0x0F);
             }
         }
         else if(strEql(bufStr,"switch"))
