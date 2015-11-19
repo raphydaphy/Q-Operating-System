@@ -98,22 +98,21 @@ void kbHelp()
     print("\n", 0x0F);
 }
 
-#define COMMAND_HELP "\nWorking Commands in Q OS: \nwriter\nclear\nexecute\nhi\nskip\nfiles\ncat"
-
 void launchShell() {
+    print(PRO_TIP, 0x0F);
     kbHelp();
     //allocate some memory for command string buffer. 1kB should be enough for now
     const int bufSize = 128;
-    const int editorBufSide = 1024;
+    const int editorBufSize = 1024;
     char bufStr[bufSize];
-    char writerContents[editorBufSide];
+    char writerContents[editorBufSize];
     writerContents[0] = 0;
     while (true)
     {
         print("\nQ-Kernel>  ", 0x08);
         typingCmd = true;
         newCmd = true;
-        readStr(bufStr, 0);
+        readStr(bufStr, bufSize);
         typingCmd = false;
 
         if (strEql(strTrim(bufStr), ""))
@@ -123,6 +122,7 @@ void launchShell() {
         else if(strEql(bufStr, "help"))
         {
             kbHelp();
+            print(PRO_TIP, 0x0F);
             print(COMMAND_HELP, 0x0F);
         }
         else if(strEql(bufStr, "skip"))
@@ -141,18 +141,18 @@ void launchShell() {
         else if(strEql(bufStr, "cat"))
         {
             print("\nFile Name>  ", 0x0F);
-            readStr(bufStr, 0);
+            readStr(bufStr, bufSize);
             ASSERT(strlength(bufStr) < MAX_FNAME_LEN);
             catFile(finddir_fs(fs_root, bufStr));
         }
         else if(strEql(bufStr,"execute"))
         {
             print("\ntype>  ", 0x0F);
-            readStr(bufStr, 0);
+            readStr(bufStr, bufSize);
             if(strEql(bufStr,"repeat"))
             {
 	            print("\nrepeat>  ", 0x0F);
-	            readStr(bufStr, 0);
+	            readStr(bufStr, bufSize);
 	            writing = 1;
 	            while(true)
 	            {
@@ -163,7 +163,7 @@ void launchShell() {
             else if(strEql(bufStr,"c"))
             {
 	            print("\nc>  ",0x0F);
-	            readStr(bufStr, 0);
+	            readStr(bufStr, bufSize);
             }
             else
             {
@@ -181,7 +181,7 @@ void launchShell() {
             print("                      Q OS Text Editor Version 0.2                              ", 0x3F);
             print("================================================================================", 0x3F);
             writing = true;
-            readStr(writerContents, 0);
+            readStr(writerContents, editorBufSize);
             writing = false;
         }
         else if(strEql(bufStr, "clear"))
@@ -200,11 +200,11 @@ void launchShell() {
         }
         else if(strEql(bufStr, "newdir"))
         {
-            print("\n", 0x0F);
+            print("\nReserved", 0x0F);
         }
         else if(strEql(bufStr, "erase"))
         {
-            print("\n", 0x0F);
+            print("\nReserved", 0x0F);
         }
         else
         {
