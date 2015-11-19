@@ -1,5 +1,7 @@
 #include "kbDetect.h"
 
+bool buffOverflow = false;
+
 const int BUFSIZE = 256;
 const char chars[256] =    { 
      0 ,  0 , '1', '2', '3', '4', '5', '6', '7', '8', 
@@ -26,7 +28,7 @@ const char charsCapsLock[256] =    {
     'M', ',', '.', '/',  0 , '*',  0 , ' ',  0 ,
 };
 
-uint8 backspaceOne(uint8 i, string buffstr) {
+uint8 backspaceOne(uint8 i, string buffstr, uint32 bufSize) {
     kprintch('\b', 0x0F, false);
     i--;
     char old = buffstr[i];
@@ -40,10 +42,13 @@ uint8 backspaceOne(uint8 i, string buffstr) {
         }
         i++;
     } else buffstr[i] = 0;
+    if(i < bufSize) {
+        buffOverflow = false;
+    }
     return i;
 }
 
-uint8 backspaceMul(uint8 i, string buffstr) {
+uint8 backspaceMul(uint8 i, string buffstr, uint32 bufSize) {
     char old; // This is a place holder
     do {
         kprintch('\b', 0x0F, false);
@@ -51,19 +56,25 @@ uint8 backspaceMul(uint8 i, string buffstr) {
         old = buffstr[i];
         buffstr[i] = 0;
     } while ((old >= 97 && old <= 122) || (old >= 65 && old <= 90));
+    if(i < bufSize) {
+        buffOverflow = false;
+    }
     return i;
 }
 
-uint8 pushCtrlChar(uint8 i, string buffstr, char caps) {
+uint8 pushCtrlChar(uint8 i, string buffstr, char caps, uint32 bufSize) {
     kprintch('^', 0x0F, false);
     buffstr[i] = '^';
     i++;
     kprintch(caps, 0x0F, false);
     buffstr[i] = caps;
-    return ++i;
+    if(++i >= bufSize) {
+        buffOverflow = true;
+    }
+    return i;
 }
 
-int charKeyPressed(string buffstr, uint8 ch, int i) {
+int charKeyPressed(string buffstr, uint8 ch, int i, uint32 bufSize) {
     int toPrint = 0xFF;
     bool shiftMask = lshift || rshift;
     /* Shift and Caps on should be lowercase */
@@ -76,14 +87,17 @@ int charKeyPressed(string buffstr, uint8 ch, int i) {
     }
     if(ctrl) {
         /* Ctrl key pushes an Uppercase */
-        return pushCtrlChar(i, buffstr, charsCapsLock[ch]);
+        return pushCtrlChar(i, buffstr, charsCapsLock[ch], bufSize);
     } else if (alt) {
         /* Alt key pushes a lowercase */
-        return pushCtrlChar(i, buffstr, chars[ch]);
+        return pushCtrlChar(i, buffstr, chars[ch], bufSize);
     }
     buffstr[i] = toPrint;
     kprintch(toPrint, 0x0F, false);
-    return ++i;
+    if(++i >= bufSize) {
+        buffOverflow = true;
+    }
+    return i;
 }
 
 /*
@@ -91,7 +105,7 @@ int charKeyPressed(string buffstr, uint8 ch, int i) {
  */
 void readStr(string buffstr, uint32 bufSize)
 {
-    uint8 i = 0;
+    uint32 i = 0;
     bool reading = true;
     while(reading)
     {
@@ -125,7 +139,13 @@ void readStr(string buffstr, uint32 bufSize)
         if(inportb(0x64) & 0x1)                 
         {
             uint8 value = inportb(0x60);
-            //print("test", 0x3F);
+            /* Make sure the user can only press delete */
+            if (buffOverflow) {
+                if (value == 14)
+                    buffOverflow = false;
+                else
+                    continue;
+            }
             bool handled = false;
             switch(value)
             { 
@@ -140,16 +160,16 @@ void readStr(string buffstr, uint32 bufSize)
                     progexit = true;
                     reading = false;
                 } else {
-                    i = pushCtrlChar(i, buffstr, 'Z');
+                    i = pushCtrlChar(i, buffstr, 'Z', bufSize);
                 }
                 break;
             case 14:                // Backspace
                 if (lshift || rshift) { // On of the shifts are activated
                     // Delete until space | non-word | different-cased-word
-                    i = backspaceMul(i, buffstr);
+                    i = backspaceMul(i, buffstr, bufSize);
                 } else {
                     // No shift -> delete one char
-                    i = backspaceOne(i, buffstr);
+                    i = backspaceOne(i, buffstr, bufSize);
                 }
                 break;
             case 25:
@@ -265,7 +285,7 @@ void readStr(string buffstr, uint32 bufSize)
                 break;
             }
             if(!handled && chars[value]) {
-                i = charKeyPressed(buffstr, value, i);
+                i = charKeyPressed(buffstr, value, i, bufSize);
             }
         }
     }
