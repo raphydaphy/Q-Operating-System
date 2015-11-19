@@ -86,9 +86,12 @@ int charKeyPressed(string buffstr, uint8 ch, int i) {
     return ++i;
 }
 
-void readStr(string buffstr, int bufSize)
+/*
+ * bufSize is used to prevent deleting proper output. If bufSize
+ * is zero, than the entire line can be deleted
+ */
+void readStr(string buffstr, uint32 bufSize)
 {
-    //TODO: Use bufSize to avoid undefined behavior
     uint8 i = 0;
     bool reading = true;
     while(reading)
@@ -104,13 +107,13 @@ void readStr(string buffstr, int bufSize)
 	        print("Q-Kernel>  ", 0x08);
 	    }
 
-	    if (typingCmd)
-	    {
-	        if (cursorX < 11 && cursorY == startCmdY)
+        if (bufSize > 0)
+        {
+	        if (cursorX < bufSize /*&& cursorY == startCmdY*/)
 	        {
-	            cursorX = 11;
+	            cursorX = bufSize;
 	        }
-	    }
+        }
 
 	    if (newCmd && typingCmd)
 	    {

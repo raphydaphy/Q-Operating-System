@@ -113,7 +113,7 @@ void launchShell() {
         print("\nQ-Kernel>  ", 0x08);
         typingCmd = true;
         newCmd = true;
-        readStr(bufStr, bufSize);
+        readStr(bufStr, 11); //Length of Prompt
         typingCmd = false;
 
         if (strEql(strTrim(bufStr), ""))
@@ -141,18 +141,18 @@ void launchShell() {
         else if(strEql(bufStr, "cat"))
         {
             print("\nFile Name>  ", 0x0F);
-            readStr(bufStr, bufSize);
+            readStr(bufStr, 12);
             ASSERT(strlength(bufStr) < MAX_FNAME_LEN);
             catFile(finddir_fs(fs_root, bufStr));
         }
         else if(strEql(bufStr,"execute"))
         {
-            print("\n>  ", 0x0F);
-            readStr(bufStr, bufSize);
+            print("\ntype>  ", 0x0F);
+            readStr(bufStr, 7);
             if(strEql(bufStr,"repeat"))
             {
 	            print("\nrepeat>  ", 0x0F);
-	            readStr(bufStr, bufSize);
+	            readStr(bufStr, 9);
 	            writing = 1;
 	            while(true)
 	            {
@@ -163,16 +163,12 @@ void launchShell() {
             else if(strEql(bufStr,"c"))
             {
 	            print("\nc>  ",0x0F);
-	            readStr(bufStr, bufSize);
+	            readStr(bufStr, 4);
             }
             else
             {
-	            print("The 'do' command does not support the command you entered or it does not exist ", 0x0F);
+	            print("The 'execute' command does not support the command you entered or it does not exist ", 0x0F);
             }
-        }
-        else if(strEql(bufStr,"list"))
-        {
-            print("\nNo Files Found on Disk ", 0x0F);
         }
         else if(strEql(bufStr,"switch"))
         {
@@ -185,35 +181,35 @@ void launchShell() {
             print("                      Q OS Text Editor Version 0.2                              ", 0x3F);
             print("================================================================================", 0x3F);
             writing = true;
-            readStr(writerContents, bufSize);
+            readStr(writerContents, 0);
             writing = false;
         }
-        else if(strEql(bufStr,"clear"))
+        else if(strEql(bufStr, "clear"))
         {
             clearScreen();
             cursorX = 0;
             cursorY = 0;
             updateCursor();
         }
-        else if(strEql(bufStr,"clear -i"))
+        else if(strEql(bufStr, "clear -i"))
         {
             clearScreen();
             print("================================================================================", 0x3F);
             print("                             Welcome to Q OS                                    ", 0x3F);
             print("================================================================================", 0x3F);
         }
-        else if(strEql(bufStr,"newdir"))
+        else if(strEql(bufStr, "newdir"))
         {
-            print("\n",0x0F);
+            print("\n", 0x0F);
         }
-        else if(strEql(bufStr,"erase"))
+        else if(strEql(bufStr, "erase"))
         {
-            print("\n",0x0F);
+            print("\n", 0x0F);
         }
         else
         {
-            print("\nCommand Not Found ",0x0F);
+            print("\nCommand Not Found ", 0x0F);
         }
-        print("\n",0x0F);
+        print("\n", 0x0F);
     }
 }

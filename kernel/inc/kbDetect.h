@@ -2,6 +2,6 @@
 #define KBDETECT_H
 #include "screenUtils.h"
 
-void readStr(string, int);
+void readStr(string, uint32);
 
 #endif
