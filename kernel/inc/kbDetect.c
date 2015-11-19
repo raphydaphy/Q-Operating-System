@@ -109,7 +109,7 @@ void readStr(string buffstr, uint32 bufSize)
 
         if (bufSize > 0)
         {
-	        if (cursorX < bufSize /*&& cursorY == startCmdY*/)
+	        if (cursorX < bufSize)
 	        {
 	            cursorX = bufSize;
 	        }
