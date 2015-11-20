@@ -1,0 +1,29 @@
+Welcome to the Q Operating System created by hobbists around the world hosted on github!
+
+The goal of this operating system is to make it a versatile.
+
+If enter key does not work, it might mean that the input is too long...
+Also if the delete key does not work, it means you are trying to delete the prompt...
+
+If you need this file, type cat, and then Manual.txt!
+
+Here are some commands to start you off:
+writer  -> A simplistic note taker
+clear   -> Clears the current screen
+execute -> Runs code with specified type
+skip    -> Does nothing (hence the name)
+files   -> List the files and directories
+cat     -> Prints the file to the console
+reboot  -> Restarts the operating system
+hi      -> The computer greets you back
+
+What about keybindings?
+Ctrl-b  -> Cursor to left
+Ctrl-f  -> Cursor to right
+Ctrl-a  -> Cursor to beginning of line
+Ctrl-p  -> Cursor move up
+Ctrl-n  -> Cursor move down
+Ctrl-z  -> Quit (for writer)
+Ctrl-l  -> Clears screen
+
+If you spot bugs or need help, feel free to contact raph.hennessy@gmail.com. He the awesome guy who started this project!
