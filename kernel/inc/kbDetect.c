@@ -109,7 +109,6 @@ void readStr(string buffstr, uint32 bufSize)
     bool reading = true;
     while(reading)
     {
-        //print(buffstr,0x0F);
     	//exit the writer program when the Ctrl-Z key is pressed
 	    if (progexit && writing)
 	    {
@@ -174,10 +173,10 @@ void readStr(string buffstr, uint32 bufSize)
                 break;
             case 25:
                 if (ctrl) {
-                    if (writing)
-                    {
+                    if (writing) {
                         cursorY = cursorY - 1;
                         cursorX = cursorX - 1;
+                        handled = true;
                     }
                 }
                 break;
@@ -195,25 +194,21 @@ void readStr(string buffstr, uint32 bufSize)
                 break;
             case 30:
                 if (ctrl) {
-                    if (writing)
-                    {
-                        cursorX = 0;
-                        handled = true;
-                    } 
-                    else 
-                    {
-                        moveCursorX(-cursorX + 11);
-                        handled = true;
-                    }
+                    moveCursorX(-cursorX + deleteStopX);
+                    handled = true;
                 }
                 break;
             case 38:
-                if (ctrl == 1) {
-                    clearScreen();
-                    // Returns command "skip" which does nothing
-                    strcpy(buffstr, "skip");
-                    handled = true;
-                    return; 
+                if (ctrl) {
+                    /* Make sure no clear screen during writer session */
+                    if (!writing) {
+                        clearScreen();
+                        // Returns command "skip" which does nothing
+                        strcpy(buffstr, "skip");
+                        buffstr[4] = '\0'; /* Set EOL */
+                        handled = true;
+                        return;
+                    }
                 }
                 break;
             case 42:        //Left shift 
@@ -236,14 +231,12 @@ void readStr(string buffstr, uint32 bufSize)
                 break;
             case 49:
                 if (ctrl) {
-                    if (writing)
-                    {
+                    if (writing) {
                         cursorY = cursorY + 1;
                         cursorX = cursorX - 1;
                         handled = true;
                     }
-                } 
-                
+                }
                 break;
             case 54:            // Right shift on
                 rshift = true;     // Toggle On
@@ -255,10 +248,9 @@ void readStr(string buffstr, uint32 bufSize)
                 capslock = !capslock;
                 break;
             case 72:                //Up arrow
-                if (writing)
-                {
+                if (writing) {
                     cursorY = cursorY - 1;
-                    cursorX = cursorX;
+                    cursorX = cursorX - 1;
                 }
                 break;
             case 75:				//Left Arrow
@@ -268,10 +260,9 @@ void readStr(string buffstr, uint32 bufSize)
                 moveCursorX(1);
                 break;
             case 80:				//Down Arrow
-                if (writing)
-                {
+                if (writing) {
                     cursorY = cursorY + 1;
-                    cursorX = cursorX;
+                    cursorX = cursorX - 1;
                 }
                 break;
             case 170:           // Left shift released (http://wiki.osdev.org/PS2_Keyboard)
