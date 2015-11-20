@@ -100,16 +100,26 @@ uint32 charKeyPressed(string buffstr, uint8 ch, uint32 i, uint32 bufSize) {
     return i;
 }
 
-/*
- * TODO: bufSize should be used to check for unexpected behaviour
- */
+void moveDown()
+{
+    cursorY = cursorY + 1;
+    cursorX = cursorX - 1;
+    updateCursor();
+}
+
+void moveUp()
+{
+    cursorY = cursorY - 1;
+    cursorX = cursorX - 1;
+    updateCursor();
+}
+
 void readStr(string buffstr, uint32 bufSize)
 {
     uint32 i = 0;
     bool reading = true;
     while(reading)
     {
-        //print(buffstr,0x0F);
     	//exit the writer program when the Ctrl-Z key is pressed
 	    if (progexit && writing)
 	    {
@@ -174,10 +184,9 @@ void readStr(string buffstr, uint32 bufSize)
                 break;
             case 25:
                 if (ctrl) {
-                    if (writing)
-                    {
-                        cursorY = cursorY - 1;
-                        cursorX = cursorX - 1;
+                    if (writing) {
+                        moveUp();
+                        handled = true;
                     }
                 }
                 break;
@@ -195,25 +204,21 @@ void readStr(string buffstr, uint32 bufSize)
                 break;
             case 30:
                 if (ctrl) {
-                    if (writing)
-                    {
-                        cursorX = 0;
-                        handled = true;
-                    } 
-                    else 
-                    {
-                        moveCursorX(-cursorX + 11);
-                        handled = true;
-                    }
+                    moveCursorX(-cursorX + deleteStopX);
+                    handled = true;
                 }
                 break;
             case 38:
-                if (ctrl == 1) {
-                    clearScreen();
-                    // Returns command "skip" which does nothing
-                    strcpy(buffstr, "skip");
-                    handled = true;
-                    return; 
+                if (ctrl) {
+                    /* Make sure no clear screen during writer session */
+                    if (!writing) {
+                        clearScreen();
+                        // Returns command "skip" which does nothing
+                        strcpy(buffstr, "skip");
+                        buffstr[4] = '\0'; /* Set EOL */
+                        handled = true;
+                        return;
+                    }
                 }
                 break;
             case 42:        //Left shift 
@@ -236,14 +241,11 @@ void readStr(string buffstr, uint32 bufSize)
                 break;
             case 49:
                 if (ctrl) {
-                    if (writing)
-                    {
-                        cursorY = cursorY + 1;
-                        cursorX = cursorX - 1;
+                    if (writing) {
+                        moveDown();
                         handled = true;
                     }
-                } 
-                
+                }
                 break;
             case 54:            // Right shift on
                 rshift = true;     // Toggle On
@@ -255,10 +257,8 @@ void readStr(string buffstr, uint32 bufSize)
                 capslock = !capslock;
                 break;
             case 72:                //Up arrow
-                if (writing)
-                {
-                    cursorY = cursorY - 1;
-                    cursorX = cursorX;
+                if (writing) {
+                    moveUp();
                 }
                 break;
             case 75:				//Left Arrow
@@ -268,10 +268,8 @@ void readStr(string buffstr, uint32 bufSize)
                 moveCursorX(1);
                 break;
             case 80:				//Down Arrow
-                if (writing)
-                {
-                    cursorY = cursorY + 1;
-                    cursorX = cursorX;
+                if (writing) {
+                    moveDown();
                 }
                 break;
             case 170:           // Left shift released (http://wiki.osdev.org/PS2_Keyboard)
@@ -291,3 +289,5 @@ void readStr(string buffstr, uint32 bufSize)
     }
     buffstr[i] = 0;      
 }
+
+
