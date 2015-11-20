@@ -100,9 +100,20 @@ uint32 charKeyPressed(string buffstr, uint8 ch, uint32 i, uint32 bufSize) {
     return i;
 }
 
-/*
- * TODO: bufSize should be used to check for unexpected behaviour
- */
+void moveDown()
+{
+    cursorY = cursorY + 1;
+    cursorX = cursorX - 1;
+    updateCursor();
+}
+
+void moveUp()
+{
+    cursorY = cursorY - 1;
+    cursorX = cursorX - 1;
+    updateCursor();
+}
+
 void readStr(string buffstr, uint32 bufSize)
 {
     uint32 i = 0;
@@ -174,8 +185,7 @@ void readStr(string buffstr, uint32 bufSize)
             case 25:
                 if (ctrl) {
                     if (writing) {
-                        cursorY = cursorY - 1;
-                        cursorX = cursorX - 1;
+                        moveUp();
                         handled = true;
                     }
                 }
@@ -232,8 +242,7 @@ void readStr(string buffstr, uint32 bufSize)
             case 49:
                 if (ctrl) {
                     if (writing) {
-                        cursorY = cursorY + 1;
-                        cursorX = cursorX - 1;
+                        moveDown();
                         handled = true;
                     }
                 }
@@ -249,8 +258,7 @@ void readStr(string buffstr, uint32 bufSize)
                 break;
             case 72:                //Up arrow
                 if (writing) {
-                    cursorY = cursorY - 1;
-                    cursorX = cursorX - 1;
+                    moveUp();
                 }
                 break;
             case 75:				//Left Arrow
@@ -261,8 +269,7 @@ void readStr(string buffstr, uint32 bufSize)
                 break;
             case 80:				//Down Arrow
                 if (writing) {
-                    cursorY = cursorY + 1;
-                    cursorX = cursorX - 1;
+                    moveDown();
                 }
                 break;
             case 170:           // Left shift released (http://wiki.osdev.org/PS2_Keyboard)
@@ -282,3 +289,5 @@ void readStr(string buffstr, uint32 bufSize)
     }
     buffstr[i] = 0;      
 }
+
+
