@@ -120,13 +120,6 @@ void readStr(string buffstr, uint32 bufSize)
 	        print("Q-Kernel>  ", 0x08);
 	    }
 
-        if (deleteStopX > 0)
-        {
-	        if ((cursorX < deleteStopX) && (cursorY == startCmdY))
-	        {
-	            cursorX = deleteStopX;
-	        }
-        }
 
 	    if (newCmd && typingCmd)
 	    {
@@ -139,6 +132,13 @@ void readStr(string buffstr, uint32 bufSize)
         if(inportb(0x64) & 0x1)                 
         {
             uint8 value = inportb(0x60);
+            if (deleteStopX > 0) {
+	            if ((cursorX == deleteStopX) && (cursorY == startCmdY)) {
+                    /* Make sure user cannot press delete anymore */
+	                if (value == 14)
+                        continue;
+	            }
+            }
             /* Make sure the user can only press delete */
             if (buffOverflow) {
                 if (value == 14)
