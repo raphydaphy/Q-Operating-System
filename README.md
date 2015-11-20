@@ -1,4 +1,4 @@
-Q-OS
+Q-OS [![Stories in Ready](https://badge.waffle.io/raphydaphy/Q-Operating-System.png?label=ready&title=Ready)](https://waffle.io/raphydaphy/Q-Operating-System)
 ==== 
 
 
