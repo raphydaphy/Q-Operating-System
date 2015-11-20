@@ -7,6 +7,7 @@
 #include "inc/initrd.h"
 #include "inc/kbDetect.h"
 #include "inc/descriptorTables.h"
+#include "inc/assemblyFunctions.h"
 
 extern uint32 placement_address;
 
@@ -18,7 +19,7 @@ void launchShell();
 void catFile(fs_node_t*);
 uint32 findInitrd(struct multiboot*);
 
-kmain(struct multiboot* mboot_ptr)
+int kmain(struct multiboot* mboot_ptr)
 {
     clearScreen();
     init_descriptor_tables();

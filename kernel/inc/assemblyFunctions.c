@@ -17,6 +17,7 @@ void halt()
     __asm__ __volatile__ ("hlt");
     goto loop;
 }
+
 void reboot()
 {
     uint8 good = 0x02;
