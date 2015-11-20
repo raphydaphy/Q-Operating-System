@@ -1,5 +1,5 @@
-Q-OS [![Stories in Ready](https://badge.waffle.io/raphydaphy/Q-Operating-System.png?label=ready&title=Ready)](https://waffle.io/raphydaphy/Q-Operating-System)
-==== 
+# Q-OS 
+[![Stories in Ready](https://badge.waffle.io/raphydaphy/Q-Operating-System.png?label=ready&title=Ready)](https://waffle.io/raphydaphy/Q-Operating-System)
 
 
 Q OS is a versatile operating system designed with the new features of 64 bit "long mode" CPU's in mind that focuses on making everything as simple as possible for the end user. In designing it and, now, coding it, I have taken every aspect of what we consider to be a "Good OS" and removed everything that people find distracting and, in the end, simply useless.
