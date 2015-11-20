@@ -10,7 +10,7 @@
 
 extern uint32 placement_address;
 
-#define COMMAND_HELP "\nWorking Commands in Q OS: \nwriter\nclear\nexecute\nhi\nskip (the no action)\nfiles\ncat"
+#define COMMAND_HELP "\nWorking Commands in Q OS: \nwriter\nclear\nexecute\nhi\nskip (the no action)\nfiles\ncat\nreboot"
 #define PRO_TIP "\nTip: If enter key does not work, it might mean that the input is too long\n"
 
 void listTree();
@@ -128,6 +128,11 @@ void launchShell() {
             print(PRO_TIP, 0x0F);
             print(COMMAND_HELP, 0x0F);
         }
+	else if(strEql(bufStr, "reboot"))
+	{
+	    //reboots the computer
+	    reboot();
+	}
         else if(strEql(bufStr, "skip"))
         {
             // It literally does nothing... (Useful at callback) 
