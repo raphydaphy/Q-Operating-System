@@ -35,6 +35,9 @@ int kmain(struct multiboot* mboot_ptr)
     print("                             Welcome to Q OS                                    ", 0x3F);
     print("================================================================================", 0x3F);
 
+    print(PRO_TIP, 0x0F);
+    kbHelp();
+
     launchShell();
     return 0;
 }
@@ -103,8 +106,6 @@ void kbHelp()
 }
 
 void launchShell() {
-    print(PRO_TIP, 0x0F);
-    kbHelp();
     //allocate some memory for command string buffer. 1kB should be enough for now
     const int bufSize = 128;
     const int editorBufSize = 1024;
