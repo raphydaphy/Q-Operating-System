@@ -74,7 +74,7 @@ uint8 pushCtrlChar(uint8 i, string buffstr, char caps, uint32 bufSize) {
     return i;
 }
 
-int charKeyPressed(string buffstr, uint8 ch, int i, uint32 bufSize) {
+uint32 charKeyPressed(string buffstr, uint8 ch, uint32 i, uint32 bufSize) {
     int toPrint = 0xFF;
     bool shiftMask = lshift || rshift;
     /* Shift and Caps on should be lowercase */
