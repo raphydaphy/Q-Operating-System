@@ -18,7 +18,7 @@ void launchShell();
 void catFile(fs_node_t*);
 uint32 findInitrd(struct multiboot*);
 
-int kmain(struct multiboot* mboot_ptr)
+kmain(struct multiboot* mboot_ptr)
 {
     clearScreen();
     init_descriptor_tables();
