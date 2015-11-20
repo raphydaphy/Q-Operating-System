@@ -10,6 +10,9 @@
 
 extern uint32 placement_address;
 
+#define COMMAND_HELP "\nWorking Commands in Q OS: \nwriter\nclear\nexecute\nhi\nskip (the no action)\nfiles\ncat"
+#define PRO_TIP "\nTip: If enter key does not work, it might mean that the input is too long\n"
+
 void listTree();
 void launchShell();
 void catFile(fs_node_t*);
