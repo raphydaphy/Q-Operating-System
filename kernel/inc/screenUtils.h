@@ -37,6 +37,12 @@ void moveCursorX(int);
 void moveCursorY(int);
 /* Only call kprintch in kernels */
 void kprintch(char, int, bool);
+/* Macros */
+#define newline() \
+    printch('\n', 0x0F);
+#define println(str, c) \
+    print(str, c); \
+    newline();
 
 //end the if statment at the start of the file
 #endif
