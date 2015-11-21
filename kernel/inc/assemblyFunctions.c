@@ -20,9 +20,9 @@ void halt()
 
 void reboot()
 {
-    uint8 good = 0x02;
-    while (good & 0x02)
-        good = inportb(0x64);
+    uint8 rebootTemp = 0x02;
+    while (rebootTemp & 0x02)
+        rebootTemp = inportb(0x64);
     outportb(0x64, 0xFE);
     halt();
 }
