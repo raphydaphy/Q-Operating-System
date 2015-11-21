@@ -12,7 +12,7 @@
 extern uint32 placement_address;
 
 #define COMMAND_HELP "\nWorking Commands in Q OS: \nwriter\nclear\nexecute\nhi\nskip (the no action)\nfiles\ncat\nreboot"
-#define PRO_TIP "\nTip: If enter key does not work, it might mean that the input is too long\n"
+#define PRO_TIP "\nTip: If enter key does not work, it might mean that the input is too long"
 
 void listTree();
 void launchShell();
@@ -35,7 +35,7 @@ int kmain(struct multiboot* mboot_ptr)
     print("                             Welcome to Q OS                                    ", 0x3F);
     print("================================================================================", 0x3F);
 
-    print(PRO_TIP, 0x0F);
+    println(PRO_TIP, 0x0F);
     kbHelp();
 
     launchShell();
@@ -44,7 +44,7 @@ int kmain(struct multiboot* mboot_ptr)
 
 void catFile(fs_node_t* fsnode)
 {
-    printch('\n', 0x0F);
+    newline();
     if ((fsnode->flags & 0x7) == FS_FILE)
     {
         const uint32 rbuff = fsnode->length;
@@ -53,7 +53,7 @@ void catFile(fs_node_t* fsnode)
         uint32 j;
         for (j = 0; j < sz; j++)
             printch(buf[j], 0x0F);
-        printch('\n', 0x0F);
+        newline();
     }
 }
 
@@ -76,7 +76,7 @@ void listTree() {
             print("file\t", 0x0F);
             print(node->name, 0x0F);
         }
-        printch('\n', 0x0F);
+        newline();
         i++;
     }
 }
@@ -101,8 +101,7 @@ void kbHelp()
     print("\n\tCtrl-p -> up", 0x0F);
     print("\n\tCtrl-n -> down", 0x0F);
     print("\n\tCtrl-z -> quit", 0x0F);
-    print("\n\tCtrl-l -> clear", 0x0F);
-    print("\n", 0x0F);
+    println("\n\tCtrl-l -> clear", 0x0F);
 }
 
 void launchShell() {
@@ -127,14 +126,14 @@ void launchShell() {
         else if(strEql(bufStr, "help"))
         {
             kbHelp();
-            print(PRO_TIP, 0x0F);
+            println(PRO_TIP, 0x0F);
             print(COMMAND_HELP, 0x0F);
         }
-	else if(strEql(bufStr, "reboot"))
-	{
-	    //reboots the computer
-	    reboot();
-	}
+        else if(strEql(bufStr, "reboot"))
+        {
+            //reboots the computer
+            reboot();
+        }
         else if(strEql(bufStr, "skip"))
         {
             // It literally does nothing... (Useful at callback) 
@@ -145,7 +144,7 @@ void launchShell() {
         }
         else if(strEql(bufStr, "files"))
         {
-            print("\n", 0x0F);
+            newline();
             listTree();
         }
         else if(strEql(bufStr, "cat"))
@@ -166,7 +165,7 @@ void launchShell() {
 	            writing = 1;
 	            while(true)
 	            {
-	                printch('\n', 0x0F);
+                    newline();
 	                print(bufStr, 0x0F);
 	            }
             } 
@@ -220,6 +219,6 @@ void launchShell() {
         {
             print("\nCommand Not Found ", 0x0F);
         }
-        print("\n", 0x0F);
+        newline();
     }
 }
