@@ -19,6 +19,12 @@ void launchShell();
 void catFile(fs_node_t*);
 uint32 findInitrd(struct multiboot*);
 
+void printIntro(){
+    print("================================================================================", 0x3F);
+    print("                             Welcome to Q OS                                    ", 0x3F);
+    print("================================================================================", 0x3F);
+}
+
 int kmain(struct multiboot* mboot_ptr)
 {
     clearScreen();
@@ -31,9 +37,7 @@ int kmain(struct multiboot* mboot_ptr)
     // Initialize the initial ramdisk, and set it as the filesystem root.
     fs_root = initialize_initrd(initrd_location);
 
-    print("================================================================================", 0x3F);
-    print("                             Welcome to Q OS                                    ", 0x3F);
-    print("================================================================================", 0x3F);
+    printIntro();
 
     println(PRO_TIP, 0x0F);
     kbHelp();
@@ -203,9 +207,7 @@ void launchShell() {
         else if(strEql(bufStr, "clear -i"))
         {
             clearScreen();
-            print("================================================================================", 0x3F);
-            print("                             Welcome to Q OS                                    ", 0x3F);
-            print("================================================================================", 0x3F);
+            printIntro();
         }
         else if(strEql(bufStr, "newdir"))
         {
