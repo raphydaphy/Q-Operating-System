@@ -11,7 +11,7 @@
 
 extern uint32 placement_address;
 
-#define COMMAND_HELP "\nWorking Commands in Q OS: \nwriter\nclear\nexecute\nhi\nskip (the no action)\nfiles\ncat\nreboot"
+#define COMMAND_HELP "\nWorking Commands in Q OS: \nwriter\nclear\nexecute\nhi\nskip (the no action)\nfiles\ncat\nreboot\ncalc"
 #define PRO_TIP "\nTip: If enter key does not work, it might mean that the input is too long"
 
 void listTree();
@@ -85,6 +85,14 @@ void listTree() {
     }
 }
 
+//Concatinating for calculator
+int concat(int x, int y){
+    int pow = 10;
+    while(y >= pow)
+        pow*= 10;
+    return x * pow + y;
+}
+
 uint32 findInitrd(struct multiboot* mboot_ptr)
 {
     // Find the location of our initial ramdisk.
@@ -113,8 +121,16 @@ void launchShell() {
     const int bufSize = 128;
     const int editorBufSize = 1024;
     char bufStr[bufSize];
+
+    //Character holder for writer program
     char writerContents[editorBufSize];
     writerContents[0] = 0;
+
+    //Math storage for calculator program
+    char calcInput[bufSize];
+    calcInput[0] = 0;
+    int mathOp = 0;
+    int tempNum = 0;
     while (true)
     {
         print("\nQ-Kernel>  ", 0x08);
@@ -197,6 +213,59 @@ void launchShell() {
             readStr(writerContents, editorBufSize);
             writing = false;
         }
+        //Calculator program
+	else if(strEql(bufStr, "calc")){
+            print("\nUse calc -h for help", 0x0F);
+	    print("\n>  ", 0x0F);
+            readStr(calcInput, editorBufSize);
+	    for(int i = 0; i < bufSize; i++){
+	        if(calcInput[i] == 0 || calcInput[i] == 10)
+                    break;
+                else{
+		        switch (calcInput[i]){
+		            case 48://Number 0
+		             tempNum = concat(0, tempNum);
+		            break;
+		            case 49://Number 1
+		             tempNum = concat(1, tempNum);
+		            break;
+		            case 50://Number 2
+		             tempNum = concat(2, tempNum);
+		            break;
+		            case 51://Number 3
+		             tempNum = concat(3, tempNum);
+		            break;
+		            case 52://Number 4
+		             tempNum = concat(4, tempNum);
+		            break;
+		            case 53://Number 5
+		             tempNum = concat(5, tempNum);
+		            break;
+		            case 54://Number 6
+		             tempNum = concat(6, tempNum);
+		            break;
+		            case 55://Number 7
+		             tempNum = concat(7, tempNum);
+		            break;
+		            case 56://Number 8
+		             tempNum = concat(8, tempNum);
+		            break;
+		            case 57://Number 9
+		             tempNum = concat(9, tempNum);
+		            break;
+		            default:
+				mathOp = calcInput[i]; //Treat everything else as a math operator (should do for now)
+		            break;
+		        }
+	        }
+            }
+	    printint(tempNum, 0x0F);
+	}
+        //Calculator program help
+        else if(strEql(bufStr, "calc -h")){
+	    print("\nCalculator help: ", 0x0F);
+            print("\n[HELP TEXT HERE]", 0x0F);
+	}
         else if(strEql(bufStr, "clear"))
         {
             clearScreen();
