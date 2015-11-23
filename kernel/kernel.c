@@ -1,5 +1,6 @@
 #include "multiboot.h"
 
+// Q Libraries
 #include "inc/fs.h"
 #include "inc/timer.h"
 #include "inc/error.h"
@@ -9,15 +10,25 @@
 #include "inc/descriptorTables.h"
 #include "inc/assemblyFunctions.h"
 
+// Q Applications
+#include "apps/calc.h"
+#include "apps/writer.h"
+
 extern uint32 placement_address;
 
-#define COMMAND_HELP "\nWorking Commands in Q OS: \nwriter\nclear\nexecute\nhi\nskip (the no action)\nfiles\ncat\nreboot"
+#define COMMAND_HELP "\nWorking Commands in Q OS: \nwriter\nclear\nexecute\nhi\nskip (the no action)\nfiles\ncat\nreboot\ncalc"
 #define PRO_TIP "\nTip: If enter key does not work, it might mean that the input is too long"
 
 void listTree();
 void launchShell();
 void catFile(fs_node_t*);
 uint32 findInitrd(struct multiboot*);
+
+void printIntro(){
+    print("================================================================================", 0x3F);
+    print("                             Welcome to Q OS                                    ", 0x3F);
+    print("================================================================================", 0x3F);
+}
 
 int kmain(struct multiboot* mboot_ptr)
 {
@@ -31,9 +42,7 @@ int kmain(struct multiboot* mboot_ptr)
     // Initialize the initial ramdisk, and set it as the filesystem root.
     fs_root = initialize_initrd(initrd_location);
 
-    print("================================================================================", 0x3F);
-    print("                             Welcome to Q OS                                    ", 0x3F);
-    print("================================================================================", 0x3F);
+    printIntro();
 
     println(PRO_TIP, 0x0F);
     kbHelp();
@@ -107,10 +116,11 @@ void kbHelp()
 void launchShell() {
     //allocate some memory for command string buffer. 1kB should be enough for now
     const int bufSize = 128;
-    const int editorBufSize = 1024;
     char bufStr[bufSize];
-    char writerContents[editorBufSize];
-    writerContents[0] = 0;
+
+    
+
+   
     while (true)
     {
         print("\nQ-Kernel>  ", 0x08);
@@ -156,68 +166,41 @@ void launchShell() {
         }
         else if(strEql(bufStr,"execute"))
         {
-            print("\ntype>  ", 0x0F);
-            readStr(bufStr, bufSize);
-            if(strEql(bufStr,"repeat"))
-            {
-	            print("\nrepeat>  ", 0x0F);
-	            readStr(bufStr, bufSize);
-	            writing = 1;
-	            while(true)
-	            {
-                    newline();
-	                print(bufStr, 0x0F);
-	            }
-            } 
-            else if(strEql(bufStr,"c"))
-            {
-	            print("\nc>  ",0x0F);
-	            readStr(bufStr, bufSize);
-            }
-            else
-            {
-	            print("\nThe 'execute' command does not support the command you entered or it does not exist ", 0x0F);
-            }
+            execute();
         }
         else if(strEql(bufStr,"switch"))
         {
-            print("\nThe specified directory was not found ", 0x0F);
+            	print("\nThe specified directory was not found ", 0x0F);
         }
-        else if(strEql(bufStr,"writer"))
-        {
-            clearScreen();
-            print("================================================================================", 0x3F);
-            print("                      Q OS Text Editor Version 0.2                              ", 0x3F);
-            print("================================================================================", 0x3F);
-            writing = true;
-            readStr(writerContents, editorBufSize);
-            writing = false;
-        }
+	else if(strEql(bufStr,"writer")) { writer(); }
+	else if(strEql(bufStr, "writer -h")) { writerHelp(); }
+	
+	else if(strEql(bufStr, "calc")){ calc(); }
+        else if(strEql(bufStr, "calc -h")){ calcHelp(); }
+
         else if(strEql(bufStr, "clear"))
         {
-            clearScreen();
-            cursorX = 0;
-            cursorY = 0;
-            updateCursor();
+           	 clearScreen();
+           	 cursorX = 0;
+           	 cursorY = 0;
+           	 updateCursor();
         }
         else if(strEql(bufStr, "clear -i"))
         {
-            clearScreen();
-            print("================================================================================", 0x3F);
-            print("                             Welcome to Q OS                                    ", 0x3F);
-            print("================================================================================", 0x3F);
+            	clearScreen();
+            	printIntro();
         }
         else if(strEql(bufStr, "newdir"))
         {
-            print("\nReserved", 0x0F);
+            	print("\nReserved", 0x0F);
         }
         else if(strEql(bufStr, "erase"))
         {
-            print("\nReserved", 0x0F);
+            	print("\nReserved", 0x0F);
         }
         else
         {
-            print("\nCommand Not Found ", 0x0F);
+            	print("\nCommand Not Found ", 0x0F);
         }
         newline();
     }
