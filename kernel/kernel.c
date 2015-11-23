@@ -131,6 +131,8 @@ void launchShell() {
     calcInput[0] = 0;
     int mathOp = 0;
     int tempNum = 0;
+    int strNum = 0;
+    int mathError = 0; //0 no error
     while (true)
     {
         print("\nQ-Kernel>  ", 0x08);
@@ -224,42 +226,75 @@ void launchShell() {
                 else{
 		        switch (calcInput[i]){
 		            case 48://Number 0
-		             tempNum = concat(0, tempNum);
+		             tempNum = concat(tempNum, 0);
 		            break;
 		            case 49://Number 1
-		             tempNum = concat(1, tempNum);
+		             tempNum = concat(tempNum, 1);
 		            break;
 		            case 50://Number 2
-		             tempNum = concat(2, tempNum);
+		             tempNum = concat(tempNum, 2);
 		            break;
 		            case 51://Number 3
-		             tempNum = concat(3, tempNum);
+		             tempNum = concat(tempNum, 3);
 		            break;
 		            case 52://Number 4
-		             tempNum = concat(4, tempNum);
+		             tempNum = concat(tempNum, 4);
 		            break;
 		            case 53://Number 5
-		             tempNum = concat(5, tempNum);
+		             tempNum = concat(tempNum, 5);
 		            break;
 		            case 54://Number 6
-		             tempNum = concat(6, tempNum);
+		             tempNum = concat(tempNum, 6);
 		            break;
 		            case 55://Number 7
-		             tempNum = concat(7, tempNum);
+		             tempNum = concat(tempNum, 7);
 		            break;
 		            case 56://Number 8
-		             tempNum = concat(8, tempNum);
+		             tempNum = concat(tempNum, 8);
 		            break;
 		            case 57://Number 9
-		             tempNum = concat(9, tempNum);
+		             tempNum = concat(tempNum, 9);
 		            break;
 		            default:
+                                strNum = tempNum;
+                                tempNum = 0;
 				mathOp = calcInput[i]; //Treat everything else as a math operator (should do for now)
 		            break;
 		        }
 	        }
             }
-	    printint(tempNum, 0x0F);
+            switch (mathOp){
+	        case 42:
+                    strNum *= tempNum;
+                break;
+	        case 43:
+                    strNum += tempNum;
+                break;
+	        case 45:
+                    strNum -= tempNum;
+                break;
+	        case 47:
+		    if(tempNum != 0)
+                    strNum /= tempNum;
+		    else
+		    mathError = 1;
+                break;
+		default:
+		    strNum -= tempNum;
+		break;
+            }
+	    newline();
+	    switch (mathError){
+		case 1:
+		    print("Cannot devide by 0", 0x04);
+		break;
+	        default:
+	            printint(strNum, 0x0F);
+                break;
+	    }
+	    mathError = 0;
+	    tempNum = 0;
+	    strNum = 0;
 	}
         //Calculator program help
         else if(strEql(bufStr, "calc -h")){
