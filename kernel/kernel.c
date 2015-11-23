@@ -1,5 +1,6 @@
 #include "multiboot.h"
 
+// Q Libraries
 #include "inc/fs.h"
 #include "inc/timer.h"
 #include "inc/error.h"
@@ -8,6 +9,10 @@
 #include "inc/kbDetect.h"
 #include "inc/descriptorTables.h"
 #include "inc/assemblyFunctions.h"
+
+// Q Applications
+#include "apps/calc.h"
+#include "apps/writer.h"
 
 extern uint32 placement_address;
 
@@ -85,14 +90,6 @@ void listTree() {
     }
 }
 
-//Concatinating for calculator
-int concat(int x, int y){
-    int pow = 10;
-    while(y >= pow)
-        pow*= 10;
-    return x * pow + y;
-}
-
 uint32 findInitrd(struct multiboot* mboot_ptr)
 {
     // Find the location of our initial ramdisk.
@@ -119,20 +116,11 @@ void kbHelp()
 void launchShell() {
     //allocate some memory for command string buffer. 1kB should be enough for now
     const int bufSize = 128;
-    const int editorBufSize = 1024;
     char bufStr[bufSize];
 
-    //Character holder for writer program
-    char writerContents[editorBufSize];
-    writerContents[0] = 0;
+    
 
-    //Math storage for calculator program
-    char calcInput[bufSize];
-    calcInput[0] = 0;
-    int mathOp = 0;
-    int tempNum = 0;
-    int strNum = 0;
-    int mathError = 0; //0 no error
+   
     while (true)
     {
         print("\nQ-Kernel>  ", 0x08);
@@ -178,152 +166,41 @@ void launchShell() {
         }
         else if(strEql(bufStr,"execute"))
         {
-            print("\ntype>  ", 0x0F);
-            readStr(bufStr, bufSize);
-            if(strEql(bufStr,"repeat"))
-            {
-	            print("\nrepeat>  ", 0x0F);
-	            readStr(bufStr, bufSize);
-	            writing = 1;
-	            while(true)
-	            {
-                    newline();
-	                print(bufStr, 0x0F);
-	            }
-            } 
-            else if(strEql(bufStr,"c"))
-            {
-	            print("\nc>  ",0x0F);
-	            readStr(bufStr, bufSize);
-            }
-            else
-            {
-	            print("\nThe 'execute' command does not support the command you entered or it does not exist ", 0x0F);
-            }
+            execute();
         }
         else if(strEql(bufStr,"switch"))
         {
-            print("\nThe specified directory was not found ", 0x0F);
+            	print("\nThe specified directory was not found ", 0x0F);
         }
-        else if(strEql(bufStr,"writer"))
-        {
-            clearScreen();
-            print("================================================================================", 0x3F);
-            print("                      Q OS Text Editor Version 0.2                              ", 0x3F);
-            print("================================================================================", 0x3F);
-            writing = true;
-            readStr(writerContents, editorBufSize);
-            writing = false;
-        }
-        //Calculator program
-	else if(strEql(bufStr, "calc")){
-            print("\nUse calc -h for help", 0x0F);
-	    print("\n>  ", 0x0F);
-            readStr(calcInput, editorBufSize);
-	    for(int i = 0; i < bufSize; i++){
-	        if(calcInput[i] == 0 || calcInput[i] == 10)
-                    break;
-                else{
-		        switch (calcInput[i]){
-		            case 48://Number 0
-		             tempNum = concat(tempNum, 0);
-		            break;
-		            case 49://Number 1
-		             tempNum = concat(tempNum, 1);
-		            break;
-		            case 50://Number 2
-		             tempNum = concat(tempNum, 2);
-		            break;
-		            case 51://Number 3
-		             tempNum = concat(tempNum, 3);
-		            break;
-		            case 52://Number 4
-		             tempNum = concat(tempNum, 4);
-		            break;
-		            case 53://Number 5
-		             tempNum = concat(tempNum, 5);
-		            break;
-		            case 54://Number 6
-		             tempNum = concat(tempNum, 6);
-		            break;
-		            case 55://Number 7
-		             tempNum = concat(tempNum, 7);
-		            break;
-		            case 56://Number 8
-		             tempNum = concat(tempNum, 8);
-		            break;
-		            case 57://Number 9
-		             tempNum = concat(tempNum, 9);
-		            break;
-		            default:
-                                strNum = tempNum;
-                                tempNum = 0;
-				mathOp = calcInput[i]; //Treat everything else as a math operator (should do for now)
-		            break;
-		        }
-	        }
-            }
-            switch (mathOp){
-	        case 42:
-                    strNum *= tempNum;
-                break;
-	        case 43:
-                    strNum += tempNum;
-                break;
-	        case 45:
-                    strNum -= tempNum;
-                break;
-	        case 47:
-		    if(tempNum != 0)
-                    strNum /= tempNum;
-		    else
-		    mathError = 1;
-                break;
-		default:
-		    strNum -= tempNum;
-		break;
-            }
-	    newline();
-	    switch (mathError){
-		case 1:
-		    print("Cannot devide by 0", 0x04);
-		break;
-	        default:
-	            printint(strNum, 0x0F);
-                break;
-	    }
-	    mathError = 0;
-	    tempNum = 0;
-	    strNum = 0;
-	}
-        //Calculator program help
-        else if(strEql(bufStr, "calc -h")){
-	    print("\nCalculator help: ", 0x0F);
-            print("\n[HELP TEXT HERE]", 0x0F);
-	}
+	else if(strEql(bufStr,"writer")) { writer(); }
+	else if(strEql(bufStr, "writer -h")) { writerHelp(); }
+	
+	else if(strEql(bufStr, "calc")){ calc(); }
+        else if(strEql(bufStr, "calc -h")){ calcHelp(); }
+
         else if(strEql(bufStr, "clear"))
         {
-            clearScreen();
-            cursorX = 0;
-            cursorY = 0;
-            updateCursor();
+           	 clearScreen();
+           	 cursorX = 0;
+           	 cursorY = 0;
+           	 updateCursor();
         }
         else if(strEql(bufStr, "clear -i"))
         {
-            clearScreen();
-            printIntro();
+            	clearScreen();
+            	printIntro();
         }
         else if(strEql(bufStr, "newdir"))
         {
-            print("\nReserved", 0x0F);
+            	print("\nReserved", 0x0F);
         }
         else if(strEql(bufStr, "erase"))
         {
-            print("\nReserved", 0x0F);
+            	print("\nReserved", 0x0F);
         }
         else
         {
-            print("\nCommand Not Found ", 0x0F);
+            	print("\nCommand Not Found ", 0x0F);
         }
         newline();
     }
