@@ -16,5 +16,6 @@ void printInfo();
 void catFile(fs_node_t*);
 void listTree();
 void kbHelp();
+void launchShell();
 
 #endif
