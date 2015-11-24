@@ -13,7 +13,6 @@
 #include "assemblyFunctions.h"
 
 void printInfo();
-void listTree();
 void kbHelp();
 void launchShell();
 
