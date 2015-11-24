@@ -16,34 +16,12 @@
 void printIntro(){
    	print("================================================================================", 0x3F);
    	print("                             Welcome to Q OS                                    ", 0x3F);
-        print("================================================================================", 0x3F);
+    print("================================================================================", 0x3F);
 }
 
 
 
-void listTree() {
-    // list the contents of
-    int i = 0;
-    struct dirent *node = 0;
-    while ((node = readdir_fs(fs_root, i)) != 0)
-    {
-        fs_node_t *fsnode = finddir_fs(fs_root, node->name);
 
-        if ((fsnode->flags & 0x7) == FS_DIRECTORY)
-        {
-            print("dir \t", 0x0F);
-            print(node->name, 0x0F);
-            printch('/', 0x0F);
-        }
-        else
-        {
-            print("file\t", 0x0F);
-            print(node->name, 0x0F);
-        }
-        newline();
-        i++;
-    }
-}
 
 void kbHelp()
 {
@@ -93,11 +71,7 @@ void launchShell() {
         {
             print("\nHello!", 0x3F);
         }
-        else if(strEql(bufStr, "files"))
-        {
-            newline();
-            listTree();
-        }
+        else if(strEql(bufStr, "files")) { files(); }
         else if(strEql(bufStr, "cat"))
         {
             print("\nFile Name>  ", 0x0F);
@@ -105,20 +79,16 @@ void launchShell() {
             ASSERT(strlength(bufStr) < MAX_FNAME_LEN);
             cat(finddir_fs(fs_root, bufStr));
         }
-        else if(strEql(bufStr,"execute"))
-        {
-            execute();
-        }
+        else if(strEql(bufStr,"execute")) { execute(); }
         else if(strEql(bufStr,"switch"))
         {
             	print("\nThe specified directory was not found ", 0x0F);
         }
-	else if(strEql(bufStr,"writer")) { writer(); }
-	else if(strEql(bufStr, "writer -h")) { writerHelp(); }
+    	else if(strEql(bufStr,"writer")) { writer(); }
+    	else if(strEql(bufStr, "writer -h")) { writerHelp(); }
 
-	else if(strEql(bufStr, "calc")){ calc(); }
+    	else if(strEql(bufStr, "calc")){ calc(); }
         else if(strEql(bufStr, "calc -h")){ calcHelp(); }
-
         else if(strEql(bufStr, "clear"))
         {
            	 clearScreen();
