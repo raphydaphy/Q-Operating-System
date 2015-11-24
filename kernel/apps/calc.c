@@ -44,8 +44,11 @@ void calcHelp()
     print("\n[HELP TEXT HERE]", 0x0F);
 }
 
-void calc()
+void calc(char calcArgs[CALCSIZE/2])
 {
+    if(calcArgs[1] == 45 && calcArgs[2] == 104){
+	calcHelp();
+    }else{
 
     print("\nUse calc -h for help", 0x0F);
     print("\n>  ", 0x0F);
@@ -93,31 +96,30 @@ void calc()
                     tempNum = concat(tempNum, 9);
                     break;
                 default:
-                    // Properly check for math operator
-                    if(calcInput[i] == 42 || calcInput[i] == 43 || calcInput[i] == 45 || calcInput[i] == 47)
-                    {
-                        //check if user enter negative and not minus operator
-                        if(calcInput[i] == 45 && isMathOperator(calcInput[i+1]) == 0){
-                            isNegative = 1;
-                        }
-                    }
-                    else
-                    {
-                        strNum = tempNum;
-                        //Set negative for the number before math operator
-                        if(isNegative == 1)
-                        {
-                            strNum *= -1;
-                            tempNum = 0;
-                            isNegative = 0;
-                            mathOp = calcInput[i]; 	// set math operator
-                        }
-                        else
-                        {
-                            continue;
-                        }
-                        break;
-                    }
+			// Properly check for math operator
+			if(calcInput[i] == 42 || calcInput[i] == 43 || calcInput[i] == 45 || calcInput[i] == 47){
+				//check if user enter negative and not minus operator
+				if(calcInput[i] == 45 && isMathOperator(calcInput[i+1]) == 0){
+					isNegative = 1;
+				}
+				else
+				{
+					strNum = tempNum;
+					//Set negative for the number before math operator
+					if(isNegative == 1)
+					{
+						strNum *= -1;
+					}
+					tempNum = 0;
+					isNegative = 0;
+					mathOp = calcInput[i]; 	// set math operator
+				}
+			}
+			else
+			{
+				continue;
+			}
+                break;
             }
         }
     }
@@ -178,5 +180,5 @@ void calc()
     strNum = 0;
 
     isNegative = 0;
-
+    }
 }

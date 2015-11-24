@@ -17,6 +17,7 @@
 #include "apps/writer.h"
 #include "apps/cat.h"
 #include "apps/files.h"
+#include "apps/system.h"
 
 extern uint32 placement_address;
 
