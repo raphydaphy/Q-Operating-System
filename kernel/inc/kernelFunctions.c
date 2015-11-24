@@ -16,23 +16,10 @@
 void printIntro(){
    	print("================================================================================", 0x3F);
    	print("                             Welcome to Q OS                                    ", 0x3F);
-    	print("================================================================================", 0x3F);
+        print("================================================================================", 0x3F);
 }
 
-void catFile(fs_node_t* fsnode)
-{
-    newline();
-    if ((fsnode->flags & 0x7) == FS_FILE)
-    {
-        const uint32 rbuff = fsnode->length;
-        char buf[rbuff];
-        uint32 sz = read_fs(fsnode, 0, rbuff, (uint8*) buf);
-        uint32 j;
-        for (j = 0; j < sz; j++)
-            printch(buf[j], 0x0F);
-        newline();
-    }
-}
+
 
 void listTree() {
     // list the contents of
@@ -100,7 +87,7 @@ void launchShell() {
         }
         else if(strEql(bufStr, "skip"))
         {
-            // It literally does nothing... (Useful at callback) 
+            // It literally does nothing... (Useful at callback)
         }
         else if(strEql(bufStr, "hi"))
         {
@@ -116,7 +103,7 @@ void launchShell() {
             print("\nFile Name>  ", 0x0F);
             readStr(bufStr, bufSize);
             ASSERT(strlength(bufStr) < MAX_FNAME_LEN);
-            catFile(finddir_fs(fs_root, bufStr));
+            cat(finddir_fs(fs_root, bufStr));
         }
         else if(strEql(bufStr,"execute"))
         {
@@ -128,7 +115,7 @@ void launchShell() {
         }
 	else if(strEql(bufStr,"writer")) { writer(); }
 	else if(strEql(bufStr, "writer -h")) { writerHelp(); }
-	
+
 	else if(strEql(bufStr, "calc")){ calc(); }
         else if(strEql(bufStr, "calc -h")){ calcHelp(); }
 
