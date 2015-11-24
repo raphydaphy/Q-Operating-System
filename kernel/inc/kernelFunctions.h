@@ -13,7 +13,7 @@
 #include "assemblyFunctions.h"
 
 void printInfo();
-void kbHelp();
 void launchShell();
 
 #endif
+
