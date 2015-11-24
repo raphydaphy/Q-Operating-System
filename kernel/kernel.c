@@ -116,18 +116,40 @@ void kbHelp()
 void launchShell() {
     //allocate some memory for command string buffer. 1kB should be enough for now
     const int bufSize = 128;
-    char bufStr[bufSize];
-
-    
-
+    char bufStr[bufSize];//Store sanitized user command (no arguments)
+    char rawCommand[bufSize];//Gets user raw command from command line
+    char arguments[bufSize/2][bufSize/2];//Store command arguments
+    int fs = 1;//First space (first word means actual command)
+    int ay = -1;//Y location for arguments
+    int ax = 0;//X location for argumetns
    
     while (true)
     {
         print("\nQ-Kernel>  ", 0x08);
         typingCmd = true;
         newCmd = true;
-        readStr(bufStr, bufSize);
+        readStr(rawCommand, bufSize);
         typingCmd = false;
+
+	//Sanitize raw input. Move first word to bufStr and move the rest of the word to arguments
+	for(int i = 0; i < bufSize; ++i){
+	    if(rawCommand[i] != 0 || rawCommand[i] != 10){
+		if(fs == 1)
+		    bufStr[i] = rawCommand[i];
+		if(i < bufSize && rawCommand[i+1] == 32){
+		    fs = 0;
+		    ay++;
+		    ax = 0;
+		}
+		
+		else if(fs == 0){
+		    arguments[ay][ax] = rawCommand[i];
+		    ax++;
+		}
+	    }else{
+	    	break;
+	    }
+	}
 
         if (strEql(strTrim(bufStr), ""))
         {
@@ -139,11 +161,25 @@ void launchShell() {
             println(PRO_TIP, 0x0F);
             print(COMMAND_HELP, 0x0F);
         }
-        else if(strEql(bufStr, "reboot"))
-        {
-            //reboots the computer
-            reboot();
-        }
+        else if(strEql(bufStr, "system")){
+	    print("\nSystem Utility\nCurrently only able to reboot and halt system.\nHard shutdown to power off.\n\nMenu:\n1. [reboot]\n2. [halt]\n3. [shutdown]\n> ", 0x0F);
+	    readStr(bufStr, bufSize);
+	    if(strEql(bufStr, "reboot"))
+            {
+                //reboots the computer
+                reboot();
+            }
+	    else if(strEql(bufStr, "halt"))
+            {
+                //reboots the computer
+                halt();
+            }
+	    else if(strEql(bufStr, "shutdown"))
+            {
+                //reboots the computer
+                print("\nLong hold the power button to shutdown your computer.", 0x0F);
+            }
+	}
         else if(strEql(bufStr, "skip"))
         {
             // It literally does nothing... (Useful at callback) 
@@ -175,7 +211,7 @@ void launchShell() {
 	else if(strEql(bufStr,"writer")) { writer(); }
 	else if(strEql(bufStr, "writer -h")) { writerHelp(); }
 	
-	else if(strEql(bufStr, "calc")){ calc(); }
+	else if(strEql(bufStr, "calc")){ print(arguments[0],0x0F); }
         else if(strEql(bufStr, "calc -h")){ calcHelp(); }
 
         else if(strEql(bufStr, "clear"))
@@ -200,7 +236,9 @@ void launchShell() {
         }
         else
         {
-            	print("\nCommand Not Found ", 0x0F);
+		print("\nNo command '",0x0F);		
+		print(bufStr, 0x0F);
+            	print("' found.", 0x0F);
         }
         newline();
     }
