@@ -19,22 +19,6 @@ void printIntro(){
     print("================================================================================", 0x3F);
 }
 
-
-
-
-
-void kbHelp()
-{
-    print("\nKeybindings in Q OS:", 0x0F);
-    print("\n\tCtrl-b -> left", 0x0F);
-    print("\n\tCtrl-f -> right", 0x0F);
-    print("\n\tCtrl-a -> home", 0x0F);
-    print("\n\tCtrl-p -> up", 0x0F);
-    print("\n\tCtrl-n -> down", 0x0F);
-    print("\n\tCtrl-z -> quit", 0x0F);
-    println("\n\tCtrl-l -> clear", 0x0F);
-}
-
 void launchShell() {
     //allocate some memory for command string buffer. 1kB should be enough for now
     const int bufSize = 128;
