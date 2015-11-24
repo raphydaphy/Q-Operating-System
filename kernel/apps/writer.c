@@ -8,17 +8,17 @@
 #define WRITERSIZE 1024
 #endif
 
-void writer() 
+void writer()
 {
 	// this is called when someone types "writer" on the command line
-	
+
 	clearScreen();
-    	print("================================================================================", 0x3F);
-    	print("                      Q OS Text Editor Version 0.2                              ", 0x3F);
-    	print("================================================================================", 0x3F);
-    	writing = true;
-    	readStr(writerContents, WRITERSIZE);
-    	writing = false;
+	print("================================================================================", 0x3F);
+	print("                      Q OS Text Editor Version 0.2                              ", 0x3F);
+	print("================================================================================", 0x3F);
+	writing = true;
+	readStr(writerContents, WRITERSIZE);
+	writing = false;
 }
 
 void writerHelp()
