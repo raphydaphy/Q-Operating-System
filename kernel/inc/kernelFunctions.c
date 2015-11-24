@@ -1,0 +1,102 @@
+#include "../multiboot.h"
+
+#include "kernelFunctions.h"
+#include "fs.h"
+#include "timer.h"
+#include "error.h"
+#include "paging.h"
+#include "initrd.h"
+#include "kbDetect.h"
+#include "descriptorTables.h"
+#include "assemblyFunctions.h"
+
+#define COMMAND_HELP "\nWorking Commands in Q OS: \nwriter\nclear\nexecute\nhi\nskip (the no action)\nfiles\ncat\nreboot\ncalc"
+#define PRO_TIP "\nTip: If enter key does not work, it might mean that the input is too long"
+
+void printIntro(){
+   	print("================================================================================", 0x3F);
+   	print("                             Welcome to Q OS                                    ", 0x3F);
+    print("================================================================================", 0x3F);
+}
+
+void launchShell() {
+    //allocate some memory for command string buffer. 1kB should be enough for now
+    const int bufSize = 128;
+    char bufStr[bufSize];
+
+    while (true)
+    {
+        print("\nQ-Kernel>  ", 0x08);
+        typingCmd = true;
+        newCmd = true;
+        readStr(bufStr, bufSize);
+        typingCmd = false;
+
+        if (strEql(strTrim(bufStr), ""))
+        {
+            print(COMMAND_HELP, 0x0F);
+        }
+        else if(strEql(bufStr, "help"))
+        {
+            kbHelp();
+            println(PRO_TIP, 0x0F);
+            print(COMMAND_HELP, 0x0F);
+        }
+        else if(strEql(bufStr, "reboot"))
+        {
+            //reboots the computer
+            reboot();
+        }
+        else if(strEql(bufStr, "skip"))
+        {
+            // It literally does nothing... (Useful at callback)
+        }
+        else if(strEql(bufStr, "hi"))
+        {
+            print("\nHello!", 0x3F);
+        }
+        else if(strEql(bufStr, "files")) { files(); }
+        else if(strEql(bufStr, "cat"))
+        {
+            print("\nFile Name>  ", 0x0F);
+            readStr(bufStr, bufSize);
+            ASSERT(strlength(bufStr) < MAX_FNAME_LEN);
+            cat(finddir_fs(fs_root, bufStr));
+        }
+        else if(strEql(bufStr,"execute")) { execute(); }
+        else if(strEql(bufStr,"switch"))
+        {
+            	print("\nThe specified directory was not found ", 0x0F);
+        }
+    	else if(strEql(bufStr,"writer")) { writer(); }
+    	else if(strEql(bufStr, "writer -h")) { writerHelp(); }
+
+    	else if(strEql(bufStr, "calc")){ calc(); }
+        else if(strEql(bufStr, "calc -h")){ calcHelp(); }
+        else if(strEql(bufStr, "clear"))
+        {
+           	 clearScreen();
+           	 cursorX = 0;
+           	 cursorY = 0;
+           	 updateCursor();
+        }
+        else if(strEql(bufStr, "clear -i"))
+        {
+            	clearScreen();
+            	printIntro();
+        }
+        else if(strEql(bufStr, "newdir"))
+        {
+            	print("\nReserved", 0x0F);
+        }
+        else if(strEql(bufStr, "erase"))
+        {
+            	print("\nReserved", 0x0F);
+        }
+        else
+        {
+            	print("\nCommand Not Found ", 0x0F);
+        }
+        newline();
+    }
+}

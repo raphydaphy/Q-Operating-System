@@ -3,28 +3,28 @@
 bool buffOverflow = false;
 
 const int BUFSIZE = 256;
-const char chars[256] =    { 
-     0 ,  0 , '1', '2', '3', '4', '5', '6', '7', '8', 
-    '9', '0', '-', '=',  0 ,'\t', 'q', 'w', 'e', 'r', 
-    't', 'y', 'u', 'i', 'o', 'p', '[', ']',  0 ,  0 , 
+const char chars[256] =    {
+     0 ,  0 , '1', '2', '3', '4', '5', '6', '7', '8',
+    '9', '0', '-', '=',  0 ,'\t', 'q', 'w', 'e', 'r',
+    't', 'y', 'u', 'i', 'o', 'p', '[', ']',  0 ,  0 ,
     'a', 's', 'd', 'f', 'g', 'h', 'j', 'k', 'l', ';',
-   '\'', '`',  0 ,'\\', 'z', 'x', 'c', 'v', 'b', 'n', 
+   '\'', '`',  0 ,'\\', 'z', 'x', 'c', 'v', 'b', 'n',
     'm', ',', '.', '/',  0 , '*',  0 , ' ',  0 ,
 };
-const char charsShift[256] =    { 
-     0 ,  0 , '!', '@', '#', '$', '%', '^', '&', '*', 
-    '(', ')', '_', '+',  0 ,'\t', 'Q', 'W', 'E', 'R', 
-    'T', 'Y', 'U', 'I', 'O', 'P', '{', '}',  0 ,  0 , 
+const char charsShift[256] =    {
+     0 ,  0 , '!', '@', '#', '$', '%', '^', '&', '*',
+    '(', ')', '_', '+',  0 ,'\t', 'Q', 'W', 'E', 'R',
+    'T', 'Y', 'U', 'I', 'O', 'P', '{', '}',  0 ,  0 ,
     'A', 'S', 'D', 'F', 'G', 'H', 'J', 'K', 'L', ':',
-   '\"', '~',  0 , '|', 'Z', 'X', 'C', 'V', 'B', 'N', 
+   '\"', '~',  0 , '|', 'Z', 'X', 'C', 'V', 'B', 'N',
     'M', '<', '>', '?',  0 , '*',  0 , ' ',  0 ,
 };
-const char charsCapsLock[256] =    { 
-     0 ,  0 , '1', '2', '3', '4', '5', '6', '7', '8', 
-    '9', '0', '-', '=',  0 ,'\t', 'Q', 'W', 'E', 'R', 
-    'T', 'Y', 'U', 'I', 'O', 'P', '[', ']',  0 ,  0 , 
+const char charsCapsLock[256] =    {
+     0 ,  0 , '1', '2', '3', '4', '5', '6', '7', '8',
+    '9', '0', '-', '=',  0 ,'\t', 'Q', 'W', 'E', 'R',
+    'T', 'Y', 'U', 'I', 'O', 'P', '[', ']',  0 ,  0 ,
     'A', 'S', 'D', 'F', 'G', 'H', 'J', 'K', 'L', ';',
-   '\'', '`',  0 ,'\\', 'Z', 'X', 'C', 'V', 'B', 'N', 
+   '\'', '`',  0 ,'\\', 'Z', 'X', 'C', 'V', 'B', 'N',
     'M', ',', '.', '/',  0 , '*',  0 , ' ',  0 ,
 };
 
@@ -137,9 +137,9 @@ void readStr(string buffstr, uint32 bufSize)
 	        startCmdY = cursorY;
 	        newCmd = 0;
 	    }
-	
+
 	    //Detect keypress and return string of characters pressed to the buffstr char array
-        if(inportb(0x64) & 0x1)                 
+        if(inportb(0x64) & 0x1)
         {
             uint8 value = inportb(0x60);
             if (deleteStopX > 0) {
@@ -158,7 +158,7 @@ void readStr(string buffstr, uint32 bufSize)
             }
             bool handled = false;
             switch(value)
-            { 
+            {
             case 29:        // Left Ctrl Down
                 ctrl = true;   // Toggle On
                 break;
@@ -221,7 +221,7 @@ void readStr(string buffstr, uint32 bufSize)
                     }
                 }
                 break;
-            case 42:        //Left shift 
+            case 42:        //Left shift
                 lshift = true;
                 break;
             case 44:        // z or Ctrl-Z
@@ -287,7 +287,17 @@ void readStr(string buffstr, uint32 bufSize)
             }
         }
     }
-    buffstr[i] = 0;      
+    buffstr[i] = 0;
 }
 
-
+void kbHelp()
+{
+    print("\nKeybindings in Q OS:", 0x0F);
+    print("\n\tCtrl-b -> left", 0x0F);
+    print("\n\tCtrl-f -> right", 0x0F);
+    print("\n\tCtrl-a -> home", 0x0F);
+    print("\n\tCtrl-p -> up", 0x0F);
+    print("\n\tCtrl-n -> down", 0x0F);
+    print("\n\tCtrl-z -> quit", 0x0F);
+    println("\n\tCtrl-l -> clear", 0x0F);
+}
