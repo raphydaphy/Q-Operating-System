@@ -15,6 +15,7 @@
 #include "apps/execute.h"
 #include "apps/calc.h"
 #include "apps/writer.h"
+#include "apps/cat.h"
 
 extern uint32 placement_address;
 
