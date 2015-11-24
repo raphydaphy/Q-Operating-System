@@ -12,10 +12,7 @@
 #include "descriptorTables.h"
 #include "assemblyFunctions.h"
 
-void printInfo();
-void catFile(fs_node_t*);
-void listTree();
-void kbHelp();
+void printIntro();
 void launchShell();
 
 #endif
