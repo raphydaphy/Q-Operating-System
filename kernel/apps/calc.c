@@ -14,6 +14,7 @@ int mathOp = 0;
 int tempNum = 0;
 int strNum = 0;
 int mathError = 0; //0 no error
+int isNegative = 0;//Not negative
 
 // concatinating for calculator
 int concat(int x, int y)
@@ -24,6 +25,13 @@ int concat(int x, int y)
         	pow*= 10;
 	}
     	return x * pow + y;
+}
+
+int isMathOperator(int charToCheck){
+	if(charToCheck == 42 || charToCheck == 43 || charToCheck == 45 || charToCheck == 47)
+		return 1;
+	else
+		return 0;
 }
 
 void calcHelp()
@@ -80,13 +88,31 @@ void calc()
 					tempNum = concat(tempNum, 9);
 					break;
 				default:
-					strNum = tempNum;
-					tempNum = 0;
-					mathOp = calcInput[i]; 	// Treat everything else as a math operator 
-								// should do for now
+					// Properly check for math operator
+					if(calcInput[i] == 42 || calcInput[i] == 43 || calcInput[i] == 45 || calcInput[i] == 47){
+						//check if user enter negative and not minus operator
+						if(calcInput[i] == 45 && isMathOperator(calcInput[i+1]) == 0){
+							isNegative = 1;
+						}else{
+							strNum = tempNum;
+							//Set negative for the number before math operator
+							if(isNegative == 1)
+								strNum *= -1;
+							tempNum = 0;
+							isNegative = 0;
+							mathOp = calcInput[i]; 	// set math operator
+						}
+					}
+					else{
+						continue;
+					}
 					break;
 			}
 		}
+	}
+	//Set negative number for the number after math operator
+	if(isNegative == 1){
+		tempNum *= -1;
 	}
 	switch (mathOp)
 	{
@@ -120,14 +146,25 @@ void calc()
 			print("Cannot divide by 0", 0x04);
 			break;
 		default:
+		//check for negative number first
+		if(strNum < 0){
+			//set number to positive
+			strNum *= -1;
+			//print negative sign then print the number
+			print("-",0x0F);
+		}
 		printint(strNum, 0x0F);
 		break;
 	}
+
+	//Reset operational variable to its default state
 
 	mathError = 0;
 
 	tempNum = 0;
 
 	strNum = 0;
+
+	isNegative = 0;
 
 }
