@@ -89,11 +89,25 @@ void launchShell() {
             println(PRO_TIP, 0x0F);
             print(COMMAND_HELP, 0x0F);
         }
-        else if(strEql(bufStr, "reboot"))
-        {
-            //reboots the computer
-            reboot();
-        }
+        else if(strEql(bufStr, "system")){
+	    print("\nSystem Utility\nCurrently only able to reboot and halt system.\nHard shutdown to power off.\n\nMenu:\n1. [reboot]\n2. [halt]\n3. [shutdown]\n> ", 0x0F);
+	    readStr(bufStr, bufSize);
+	    if(strEql(bufStr, "reboot"))
+            {
+                //reboots the computer
+                reboot();
+            }
+	    else if(strEql(bufStr, "halt"))
+            {
+                //halts the computer
+                halt();
+            }
+	    else if(strEql(bufStr, "shutdown"))
+            {
+                //shutdown the computer
+                shutdown();
+            }
+	}
         else if(strEql(bufStr, "skip"))
         {
             // It literally does nothing... (Useful at callback)
@@ -142,7 +156,9 @@ void launchShell() {
         }
         else
         {
-            	print("\nCommand Not Found ", 0x0F);
+		print("\n", 0x0F);
+		print(bufStr, 0x0F);
+            	print(": Command Not Found ", 0x0F);
         }
         newline();
     }
