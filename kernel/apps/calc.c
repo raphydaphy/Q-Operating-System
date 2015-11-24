@@ -112,12 +112,12 @@ void calc()
                             isNegative = 0;
                             mathOp = calcInput[i]; 	// set math operator
                         }
+                        else
+                        {
+                            continue;
+                        }
+                        break;
                     }
-                    else
-                    {
-                        continue;
-                    }
-                    break;
             }
         }
     }
