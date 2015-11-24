@@ -12,8 +12,7 @@
 #include "descriptorTables.h"
 #include "assemblyFunctions.h"
 
-void printInfo();
+void printIntro();
 void launchShell();
 
 #endif
-
