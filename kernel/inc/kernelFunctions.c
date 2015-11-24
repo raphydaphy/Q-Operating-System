@@ -29,6 +29,16 @@ void launchShell() {
     int ay = -1;//Y location for arguments
     int ax = 0;//X location for argumetns
 
+    //prepare variable
+    for(int i = 0; i < bufSize; ++i){
+	bufStr[i] = 0;
+    }
+    for(int y = 0; y < bufSize; ++y){
+	for(int x = 0; x < bufSize; ++x){
+		arguments[y][x] = 0;
+    	}
+    }
+
     while (true)
     {
         print("\nQ-Kernel>  ", 0x08);
@@ -36,6 +46,18 @@ void launchShell() {
         newCmd = true;
         readStr(rawCommand, bufSize);
         typingCmd = false;
+
+	for(int i = 0; i < bufSize; ++i){
+	    bufStr[i] = 0;
+	}
+	for(int y = 0; y < bufSize; ++y){
+            for(int x = 0; x < bufSize; ++x){
+		arguments[y][x] = 0;
+	    }
+	}
+	fs = 1;
+        ay = -1;
+        ax = 0;
 
 	//Sanitize raw input. Move first word to bufStr and move the rest of the word to arguments
 	for(int i = 0; i < bufSize; ++i){
