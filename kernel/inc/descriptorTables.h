@@ -1,6 +1,5 @@
-/*
- * This file is entirly based on jamesmolloy's kernel tutorial
- */
+#ifndef DESCRIPTORTABLES_H
+#define DESCRIPTORTABLES_H
 
 #include "assemblyFunctions.h"
 #include "byteUtils.h"
@@ -106,4 +105,4 @@ extern void irq13();
 extern void irq14();
 extern void irq15();
 
-
+#endif
