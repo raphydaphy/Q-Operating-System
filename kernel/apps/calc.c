@@ -44,8 +44,11 @@ void calcHelp()
     print("\n[HELP TEXT HERE]", 0x0F);
 }
 
-void calc()
+void calc(char calcArgs[CALCSIZE/2])
 {
+    if(calcArgs[1] == 45 && calcArgs[2] == 104){
+	calcHelp();
+    }else{
 
     print("\nUse calc -h for help", 0x0F);
     print("\n>  ", 0x0F);
@@ -178,5 +181,5 @@ void calc()
     strNum = 0;
 
     isNegative = 0;
-
+    }
 }

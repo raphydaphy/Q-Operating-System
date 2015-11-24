@@ -22,15 +22,62 @@ void printIntro(){
 void launchShell() {
     //allocate some memory for command string buffer. 1kB should be enough for now
     const int bufSize = 128;
-    char bufStr[bufSize];
+    char bufStr[bufSize];//Store sanitized user command (no arguments)
+    char rawCommand[bufSize];//Gets user raw command from command line
+    char arguments[bufSize/2][bufSize/2];//Store command arguments
+    int fs = 1;//First space (first word means actual command)
+    int ay = -1;//Y location for arguments
+    int ax = 0;//X location for argumetns
+
+    //prepare variable
+    for(int i = 0; i < bufSize; ++i){
+	bufStr[i] = 0;
+    }
+    for(int y = 0; y < bufSize; ++y){
+	for(int x = 0; x < bufSize; ++x){
+		arguments[y][x] = 0;
+    	}
+    }
 
     while (true)
     {
         print("\nQ-Kernel>  ", 0x08);
         typingCmd = true;
         newCmd = true;
-        readStr(bufStr, bufSize);
+        readStr(rawCommand, bufSize);
         typingCmd = false;
+
+	for(int i = 0; i < bufSize; ++i){
+	    bufStr[i] = 0;
+	}
+	for(int y = 0; y < bufSize; ++y){
+            for(int x = 0; x < bufSize; ++x){
+		arguments[y][x] = 0;
+	    }
+	}
+	fs = 1;
+        ay = -1;
+        ax = 0;
+
+	//Sanitize raw input. Move first word to bufStr and move the rest of the word to arguments
+	for(int i = 0; i < bufSize; ++i){
+	    if(rawCommand[i] != 0 || rawCommand[i] != 10){
+		if(fs == 1)
+		    bufStr[i] = rawCommand[i];
+		if(i < bufSize && rawCommand[i+1] == 32){
+		    fs = 0;
+		    ay++;
+		    ax = 0;
+		}
+		
+		else if(fs == 0){
+		    arguments[ay][ax] = rawCommand[i];
+		    ax++;
+		}
+	    }else{
+	    	break;
+	    }
+	}
 
         if (strEql(strTrim(bufStr), ""))
         {
@@ -71,8 +118,8 @@ void launchShell() {
     	else if(strEql(bufStr,"writer")) { writer(); }
     	else if(strEql(bufStr, "writer -h")) { writerHelp(); }
 
-    	else if(strEql(bufStr, "calc")){ calc(); }
-        else if(strEql(bufStr, "calc -h")){ calcHelp(); }
+    	else if(strEql(bufStr, "calc")){ calc(arguments[0]); }
+        //else if(strEql(bufStr, "calc -h")){ calcHelp(); }
         else if(strEql(bufStr, "clear"))
         {
            	 clearScreen();
