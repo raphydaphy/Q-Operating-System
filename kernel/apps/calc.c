@@ -44,9 +44,9 @@ void calcHelp()
     print("\n[HELP TEXT HERE]", 0x0F);
 }
 
-void calc()
+void calc(char calcArgs[CALCSIZE/2])
 {
-
+    print(calcArgs,0x0F);
     print("\nUse calc -h for help", 0x0F);
     print("\n>  ", 0x0F);
 

@@ -96,7 +96,7 @@ void launchShell() {
     	else if(strEql(bufStr,"writer")) { writer(); }
     	else if(strEql(bufStr, "writer -h")) { writerHelp(); }
 
-    	else if(strEql(bufStr, "calc")){ calc(); }
+    	else if(strEql(bufStr, "calc")){ calc(arguments[0]); }
         //else if(strEql(bufStr, "calc -h")){ calcHelp(); }
         else if(strEql(bufStr, "clear"))
         {
