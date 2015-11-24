@@ -10,9 +10,6 @@
 #include "descriptorTables.h"
 #include "assemblyFunctions.h"
 
-#define COMMAND_HELP "\nWorking Commands in Q OS: \nwriter\nclear\nexecute\nhi\nskip (the no action)\nfiles\ncat\nreboot\ncalc"
-#define PRO_TIP "\nTip: If enter key does not work, it might mean that the input is too long"
-
 void printIntro(){
    	print("================================================================================", 0x3F);
    	print("                             Welcome to Q OS                                    ", 0x3F);
@@ -39,6 +36,21 @@ void launchShell() {
     	}
     }
 
+    #define TIP print("\nTip: If enter key does not work, it might mean that the input is too long",0x0F);
+    #define HELP print("\nWorking Commands in Q OS: \nwriter\nclear\nexecute\nhi\nskip (the no action)\nfiles\ncat\nreboot\ncalc", 0x0F);
+    #define BIGHELP kbHelp(); TIP; HELP;
+    #define SYSTEMMAN system(arguments);
+    #define SAYHI print("\nHello!", 0x3F);
+    #define CATFILE print("\nFile Name>  ", 0x0F); readStr(bufStr, bufSize); ASSERT(strlength(bufStr) < MAX_FNAME_LEN); cat(finddir_fs(fs_root, bufStr));
+    #define SWITCHDIR print("\nThe specified directory was not found ", 0x0F);
+    #define CALCULATE calc(arguments[0]);
+    #define BIGCLEAR clearScreen(); printIntro();
+    #define MKDIR print("\nThis Command is Reserved for when we have a FAT32 or better FileSystem...", 0x3F);
+    #define RMFILE print("\nThis Command is Reserved for when we have a FAT32 or better FileSystem...", 0x3F);
+    #define SKIP
+    #define WRITE writer(arguments);
+    #define CMDNOTFOUND print("\n", 0x0F); print(bufStr, 0x0F); print(": Command Not Found ", 0x0F);
+
     while (true)
     {
         print("\nQ-Kernel>  ", 0x08);
@@ -47,119 +59,55 @@ void launchShell() {
         readStr(rawCommand, bufSize);
         typingCmd = false;
 
-	for(int i = 0; i < bufSize; ++i){
-	    bufStr[i] = 0;
-	}
-	for(int y = 0; y < bufSize; ++y){
-            for(int x = 0; x < bufSize; ++x){
-		arguments[y][x] = 0;
-	    }
-	}
-	fs = 1;
-        ay = -1;
-        ax = 0;
+    	for(int i = 0; i < bufSize; ++i){
+    	    bufStr[i] = 0;
+    	}
+    	for(int y = 0; y < bufSize; ++y){
+                for(int x = 0; x < bufSize; ++x){
+    		arguments[y][x] = 0;
+    	    }
+    	}
+    	fs = 1;
+            ay = -1;
+            ax = 0;
 
-	//Sanitize raw input. Move first word to bufStr and move the rest of the word to arguments
-	for(int i = 0; i < bufSize; ++i){
-	    if(rawCommand[i] != 0 || rawCommand[i] != 10){
-		if(fs == 1)
-		    bufStr[i] = rawCommand[i];
-		if(i < bufSize && rawCommand[i+1] == 32){
-		    fs = 0;
-		    ay++;
-		    ax = 0;
-		}
-		
-		else if(fs == 0){
-		    arguments[ay][ax] = rawCommand[i];
-		    ax++;
-		}
-	    }else{
-	    	break;
-	    }
-	}
+    	//Sanitize raw input. Move first word to bufStr and move the rest of the word to arguments
+    	for(int i = 0; i < bufSize; ++i){
+    	    if(rawCommand[i] != 0 || rawCommand[i] != 10){
+    		if(fs == 1)
+    		    bufStr[i] = rawCommand[i];
+    		if(i < bufSize && rawCommand[i+1] == 32){
+    		    fs = 0;
+    		    ay++;
+    		    ax = 0;
+    		}
 
-        if (strEql(strTrim(bufStr), ""))
-        {
-            print(COMMAND_HELP, 0x0F);
-        }
-        else if(strEql(bufStr, "help"))
-        {
-            kbHelp();
-            println(PRO_TIP, 0x0F);
-            print(COMMAND_HELP, 0x0F);
-        }
-        else if(strEql(bufStr, "system")){
-	    print("\nSystem Utility\nCurrently only able to reboot and halt system.\nHard shutdown to power off.\n\nMenu:\n1. [reboot]\n2. [halt]\n3. [shutdown]\n> ", 0x0F);
-	    readStr(bufStr, bufSize);
-	    if(strEql(bufStr, "reboot"))
-            {
-                //reboots the computer
-                reboot();
-            }
-	    else if(strEql(bufStr, "halt"))
-            {
-                //halts the computer
-                halt();
-            }
-	    else if(strEql(bufStr, "shutdown"))
-            {
-                //shutdown the computer
-                shutdown();
-            }
-	}
-        else if(strEql(bufStr, "skip"))
-        {
-            // It literally does nothing... (Useful at callback)
-        }
-        else if(strEql(bufStr, "hi"))
-        {
-            print("\nHello!", 0x3F);
-        }
-        else if(strEql(bufStr, "files")) { files(); }
-        else if(strEql(bufStr, "cat"))
-        {
-            print("\nFile Name>  ", 0x0F);
-            readStr(bufStr, bufSize);
-            ASSERT(strlength(bufStr) < MAX_FNAME_LEN);
-            cat(finddir_fs(fs_root, bufStr));
-        }
-        else if(strEql(bufStr,"execute")) { execute(); }
-        else if(strEql(bufStr,"switch"))
-        {
-            	print("\nThe specified directory was not found ", 0x0F);
-        }
-    	else if(strEql(bufStr,"writer")) { writer(); }
-    	else if(strEql(bufStr, "writer -h")) { writerHelp(); }
+    		else if(fs == 0){
+    		    arguments[ay][ax] = rawCommand[i];
+    		    ax++;
+    		}
+    	    }else{
+    	    	break;
+    	    }
+    	}
 
-    	else if(strEql(bufStr, "calc")){ calc(arguments[0]); }
-        //else if(strEql(bufStr, "calc -h")){ calcHelp(); }
-        else if(strEql(bufStr, "clear"))
-        {
-           	 clearScreen();
-           	 cursorX = 0;
-           	 cursorY = 0;
-           	 updateCursor();
-        }
-        else if(strEql(bufStr, "clear -i"))
-        {
-            	clearScreen();
-            	printIntro();
-        }
-        else if(strEql(bufStr, "newdir"))
-        {
-            	print("\nReserved", 0x0F);
-        }
-        else if(strEql(bufStr, "erase"))
-        {
-            	print("\nReserved", 0x0F);
-        }
-        else
-        {
-		print("\n", 0x0F);
-		print(bufStr, 0x0F);
-            	print(": Command Not Found ", 0x0F);
-        }
+        if (strEql(strTrim(bufStr), ""))        {   HELP;             }
+        else if(strEql(bufStr, "help"))         {   BIGHELP;          }
+        else if(strEql(bufStr, "system"))       {   SYSTEMMAN;        }
+        else if(strEql(bufStr, "skip"))         {   SKIP;             }
+        else if(strEql(bufStr, "hi"))           {   SAYHI;            }
+        else if(strEql(bufStr, "files"))        {   files();          }
+        else if(strEql(bufStr, "cat"))          {   CATFILE;          }
+        else if(strEql(bufStr,"execute"))       {   execute();        }
+        else if(strEql(bufStr,"switch"))        {   SWITCHDIR;        }
+        else if(strEql(bufStr,"writer"))        {   WRITE;            }
+    	else if(strEql(bufStr, "calc"))         {   CALCULATE;        }
+        else if(strEql(bufStr, "calc -h"))      {   calcHelp();       }
+        else if(strEql(bufStr, "clear"))        {   clearScreen();    }
+        else if(strEql(bufStr, "clear -i"))     {   BIGCLEAR;         }
+        else if(strEql(bufStr, "newdir"))       {   MKDIR;            }
+        else if(strEql(bufStr, "erase"))        {   RMFILE;           }
+        else                                    {   CMDNOTFOUND;      }
         newline();
     }
 }
