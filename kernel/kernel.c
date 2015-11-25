@@ -10,6 +10,7 @@
 #include "inc/kbDetect.h"
 #include "inc/descriptorTables.h"
 #include "inc/assemblyFunctions.h"
+#include "inc/math.h"
 
 // Q Applications
 #include "apps/execute.h"
@@ -18,6 +19,7 @@
 #include "apps/cat.h"
 #include "apps/files.h"
 #include "apps/system.h"
+#include "apps/skip.h"
 
 extern uint32 placement_address;
 

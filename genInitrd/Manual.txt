@@ -14,8 +14,14 @@ execute -> Runs code with specified type
 skip    -> Does nothing (hence the name)
 files   -> List the files and directories
 cat     -> Prints the file to the console
-reboot  -> Restarts the operating system
+system  -> Advance system option
+    Arguments:
+    shutdown    -> shutdown system
+    reboot      -> reboot system
+    halt        -> halt system operation
 hi      -> The computer greets you back
+calc    -> Its a calculator
+    -h          -> show calculator help (needs updating)
 
 What about keybindings?
 Ctrl-b  -> Cursor to left

@@ -1,31 +1,41 @@
 #include "files.h"
 
+#include "../inc/intTypeDefs.h"
+#include "../inc/stringUtils.h"
 #include "../inc/screenUtils.h"
 #include "../inc/fs.h"
 
-void files() {
-    // give us some space to display the files
+void files(string args)
+{
     newline();
-    
-    // list the contents of
-    int i = 0;
-    struct dirent *node = 0;
-    while ((node = readdir_fs(fs_root, i)) != 0)
+    if (strEql(args," -h") || strEql(args," help"))
     {
+      print ("Showing Help for files:",0x03);
+      print ("\nThe 'files' command will show you the files and folders in your current working directory.",0x03);
+    }
+    else if (strEql(args,"") || strEql(args," "))
+    {
+      // list the contents of
+      int i = 0;
+      struct dirent *node = 0;
+      while ((node = readdir_fs(fs_root, i)) != 0)
+      {
         fs_node_t *fsnode = finddir_fs(fs_root, node->name);
 
         if ((fsnode->flags & 0x7) == FS_DIRECTORY)
         {
-            print("dir \t", 0x0F);
-            print(node->name, 0x0F);
-            printch('/', 0x0F);
+          print("dir \t", 0x0F);
+          print(node->name, 0x0F);
+          printch('/', 0x0F);
         }
         else
         {
-            print("file\t", 0x0F);
-            print(node->name, 0x0F);
+          print("file\t", 0x0F);
+          print(node->name, 0x0F);
         }
         newline();
         i++;
+      }
     }
+
 }

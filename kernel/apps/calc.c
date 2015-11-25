@@ -1,4 +1,5 @@
 #include "calc.h"
+#include "../inc/math.h"
 
 #include "../inc/intTypeDefs.h"
 #include "../inc/screenUtils.h"
@@ -37,10 +38,18 @@ void calcHelp()
     print("\n[HELP TEXT HERE]", 0x0F);
 }
 
-void calc(char calcArgs[CALCSIZE/2])
+void calc(char *calcArgs)
 {
     if(calcArgs[1] == 45 && calcArgs[2] == 104){
 	calcHelp();
+    }else if(calcArgs[1] == 112 && calcArgs[2] == 105){
+	print("\n",0x00);
+	//Test print PI
+	printint((int)PI,0x0F);
+    }else if(calcArgs[1] == 112 && calcArgs[2] == 116){
+	print("\n",0x00);
+	//Power of ten test. Currently only accept 1 number. This is a proof of concept
+	printint(powerOfTen(calcArgs[4]),0x0F);
     }else{
 
     print("\nUse calc -h for help", 0x0F);

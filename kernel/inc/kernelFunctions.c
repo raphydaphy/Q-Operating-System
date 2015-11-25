@@ -43,11 +43,12 @@ void launchShell() {
     #define SAYHI print("\nHello!", 0x3F);
     #define CATFILE print("\nFile Name>  ", 0x0F); readStr(bufStr, bufSize); ASSERT(strlength(bufStr) < MAX_FNAME_LEN); cat(finddir_fs(fs_root, bufStr));
     #define SWITCHDIR print("\nThe specified directory was not found ", 0x0F);
-    #define CALCULATE calc(arguments[0]);
+    #define CALCULATE calc(&arguments);
     #define BIGCLEAR clearScreen(); printIntro();
     #define MKDIR print("\nThis Command is Reserved for when we have a FAT32 or better FileSystem...", 0x3F);
     #define RMFILE print("\nThis Command is Reserved for when we have a FAT32 or better FileSystem...", 0x3F);
-    #define SKIP
+    #define SKIP skip(arguments);
+    #define FILEMAN files(arguments);
     #define WRITE writer(arguments);
     #define CMDNOTFOUND print("\n", 0x0F); print(bufStr, 0x0F); print(": Command Not Found ", 0x0F);
 
@@ -72,42 +73,49 @@ void launchShell() {
             ax = 0;
 
     	//Sanitize raw input. Move first word to bufStr and move the rest of the word to arguments
-    	for(int i = 0; i < bufSize; ++i){
-    	    if(rawCommand[i] != 0 || rawCommand[i] != 10){
-    		if(fs == 1)
-    		    bufStr[i] = rawCommand[i];
-    		if(i < bufSize && rawCommand[i+1] == 32){
-    		    fs = 0;
-    		    ay++;
-    		    ax = 0;
-    		}
+    	for(int i = 0; i < bufSize; ++i)
+      {
+    	  if(rawCommand[i] != 0 || rawCommand[i] != 10)
+        {
+      		if(fs == 1)
+          {
+      		  bufStr[i] = rawCommand[i];
+          }
+      		if(i < bufSize && rawCommand[i+1] == 32)
+          {
+      		  fs = 0;
+      		  ay++;
+      		  ax = 0;
+      		}
 
-    		else if(fs == 0){
-    		    arguments[ay][ax] = rawCommand[i];
-    		    ax++;
-    		}
-    	    }else{
-    	    	break;
-    	    }
+      		else if(fs == 0){
+      		  arguments[ay][ax] = rawCommand[i];
+      		  ax++;
+      		}
+    	  }
+        else
+        {
+    	  	break;
+    	  }
     	}
 
-        if (strEql(strTrim(bufStr), ""))        {   HELP;             }
-        else if(strEql(bufStr, "help"))         {   BIGHELP;          }
-        else if(strEql(bufStr, "system"))       {   SYSTEMMAN;        }
-        else if(strEql(bufStr, "skip"))         {   SKIP;             }
-        else if(strEql(bufStr, "hi"))           {   SAYHI;            }
-        else if(strEql(bufStr, "files"))        {   files();          }
-        else if(strEql(bufStr, "cat"))          {   CATFILE;          }
-        else if(strEql(bufStr,"execute"))       {   execute();        }
-        else if(strEql(bufStr,"switch"))        {   SWITCHDIR;        }
-        else if(strEql(bufStr,"writer"))        {   WRITE;            }
-    	else if(strEql(bufStr, "calc"))         {   CALCULATE;        }
-        else if(strEql(bufStr, "calc -h"))      {   calcHelp();       }
-        else if(strEql(bufStr, "clear"))        {   clearScreen();    }
-        else if(strEql(bufStr, "clear -i"))     {   BIGCLEAR;         }
-        else if(strEql(bufStr, "newdir"))       {   MKDIR;            }
-        else if(strEql(bufStr, "erase"))        {   RMFILE;           }
-        else                                    {   CMDNOTFOUND;      }
-        newline();
+      if (strEql(strTrim(bufStr), ""))        {   HELP;             }
+      else if(strEql(bufStr, "help"))         {   BIGHELP;          }
+      else if(strEql(bufStr, "system"))       {   SYSTEMMAN;        }
+      else if(strEql(bufStr, "skip"))         {   SKIP;             }
+      else if(strEql(bufStr, "hi"))           {   SAYHI;            }
+      else if(strEql(bufStr, "files"))        {   FILEMAN;          }
+      else if(strEql(bufStr, "cat"))          {   CATFILE;          }
+      else if(strEql(bufStr,"execute"))       {   execute();        }
+      else if(strEql(bufStr,"switch"))        {   SWITCHDIR;        }
+      else if(strEql(bufStr,"writer"))        {   WRITE;            }
+      else if(strEql(bufStr, "calc"))         {   CALCULATE;        }
+      else if(strEql(bufStr, "calc -h"))      {   calcHelp();       }
+      else if(strEql(bufStr, "clear"))        {   clearScreen();    }
+      else if(strEql(bufStr, "clear -i"))     {   BIGCLEAR;         }
+      else if(strEql(bufStr, "newdir"))       {   MKDIR;            }
+      else if(strEql(bufStr, "erase"))        {   RMFILE;           }
+      else                                    {   CMDNOTFOUND;      }
+      newline();
     }
 }
