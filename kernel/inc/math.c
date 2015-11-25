@@ -67,9 +67,18 @@ double squareRoot(double a)
      return rst;
 }
 
-int convertBase(int num, int base)
+int convertBase(int num, int baseEnd, int baseStart = 10)
 {
-    // Reserved for Base - Converting function by raph :)
+    //Reserved for Raph
+    /*
+        Notes from Patrick:
+        You need to have both a start base and an end base.
+        You can assume if the start base is missing that its base10.
+        You will need to convert from baseStart => base10 => baseEnd
+        You will need a catalog of all digits. These will need to be characters. This is needed if you want to go higher than base 10. If you use the Alphabet, then you can go up to base36.
+        The start number and the end number will need to be strings instead of integers if we want to go higher than base10.
+        I wrote a Base converter a few months ago in JavaScript: https://www.khanacademy.org/cs/base-to-base-number-converter/6447800689885184
+    */
 }
 
 long round(double num)
