@@ -1,6 +1,8 @@
 #ifndef CALC_H
 #define CALC_H
 
+#include "../inc/intTypeDefs.h"
+
 #ifndef CALCSIZE
 #define CALCSIZE 128
 #endif
@@ -16,7 +18,7 @@ int mathError;
 int concat(int x, int y);
 
 // main calc() function to run from kernel.c
-void calc();
+void calc(string);
 
 // calcHelp() function for when users run "calc -h"
 void calcHelp();
