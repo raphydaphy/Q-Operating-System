@@ -17,7 +17,7 @@ double sqrt(double a);
 double powerOfTen(int num);
 
 //convert number to a different base
-int convertBase(int num, int base);
+int convertBase10(int num, int base);
 
 //power of n
 //double pow(double num, double);

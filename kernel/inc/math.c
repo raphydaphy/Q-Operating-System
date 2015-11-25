@@ -67,19 +67,52 @@ double squareRoot(double a)
      return rst;
 }
 
-int convertBase(int num, int baseEnd, int baseStart)
+int convertBase10(int num, int base)
 {
-    //Reserved for Raph
-    /*
-        Notes from Patrick:
-        You need to have both a start base and an end base.
-        You can assume if the start base is missing that its base10.
-        You will need to convert from baseStart => base10 => baseEnd
-        You will need a catalog of all digits. These will need to be characters. This is needed if you want to go higher than base 10. If you use the Alphabet, then you can go up to base36.
-        The start number and the end number will need to be strings instead of integers if we want to go higher than base10.
-        I wrote a Base converter a few months ago in JavaScript: https://www.khanacademy.org/cs/base-to-base-number-converter/6447800689885184
-    */
+    print ("\nSetting Up Some Stuff...",0x0A);
+
+    int sum = num/base;
+    int rem = num%base;
+
+    int curRem = rem;
+    int curSum = sum;
+
+    int result;
+
+    unsigned join(unsigned x, unsigned y) {
+        unsigned pow = 10;
+        while(y >= pow)
+            pow *= 10;
+        return x * pow + y;
+    }
+    char digitConvert(int digit)
+    {
+        char charDigit = digit;
+        printch(charDigit,0x0F);
+
+        if (digit < 10)         { return charDigit; }
+        else if (digit == 10)   { return 'A';       }
+        else if (digit == 11)   { return 'B';       }
+        else if (digit == 12)   { return 'C';       }
+        else if (digit == 13)   { return 'D';       }
+        else if (digit == 14)   { return 'E';       }
+        else if (digit == 15)   { return 'F';       }
+        else if (digit == 16)   { return 'G';       }
+        else if (digit > base)  { return 'Z';       }
+    }
+    int compress(int curSum)
+    {
+        print("\nCompressing Stuff...",0x0B);
+
+        curSum = curSum/base;
+        curRem = curSum%base;
+
+        curRem = digitConvert(curRem);
+        result = join(curRem,result);
+    }
+    printch(digitConvert(8));
 }
+
 
 long round(double num)
 {
@@ -107,4 +140,3 @@ double abs(double num)
     if (num < 0) return -num;
     return num;
 }
-
