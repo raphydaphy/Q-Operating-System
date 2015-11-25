@@ -48,6 +48,7 @@ void launchShell() {
     #define MKDIR print("\nThis Command is Reserved for when we have a FAT32 or better FileSystem...", 0x3F);
     #define RMFILE print("\nThis Command is Reserved for when we have a FAT32 or better FileSystem...", 0x3F);
     #define SKIP
+    #define FILEMAN files(arguments);
     #define WRITE writer(arguments);
     #define CMDNOTFOUND print("\n", 0x0F); print(bufStr, 0x0F); print(": Command Not Found ", 0x0F);
 
@@ -96,7 +97,7 @@ void launchShell() {
         else if(strEql(bufStr, "system"))       {   SYSTEMMAN;        }
         else if(strEql(bufStr, "skip"))         {   SKIP;             }
         else if(strEql(bufStr, "hi"))           {   SAYHI;            }
-        else if(strEql(bufStr, "files"))        {   files();          }
+        else if(strEql(bufStr, "files"))        {   FILEMAN;          }
         else if(strEql(bufStr, "cat"))          {   CATFILE;          }
         else if(strEql(bufStr,"execute"))       {   execute();        }
         else if(strEql(bufStr,"switch"))        {   SWITCHDIR;        }
