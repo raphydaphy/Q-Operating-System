@@ -4,7 +4,7 @@
 
 Q OS is a versatile operating system designed with the new features of 64 bit "long mode" CPU's in mind that focuses on making everything as simple as possible for the end user. In designing it and, now, coding it, I have taken every aspect of what we consider to be a "Good OS" and removed everything that people find distracting and, in the end, simply useless.
 
-If you just want to try Q OS on your own system, click [here](https://github.com/raphydaphy/Q-Operating-System/blob/master/documentation/downloads.md) for some quick download links if you don't want to read this long file about Q OS. Otherwise, keep reading for lots of information about the planned features for Q OS.
+If you just want to try the latest release of Q OS on your own system, click [here](https://github.com/raphydaphy/Q-Operating-System/blob/master/documentation/downloads.md) for some quick download links if you don't want to read this long file about Q OS. Otherwise, keep reading for lots of information about the planned features for Q OS.
 
 By studying inexperienced people using operating systems such as Linux Distributions and the popular Windows and OS X systems through sources such as the OSFirstTimer channel on YouTube, I have decided on three key features that I will implement into Q OS as some of the key differences from current operating systems. Q OS is built from scratch using the Assembly language for the bootloader and parts of the kernel as well as C++ for the most part of the code. The main unique features I will be implementing into Q OS are as follows:
 
