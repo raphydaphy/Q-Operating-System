@@ -28,9 +28,9 @@ double squareRoot(double a)
          find more detail of this method on wiki methods_of_computing_square_roots
          *** Babylonian method cannot get exact zero but approximately value of the square_root
     */
-    double z = a; 
+    double z = a;
     double rst = 0.0;
-    int max = 8;     // to define maximum digit 
+    int max = 8;     // to define maximum digit
     int i;
     double j = 1.0;
     for(i = max ; i > 0 ; i--){
@@ -69,4 +69,9 @@ double squareRoot(double a)
      }
      // find the number on each digit
      return rst;
+}
+
+int convertBase(int num, int base)
+{
+    // Reserved for Base - Converting function by raph :)
 }
