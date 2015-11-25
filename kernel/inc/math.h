@@ -29,4 +29,6 @@ long ceil(double);
 
 long floor(double);
 
+double abs(double);
+
 #endif

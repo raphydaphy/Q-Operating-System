@@ -93,3 +93,9 @@ long floor(double num)
     return res;
 }
 
+double abs(double num)
+{
+    if (num < 0) return -num;
+    return num;
+}
+
