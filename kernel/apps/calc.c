@@ -181,6 +181,6 @@ void calc(char *calcArgs)
 
     strNum = 0;
 
-    isNegative = 0;
+    isNegative = false;
     }
 }
