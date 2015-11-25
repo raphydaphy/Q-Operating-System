@@ -11,7 +11,9 @@
 #endif
 
 //Square root function
-double sqrt(double a);
+double sqrt(double);
+
+double cbrt(double);
 
 //power of ten
 double powerOfTen(int num);
