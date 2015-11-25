@@ -25,4 +25,8 @@ int convertBase(int num, int base);
 //return result of rounding 5 -> +1;;4 -> trunc
 long round(double);
 
+long ceil(double);
+
+long floor(double);
+
 #endif

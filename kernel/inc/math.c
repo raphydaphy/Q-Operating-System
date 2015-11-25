@@ -79,3 +79,17 @@ long round(double num)
     return res;
 }
 
+long ceil(double num)
+{
+    long res = (long) num;
+    if (num != res) res++;
+    return res;
+}
+
+long floor(double num)
+{
+    long res = (long) num;
+    if ((res < 0) && (num != res)) res--;
+    return res;
+}
+
