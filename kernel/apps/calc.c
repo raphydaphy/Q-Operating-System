@@ -15,7 +15,7 @@ int mathOp = 0;
 int tempNum = 0;
 int strNum = 0;
 int mathError = 0; //0 no error
-int isNegative = 0;//Not negative
+bool isNegative = false;
 
 // concatinating for calculator
 int concat(int x, int y)
@@ -28,15 +28,8 @@ int concat(int x, int y)
     return x * pow + y;
 }
 
-int isMathOperator(int charToCheck){
-    if(charToCheck == 42 || charToCheck == 43 || charToCheck == 45 || charToCheck == 47)
-    {
-        return 1;
-    }
-    else
-    {
-        return 0;
-    }
+bool isMathOperator(int charToCheck){
+    return charToCheck == 42 || charToCheck == 43 || charToCheck == 45 || charToCheck == 47;
 }
 
 void calcHelp()
@@ -106,21 +99,21 @@ void calc(char *calcArgs)
                     break;
                 default:
 			// Properly check for math operator
-			if(calcInput[i] == 42 || calcInput[i] == 43 || calcInput[i] == 45 || calcInput[i] == 47){
+			if(isMathOperator(calcInput[i])){
 				//check if user enter negative and not minus operator
-				if(calcInput[i] == 45 && isMathOperator(calcInput[i+1]) == 0){
-					isNegative = 1;
+				if(calcInput[i] == 45 && isMathOperator(calcInput[i+1])){
+					isNegative = true;
 				}
 				else
 				{
 					strNum = tempNum;
 					//Set negative for the number before math operator
-					if(isNegative == 1)
+					if(isNegative)
 					{
 						strNum *= -1;
 					}
 					tempNum = 0;
-					isNegative = 0;
+					isNegative = false;
 					mathOp = calcInput[i]; 	// set math operator
 				}
 			}
@@ -133,7 +126,7 @@ void calc(char *calcArgs)
         }
     }
     //Set negative number for the number after math operator
-    if(isNegative == 1)
+    if(isNegative)
     {
         tempNum *= -1;
     }
@@ -188,6 +181,6 @@ void calc(char *calcArgs)
 
     strNum = 0;
 
-    isNegative = 0;
+    isNegative = false;
     }
 }

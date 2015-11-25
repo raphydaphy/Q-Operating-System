@@ -1,9 +1,5 @@
 #include "math.h"
 
-#ifndef PI
-#define PI 3.141592653589793238462643383279502884
-#endif
-
 double powerOfTen(int num){
    double rst = 1.0;
    if(num >= 0){
@@ -75,3 +71,31 @@ int convertBase(int num, int base)
 {
     // Reserved for Base - Converting function by raph :)
 }
+
+long round(double num)
+{
+    long res = (long) num;
+    if ((num - res) >= 0.5) res++;
+    return res;
+}
+
+long ceil(double num)
+{
+    long res = (long) num;
+    if (num != res) res++;
+    return res;
+}
+
+long floor(double num)
+{
+    long res = (long) num;
+    if ((res < 0) && (num != res)) res--;
+    return res;
+}
+
+double abs(double num)
+{
+    if (num < 0) return -num;
+    return num;
+}
+
