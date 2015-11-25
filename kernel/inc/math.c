@@ -67,7 +67,7 @@ double squareRoot(double a)
      return rst;
 }
 
-int convertBase(int num, int baseEnd, int baseStart = 10)
+int convertBase(int num, int baseEnd, int baseStart)
 {
     //Reserved for Raph
     /*
