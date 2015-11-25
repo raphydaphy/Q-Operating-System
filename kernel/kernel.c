@@ -10,6 +10,7 @@
 #include "inc/kbDetect.h"
 #include "inc/descriptorTables.h"
 #include "inc/assemblyFunctions.h"
+#include "inc/math.h"
 
 // Q Applications
 #include "apps/execute.h"
@@ -18,10 +19,11 @@
 #include "apps/cat.h"
 #include "apps/files.h"
 #include "apps/system.h"
+#include "apps/skip.h"
 
 extern uint32 placement_address;
 
-#define COMMAND_HELP "\nWorking Commands in Q OS: \nwriter\nclear\nexecute\nhi\nskip (the no action)\nfiles\ncat\nreboot\ncalc"
+#define COMMAND_HELP "\nWorking Commands in Q OS: \nwriter\nclear\nexecute\nhi\nskip (the no action)\nfiles\ncat\nsystem\ncalc"
 #define PRO_TIP "\nTip: If enter key does not work, it might mean that the input is too long"
 
 uint32 findInitrd(struct multiboot*);

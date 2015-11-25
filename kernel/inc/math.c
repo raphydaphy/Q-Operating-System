@@ -1,9 +1,5 @@
 #include "math.h"
 
-#ifndef PI
-#define PI 3.141592653589793238462643383279502884
-#endif
-
 double powerOfTen(int num){
    double rst = 1.0;
    if(num >= 0){
@@ -28,9 +24,9 @@ double squareRoot(double a)
          find more detail of this method on wiki methods_of_computing_square_roots
          *** Babylonian method cannot get exact zero but approximately value of the square_root
     */
-    double z = a; 
+    double z = a;
     double rst = 0.0;
-    int max = 8;     // to define maximum digit 
+    int max = 8;     // to define maximum digit
     int i;
     double j = 1.0;
     for(i = max ; i > 0 ; i--){
@@ -70,3 +66,36 @@ double squareRoot(double a)
      // find the number on each digit
      return rst;
 }
+
+int convertBase(int num, int base)
+{
+    // Reserved for Base - Converting function by raph :)
+}
+
+long round(double num)
+{
+    long res = (long) num;
+    if ((num - res) >= 0.5) res++;
+    return res;
+}
+
+long ceil(double num)
+{
+    long res = (long) num;
+    if (num != res) res++;
+    return res;
+}
+
+long floor(double num)
+{
+    long res = (long) num;
+    if ((res < 0) && (num != res)) res--;
+    return res;
+}
+
+double abs(double num)
+{
+    if (num < 0) return -num;
+    return num;
+}
+
