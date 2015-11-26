@@ -18,7 +18,23 @@ double powerOfTen(int num){
 
 //}
 
-double squareRoot(double a)
+double cbrt(double x) {
+    if (x == 0) {
+        return 0;
+    }
+    double b = 1; // use any value except 0
+    double last_b_1 = 0;
+    double last_b_2 = 0;
+    while (last_b_1 != b && last_b_2 != b) {
+        last_b_1 = b;
+        b = (b + x / b / b) / 2;
+        last_b_2 = b;
+        b = (b + x / b / b) / 2;
+    }
+    return b;
+}
+
+double sqrt(double a)
 {
    /*
          find more detail of this method on wiki methods_of_computing_square_roots
