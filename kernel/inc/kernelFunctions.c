@@ -10,6 +10,8 @@
 #include "descriptorTables.h"
 #include "assemblyFunctions.h"
 
+#define MULTI_ARG_DEBUG false
+
 void printIntro(){
    	print("================================================================================", 0x3F);
    	print("                             Welcome to Q OS                                    ", 0x3F);
@@ -37,16 +39,16 @@ void launchShell() {
     }
 
     #define TIP print("\nTip: If enter key does not work, it might mean that the input is too long",0x0F);
-    #define HELP print("\nWorking Commands in Q OS: \nwriter\nclear\nexecute\nhi\nskip (the no action)\nfiles\ncat\nreboot\ncalc", 0x0F);
-    #define BIGHELP kbHelp(); TIP; HELP;
-    #define SYSTEMMAN system(arguments);
-    #define SAYHI print("\nHello!", 0x3F);
-    #define CATFILE print("\nFile Name>  ", 0x0F); readStr(bufStr, bufSize); ASSERT(strlength(bufStr) < MAX_FNAME_LEN); cat(finddir_fs(fs_root, bufStr));
-    #define SWITCHDIR print("\nThe specified directory was not found ", 0x0F);
-    #define CALCULATE calc(rawCommand);
-    #define BIGCLEAR clearScreen(); printIntro();
-    #define MKDIR print("\nThis Command is Reserved for when we have a FAT32 or better FileSystem...", 0x3F);
-    #define RMFILE print("\nThis Command is Reserved for when we have a FAT32 or better FileSystem...", 0x3F);
+	#define HELP print("\nWorking Commands in Q OS: \nwriter\nclear\nexecute\nhi\nskip (the no action)\nfiles\ncat\nreboot\ncalc", 0x0F);
+	#define BIGHELP kbHelp(); TIP; HELP;
+	#define SYSTEMMAN system(arguments);
+	#define SAYHI print("\nHello!", 0x3F);
+	#define CATFILE print("\nFile Name> ", 0x0F); readStr(bufStr, bufSize); ASSERT(strlength(bufStr) < MAX_FNAME_LEN); cat(finddir_fs(fs_root, bufStr));
+	#define SWITCHDIR print("\nThe specified directory was not found ", 0x0F);
+	#define CALCULATE calc(&arguments);
+	#define BIGCLEAR clearScreen(); printIntro();
+	#define MKDIR print("\nThis Command is Reserved for when we have a FAT32 or better FileSystem...", 0x3F);
+	#define RMFILE print("\nThis Command is Reserved for when we have a FAT32 or better FileSystem...", 0x3F);
     #define SKIP skip(rawCommand);
     #define FILEMAN files(arguments);
     #define WRITE writer(arguments);
@@ -71,7 +73,7 @@ void launchShell() {
     	fs = 1;
             ay = -1;
             ax = 0;
-
+if(MULTI_ARG_DEBUG == true){
     	//Sanitize raw input. Move first word to bufStr and move the rest of the word to arguments
     	for(int i = 0; i < bufSize; ++i)
       {
@@ -97,6 +99,34 @@ void launchShell() {
     	  	break;
     	  }
     	}
+}else{
+//Sanitize raw input. Move first word to bufStr and move the rest of the word to arguments
+	for(int i = 0; i < bufSize; ++i)
+		{
+		if(rawCommand[i] != 0 || rawCommand[i] != 10)
+			{
+			if(fs == 1)
+			{
+				bufStr[i] = rawCommand[i];
+			}
+			if(i < bufSize && rawCommand[i+1] == 32)
+			{
+				fs = 0;
+				ay++;
+				ax = 0;
+			}
+			else if(fs == 0){
+				arguments[ay][ax] = rawCommand[i];
+				ax++;
+			}
+		}
+		else
+		{
+			break;
+		}
+	}
+
+}
 
       if (strEql(strTrim(bufStr), ""))        {   HELP;             }
       else if(strEql(bufStr, "help"))         {   BIGHELP;          }
