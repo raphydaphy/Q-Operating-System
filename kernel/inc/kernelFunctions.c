@@ -43,11 +43,11 @@ void launchShell() {
     #define SAYHI print("\nHello!", 0x3F);
     #define CATFILE print("\nFile Name>  ", 0x0F); readStr(bufStr, bufSize); ASSERT(strlength(bufStr) < MAX_FNAME_LEN); cat(finddir_fs(fs_root, bufStr));
     #define SWITCHDIR print("\nThe specified directory was not found ", 0x0F);
-    #define CALCULATE calc(&arguments);
+    #define CALCULATE calc(rawCommand);
     #define BIGCLEAR clearScreen(); printIntro();
     #define MKDIR print("\nThis Command is Reserved for when we have a FAT32 or better FileSystem...", 0x3F);
     #define RMFILE print("\nThis Command is Reserved for when we have a FAT32 or better FileSystem...", 0x3F);
-    #define SKIP skip(arguments);
+    #define SKIP skip(rawCommand);
     #define FILEMAN files(arguments);
     #define WRITE writer(arguments);
     #define CMDNOTFOUND print("\n", 0x0F); print(bufStr, 0x0F); print(": Command Not Found ", 0x0F);
@@ -81,17 +81,16 @@ void launchShell() {
           {
       		  bufStr[i] = rawCommand[i];
           }
+                else if(fs == 0){
+      		  arguments[ay][ax] = rawCommand[i];
+      		}
       		if(i < bufSize && rawCommand[i+1] == 32)
           {
       		  fs = 0;
       		  ay++;
-      		  ax = 0;
       		}
 
-      		else if(fs == 0){
-      		  arguments[ay][ax] = rawCommand[i];
-      		  ax++;
-      		}
+      		
     	  }
         else
         {
