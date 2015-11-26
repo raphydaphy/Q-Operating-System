@@ -18,7 +18,23 @@ double powerOfTen(int num){
 
 //}
 
-double squareRoot(double a)
+double cbrt(double x) {
+    if (x == 0) {
+        return 0;
+    }
+    double b = 1; // use any value except 0
+    double last_b_1 = 0;
+    double last_b_2 = 0;
+    while (last_b_1 != b && last_b_2 != b) {
+        last_b_1 = b;
+        b = (b + x / b / b) / 2;
+        last_b_2 = b;
+        b = (b + x / b / b) / 2;
+    }
+    return b;
+}
+
+double sqrt(double a)
 {
    /*
          find more detail of this method on wiki methods_of_computing_square_roots
@@ -67,10 +83,52 @@ double squareRoot(double a)
      return rst;
 }
 
-int convertBase(int num, int base)
+int convertBase10(int num, int base)
 {
-    // Reserved for Base - Converting function by raph :)
+    print ("\nSetting Up Some Stuff...",0x0A);
+
+    int sum = num/base;
+    int rem = num%base;
+
+    int curRem = rem;
+    int curSum = sum;
+
+    int result;
+
+    unsigned join(unsigned x, unsigned y) {
+        unsigned pow = 10;
+        while(y >= pow)
+            pow *= 10;
+        return x * pow + y;
+    }
+    char digitConvert(int digit)
+    {
+        char charDigit = digit;
+        printch(charDigit,0x0F);
+
+        if (digit < 10)         { return charDigit; }
+        else if (digit == 10)   { return 'A';       }
+        else if (digit == 11)   { return 'B';       }
+        else if (digit == 12)   { return 'C';       }
+        else if (digit == 13)   { return 'D';       }
+        else if (digit == 14)   { return 'E';       }
+        else if (digit == 15)   { return 'F';       }
+        else if (digit == 16)   { return 'G';       }
+        else if (digit > base)  { return 'Z';       }
+    }
+    int compress(int curSum)
+    {
+        print("\nCompressing Stuff...",0x0B);
+
+        curSum = curSum/base;
+        curRem = curSum%base;
+
+        curRem = digitConvert(curRem);
+        result = join(curRem,result);
+    }
+    printch(digitConvert(8));
 }
+
 
 long round(double num)
 {
@@ -98,4 +156,3 @@ double abs(double num)
     if (num < 0) return -num;
     return num;
 }
-
