@@ -70,10 +70,10 @@ void calc(string args)
     {
         newline();
         print("Number>  ",0x08);
-        readStr(calcInput,CALCSIZE);
-    	print("\n",0x00);
+        readStr(calcInput, CALCSIZE);
+        newline();
     	char ans = powerOfTen(calcInput);
-    	print(ans,0x0F);
+    	printch(ans, 0x0F);
     }
     else
     {
