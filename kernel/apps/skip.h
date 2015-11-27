@@ -3,6 +3,6 @@
 
 #include "../inc/intTypeDefs.h"
 
-void skip(int argc, char *args[]);
+void skip(string args);
 
 #endif

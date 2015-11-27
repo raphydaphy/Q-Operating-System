@@ -115,8 +115,9 @@ int convertBase10(int num, int base)
         else if (digit == 15)   { return 'F';       }
         else if (digit == 16)   { return 'G';       }
         else if (digit > base)  { return 'Z';       }
+        else { return '\0'; } // But really, nothing should come here...
     }
-    int compress(int curSum)
+    void compress(int curSum)
     {
         print("\nCompressing Stuff...",0x0B);
 
@@ -126,7 +127,7 @@ int convertBase10(int num, int base)
         curRem = digitConvert(curRem);
         result = join(curRem,result);
     }
-    printch(digitConvert(8));
+    printch(digitConvert(8), 0x0F);
 }
 
 
