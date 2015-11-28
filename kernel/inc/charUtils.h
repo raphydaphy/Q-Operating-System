@@ -3,6 +3,7 @@
 
 #include "intTypeDefs.h"
 
+/* Start inline methods */
 bool isspace(char);
 
 bool isnum(char);
@@ -12,6 +13,7 @@ bool isalpha(char);
 bool islower(char);
 
 bool isupper(char);
+/* End inline methods */
 
 char toLowerC(char);
 

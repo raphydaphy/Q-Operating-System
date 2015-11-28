@@ -2,23 +2,23 @@
 
 #define IN_RANGE(val, low, high) ((val >= low) && (val <= high))
 
-bool isspace(char ch) {
+inline bool isspace(char ch) {
     return (ch == ' ') || (ch == '\t') || (ch == '\r') || (ch == '\n') || (ch == '\f') || (ch == '\0');
 }
 
-bool isnum(char ch) {
+inline bool isnum(char ch) {
     return IN_RANGE(ch, '0', '9');
 }
 
-bool isalpha(char ch) {
+inline bool isalpha(char ch) {
     return islower(ch) || isupper(ch);
 }
 
-bool islower(char ch) {
+inline bool islower(char ch) {
     return IN_RANGE(ch, 'a', 'z');
 }
 
-bool isupper(char ch) {
+inline bool isupper(char ch) {
     return IN_RANGE(ch, 'A', 'Z');
 }
 
