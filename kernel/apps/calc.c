@@ -1,15 +1,4 @@
 #include "calc.h"
-#include "../inc/math.h"
-
-#include "../inc/intTypeDefs.h"
-#include "../inc/stringUtils.h"
-#include "../inc/screenUtils.h"
-#include "../inc/kbDetect.h"
-
-#ifndef CALCSIZE
-#define CALCSIZE 128
-#endif
-
 
 // initialize the math storage variables
 int mathOp[CALCSIZE];
@@ -46,7 +35,7 @@ void calcHelp()
 }
 
 //Prints an error based on the error ID
-void mathError(int ID)
+void mathError(uint8 ID)
 {
     newline();
     switch (ID)
