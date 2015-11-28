@@ -15,4 +15,6 @@ string strcat(string, string);
 
 string strTrim(string);
 
+string itos(int);
+
 #endif
