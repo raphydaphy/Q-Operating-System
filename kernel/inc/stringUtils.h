@@ -25,4 +25,6 @@ int ctoi(char);
 
 int stoi(string);
 
+double stod(string);
+
 #endif

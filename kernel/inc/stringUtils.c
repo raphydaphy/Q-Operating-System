@@ -156,7 +156,12 @@ int ctoi(char c)
 int stoi(string s)
 {
     int msg = 0;
+    bool hasN = false;
     uint16 i = 0;
+    if (s[0] == '-') {
+        hasN = true;
+        i++;
+    }
     while(s[i]) {
         if (isnum(s[i])) {
             msg *= 10;
@@ -164,5 +169,35 @@ int stoi(string s)
         } else break;
         i++;
     }
+    if (hasN) msg = -msg;
     return msg;
 }
+
+double stod(string s)
+{
+    double fmp = 1;
+    double msg = 0.0;
+    bool hasDec = false;
+    bool hasN = false;
+    uint16 i = 0;
+    if (s[0] == '-') {
+        hasN = true;
+        i++;
+    }
+    while(s[i]) {
+        if (isnum(s[i])) {
+            if (hasDec) {
+                fmp *= 0.1;
+                msg += ctoi(s[i]) * fmp;
+            } else
+                msg = msg * 10 + ctoi(s[i]);
+        } else if (s[i] == '.') {
+            if (hasDec) break;
+            hasDec = true;
+        } else break;
+        i++;
+    }
+    if (hasN) msg = -msg;
+    return msg;
+}
+
