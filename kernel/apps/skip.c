@@ -1,10 +1,5 @@
 #include "skip.h"
 
-#include "../inc/intTypeDefs.h"
-#include "../inc/stringUtils.h"
-#include "../inc/screenUtils.h"
-#include "../inc/kbDetect.h"
-
 string splitArg(string args, int argc) {//argc is the argument the program needs (argument n)
     int i = 0;
     int j = 0;

@@ -1,6 +1,10 @@
 #ifndef EXECUTE_H
 #define EXECUTE_H
 
+#include "../inc/intTypeDefs.h"
+#include "../inc/screenUtils.h"
+#include "../inc/kbDetect.h"
+
 #ifndef EXECUTESIZE
 #define EXECUTESIZE 1024
 #endif
