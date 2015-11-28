@@ -35,7 +35,7 @@ int concat(int x, int y)
     return x * pow + y;
 }
 
-bool isMathOperator(int charToCheck){
+bool isMathOperator(int charToCheck) {
     return charToCheck == 42 || charToCheck == 43 || charToCheck == 45 || charToCheck == 47;
 }
 
@@ -48,18 +48,23 @@ void calcHelp()
 //Prints an error based on the error ID
 void mathError(int ID)
 {
-        switch (ID)
-        {
-            case 0:
-                print("\nCannot start with an operator", 0x04);
-                break;
-            case 1:
-                print("\nCannot divide by 0", 0x04);
-                break;
-            case 2:
-                print("\nCannot have 2 operators side by side", 0x04);
-                break;
-        }
+    newline();
+    switch (ID)
+    {
+    case 0:
+        print("Cannot start with an operator", 0x04);
+        break;
+    case 1:
+        print("Cannot divide by 0", 0x04);
+        break;
+    case 2:
+        print("Cannot have 2 operators side by side", 0x04);
+        break;
+    default:
+        print("Unknown math exception: ", 0x04);
+        printint(ID, 0x04);
+        break;
+    }
 }
 
 void calc(string args)
@@ -83,103 +88,57 @@ void calc(string args)
     }
     else
     {
-        
-        print("\nUse calc -h for help", 0x0F);
-        print("\n>  ", 0x0F);
+        print("\nUse calc -h for help\n>  ", 0x0F);
         
         readStr(calcInput, CALCSIZE);
         
         for(int i = 0; i < CALCSIZE; i++)
         {
-            if(calcInput[i] == 0 || calcInput[i] == 10)
-            {
+            if((calcInput[i] == 0) || (calcInput[i] == 10))
                 break;
-            }
             else
             {
-                switch (calcInput[i])
-                {
-                    case 48:	//Number 0
-                        tempNum = concat(tempNum, 0);
-                        break;
-                    case 49:	//Number 1
-                        tempNum = concat(tempNum, 1);
-                        break;
-                    case 50:	//Number 2
-                        tempNum = concat(tempNum, 2);
-                        break;
-                    case 51:	//Number 3
-                        tempNum = concat(tempNum, 3);
-                        break;
-                    case 52:	//Number 4
-                        tempNum = concat(tempNum, 4);
-                        break;
-                    case 53:	//Number 5
-                        tempNum = concat(tempNum, 5);
-                        break;
-                    case 54:	//Number 6
-                        tempNum = concat(tempNum, 6);
-                        break;
-                    case 55:	//Number 7
-                        tempNum = concat(tempNum, 7);
-                        break;
-                    case 56:	//Number 8
-                        tempNum = concat(tempNum, 8);
-                        break;
-                    case 57:	//Number 9
-                        tempNum = concat(tempNum, 9);
-                        break;
-                    default:
-    			        // Properly check for math operator
-    			        if(isMathOperator(calcInput[i]))
+                int pInput = ctoi(calcInput[i]);
+                if (pInput != -1)
+                    tempNum = concat(tempNum, pInput);
+                else {
+                    // Properly check for math operator
+                    if(isMathOperator(calcInput[i]))
+                    {
+                        //check if user enter negative and not minus operator
+                        if(tempNum < 0) //If tempNum doesn't have a value
                         {
-    				        //check if user enter negative and not minus operator
-    				        if(tempNum < 0)//If tempNum doesn't have a value
+                            if(calcInput[i] == 45)
                             {
-                                if(calcInput[i] == 45)
+                                if(isNegative)
                                 {
-                                    if(isNegative)
-                                    {
-                                        mathError(2);
-                                        return;
-                                    }
-                                    isNegative = true;
-                                }
-                                else
-                                {
-                                    if(strNumCount == 0)
-                                    {
-                                        mathError(0);
-                                    }
-                                    else
-                                    {
-                                        mathError(2);
-                                    }
+                                    mathError(2);
                                     return;
                                 }
-    				        }
-    				        else
-    				        {
-                                if(isNegative){
-                                    tempNum *= -1;
-                                }
-    					        strNum[strNumCount] = tempNum;
-    					        mathOp[strNumCount++] = calcInput[i]; 	// set math operator
-    					        tempNum = -1;
-                                isNegative = false;
-    				        }
-    			        }
-    			        else
-    			        {
-    				        continue;
-        			    }
-                        break;
+                                isNegative = true;
+                            }
+                            else
+                            {
+                                mathError(strNumCount == 0 ? 0 : 2);
+                                return;
+                            }
+                        }
+                        else
+                        {
+                            if(isNegative)
+                                tempNum *= -1;
+                            strNum[strNumCount] = tempNum;
+                            mathOp[strNumCount++] = calcInput[i]; 	// set math operator
+                            tempNum = -1;
+                            isNegative = false;
+                        }
+                    }
                 }
             }
         }
         strNum[strNumCount++] = tempNum;
         //Start with * and /
-        for(int i = 0; i < strNumCount-1;i++){
+        for(int i = 0; i < strNumCount-1;i++) {
             if(mathOp[i] == 42)// Operator: *
             {
                 strNum[i] *= strNum[i+1];
@@ -216,8 +175,8 @@ void calc(string args)
         }
         
         //Then do + and -
-        for(int i = 0; i < strNumCount-1;i++){
-            if(mathOp[i] == 43)// Operator: *
+        for(int i = 0; i < strNumCount-1;i++) {
+            if(mathOp[i] == 43)// Operator: +
             {
                 strNum[i] += strNum[i+1];
                 for(int j = i+1; j < strNumCount-1; j++)
@@ -231,7 +190,7 @@ void calc(string args)
                     mathOp[j] = mathOp[j+1];
                 }
             }
-            else if(mathOp[i] == 45)// Operator: /
+            else if(mathOp[i] == 45)// Operator: -
             {
                 strNum[i] -= strNum[i+1];
                 for(int j = i+1; j < strNumCount-1; j++)
@@ -246,8 +205,8 @@ void calc(string args)
                 }
             }
         }
-        print("\n",0x0F);
-        printint(round(strNum[0]),0x0F);
+        newline();
+        printint(round(strNum[0]), 0x0F);
         //Reset operational variable to its default state
         tempNum = -1;
         strNumCount = 0;
