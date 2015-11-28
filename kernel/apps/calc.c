@@ -15,12 +15,18 @@
 int mathOp[CALCSIZE];
 double strNum[CALCSIZE];
 int strNumCount = 0;
-int tempNum = 0;
+int tempNum = -1;
 bool isNegative = false;
 
 // concatinating for calculator
 int concat(int x, int y)
 {
+    if(x < 0){
+        return y;
+    }
+    if(y < 0){
+        return x;
+    }
     int pow = 10;
     while(y >= pow)
     {
@@ -72,7 +78,7 @@ void calc(string args)
         print("Number>  ",0x08);
         readStr(calcInput, CALCSIZE);
         newline();
-    	char ans = powerOfTen(calcInput);
+    	char ans = powerOfTen((int)calcInput);
     	printch(ans, 0x0F);
     }
     else
@@ -125,32 +131,33 @@ void calc(string args)
                         break;
                     default:
     			        // Properly check for math operator
-    			        if(isMathOperator(calcInput[i])){
+    			        if(isMathOperator(calcInput[i]))
+                        {
     				        //check if user enter negative and not minus operator
-    				        if(i == 0)//If this is first character
+    				        if(tempNum < 0)//If tempNum doesn't have a value
                             {
                                 if(calcInput[i] == 45)
                                 {
-                                    isNegative = true; 
-                                }
-                                else
-                                {
-                                    mathError(0);
-                                    return;
-                                }
-    				        }
-                            else if(isMathOperator(calcInput[i-1]))
-                            {
-                                if(calcInput[i] == 45)
-                                {
+                                    if(isNegative)
+                                    {
+                                        mathError(2);
+                                        return;
+                                    }
                                     isNegative = true;
                                 }
                                 else
                                 {
-                                    mathError(2);
+                                    if(strNumCount == 0)
+                                    {
+                                        mathError(0);
+                                    }
+                                    else
+                                    {
+                                        mathError(2);
+                                    }
                                     return;
                                 }
-                            }
+    				        }
     				        else
     				        {
                                 if(isNegative){
@@ -158,7 +165,7 @@ void calc(string args)
                                 }
     					        strNum[strNumCount] = tempNum;
     					        mathOp[strNumCount++] = calcInput[i]; 	// set math operator
-    					        tempNum = 0;
+    					        tempNum = -1;
                                 isNegative = false;
     				        }
     			        }
@@ -242,7 +249,7 @@ void calc(string args)
         print("\n",0x0F);
         printint(round(strNum[0]),0x0F);
         //Reset operational variable to its default state
-        tempNum = 0;
+        tempNum = -1;
         strNumCount = 0;
         isNegative = false;
     }
