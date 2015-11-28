@@ -10,10 +10,10 @@ bool isNegative = false;
 // concatinating for calculator
 int concat(int x, int y)
 {
-    if(x < 0){
+    if(x < 0) {
         return y;
     }
-    if(y < 0){
+    if(y < 0) {
         return x;
     }
     int pow = 10;
@@ -24,8 +24,8 @@ int concat(int x, int y)
     return x * pow + y;
 }
 
-bool isMathOperator(int charToCheck) {
-    return charToCheck == 42 || charToCheck == 43 || charToCheck == 45 || charToCheck == 47;
+bool isMathOperator(char charToCheck) {
+    return charToCheck == 42 || charToCheck == 43 || charToCheck == 45 || charToCheck == 47 || charToCheck == '%';
 }
 
 void calcHelp()
@@ -126,9 +126,9 @@ void calc(string args)
             }
         }
         strNum[strNumCount++] = tempNum;
-        //Start with * and /
+        //Start with '*' '/' and '%'
         for(int i = 0; i < strNumCount-1;i++) {
-            if(mathOp[i] == 42)// Operator: *
+            if(mathOp[i] == 42) // Operator: *
             {
                 strNum[i] *= strNum[i+1];
                 for(int j = i+1; j < strNumCount-1; j++)
@@ -142,7 +142,7 @@ void calc(string args)
                     mathOp[j] = mathOp[j+1];
                 }
             }
-            else if(mathOp[i] == 47)// Operator: /
+            else if(mathOp[i] == 47) // Operator: /
             {
                 if(strNum[i+1] == 0)
                 {
@@ -150,6 +150,25 @@ void calc(string args)
                     return;
                 }
                 strNum[i] /= strNum[i+1];
+                for(int j = i+1; j < strNumCount-1; j++)
+                {
+                    strNum[j] = strNum[j+1];
+                }
+                strNumCount--;
+                i--;
+                for(int j = i+1; j < strNumCount-1; j++)
+                {
+                    mathOp[j] = mathOp[j+1];
+                }
+            }
+            else if(mathOp[i] == '%') // Operator: %
+            {
+                if(strNum[i+1] == 0)
+                {
+                    mathError(1);
+                    return;
+                }
+                strNum[i] = ((long) strNum[i]) % ((long) strNum[i+1]);
                 for(int j = i+1; j < strNumCount-1; j++)
                 {
                     strNum[j] = strNum[j+1];
