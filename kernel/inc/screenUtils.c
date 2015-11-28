@@ -132,44 +132,13 @@ void print(string ch, int bh)
 }
 
 void printint(int n, int bh) {
-    print(itos(n), bh);
+    print(itos10(n), bh);
 }
 
 void printhex(uint32 n, int bh)
 {
-    int32 tmp;
     print("0x", bh);
-    char noZeroes = 1;
-    int i;
-    for (i = 28; i > 0; i -= 4)
-    {
-        tmp = (n >> i) & 0xF;
-        if (tmp == 0 && noZeroes != 0)
-        {
-            continue;
-        }
-    
-        if (tmp >= 0xA)
-        {
-            noZeroes = 0;
-            printch(tmp-0xA+'a', bh);
-        }
-        else
-        {
-            noZeroes = 0;
-            printch(tmp+'0', bh);
-        }
-    }
-  
-    tmp = n & 0xF;
-    if (tmp >= 0xA)
-    {
-        printch(tmp-0xA+'a', bh);
-    }
-    else
-    {
-        printch(tmp+'0', bh);
-    }
+    print(itos16(n), bh);
 }
 
 void moveCursorX(int x) {

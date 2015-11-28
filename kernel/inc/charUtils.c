@@ -38,7 +38,7 @@ char itoc(int i) {
     if (IN_RANGE(i, 0, 9)) {
         return i + '0';
     } else if (IN_RANGE(i, 10, 35)) {
-        return i + 'a'; // Use lowercase for hex digits
+        return i - 10 + 'a'; // Use lowercase for hex digits
     }
     return '\0';
 }
