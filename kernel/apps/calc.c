@@ -79,9 +79,6 @@ void calc(string args)
         print("\nUse calc -h for help\n>  ", 0x0F);
 
         readStr(calcInput, CALCSIZE);
-        // Used to fix unary not computed issue
-        // Before expression `-10` on its own outputs `10`
-        strcat(calcInput, "+0");
         
         for(int i = 0; i < CALCSIZE; i++)
         {
@@ -275,6 +272,7 @@ void calc(string args)
         }
         newline();
         printint(round(strNum[0]), 0x0F);
+
         //Reset operational variable to its default state
         tempNum = -1;
         strNumCount = 0;

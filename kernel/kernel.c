@@ -12,15 +12,6 @@
 #include "inc/assemblyFunctions.h"
 #include "inc/math.h"
 
-// Q Applications
-#include "apps/execute.h"
-#include "apps/calc.h"
-#include "apps/writer.h"
-#include "apps/cat.h"
-#include "apps/files.h"
-#include "apps/system.h"
-#include "apps/skip.h"
-
 extern uint32 placement_address;
 
 #define COMMAND_HELP "\nWorking Commands in Q OS: \nwriter\nclear\nexecute\nhi\nskip (the no action)\nfiles\ncat\nsystem\ncalc"
