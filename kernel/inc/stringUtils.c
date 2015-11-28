@@ -119,16 +119,16 @@ string itos(int i)
     /* Room for INT_DIGITS digits, - and '\0' */
     static char buf[INT_DIGITS + 2];
     string p = buf + INT_DIGITS + 1;  /* points to terminating '\0' */
-    if (i >= 0) {
-        do {
-            *--p = '0' + (i % 10);
-            i /= 10;
-        } while (i != 0);
-    } else {         /* i < 0 */
-        do {
-            *--p = '0' - (i % 10);
-            i /= 10;
-        } while (i != 0);
+    bool isNeg = false;
+    if (i < 0) {
+        isNeg = true;
+        i = -i;
+    }
+    do {
+        *--p = '0' + (i % 10);
+        i /= 10;
+    } while (i != 0);
+    if (isNeg) {
         *--p = '-';
     }
     return p;
