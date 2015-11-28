@@ -108,3 +108,29 @@ string strTrim(string str)
 
     return str;
 }
+
+#define INT_DIGITS 19       /* enough for 64 bit integer */
+
+/*
+ * Copied from opensource apple com. I only modified a little...
+ */
+string itos(int i)
+{
+    /* Room for INT_DIGITS digits, - and '\0' */
+    static char buf[INT_DIGITS + 2];
+    string p = buf + INT_DIGITS + 1;  /* points to terminating '\0' */
+    if (i >= 0) {
+        do {
+            *--p = '0' + (i % 10);
+            i /= 10;
+        } while (i != 0);
+    } else {         /* i < 0 */
+        do {
+            *--p = '0' - (i % 10);
+            i /= 10;
+        } while (i != 0);
+        *--p = '-';
+    }
+    return p;
+}
+

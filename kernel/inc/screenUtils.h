@@ -31,7 +31,7 @@ void scrollUp(uint8);
 void newLineCheck();
 void printch(char, int);
 void print(string, int);
-void printint(uint32, int);
+void printint(int, int);
 void printhex(uint32, int);
 void moveCursorX(int);
 void moveCursorY(int);
