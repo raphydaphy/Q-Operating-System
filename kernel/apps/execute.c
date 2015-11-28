@@ -1,19 +1,11 @@
 #include "execute.h"
 
-#include "../inc/intTypeDefs.h"
-#include "../inc/screenUtils.h"
-#include "../inc/kbDetect.h"
-
-#ifndef EXECUTESIZE
-#define EXECUTESIZE 1024
-#endif
-
 void execute()
 {
 	print("\ntype>  ", 0x0F);
 	readStr(executeContents, EXECUTESIZE);
 	//Entering ? will allow for the user to see all of the available execute commands. Once the line gets long, we can put them in groups.
-	if(strEql(executeContents,"?")){
+	if(strEql(executeContents,"?")) {
 		//All of the else if statments to follow should have an entry here.
 		print("\n\"repeat\"=>  prints the next line over and over again, forever.", 0x0F);
 		print("\n\"q\"=>  Asks for a Q-Compiler, then does nothing with it.", 0x0F);

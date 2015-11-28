@@ -1,18 +1,8 @@
-#include "../multiboot.h"
-
 #include "kernelFunctions.h"
-#include "fs.h"
-#include "timer.h"
-#include "error.h"
-#include "paging.h"
-#include "initrd.h"
-#include "kbDetect.h"
-#include "descriptorTables.h"
-#include "assemblyFunctions.h"
 
 #define MULTI_ARG_DEBUG false
 
-void printIntro(){
+void printIntro() {
    	print("================================================================================", 0x3F);
    	print("                             Welcome to Q OS                                    ", 0x3F);
     print("================================================================================", 0x3F);
@@ -139,7 +129,6 @@ if(MULTI_ARG_DEBUG == true){
       else if(strEql(bufStr,"switch"))        {   SWITCHDIR;        }
       else if(strEql(bufStr,"writer"))        {   WRITE;            }
       else if(strEql(bufStr, "calc"))         {   CALCULATE;        }
-      else if(strEql(bufStr, "calc -h"))      {   calcHelp();       }
       else if(strEql(bufStr, "clear"))        {   clearScreen();    }
       else if(strEql(bufStr, "clear -i"))     {   BIGCLEAR;         }
       else if(strEql(bufStr, "newdir"))       {   MKDIR;            }

@@ -1,7 +1,10 @@
 #ifndef WRITER_H
 #define WRITER_H
 
+#include "../inc/kbDetect.h"
 #include "../inc/intTypeDefs.h"
+#include "../inc/stringUtils.h"
+#include "../inc/screenUtils.h"
 
 #ifndef WRITERSIZE
 #define WRITERSIZE 1024

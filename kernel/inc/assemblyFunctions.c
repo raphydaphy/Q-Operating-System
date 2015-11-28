@@ -1,4 +1,5 @@
 #include "assemblyFunctions.h"
+
 uint8 inportb (uint16 _port)
 {
 	uint8 rv;
@@ -11,7 +12,8 @@ void outportb (uint16 _port, uint8 _data)
 	__asm__ __volatile__ ("outb %1, %0" : : "dN" (_port), "a" (_data));
 }
 
-void outportw(uint16 _port, uint16 _data){
+void outportw(uint16 _port, uint16 _data)
+{
 	__asm__ __volatile__ ("outw %1, %0" : : "dN" (_port), "a" (_data));
 }
 
@@ -31,16 +33,17 @@ void reboot()
     halt();
 }
 
-void shutdown(){
+void shutdown()
+{
     __asm__ __volatile__ ("cli");
-    while(true){
-	//Shutdown Qemu and bochs
+    while(true) {
+        //Shutdown Qemu and bochs
         outportw(0xB004, 0x2000);
 
-	//shutdown code for Qemu and bochs
-	for (const char *s = "Shutdown"; *s; ++s){
-		outportb(0x8900, *s);
-	}
-	__asm__ __volatile__ ("cli; hlt"); 
+        //shutdown code for Qemu and bochs
+        for (const char *s = "Shutdown"; *s; ++s){
+            outportb(0x8900, *s);
+        }
+        __asm__ __volatile__ ("cli; hlt"); 
     }
 }

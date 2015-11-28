@@ -2,7 +2,6 @@
 #define KERNELFUNCTIONS_H
 
 #include "../multiboot.h"
-#include "kernelFunctions.h"
 #include "fs.h"
 #include "timer.h"
 #include "error.h"
