@@ -1,105 +1,61 @@
 #include "charUtils.h"
 
+#define IN_RANGE(val, low, high) ((val >= low) && (val <= high))
+
 bool isspace(char ch) {
     return (ch == ' ') || (ch == '\t') || (ch == '\r') || (ch == '\n') || (ch == '\f') || (ch == '\0');
 }
 
 bool isnum(char ch) {
-    return (ch >= '0') && (ch <= '9');
+    return IN_RANGE(ch, '0', '9');
+}
+
+bool isalpha(char ch) {
+    return islower(ch) || isupper(ch);
+}
+
+bool islower(char ch) {
+    return IN_RANGE(ch, 'a', 'z');
+}
+
+bool isupper(char ch) {
+    return IN_RANGE(ch, 'A', 'Z');
 }
 
 int ctoi(char c)
 {
-    switch(c) {
-    case '0': return 0;
-    case '1': return 1;
-    case '2': return 2;
-    case '3': return 3;
-    case '4': return 4;
-    case '5': return 5;
-    case '6': return 6;
-    case '7': return 7;
-    case '8': return 8;
-    case '9': return 9;
-    case 'a':
-    case 'A':
-        return 10;
-    case 'b':
-    case 'B':
-        return 11;
-    case 'c':
-    case 'C':
-        return 12;
-    case 'd':
-    case 'D':
-        return 13;
-    case 'e':
-    case 'E':
-        return 14;
-    case 'f':
-    case 'F':
-        return 15;
-    case 'g':
-    case 'G':
-        return 16;
-    case 'h':
-    case 'H':
-        return 17;
-    case 'i':
-    case 'I':
-        return 18;
-    case 'j':
-    case 'J':
-        return 19;
-    case 'k':
-    case 'K':
-        return 20;
-    case 'l':
-    case 'L':
-        return 21;
-    case 'm':
-    case 'M':
-        return 22;
-    case 'n':
-    case 'N':
-        return 23;
-    case 'o':
-    case 'O':
-        return 24;
-    case 'p':
-    case 'P':
-        return 25;
-    case 'q':
-    case 'Q':
-        return 26;
-    case 'r':
-    case 'R':
-        return 27;
-    case 's':
-    case 'S':
-        return 28;
-    case 't':
-    case 'T':
-        return 29;
-    case 'u':
-    case 'U':
-        return 30;
-    case 'v':
-    case 'V':
-        return 31;
-    case 'w':
-    case 'W':
-        return 32;
-    case 'x':
-    case 'X':
-        return 33;
-    case 'y':
-    case 'Y':
-        return 34;
-    case 'z':
-    case 'Z':
-        return 35;
-    default: return -1;
+    if (isnum(c)) {
+        return c - '0';
+    } else {
+        c = toLowerC(c);
+        if (islower(c)) {
+            return c - 'a';
+        } else return -1;
     }
+}
+
+char itoc(int i) {
+    if (IN_RANGE(i, 0, 9)) {
+        return i + '0';
+    } else if (IN_RANGE(i, 10, 35)) {
+        return i + 'a'; // Use lowercase for hex digits
+    }
+    return '\0';
+}
+
+const char caseThersold = 'a' - 'A';
+
+char toLowerC(char c) {
+    if (isupper(c)) {
+        c += caseThersold; // Difference between 'A'(65) and 'a'(97)
+    }
+    return c;
+}
+
+char toUpperC(char c) {
+    if (islower(c)) {
+        c -= caseThersold; // Difference between 'A'(65) and 'a'(97)
+    }
+    return c;
 }
 
