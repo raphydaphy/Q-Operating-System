@@ -15,6 +15,14 @@ string strcat(string, string);
 
 string strTrim(string);
 
+bool isspace(char);
+
+bool isnum(char);
+
 string itos(int);
+
+int ctoi(char);
+
+int stoi(string);
 
 #endif
