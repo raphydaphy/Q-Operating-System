@@ -1,21 +1,26 @@
 #ifndef CALC_H
 #define CALC_H
 
+#include "../inc/math.h"
+#include "../inc/kbDetect.h"
+#include "../inc/charUtils.h"
 #include "../inc/intTypeDefs.h"
+#include "../inc/stringUtils.h"
+#include "../inc/screenUtils.h"
 
 #ifndef CALCSIZE
 #define CALCSIZE 128
 #endif
 
 // math storage variables
-char calcInput[CALCSIZE];
+char calcInput[CALCSIZE + 2];
 int mathOp[CALCSIZE];
 int tempNum;
 double strNum[CALCSIZE];
 int strNumCount;
 
 // contatination function for the calculator app
-int concat(int x, int y);
+int concat(int, int);
 
 // main calc() function to run from kernel.c
 void calc(string);
@@ -24,5 +29,6 @@ void calc(string);
 void calcHelp();
 
 // mathError() function to print an error message
-void mathError();
+void mathError(uint8);
+
 #endif
