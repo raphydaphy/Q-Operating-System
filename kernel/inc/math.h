@@ -1,6 +1,7 @@
 #ifndef MATH_H
 #define MATH_H
 
+#include "charUtils.h"
 #include "screenUtils.h"
 
 // We;; obviously fifty digits of PI isn't accurate enough..
@@ -19,9 +20,6 @@ double cbrt(double);
 
 //power of ten
 double powerOfTen(int num);
-
-//convert number to a different base
-int convertBase10(int num, int base);
 
 //power of n
 //double pow(double num, double);

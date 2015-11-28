@@ -106,10 +106,9 @@ string strTrim(string str)
 #define INT_DIGITS 19       /* enough for 64 bit integer */
 
 /*
- * Copied from opensource apple com. I only modified a little...
+ * Based off itoa from opensource apple com.
  */
-string itos(int i)
-{
+string itos(int i, uint8 base) {
     /* Room for INT_DIGITS digits, - and '\0' */
     static char buf[INT_DIGITS + 2];
     string p = buf + INT_DIGITS + 1;  /* points to terminating '\0' */
@@ -119,8 +118,8 @@ string itos(int i)
         i = -i;
     }
     do {
-        *--p = '0' + (i % 10);
-        i /= 10;
+        *--p = itoc(i % base);
+        i /= base;
     } while (i != 0);
     if (isNeg) {
         *--p = '-';
