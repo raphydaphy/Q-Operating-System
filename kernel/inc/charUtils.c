@@ -2,44 +2,52 @@
 
 #define IN_RANGE(val, low, high) ((val >= low) && (val <= high))
 
-bool isspace(char ch) {
+inline bool isspace(char ch) {
     return (ch == ' ') || (ch == '\t') || (ch == '\r') || (ch == '\n') || (ch == '\f') || (ch == '\0');
 }
 
-bool isnum(char ch) {
+inline bool isnum(char ch) {
     return IN_RANGE(ch, '0', '9');
 }
 
-bool isalpha(char ch) {
+inline bool isalpha(char ch) {
     return islower(ch) || isupper(ch);
 }
 
-bool islower(char ch) {
+inline bool islower(char ch) {
     return IN_RANGE(ch, 'a', 'z');
 }
 
-bool isupper(char ch) {
+inline bool isupper(char ch) {
     return IN_RANGE(ch, 'A', 'Z');
 }
 
 int ctoi(char c)
 {
-    if (isnum(c)) {
+    if (isnum(c))
         return c - '0';
-    } else {
-        c = toLowerC(c);
-        if (islower(c)) {
-            return c - 'a';
-        } else return -1;
-    }
+    else if (islower(c))
+        return c - 'a' + 10;
+    else if (isupper(c))
+        return c - 'A' + 36;
+    else if (c == '+')
+        return 62;
+    else if (c == '/')
+        return 63;
+    return -1;
 }
 
 char itoc(int i) {
-    if (IN_RANGE(i, 0, 9)) {
+    if (IN_RANGE(i, 0, 9))
         return i + '0';
-    } else if (IN_RANGE(i, 10, 35)) {
+    else if (IN_RANGE(i, 10, 35))
         return i - 10 + 'a'; // Use lowercase for hex digits
-    }
+    else if (IN_RANGE(i, 36, 61))
+        return i - 36 + 'A'; // Use UPPERCASE for higher encoding digits
+    else if (i == 62)
+        return '+';
+    else if (i == 63)
+        return '/';
     return '\0';
 }
 

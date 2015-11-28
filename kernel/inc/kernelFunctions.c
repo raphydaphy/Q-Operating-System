@@ -44,8 +44,7 @@ void launchShell() {
     #define WRITE writer(arguments);
     #define CMDNOTFOUND print("\n", 0x0F); print(bufStr, 0x0F); print(": Command Not Found ", 0x0F);
 
-    while (true)
-    {
+    while (true) {
         print("\nQ-Kernel>  ", 0x08);
         typingCmd = true;
         newCmd = true;
@@ -61,79 +60,60 @@ void launchShell() {
     	    }
     	}
     	fs = 1;
-            ay = -1;
-            ax = 0;
-if(MULTI_ARG_DEBUG == true){
-    	//Sanitize raw input. Move first word to bufStr and move the rest of the word to arguments
-    	for(int i = 0; i < bufSize; ++i)
-      {
-    	  if(rawCommand[i] != 0 || rawCommand[i] != 10)
-        {
-      		if(fs == 1)
-          {
-      		  bufStr[i] = rawCommand[i];
-          }
-                else if(fs == 0){
-      		  arguments[ay][ax] = rawCommand[i];
-      		}
-      		if(i < bufSize && rawCommand[i+1] == 32)
-          {
-      		  fs = 0;
-      		  ay++;
-      		}
+        ay = -1;
+        ax = 0;
+        if(MULTI_ARG_DEBUG == true) {
+            //Sanitize raw input. Move first word to bufStr and move the rest of the word to arguments
+            for(int i = 0; i < bufSize; ++i) {
+                if(rawCommand[i] != 0 || rawCommand[i] != 10) {
+                    if(fs == 1)
+                        bufStr[i] = rawCommand[i];
+                    else if(fs == 0)
+                        arguments[ay][ax] = rawCommand[i];
 
-      		
-    	  }
-        else
-        {
-    	  	break;
-    	  }
-    	}
-}else{
-//Sanitize raw input. Move first word to bufStr and move the rest of the word to arguments
-	for(int i = 0; i < bufSize; ++i)
-		{
-		if(rawCommand[i] != 0 || rawCommand[i] != 10)
-			{
-			if(fs == 1)
-			{
-				bufStr[i] = rawCommand[i];
-			}
-			if(i < bufSize && rawCommand[i+1] == 32)
-			{
-				fs = 0;
-				ay++;
-				ax = 0;
-			}
-			else if(fs == 0){
-				arguments[ay][ax] = rawCommand[i];
-				ax++;
-			}
-		}
-		else
-		{
-			break;
-		}
-	}
+                    if(i < bufSize && rawCommand[i+1] == 32) {
+          		        fs = 0;
+          		        ay++;
+          		    }
+    	        }
+                else break;
+    	    }
+        } else {
+            //Sanitize raw input. Move first word to bufStr and move the rest of the word to arguments
+            for(int i = 0; i < bufSize; ++i) {
+                if(rawCommand[i] != 0 || rawCommand[i] != 10) {
+                    if(fs == 1)
+                        bufStr[i] = rawCommand[i];
+                    if(i < bufSize && rawCommand[i+1] == 32) {
+                        fs = 0;
+                        ay++;
+                        ax = 0;
+                    } else if(fs == 0) {
+                        arguments[ay][ax] = rawCommand[i];
+                        ax++;
+                    }
+                } else break;
+            }
+        }
 
-}
+        if (strEql(strTrim(bufStr), ""))        {   HELP;             }
+        else if(strEql(bufStr, "help"))         {   BIGHELP;          }
+        else if(strEql(bufStr, "system"))       {   SYSTEMMAN;        }
+        else if(strEql(bufStr, "skip"))         {   SKIP;             }
+        else if(strEql(bufStr, "hi"))           {   SAYHI;            }
+        else if(strEql(bufStr, "files"))        {   FILEMAN;          }
+        else if(strEql(bufStr, "cat"))          {   CATFILE;          }
+        else if(strEql(bufStr,"execute"))       {   execute();        }
+        else if(strEql(bufStr,"switch"))        {   SWITCHDIR;        }
+        else if(strEql(bufStr,"writer"))        {   WRITE;            }
+        else if(strEql(bufStr, "calc"))         {   CALCULATE;        }
+        else if(strEql(bufStr, "clear"))        {   clearScreen();    }
+        else if(strEql(bufStr, "clear -i"))     {   BIGCLEAR;         }
+        else if(strEql(bufStr, "newdir"))       {   MKDIR;            }
+        else if(strEql(bufStr, "erase"))        {   RMFILE;           }
+        else                                    {   CMDNOTFOUND;      }
 
-      if (strEql(strTrim(bufStr), ""))        {   HELP;             }
-      else if(strEql(bufStr, "help"))         {   BIGHELP;          }
-      else if(strEql(bufStr, "system"))       {   SYSTEMMAN;        }
-      else if(strEql(bufStr, "skip"))         {   SKIP;             }
-      else if(strEql(bufStr, "hi"))           {   SAYHI;            }
-      else if(strEql(bufStr, "files"))        {   FILEMAN;          }
-      else if(strEql(bufStr, "cat"))          {   CATFILE;          }
-      else if(strEql(bufStr,"execute"))       {   execute();        }
-      else if(strEql(bufStr,"switch"))        {   SWITCHDIR;        }
-      else if(strEql(bufStr,"writer"))        {   WRITE;            }
-      else if(strEql(bufStr, "calc"))         {   CALCULATE;        }
-      else if(strEql(bufStr, "clear"))        {   clearScreen();    }
-      else if(strEql(bufStr, "clear -i"))     {   BIGCLEAR;         }
-      else if(strEql(bufStr, "newdir"))       {   MKDIR;            }
-      else if(strEql(bufStr, "erase"))        {   RMFILE;           }
-      else                                    {   CMDNOTFOUND;      }
-      newline();
+        newline();
     }
 }
+

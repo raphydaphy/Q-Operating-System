@@ -21,6 +21,7 @@ string strTrim(string);
 #define itos10(i) itos(i, 10)
 #define itos16(i) itos(i, 16)
 #define itos36(i) itos(i, 36)
+#define itos64(i) itos(i, 64)
 string itos(int, uint8);
 
 int stoi(string);
