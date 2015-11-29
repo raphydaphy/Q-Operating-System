@@ -24,7 +24,7 @@ int concat(int x, int y)
 }
 
 bool isMathOperator(char charToCheck) {
-    return charToCheck == '+' || charToCheck == '-' || charToCheck == '*' || charToCheck == '/' || charToCheck == '%' || charToCheck == '&' || charToCheck == '|' || charToCheck == '^' || charToCheck == '~' || charToCheck == '<' || charToCheck == '>' || charToCheck == '=';
+    return charToCheck == '+' || charToCheck == '-' || charToCheck == '*' || charToCheck == '/' || charToCheck == '%' || charToCheck == '&' || charToCheck == '|' || charToCheck == '^' || charToCheck == '~' || charToCheck == '<' || charToCheck == '>' || charToCheck == '=' || charToCheck == '[' || charToCheck == ']';
 }
 
 void calcHelp()
@@ -63,7 +63,13 @@ void calc(string args)
     }
     else if(strEql(args," -pi"))
     {
-        print("\n3.1415926535897932384626433832795028841971693993751058209749445923078164062862089986280348253421170679821480865132823066470938446095505822317253594081284811174502841027019385211055596446229489549303819644288109756659334461284756482337867831652712019091456485669234603486104543266482133936072602491412737245870066063155881748815209209628292540917153643678925903600113305305488204665213841469519415116094330572703657595919530921861173819326117931051185480744623799627495673518857527248912279381830119491298336733624406566430860213949463952247371907021798609437027705392171762931767523846748184676694051320005681271452635608277857713427577896091736371787214684409012249534301465495853710507922796892589235420199561121290219608640344181598136297747713099605187072113499999983729780499510597317328160963185950244594553469083026425223082533446850352619311881710100031378387528865875332083814206171776691473035982534904287554687311595628638823537875937519577818577805321712268066130019278766111959092164201989",0x08);
+        newline();
+        print(PI_S, 0x08);
+    }
+    else if(strEql(args," -e"))
+    {
+        newline();
+        print(E_S, 0x08);
     }
     else if(strEql(args," -pow"))
     {
@@ -87,14 +93,12 @@ void calc(string args)
                 break;
             else
             {
-                int pInput = ctoi(calcInput[i]);
-                // -1 means invalid char, 62 is + and 6 is /
-                if ((pInput != -1) && (pInput != 62) && (pInput != 63))
+                int pInput = ntoi(calcInput[i]);
+                if (pInput != -1)
                     tempNum = concat(tempNum, pInput);
                 else {
                     // Properly check for math operator
-                    if(isMathOperator(calcInput[i]))
-                    {
+                    if(isMathOperator(calcInput[i])) {
                         //check if user enter negative and not minus operator
                         if(tempNum < 0) //If tempNum doesn't have a value
                         {
@@ -271,7 +275,39 @@ void calc(string args)
                 }
             }
         }
-        
+
+        //Then do '[' and ']' (Bitshifts)
+        for(int i = 0; i < strNumCount-1;i++) {
+            if(mathOp[i] == '[') // Shift to right
+            {
+                strNum[i] = ((long) strNum[i]) << ((long) strNum[i+1]);
+                for(int j = i+1; j < strNumCount-1; j++)
+                {
+                    strNum[j] = strNum[j+1];
+                }
+                strNumCount--;
+                i--;
+                for(int j = i+1; j < strNumCount-1; j++)
+                {
+                    mathOp[j] = mathOp[j+1];
+                }
+            }
+            else if(mathOp[i] == ']') // Shift to left
+            {
+                strNum[i] = ((long) strNum[i]) >> ((long) strNum[i+1]);
+                for(int j = i+1; j < strNumCount-1; j++)
+                {
+                    strNum[j] = strNum[j+1];
+                }
+                strNumCount--;
+                i--;
+                for(int j = i+1; j < strNumCount-1; j++)
+                {
+                    mathOp[j] = mathOp[j+1];
+                }
+            }
+        }
+
         //Then do '&', '|', and '^'
         for(int i = 0; i < strNumCount-1;i++) {
             if(mathOp[i] == '&')
