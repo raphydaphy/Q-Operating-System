@@ -24,7 +24,7 @@ int concat(int x, int y)
 }
 
 bool isMathOperator(char charToCheck) {
-    return charToCheck == '+' || charToCheck == '-' || charToCheck == '*' || charToCheck == '/' || charToCheck == '%' || charToCheck == '&' || charToCheck == '|' || charToCheck == '^' || charToCheck == '~';
+    return charToCheck == '+' || charToCheck == '-' || charToCheck == '*' || charToCheck == '/' || charToCheck == '%' || charToCheck == '&' || charToCheck == '|' || charToCheck == '^' || charToCheck == '~' || charToCheck == '<' || charToCheck == '>' || charToCheck == '=';
 }
 
 void calcHelp()
@@ -88,6 +88,7 @@ void calc(string args)
             else
             {
                 int pInput = ctoi(calcInput[i]);
+                // -1 means invalid char, 62 is + and 6 is /
                 if ((pInput != -1) && (pInput != 62) && (pInput != 63))
                     tempNum = concat(tempNum, pInput);
                 else {
@@ -138,7 +139,52 @@ void calc(string args)
             }
         }
         strNum[strNumCount++] = tempNum;
-        //Start with '*' '/' and '%'
+        // '<' '>' and '='
+        for(int i = 0; i < strNumCount-1;i++) {
+            if(mathOp[i] == '<')
+            {
+                strNum[i] = strNum[i] < strNum[i+1];
+                for(int j = i+1; j < strNumCount-1; j++)
+                {
+                    strNum[j] = strNum[j+1];
+                }
+                strNumCount--;
+                i--;
+                for(int j = i+1; j < strNumCount-1; j++)
+                {
+                    mathOp[j] = mathOp[j+1];
+                }
+            }
+            else if(mathOp[i] == '>')
+            {
+                strNum[i] = strNum[i] > strNum[i+1];
+                for(int j = i+1; j < strNumCount-1; j++)
+                {
+                    strNum[j] = strNum[j+1];
+                }
+                strNumCount--;
+                i--;
+                for(int j = i+1; j < strNumCount-1; j++)
+                {
+                    mathOp[j] = mathOp[j+1];
+                }
+            }
+            else if(mathOp[i] == '=')
+            {
+                strNum[i] = strNum[i] == strNum[i+1];
+                for(int j = i+1; j < strNumCount-1; j++)
+                {
+                    strNum[j] = strNum[j+1];
+                }
+                strNumCount--;
+                i--;
+                for(int j = i+1; j < strNumCount-1; j++)
+                {
+                    mathOp[j] = mathOp[j+1];
+                }
+            }
+        }
+        //'*' '/' and '%'
         for(int i = 0; i < strNumCount-1;i++) {
             if(mathOp[i] == '*')
             {
