@@ -6,6 +6,15 @@ double strNum[CALCSIZE];
 int strNumCount = 0, tempNum = -1;
 bool isNegative = false, isUnaryNot = false;
 
+// initialize value storages! (a-z, A-Z) -> (1-26, 27-52)
+#define STO_SIZE 51
+static double valStorage[STO_SIZE];
+
+// Must be called before calc is used!
+void initialize_calc() {
+    memset(valStorage, 0, STO_SIZE);
+}
+
 // concatinating for calculator
 int concat(int x, int y)
 {
@@ -24,7 +33,7 @@ int concat(int x, int y)
 }
 
 bool isMathOperator(char charToCheck) {
-    return charToCheck == '+' || charToCheck == '-' || charToCheck == '*' || charToCheck == '/' || charToCheck == '%' || charToCheck == '&' || charToCheck == '|' || charToCheck == '^' || charToCheck == '~' || charToCheck == '<' || charToCheck == '>' || charToCheck == '=' || charToCheck == '[' || charToCheck == ']';
+    return charToCheck == '+' || charToCheck == '-' || charToCheck == '*' || charToCheck == '/' || charToCheck == '%' || charToCheck == '&' || charToCheck == '|' || charToCheck == '^' || charToCheck == '~' || charToCheck == '<' || charToCheck == '>' || charToCheck == '=' || charToCheck == '[' || charToCheck == ']' || charToCheck == ':';
 }
 
 void calcHelp()
@@ -96,7 +105,12 @@ void calc(string args)
                 int pInput = ntoi(calcInput[i]);
                 if (pInput != -1)
                     tempNum = concat(tempNum, pInput);
-                else {
+                else if (isalpha(calcInput[i])) {
+                    int valIndex = ctoi(calcInput[i]) - 10; // [0-9], [a-z], [A-Z], +, /
+                    tempNum = concat(tempNum, valIndex);
+                    print("\nVar: ", 0x0f);
+                    printint(valStorage[valIndex], 0x0f);
+                } else {
                     // Properly check for math operator
                     if(isMathOperator(calcInput[i])) {
                         //check if user enter negative and not minus operator
@@ -341,6 +355,25 @@ void calc(string args)
             else if(mathOp[i] == '^')
             {
                 strNum[i] = ((long) strNum[i]) ^ ((long) strNum[i+1]);
+                for(int j = i+1; j < strNumCount-1; j++)
+                {
+                    strNum[j] = strNum[j+1];
+                }
+                strNumCount--;
+                i--;
+                for(int j = i+1; j < strNumCount-1; j++)
+                {
+                    mathOp[j] = mathOp[j+1];
+                }
+            }
+        }
+
+        // ':' the assign operator
+        for(int i = 0; i < strNumCount-1;i++) {
+            if(mathOp[i] == ':')
+            {
+                valStorage[(int) strNum[i-1]] = strNum[i+1];
+                strNum[i] = strNum[i+1]; // Resume tail expressions
                 for(int j = i+1; j < strNumCount-1; j++)
                 {
                     strNum[j] = strNum[j+1];
