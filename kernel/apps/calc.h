@@ -20,6 +20,9 @@ int tempNum;
 double strNum[CALCSIZE];
 int strNumCount;
 
+// Initializes the variable map! IMPORTANT!
+void initialize_calc();
+
 // contatination function for the calculator app
 int concat(int, int);
 

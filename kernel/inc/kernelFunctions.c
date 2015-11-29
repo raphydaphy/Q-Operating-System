@@ -9,6 +9,8 @@ void printIntro() {
 }
 
 void launchShell() {
+    initialize_calc();
+
     //allocate some memory for command string buffer. 1kB should be enough for now
     const int bufSize = 128;
     char bufStr[bufSize];//Store sanitized user command (no arguments)
