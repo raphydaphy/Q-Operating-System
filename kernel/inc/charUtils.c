@@ -22,6 +22,10 @@ inline bool isupper(char ch) {
     return IN_RANGE(ch, 'A', 'Z');
 }
 
+inline bool isword(char ch) {
+    return isalpha(ch) || isnum(ch) || ch == '_';
+}
+
 int ctoi(char c)
 {
     if (isnum(c))

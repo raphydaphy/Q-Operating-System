@@ -13,6 +13,8 @@ bool isalpha(char);
 bool islower(char);
 
 bool isupper(char);
+
+bool isword(char);
 /* End inline methods */
 
 char toLowerC(char);
