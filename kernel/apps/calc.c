@@ -23,7 +23,7 @@ int concat(int x, int y)
     return x * pow + y;
 }
 
-static inline bool isMathOperator(char charToCheck) {
+bool isMathOperator(char charToCheck) {
     return charToCheck == '+' || charToCheck == '-' || charToCheck == '*' || charToCheck == '/' || charToCheck == '%' || charToCheck == '&' || charToCheck == '|' || charToCheck == '^' || charToCheck == '~' || charToCheck == '<' || charToCheck == '>' || charToCheck == '=';
 }
 
@@ -169,7 +169,7 @@ void calc(string args)
                     mathOp[j] = mathOp[j+1];
                 }
             }
-            else if(mathOp[i] == '%')
+            else if(mathOp[i] == '=')
             {
                 strNum[i] = strNum[i] == strNum[i+1];
                 for(int j = i+1; j < strNumCount-1; j++)
