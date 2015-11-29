@@ -77,7 +77,7 @@ void calc(string args)
     else
     {
         print("\nUse calc -h for help\n>  ", 0x0F);
-
+        memset(calcInput, '\0', CALCSIZE);
         readStr(calcInput, CALCSIZE);
         strcat(calcInput, "+0"); // Unary related hack! do not delete
         
