@@ -37,6 +37,13 @@ int ctoi(char c)
     return -1;
 }
 
+int ntoi(char c)
+{
+    if (isnum(c))
+        return c - '0';
+    return -1;
+}
+
 char itoc(int i) {
     if (IN_RANGE(i, 0, 9))
         return i + '0';
