@@ -79,6 +79,7 @@ void calc(string args)
         print("\nUse calc -h for help\n>  ", 0x0F);
 
         readStr(calcInput, CALCSIZE);
+        strcat(calcInput, "+0"); // Unary related hack! do not delete
         
         for(int i = 0; i < CALCSIZE; i++)
         {
@@ -87,7 +88,7 @@ void calc(string args)
             else
             {
                 int pInput = ctoi(calcInput[i]);
-                if (pInput != -1)
+                if ((pInput != -1) && (pInput != 62) && (pInput != 63))
                     tempNum = concat(tempNum, pInput);
                 else {
                     // Properly check for math operator

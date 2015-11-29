@@ -13,7 +13,7 @@
 #endif
 
 // math storage variables
-char calcInput[CALCSIZE];
+char calcInput[CALCSIZE + 2]; // For `+0`
 int mathOp[CALCSIZE];
 int tempNum;
 double strNum[CALCSIZE];
