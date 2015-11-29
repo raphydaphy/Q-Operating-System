@@ -3,6 +3,7 @@
 
 #include "../inc/math.h"
 #include "../inc/kbDetect.h"
+#include "../inc/byteUtils.h"
 #include "../inc/charUtils.h"
 #include "../inc/intTypeDefs.h"
 #include "../inc/stringUtils.h"
