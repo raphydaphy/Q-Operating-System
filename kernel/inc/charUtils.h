@@ -19,6 +19,8 @@ char toLowerC(char);
 
 char toUpperC(char);
 
+int ntoi(char);
+
 int ctoi(char);
 
 char itoc(int);
