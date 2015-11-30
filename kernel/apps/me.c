@@ -17,6 +17,16 @@ char *months[] = {
     "December"
 };
 
+char *continents[] = {
+    "Australia",
+    "Africa",
+    "Antarctica",
+    "Europe",
+    "North America",
+    "South America",
+    "Asia"
+};
+
 // Here we setup all the boolean values that we need for Me
 // We should probably move this to another file soon when it gets longer
 bool hasSetup = false;
