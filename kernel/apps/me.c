@@ -1,7 +1,6 @@
 #include "me.h"
 
-// Here we declare all the arrays we need for Me runtime
-// We should probably move this to another file soon
+// for some reason when I tried to put this in a seperate file then me.c couldn't access it :(
 char *months[] = {
     "JANUARY",
     "FEBUARY",
@@ -151,7 +150,8 @@ char *countries[] = {
     "MYANMAR (BURMA)",
     "NAMIBIA",
     "NAURU",
-    "NEPAL",    "HONDURAS",
+    "NEPAL",
+    "HONDURAS",
     "HUNGARY",
     "ICELAND",
     "INDIA",
@@ -352,6 +352,8 @@ char *countries[] = {
     "ZAMBIA",
     "ZIMBABWE",
 };
+
+
 
 // Here we setup all the boolean values that we need for Me
 // We should probably move this to another file soon when it gets longer
