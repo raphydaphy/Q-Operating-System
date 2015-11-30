@@ -28,6 +28,8 @@ string itos(int, uint8);
 
 string ftos(float);
 
+string splitArg(string, int);
+
 int stoi(string);
 
 double stod(string);
