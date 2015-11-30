@@ -394,9 +394,24 @@ void me(string args) {
             print("What year were you born in: ",0x0B);
             readStr(birthYear,5);
 
-            newline();
-            print("What day of the month were you born in: ",0x0B);
-            readStr(birthDate,3);
+            while (!birthDateValid)
+            {
+                newline();
+                print("What day of the month were you born in: ",0x0B);
+                readStr(birthDate,3);
+                birthDateInt = stoi(birthDate);
+
+                if (birthDateInt < 32)
+                {
+                    birthDateValid = true;
+                    print(" Good",0x02);
+                }
+
+                if (!birthDateValid)
+                {
+                    print(" Invalid",0x0C);
+                }
+            }
 
             while (!birthMonthValid)
             {
