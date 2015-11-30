@@ -69,3 +69,9 @@ This is where we have a problem. There is no currently existing programming lang
 
 
 You can see the progress made for the Q Language in the [Q Programming Language](https://github.com/raphydaphy/Q-Programming-Language) GitHub repository. It will be a huge project to create the language and in no way is current work on Q OS that is written in C and Assembly going to be wasted - converting C code to simple Q code will be a rather simple process with little manual input required. But the point of Q is not to replace C for OS Development - it is to create an entirely new language that incorporates features seen in the highest level languages like Javascript and Java all the way to the very lowest language - Assembly.
+
+
+Powerful Virtual Assistant
+--------------------------
+
+Q OS comes with a powerful and feature-filled virtual assistant, `Me`.
