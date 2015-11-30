@@ -7,13 +7,13 @@ uint16 strlength(string ch)
     return i;
 }
 
-bool strEql(string ch1,string ch2)                     
+bool strEql(string ch1,string ch2)
 {
     /* Zero from strcmp means ch1 eq ch2 */
     return strcmp(ch1, ch2) == 0;
 }
 
-// Compare two strings. Should return -1 if 
+// Compare two strings. Should return -1 if
 // str1 < str2, 0 if they are equal or 1 otherwise.
 uint8 strcmp(string str1, string str2)
 {
@@ -195,3 +195,27 @@ double stod(string s)
     return msg;
 }
 
+string splitArg(string args, int argc) {//argc is the argument the program needs (argument n)
+    int i = 0;
+    int j = 0;
+    int argLoc = 0;
+
+    char fargs[128] = {0};
+    while(args[i] != 0 && args[i] != 10) {
+		if(args[i] == 32) {
+	    	argLoc += 1;
+		}
+		if(argLoc == argc) {
+		    while(args[i+j+1] != 32 && args[i+j+1] != 0) {
+				fargs[j] = args[i+j+1];
+				j++;
+			}
+	    	break;
+		}
+		i++;
+    }
+    i = 0;
+    j = 0;
+
+    return (string)fargs;
+}
