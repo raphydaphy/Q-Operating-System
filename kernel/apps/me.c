@@ -351,7 +351,6 @@ char *countries[] = {
     "Yemen",
     "Zambia",
     "Zimbabwe",
-    "Lost In The Dark Bro",
 };
 
 // Here we setup all the boolean values that we need for Me
