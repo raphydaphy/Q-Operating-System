@@ -44,7 +44,7 @@ void launchShell() {
     #define SKIP skip(rawCommand);
     #define FILEMAN files(arguments);
     #define WRITE writer(arguments);
-    #define ME me(arguments);
+    #define ME me(rawCommand);
     #define CMDNOTFOUND print("\n", 0x0F); print(bufStr, 0x0F); print(": Command Not Found ", 0x0F);
 
     while (true) {

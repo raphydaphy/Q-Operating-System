@@ -38,14 +38,31 @@ bool isMathOperator(char charToCheck) {
 
 void calcHelp()
 {
+  printint(mathOp[0], 0x0F);
     print("\nCalculator help: ", 0x0F);
     print("\n[HELP TEXT HERE]", 0x0F);
+}
+
+void resetVar(){
+  //Reset operational variable to its default state
+  memset(calcInput, '\0', CALCSIZE);
+  memset(mathOp, '\0', CALCSIZE);
+  memset(strNum, '\0', CALCSIZE);
+  tempNum = -1;
+  strNumCount = 0;
+  isNegative = false;
+  isUnaryNot = false;
 }
 
 //Prints an error based on the error ID
 void mathError(uint8 ID)
 {
     newline();
+
+    //Because if the program terminates prematurly, it cannot call resetVar()
+    //So, if program terminates prematurly, call it here...
+    resetVar();
+
     switch (ID)
     {
     case 0:
@@ -95,7 +112,7 @@ void calc(string args)
         memset(calcInput, '\0', CALCSIZE);
         readStr(calcInput, CALCSIZE);
         strcat(calcInput, "+0"); // Unary related hack! do not delete
-        
+
         for(int i = 0; i < CALCSIZE; i++)
         {
             if((calcInput[i] == 0) || (calcInput[i] == 10))
@@ -224,17 +241,18 @@ void calc(string args)
                 {
                     mathError(1);
                     return;
-                }
-                strNum[i] /= strNum[i+1];
-                for(int j = i+1; j < strNumCount-1; j++)
-                {
-                    strNum[j] = strNum[j+1];
-                }
-                strNumCount--;
-                i--;
-                for(int j = i+1; j < strNumCount-1; j++)
-                {
-                    mathOp[j] = mathOp[j+1];
+                }else{
+                  strNum[i] /= strNum[i+1];
+                  for(int j = i+1; j < strNumCount-1; j++)
+                  {
+                      strNum[j] = strNum[j+1];
+                  }
+                  strNumCount--;
+                  i--;
+                  for(int j = i+1; j < strNumCount-1; j++)
+                  {
+                      mathOp[j] = mathOp[j+1];
+                  }
                 }
             }
             else if(mathOp[i] == '%')
@@ -243,21 +261,22 @@ void calc(string args)
                 {
                     mathError(1);
                     return;
-                }
-                strNum[i] = ((long) strNum[i]) % ((long) strNum[i+1]);
-                for(int j = i+1; j < strNumCount-1; j++)
-                {
-                    strNum[j] = strNum[j+1];
-                }
-                strNumCount--;
-                i--;
-                for(int j = i+1; j < strNumCount-1; j++)
-                {
-                    mathOp[j] = mathOp[j+1];
+                }else{
+                  strNum[i] = ((long) strNum[i]) % ((long) strNum[i+1]);
+                  for(int j = i+1; j < strNumCount-1; j++)
+                  {
+                      strNum[j] = strNum[j+1];
+                  }
+                  strNumCount--;
+                  i--;
+                  for(int j = i+1; j < strNumCount-1; j++)
+                  {
+                      mathOp[j] = mathOp[j+1];
+                  }
                 }
             }
         }
-        
+
         //Then do + and -
         for(int i = 0; i < strNumCount-1;i++) {
             if(mathOp[i] == '+')
@@ -390,9 +409,6 @@ void calc(string args)
         printint(round(strNum[0]), 0x0F);
 
         //Reset operational variable to its default state
-        tempNum = -1;
-        strNumCount = 0;
-        isNegative = false;
-        isUnaryNot = false;
+        resetVar();
     }
 }
