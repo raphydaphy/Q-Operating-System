@@ -1,16 +1,27 @@
 #ifndef ME_H
 #define ME_H
 
+#include "../inc/kbDetect.h"
 #include "../inc/intTypeDefs.h"
 #include "../inc/stringUtils.h"
 #include "../inc/screenUtils.h"
-#include "../inc/kbDetect.h"
 
-// me is a random personal assistant
-// @raph will make all the stuff for it
-// basically just don't modify this files
-// or you will probably get blown up :)
+// An array to store each word that you enter
+char* words[];
 
-void me(string);
+// Some variables to store basic information about our user
+string name;
+
+string birthYear;
+string birthDate;
+string birthMonth;
+
+string continent;
+string country;
+string state;
+string city;
+string zip;
+
+void me(string args);
 
 #endif
