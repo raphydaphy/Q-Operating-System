@@ -384,15 +384,15 @@ CHAR *countries[] = {
 // We should probably move this to another file soon when it gets longer
 bool hasSetup = false;
 
-bool birthYearValid;
-bool birthDateValid;
+bool birthYearValid = false;
+bool birthDateValid = false;
 bool birthMonthValid = false;
 
 bool continentValid = false;
 bool countryValid = false;
-bool stateValid;
-bool cityValid;
-bool zipValid;
+bool stateValid = false;
+bool cityValid = false;
+bool zipValid = false;
 
 void me(string args) {
 
