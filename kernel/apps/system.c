@@ -1,14 +1,5 @@
 #include "system.h"
 
-#include "../inc/intTypeDefs.h"
-#include "../inc/assemblyFunctions.h"
-#include "../inc/stringUtils.h"
-#include "../inc/screenUtils.h"
-
-#ifndef WRITERSIZE
-#define WRITERSIZE 1024
-#endif
-
 void systemHelp(string cmd)
 {
     print("\nThe argument you entered, ",0x4F);

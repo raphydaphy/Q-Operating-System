@@ -3,17 +3,17 @@
 uint16 strlength(string ch)
 {
     uint16 i = 0;
-    while(ch[++i]);  
+    while(ch[++i]);
     return i;
 }
 
-bool strEql(string ch1,string ch2)                     
+bool strEql(string ch1,string ch2)
 {
     /* Zero from strcmp means ch1 eq ch2 */
     return strcmp(ch1, ch2) == 0;
 }
 
-// Compare two strings. Should return -1 if 
+// Compare two strings. Should return -1 if
 // str1 < str2, 0 if they are equal or 1 otherwise.
 uint8 strcmp(string str1, string str2)
 {
@@ -59,12 +59,6 @@ string strcat(string dest, string src)
     return dest;
 }
 
-bool isspace(char ch) {
-    if (ch == ' ' || ch == '\t' || ch == '\r' || ch == '\n' || ch == '\f' || ch == '\0')
-        return true;
-    return false;
-}
-
 string strTrim(string str)
 {
     uint16 len = 0;
@@ -107,4 +101,121 @@ string strTrim(string str)
     }
 
     return str;
+}
+
+#define INT_DIGITS 19       /* enough for 64 bit integer */
+
+/*
+ * Based off itoa from opensource apple com.
+ */
+string itos(int i, uint8 base) {
+    /* Room for INT_DIGITS digits, - and '\0' */
+    static char buf[INT_DIGITS + 2];
+    string p = buf + INT_DIGITS + 1;  /* points to terminating '\0' */
+    bool isNeg = false;
+    if (i < 0) {
+        isNeg = true;
+        i = -i;
+    }
+    do {
+        *--p = itoc(i % base);
+        i /= base;
+    } while (i != 0);
+    if (isNeg) {
+        *--p = '-';
+    }
+    return p;
+}
+
+#define FLOAT_DIGITS INT_DIGITS * 2
+
+string ftos(float f) {
+    // Room for the digits, -, '\0', '.'
+    static char buf[FLOAT_DIGITS + 3];
+    string p = buf + FLOAT_DIGITS + 1;  /* points to terminating '\0' */
+    memset(p, 0, FLOAT_DIGITS + 3);
+    int i = (int) f;
+    f -= i;
+    strcat(p, itos10(i));
+    strcat(p, ".");
+    f = abs(f); // Clear negativity
+    while(((int) f) != f) {
+        // Pad zeros
+        f *= 10;
+    }
+    strcat(p, itos10((int) f));
+    return p;
+}
+
+int stoi(string s)
+{
+    int msg = 0;
+    bool hasN = false;
+    uint16 i = 0;
+    if (s[0] == '-') {
+        hasN = true;
+        i++;
+    }
+    while(s[i]) {
+        if (isnum(s[i])) {
+            msg *= 10;
+            msg += ctoi(s[i]);
+        } else break;
+        i++;
+    }
+    if (hasN) msg = -msg;
+    return msg;
+}
+
+double stod(string s)
+{
+    double fmp = 1;
+    double msg = 0.0;
+    bool hasDec = false;
+    bool hasN = false;
+    uint16 i = 0;
+    if (s[0] == '-') {
+        hasN = true;
+        i++;
+    }
+    while(s[i]) {
+        if (isnum(s[i])) {
+            if (hasDec) {
+                fmp *= 0.1;
+                msg += ctoi(s[i]) * fmp;
+            } else
+                msg = msg * 10 + ctoi(s[i]);
+        } else if (s[i] == '.') {
+            if (hasDec) break;
+            hasDec = true;
+        } else break;
+        i++;
+    }
+    if (hasN) msg = -msg;
+    return msg;
+}
+
+string splitArg(string args, int argc) {//argc is the argument the program needs (argument n)
+    int i = 0;
+    int j = 0;
+    int argLoc = 0;
+
+    char fargs[128] = {0};
+    while(args[i] != 0 && args[i] != 10) {
+		if(args[i] == 32) {
+	    	argLoc += 1;
+		}
+		if(argLoc == argc) {
+		    while(args[i+j+1] != 32 && args[i+j+1] != 0) {
+				fargs[j] = args[i+j+1];
+				j++;
+			}
+	    	break;
+		}
+		i++;
+    }
+    i = 0;
+    j = 0;
+
+    return (string)fargs;
 }

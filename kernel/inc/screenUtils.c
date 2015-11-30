@@ -131,69 +131,18 @@ void print(string ch, int bh)
     }
 }
 
-void printint(uint32 n, int bh) {
-    if (n == 0)
-    {
-        printch('0', bh);
-        return;
-    }
+void printint(int n, int bh) {
+    print(itos10(n), bh);
+}
 
-    int32 acc = n;
-    char c[32];
-    int i = 0;
-    while (acc > 0)
-    {
-        c[i] = '0' + acc % 10;
-        acc /= 10;
-        i++;
-    }
-    c[i] = 0;
-
-    char c2[32];
-    c2[i--] = 0;
-    int j = 0;
-    while(i >= 0)
-    {
-        c2[i--] = c[j++];
-    }
-    print(c2, bh);
+void printfloat(float n, int bh) {
+    print(ftos(n), bh);
 }
 
 void printhex(uint32 n, int bh)
 {
-    int32 tmp;
     print("0x", bh);
-    char noZeroes = 1;
-    int i;
-    for (i = 28; i > 0; i -= 4)
-    {
-        tmp = (n >> i) & 0xF;
-        if (tmp == 0 && noZeroes != 0)
-        {
-            continue;
-        }
-    
-        if (tmp >= 0xA)
-        {
-            noZeroes = 0;
-            printch(tmp-0xA+'a', bh);
-        }
-        else
-        {
-            noZeroes = 0;
-            printch(tmp+'0', bh);
-        }
-    }
-  
-    tmp = n & 0xF;
-    if (tmp >= 0xA)
-    {
-        printch(tmp-0xA+'a', bh);
-    }
-    else
-    {
-        printch(tmp+'0', bh);
-    }
+    print(itos16(n), bh);
 }
 
 void moveCursorX(int x) {

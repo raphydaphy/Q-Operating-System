@@ -1,20 +1,11 @@
 #include "writer.h"
 
-#include "../inc/intTypeDefs.h"
-#include "../inc/stringUtils.h"
-#include "../inc/screenUtils.h"
-#include "../inc/kbDetect.h"
-
-#ifndef WRITERSIZE
-#define WRITERSIZE 1024
-#endif
-
 void writerHelp()
 {
 	newline();
 	print("Showing help for writer:",0x0F);
 	newline();
-	print("[HELP SECTION HERE]",0x0F);
+	print("A text buffer that does not store any text entered!",0x0F);
 }
 
 void writer(string args)

@@ -212,10 +212,8 @@ void readStr(string buffstr, uint32 bufSize)
                 if (ctrl) {
                     /* Make sure no clear screen during writer session */
                     if (!writing) {
-                        clearScreen();
-                        // Returns command "skip" which does nothing
-                        strcpy(buffstr, "skip");
-                        buffstr[4] = '\0'; /* Set EOL */
+                        strcpy(buffstr, "clear");
+                        buffstr[5] = '\0'; /* Set EOL */
                         handled = true;
                         return;
                     }

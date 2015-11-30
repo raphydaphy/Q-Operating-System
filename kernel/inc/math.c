@@ -83,53 +83,6 @@ double sqrt(double a)
      return rst;
 }
 
-int convertBase10(int num, int base)
-{
-    print ("\nSetting Up Some Stuff...",0x0A);
-
-    int sum = num/base;
-    int rem = num%base;
-
-    int curRem = rem;
-    int curSum = sum;
-
-    int result;
-
-    unsigned join(unsigned x, unsigned y) {
-        unsigned pow = 10;
-        while(y >= pow)
-            pow *= 10;
-        return x * pow + y;
-    }
-    char digitConvert(int digit)
-    {
-        char charDigit = digit;
-        printch(charDigit,0x0F);
-
-        if (digit < 10)         { return charDigit; }
-        else if (digit == 10)   { return 'A';       }
-        else if (digit == 11)   { return 'B';       }
-        else if (digit == 12)   { return 'C';       }
-        else if (digit == 13)   { return 'D';       }
-        else if (digit == 14)   { return 'E';       }
-        else if (digit == 15)   { return 'F';       }
-        else if (digit == 16)   { return 'G';       }
-        else if (digit > base)  { return 'Z';       }
-    }
-    int compress(int curSum)
-    {
-        print("\nCompressing Stuff...",0x0B);
-
-        curSum = curSum/base;
-        curRem = curSum%base;
-
-        curRem = digitConvert(curRem);
-        result = join(curRem,result);
-    }
-    printch(digitConvert(8));
-}
-
-
 long round(double num)
 {
     long res = (long) num;
