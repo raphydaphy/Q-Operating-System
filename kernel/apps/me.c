@@ -102,11 +102,6 @@ char *countries[] = {
   "Guinea-Bissau",
   "Guyana"
   "Haiti",
-  "Honduras",
-  "Hungary",
-  "Iceland",
-  "India",
-  "Indonesia",
   "Iran",
   "Ireland",
   "Italy",
