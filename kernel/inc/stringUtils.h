@@ -1,6 +1,8 @@
 #ifndef STRINGUTILS_H
 #define STRINGUTILS_H
 
+#include "math.h"
+#include "byteUtils.h"
 #include "charUtils.h"
 #include "intTypeDefs.h"
 
@@ -23,6 +25,8 @@ string strTrim(string);
 #define itos36(i) itos(i, 36)
 #define itos64(i) itos(i, 64)
 string itos(int, uint8);
+
+string ftos(float);
 
 int stoi(string);
 
