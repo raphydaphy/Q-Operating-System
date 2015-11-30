@@ -127,6 +127,26 @@ string itos(int i, uint8 base) {
     return p;
 }
 
+#define FLOAT_DIGITS INT_DIGITS * 2
+
+string ftos(float f) {
+    // Room for the digits, -, '\0', '.'
+    static char buf[FLOAT_DIGITS + 3];
+    string p = buf + FLOAT_DIGITS + 1;  /* points to terminating '\0' */
+    memset(p, 0, FLOAT_DIGITS + 3);
+    int i = (int) f;
+    f -= i;
+    strcat(p, itos10(i));
+    strcat(p, ".");
+    f = abs(f); // Clear negativity
+    while(((int) f) != f) {
+        // Pad zeros
+        f *= 10;
+    }
+    strcat(p, itos10((int) f));
+    return p;
+}
+
 int stoi(string s)
 {
     int msg = 0;
