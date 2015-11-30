@@ -230,3 +230,22 @@ string sentenceCase(string s) {
     return s;
 }
 
+string toUpper(string s) {
+    uint16 i = 0;
+    while(s[i]) {
+        s[i] = toUpperC(s[i]);
+        i++;
+    }
+    return s;
+}
+
+string toLower(string s) {
+    uint16 i = 0;
+    while(s[i]) {
+        s[i] = toLowerC(s[i]);
+        i++;
+    }
+    return s;
+}
+
+
