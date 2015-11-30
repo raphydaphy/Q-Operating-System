@@ -1,6 +1,6 @@
 #include "me.h"
 
-// Here we declare all the variables we need for Me runtime
+// Here we declare all the arrays we need for Me runtime
 // We should probably move this to another file soon
 char *months[] = {
     "January",
@@ -17,7 +17,19 @@ char *months[] = {
     "December"
 };
 
+// Here we setup all the boolean values that we need for Me
+// We should probably move this to another file soon when it gets longer
 bool hasSetup = false;
+
+bool birthYearValid;
+bool birthDateValid;
+bool birthMonthValid = false;
+
+bool continentValid;
+bool countryValid;
+bool stateValid;
+bool cityValid;
+bool zipValid;
 
 void me(string args) {
 
@@ -49,9 +61,25 @@ void me(string args) {
             print("What day of the month were you born in: ",0x02);
             readStr(birthDate,128);
 
-            newline();
-            print("What month were you born in: ",0x02);
-            readStr(birthMonth,128);
+            while (!birthMonthValid)
+            {
+                newline();
+                print("What month were you born in: ",0x02);
+                readStr(birthMonth,128);
+
+                for(int tmp = 0; tmp < 11; tmp++)
+                {
+                    if (strEql(months[tmp],birthMonth))
+                    {
+                        birthMonthValid = true;
+                    }
+                }
+
+                if (!birthMonthValid)
+                {
+                    print("\nThe month you entered appears to be invalid. Please enter the real month you were born in.",0x0C);
+                }
+            }
 
             newline();
             print("What continent do you live in: ",0x02);
@@ -87,7 +115,7 @@ void me(string args) {
     }
     else
     {
-        for(int tmp = 0; tmp < 10; tmp++)
+        for(int tmp = 1; tmp < 10; tmp++)
         {
             newline();
             printint(tmp,0x0A);
