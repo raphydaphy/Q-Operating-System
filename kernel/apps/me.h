@@ -7,7 +7,7 @@
 #include "../inc/screenUtils.h"
 
 // An array to store each word that you enter
-char* words[];
+char* words[9];
 
 // Some variables to store basic information about our user
 string name;
