@@ -182,9 +182,9 @@ double stod(string s)
         if (isnum(s[i])) {
             if (hasDec) {
                 fmp *= 0.1;
-                msg += ctoi(s[i]) * fmp;
+                msg += ntoi(s[i]) * fmp;
             } else
-                msg = msg * 10 + ctoi(s[i]);
+                msg = msg * 10 + ntoi(s[i]);
         } else if (s[i] == '.') {
             if (hasDec) break;
             hasDec = true;
@@ -247,5 +247,3 @@ string toLower(string s) {
     }
     return s;
 }
-
-
