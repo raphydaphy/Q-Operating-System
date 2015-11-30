@@ -403,6 +403,7 @@ void me(string args) {
                 newline();
                 print("What month were you born in: ",0x0B);
                 readStr(birthMonth,128);
+                birthMonth = toUpper(birthMonth);
 
                 for(int tmp = 0; tmp < arrLength(months); tmp++)
                 {
