@@ -1,7 +1,6 @@
 #include "me.h"
 
-// Here we declare all the arrays we need for Me runtime
-// We should probably move this to another file soon
+// for some reason when I tried to put this in a seperate file then me.c couldn't access it :(
 char *months[] = {
     "JANUARY",
     "FEBUARY",
@@ -151,7 +150,8 @@ char *countries[] = {
     "MYANMAR (BURMA)",
     "NAMIBIA",
     "NAURU",
-    "NEPAL",    "HONDURAS",
+    "NEPAL",
+    "HONDURAS",
     "HUNGARY",
     "ICELAND",
     "INDIA",
@@ -353,6 +353,8 @@ char *countries[] = {
     "ZIMBABWE",
 };
 
+
+
 // Here we setup all the boolean values that we need for Me
 // We should probably move this to another file soon when it gets longer
 bool hasSetup = false;
@@ -392,15 +394,31 @@ void me(string args) {
             print("What year were you born in: ",0x0B);
             readStr(birthYear,5);
 
-            newline();
-            print("What day of the month were you born in: ",0x0B);
-            readStr(birthDate,3);
+            while (!birthDateValid)
+            {
+                newline();
+                print("What day of the month were you born in: ",0x0B);
+                readStr(birthDate,3);
+                birthDateInt = stoi(birthDate);
+
+                if (birthDateInt < 32)
+                {
+                    birthDateValid = true;
+                    print(" Good",0x02);
+                }
+
+                if (!birthDateValid)
+                {
+                    print(" Invalid",0x0C);
+                }
+            }
 
             while (!birthMonthValid)
             {
                 newline();
                 print("What month were you born in: ",0x0B);
                 readStr(birthMonth,128);
+                birthMonth = toUpper(birthMonth);
 
                 for(int tmp = 0; tmp < arrLength(months); tmp++)
                 {
@@ -423,6 +441,7 @@ void me(string args) {
                 newline();
                 print("What continent do you live in: ",0x0B);
                 readStr(continent,128);
+                continent = toUpper(continent);
 
                 for(int tmp = 0; tmp < arrLength(continents); tmp++)
                 {
@@ -445,6 +464,7 @@ void me(string args) {
                 newline();
                 print("What country do you live in: ",0x0B);
                 readStr(country,128);
+                country = toUpper(country);
 
                 for(int tmp = 0; tmp < arrLength(countries); tmp++)
                 {
