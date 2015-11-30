@@ -3,33 +3,6 @@
 // Here we declare all the arrays we need for Me runtime
 // We should probably move this to another file soon
 char *months[] = {
-    "January",
-    "Febuary",
-    "March",
-    "April",
-    "May",
-    "June",
-    "July",
-    "August",
-    "September",
-    "October",
-    "November",
-    "December",
-};
-
-char *continents[] = {
-    "Australia",
-    "Africa",
-    "Antarctica",
-    "Europe",
-    "North America",
-    "South America",
-    "Asia",
-};
-
-// Thanks to https://www.countries-ofthe-world.com/all-countries.html
-// For a list of countries that I have turned into an array here
-char *months[] = {
     "JANUARY",
     "FEBUARY",
     "MARCH",
@@ -54,8 +27,8 @@ char *continents[] = {
     "ASIA",
 };
 
-// THANKS TO HTTPS://WWW.COUNTRIES-OFTHE-WORLD.COM/ALL-COUNTRIES.HTML
-// FOR A LIST OF COUNTRIES THAT I HAVE TURNED INTO AN ARRAY HERE
+// Thanks to https://www.countries-ofthe-world.com/all-countries.html
+// For a list of countries that I have turned into an array here
 char *countries[] = {
     "AFGHANISTAN",
     "ALBANIA",
