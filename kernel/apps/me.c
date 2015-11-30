@@ -14,7 +14,7 @@ char *months[] = {
     "September",
     "October",
     "November",
-    "December",
+    "December"
 };
 
 char *continents[] = {
@@ -24,7 +24,7 @@ char *continents[] = {
     "Europe",
     "North America",
     "South America",
-    "Asia",
+    "Asia"
 };
 
 // Thanks to https://www.countries-ofthe-world.com/all-countries.html
@@ -372,7 +372,7 @@ void me(string args) {
                 newline();
                 print("What country do you live in: ",0x0B);
                 readStr(country,128);
-                
+
                 for(int tmp = 0; tmp < 246; tmp++)
                 {
                     if (strEql(countries[tmp],country))
