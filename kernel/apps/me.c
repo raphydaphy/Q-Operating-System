@@ -4,3 +4,8 @@
 // @raph will make all the stuff for it
 // basically just don't modify this files
 // or you will probably get blown up :)
+
+void me(string)
+{
+    // this will do stuff
+}
