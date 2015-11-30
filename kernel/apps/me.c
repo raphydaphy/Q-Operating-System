@@ -1,6 +1,121 @@
 #include "me.h"
 
+// Here we declare all the arrays we need for Me runtime
+// We should probably move this to another file soon
+char *months[] = {
+    "January",
+    "Febuary",
+    "March",
+    "April",
+    "May",
+    "June",
+    "July",
+    "August",
+    "September",
+    "October",
+    "November",
+    "December"
+};
+
+char *continents[] = {
+    "Australia",
+    "Africa",
+    "Antarctica",
+    "Europe",
+    "North America",
+    "South America",
+    "Asia"
+};
+
+// Thanks to https://www.countries-ofthe-world.com/all-countries.html
+// For a list of countries that I have turned into an array here
+char *countries[] = {
+    "Afghanistan",
+    "Albania",
+    "Algeria",
+    "Andorra",
+    "Angola",
+    "Antigua and Barbuda",
+    "Argentina",
+    "Armenia",
+    "Australia",
+    "Austria",
+    "Azerbaijan",
+    "Bahamas",
+    "Bahrain",
+    "Bangladesh",
+    "Barbados",
+    "Belarus",
+    "Belgium",
+    "Belize",
+    "Benin",
+    "Bhutan",
+    "Bolivia",
+    "Bosnia and Herzegovina",
+    "Botswana",
+    "Brazil",
+    "Brunei",
+    "Bulgaria",
+    "Burkina Faso",
+    "Burundi",
+    "Cabo Verde",
+    "Cambodia",
+    "Cameroon",
+    "Canada",
+    "Central African Republic",
+    "Chad",
+    "Chile",
+    "China",
+    "Colombia",
+    "Comoros",
+    "Congo, Republic of the",
+    "Congo, Democratic Republic of the",
+    "Costa Rica",
+    "Cote d'Ivoire",
+    "Croatia",
+    "Cuba",
+    "Cyprus",
+    "Czech Republic",
+    "Denmark",
+    "Djibouti",
+    "Dominica",
+    "Dominican Republic",
+    "Ecuador",
+    "Egypt",
+    "El Salvador",
+    "Equatorial Guinea",
+    "Eritrea",
+    "Estonia",
+    "Ethiopia",
+    "Fiji",
+    "Finland",
+    "France",
+    "Gabon",
+    "Gambia",
+    "Georgia",
+    "Germany",
+    "Ghana",
+    "Greece",
+    "Grenada",
+    "Guatemala",
+    "Guinea",
+    "Guinea-Bissau",
+    "Guyana"
+};
+
+// Here we setup all the boolean values that we need for Me
+// We should probably move this to another file soon when it gets longer
 bool hasSetup = false;
+
+bool birthYearValid;
+bool birthDateValid;
+bool birthMonthValid = false;
+
+bool continentValid = false;
+bool countryValid = false;
+bool stateValid;
+bool cityValid;
+bool zipValid;
 
 void me(string args) {
 
@@ -32,17 +147,66 @@ void me(string args) {
             print("What day of the month were you born in: ",0x02);
             readStr(birthDate,128);
 
-            newline();
-            print("What month were you born in: ",0x02);
-            readStr(birthMonth,128);
+            while (!birthMonthValid)
+            {
+                newline();
+                print("What month were you born in: ",0x02);
+                readStr(birthMonth,128);
 
-            newline();
-            print("What continent do you live in: ",0x02);
-            readStr(continent,128);
+                for(int tmp = 0; tmp < 6; tmp++)
+                {
+                    if (strEql(months[tmp],birthMonth))
+                    {
+                        birthMonthValid = true;
+                    }
+                }
 
-            newline();
-            print("What country do you live in: ",0x02);
-            readStr(country,128);
+                if (!birthMonthValid)
+                {
+                    print("\nThe month you entered appears to be invalid. Please enter the real month you were born in.",0x0C);
+                }
+            }
+
+            while (!continentValid)
+            {
+                newline();
+                print("What continent do you live in: ",0x02);
+                readStr(continent,128);
+
+                for(int tmp = 0; tmp < 6; tmp++)
+                {
+                    if (strEql(continents[tmp],continent))
+                    {
+                        continentValid = true;
+                    }
+                }
+
+                if (!continentValid)
+                {
+                    print("\nThe continent you entered appears to be invalid. Please enter the correct continent you live in.",0x0C);
+                }
+            }
+
+
+            while (!countryValid)
+            {
+                newline();
+                print("What country do you live in: ",0x02);
+                readStr(country,128);
+
+                for(int tmp = 0; tmp < 71; tmp++)
+                {
+                    if (strEql(countries[tmp],country))
+                    {
+                        countryValid = true;
+                    }
+                }
+
+                if (!countryValid)
+                {
+                    print("\nThe country you entered appears to be invalid. Please enter the correct country you live in.",0x0C);
+                }
+            }
 
             newline();
             print("What state do you currently live in: ",0x02);
@@ -70,94 +234,12 @@ void me(string args) {
     }
     else
     {
-        // split args into an array of words
-        words[0] = splitArg(args, 1);
-        words[1] = splitArg(args, 2);
-        words[2] = splitArg(args, 3);
-        words[3] = splitArg(args, 4);
-        words[4] = splitArg(args, 5);
-        words[5] = splitArg(args, 6);
-        words[6] = splitArg(args, 7);
-        words[7] = splitArg(args, 8);
-        words[8] = splitArg(args, 9);
-        words[9] = splitArg(args, 10);
-
-        // make seperate strings for each word
-        word1 = splitArg(args, 1);
-        word2 = splitArg(args, 2);
-        word3 = splitArg(args, 3);
-        word4 = splitArg(args, 4);
-        word5 = splitArg(args, 5);
-        word6 = splitArg(args, 6);
-        word7 = splitArg(args, 7);
-        word8 = splitArg(args, 8);
-        word9 = splitArg(args, 9);
-        word10 = splitArg(args, 10);
-
-        // make a special array for testing
-        char *tests[] = {
-           "Thing",
-           "Another",
-           "Thing"
-       };
-        // print out each item in the words[] array
-
-        for(int tmp = 0; tmp < 10; tmp++)
-        {
-            newline();
-            printint(tmp,0x09);
-            print(" : ",0x08);
-            print(words[tmp],0x09);
-        }
-
-        for(int tmp = 0; tmp < 10; tmp++)
+        for(int tmp = 1; tmp < 10; tmp++)
         {
             newline();
             printint(tmp,0x0A);
             print(" : ",0x0B);
-            print(tests[tmp],0x0A);
+            print(splitArg(args, tmp),0x0A);
         }
-
-        newline();
-        print(word1,0x0B);
-        newline();
-        print(word2,0x0B);
-        newline();
-        print(word3,0x0B);
-        newline();
-        print(word4,0x0B);
-        newline();
-        print(word5,0x0B);
-        newline();
-        print(word6,0x0B);
-        newline();
-        print(word7,0x0B);
-        newline();
-        print(word8,0x0B);
-        newline();
-        print(word9,0x0B);
-        newline();
-        print(word10,0x0B);
-
-        newline();
-        print(splitArg(args, 1),0x0C);
-        newline();
-        print(splitArg(args, 2),0x0C);
-        newline();
-        print(splitArg(args, 3),0x0C);
-        newline();
-        print(splitArg(args, 4),0x0C);
-        newline();
-        print(splitArg(args, 5),0x0C);
-        newline();
-        print(splitArg(args, 6),0x0C);
-        newline();
-        print(splitArg(args, 7),0x0C);
-        newline();
-        print(splitArg(args, 8),0x0C);
-        newline();
-        print(splitArg(args, 9),0x0C);
-        newline();
-        print(splitArg(args, 10),0x0C);
     }
 }
