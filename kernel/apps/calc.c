@@ -407,7 +407,7 @@ void calc(string args)
             }
         }
         newline();
-        printint(round(strNum[0]), 0x0F);
+        printfloat((float) strNum[0], 0x0F);
 
         //Reset operational variable to its default state
         resetVar();
