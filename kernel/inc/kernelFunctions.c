@@ -44,6 +44,7 @@ void launchShell() {
     #define SKIP skip(rawCommand);
     #define FILEMAN files(arguments);
     #define WRITE writer(arguments);
+    #define ME me(arguments);
     #define CMDNOTFOUND print("\n", 0x0F); print(bufStr, 0x0F); print(": Command Not Found ", 0x0F);
 
     while (true) {
@@ -113,9 +114,9 @@ void launchShell() {
         else if(strEql(bufStr, "clear -i"))     {   BIGCLEAR;         }
         else if(strEql(bufStr, "newdir"))       {   MKDIR;            }
         else if(strEql(bufStr, "erase"))        {   RMFILE;           }
+        else if(strEql(bufStr, "me"))           {   ME;               }
         else                                    {   CMDNOTFOUND;      }
 
         newline();
     }
 }
-
