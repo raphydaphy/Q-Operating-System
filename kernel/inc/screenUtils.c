@@ -131,20 +131,6 @@ void print(string ch, int bh)
     }
 }
 
-void printint(int n, int bh) {
-    print(itos10(n), bh);
-}
-
-void printfloat(float n, int bh) {
-    print(ftos(n), bh);
-}
-
-void printhex(uint32 n, int bh)
-{
-    print("0x", bh);
-    print(itos16(n), bh);
-}
-
 void moveCursorX(int x) {
     cursorX += x;
     while(cursorX < 0) {

@@ -31,9 +31,17 @@ void scrollUp(uint8);
 void newLineCheck();
 void printch(char, int);
 void print(string, int);
-void printint(int, int);
-void printfloat(float, int);
-void printhex(uint32, int);
+
+#define printint(n, bh) \
+    print(itos10(n), bh);
+
+#define printfloat(n, bh) \
+    print(ftos(n), bh);
+
+#define printhex(n, bh) \
+    print("0x", bh); \
+    print(itos16(n), bh);
+
 void moveCursorX(int);
 void moveCursorY(int);
 /* Only call kprintch in kernels */
@@ -41,6 +49,7 @@ void kprintch(char, int, bool);
 /* Macros */
 #define newline() \
     printch('\n', 0x0F);
+
 #define println(str, c) \
     print(str, c); \
     newline();
