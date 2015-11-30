@@ -14,7 +14,7 @@ char *months[] = {
     "September",
     "October",
     "November",
-    "December"
+    "December",
 };
 
 char *continents[] = {
@@ -24,7 +24,7 @@ char *continents[] = {
     "Europe",
     "North America",
     "South America",
-    "Asia"
+    "Asia",
 };
 
 // Thanks to https://www.countries-ofthe-world.com/all-countries.html
@@ -312,34 +312,35 @@ void me(string args) {
             newline();
 
             newline();
-            print("What is your name: ",0x02);
+            print("What is your name: ",0x0B);
             readStr(name,128);
 
             newline();
-            print("What year were you born in: ",0x02);
+            print("What year were you born in: ",0x0B);
             readStr(birthYear,128);
 
             newline();
-            print("What day of the month were you born in: ",0x02);
+            print("What day of the month were you born in: ",0x0B);
             readStr(birthDate,128);
 
             while (!birthMonthValid)
             {
                 newline();
-                print("What month were you born in: ",0x02);
+                print("What month were you born in: ",0x0B);
                 readStr(birthMonth,128);
 
-                for(int tmp = 0; tmp < 6; tmp++)
+                for(int tmp = 0; tmp < 12; tmp++)
                 {
                     if (strEql(months[tmp],birthMonth))
                     {
                         birthMonthValid = true;
+                        print(" Good",0x02);
                     }
                 }
 
                 if (!birthMonthValid)
                 {
-                    print("\nThe month you entered appears to be invalid. Please enter the real month you were born in.",0x0C);
+                    print(" Invalid",0x0C);
                 }
             }
 
@@ -347,7 +348,7 @@ void me(string args) {
             {
 
                 newline();
-                print("What continent do you live in: ",0x02);
+                print("What continent do you live in: ",0x0B);
                 readStr(continent,128);
 
                 for(int tmp = 0; tmp < 7; tmp++)
@@ -355,12 +356,13 @@ void me(string args) {
                     if (strEql(continents[tmp],continent))
                     {
                         continentValid = true;
+                        print(" Good",0x02);
                     }
                 }
 
                 if (!continentValid)
                 {
-                    print("\nThe continent you entered appears to be invalid. Please enter the correct continent you live in.",0x0C);
+                    print(" Invalid",0x0C);
                 }
             }
 
@@ -368,33 +370,34 @@ void me(string args) {
             while (!countryValid)
             {
                 newline();
-                print("What country do you live in: ",0x02);
+                print("What country do you live in: ",0x0B);
                 readStr(country,128);
-
+                
                 for(int tmp = 0; tmp < 246; tmp++)
                 {
                     if (strEql(countries[tmp],country))
                     {
                         countryValid = true;
+                        print(" Good",0x02);
                     }
                 }
 
                 if (!countryValid)
                 {
-                    print("\nThe country you entered appears to be invalid. Please enter the correct country you live in.",0x0C);
+                    print(" Invalid",0x0C);
                 }
             }
 
             newline();
-            print("What state do you currently live in: ",0x02);
+            print("What state do you currently live in: ",0x0B);
             readStr(state,128);
 
             newline();
-            print("What city do you live in: ",0x02);
+            print("What city do you live in: ",0x0B);
             readStr(city,128);
 
             newline();
-            print("What is the zip code in your area: ",0x02);
+            print("What is the zip code in your area: ",0x0B);
             readStr(zip,128);
 
             newline();
