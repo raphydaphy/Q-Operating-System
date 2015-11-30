@@ -3,6 +3,19 @@
 bool hasSetup = false;
 
 void me(string args) {
+
+    // split args into an array of words
+    words[0] = splitArg(args, 1);
+    words[1] = splitArg(args, 2);
+    words[2] = splitArg(args, 3);
+    words[3] = splitArg(args, 4);
+    words[4] = splitArg(args, 5);
+    words[5] = splitArg(args, 6);
+    words[6] = splitArg(args, 7);
+    words[7] = splitArg(args, 8);
+    words[8] = splitArg(args, 9);
+    words[9] = splitArg(args, 10);
+
     if (strEql(splitArg(args, 1), "setup") || !hasSetup)
     {
         print("\nWelcome to Me.",0x03);
@@ -57,26 +70,7 @@ void me(string args) {
     }
     else
     {
-        // testing stuff here
-        newline();
-        print(splitArg(args, 1),0x0F);
-        newline();
-        print(splitArg(args, 2),0x0F);
-        newline();
-        print(splitArg(args, 3),0x0F);
-        newline();
-        print(splitArg(args, 4),0x0F);
-        newline();
-        print(splitArg(args, 5),0x0F);
-        newline();
-        print(splitArg(args, 6),0x0F);
-        newline();
-        print(splitArg(args, 7),0x0F);
-        newline();
-        print(splitArg(args, 8),0x0F);
-        newline();
-        print(splitArg(args, 9),0x0F);
-        newline();
-        print(splitArg(args, 10),0x0F);
+        // stuff for testing that should maybe work..
+        print(words[2],0x02);
     }
 }
