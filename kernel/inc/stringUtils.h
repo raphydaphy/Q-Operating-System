@@ -24,6 +24,8 @@ string strTrim(string);
 #define itos16(i) itos(i, 16)
 #define itos36(i) itos(i, 36)
 #define itos64(i) itos(i, 64)
+#define arrLength(array) (sizeof(array) / sizeof(array[0]))
+
 string itos(int, uint8);
 
 string ftos(float);
