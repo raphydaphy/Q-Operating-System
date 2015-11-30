@@ -426,6 +426,7 @@ void me(string args) {
                 newline();
                 print("What continent do you live in: ",0x0B);
                 readStr(continent,128);
+                continent = toUpper(continent);
 
                 for(int tmp = 0; tmp < arrLength(continents); tmp++)
                 {
@@ -448,6 +449,7 @@ void me(string args) {
                 newline();
                 print("What country do you live in: ",0x0B);
                 readStr(country,128);
+                country = toUpper(country);
 
                 for(int tmp = 0; tmp < arrLength(countries); tmp++)
                 {
