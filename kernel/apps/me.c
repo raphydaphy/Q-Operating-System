@@ -4,18 +4,6 @@ bool hasSetup = false;
 
 void me(string args) {
 
-    // split args into an array of words
-    words[0] = splitArg(args, 1);
-    words[1] = splitArg(args, 2);
-    words[2] = splitArg(args, 3);
-    words[3] = splitArg(args, 4);
-    words[4] = splitArg(args, 5);
-    words[5] = splitArg(args, 6);
-    words[6] = splitArg(args, 7);
-    words[7] = splitArg(args, 8);
-    words[8] = splitArg(args, 9);
-    words[9] = splitArg(args, 10);
-
     if (strEql(splitArg(args, 1), "setup") || !hasSetup)
     {
         if (strEql(splitArg(args, 2), "skipper") && !hasSetup)
@@ -82,7 +70,94 @@ void me(string args) {
     }
     else
     {
-        // stuff for testing that should maybe work..
-        print(words[2],0x02);
+        // split args into an array of words
+        words[0] = splitArg(args, 1);
+        words[1] = splitArg(args, 2);
+        words[2] = splitArg(args, 3);
+        words[3] = splitArg(args, 4);
+        words[4] = splitArg(args, 5);
+        words[5] = splitArg(args, 6);
+        words[6] = splitArg(args, 7);
+        words[7] = splitArg(args, 8);
+        words[8] = splitArg(args, 9);
+        words[9] = splitArg(args, 10);
+
+        // make seperate strings for each word
+        word1 = splitArg(args, 1);
+        word2 = splitArg(args, 2);
+        word3 = splitArg(args, 3);
+        word4 = splitArg(args, 4);
+        word5 = splitArg(args, 5);
+        word6 = splitArg(args, 6);
+        word7 = splitArg(args, 7);
+        word8 = splitArg(args, 8);
+        word9 = splitArg(args, 9);
+        word10 = splitArg(args, 10);
+
+        // make a special array for testing
+        char *tests[] = {
+           "Thing",
+           "Another",
+           "Thing"
+       };
+        // print out each item in the words[] array
+
+        for(int tmp = 0; tmp < 10; tmp++)
+        {
+            newline();
+            printint(tmp,0x09);
+            print(" : ",0x08);
+            print(words[tmp],0x09);
+        }
+
+        for(int tmp = 0; tmp < 10; tmp++)
+        {
+            newline();
+            printint(tmp,0x0A);
+            print(" : ",0x0B);
+            print(tests[tmp],0x0A);
+        }
+
+        newline();
+        print(word1,0x0B);
+        newline();
+        print(word2,0x0B);
+        newline();
+        print(word3,0x0B);
+        newline();
+        print(word4,0x0B);
+        newline();
+        print(word5,0x0B);
+        newline();
+        print(word6,0x0B);
+        newline();
+        print(word7,0x0B);
+        newline();
+        print(word8,0x0B);
+        newline();
+        print(word9,0x0B);
+        newline();
+        print(word10,0x0B);
+
+        newline();
+        print(splitArg(args, 1),0x0C);
+        newline();
+        print(splitArg(args, 2),0x0C);
+        newline();
+        print(splitArg(args, 3),0x0C);
+        newline();
+        print(splitArg(args, 4),0x0C);
+        newline();
+        print(splitArg(args, 5),0x0C);
+        newline();
+        print(splitArg(args, 6),0x0C);
+        newline();
+        print(splitArg(args, 7),0x0C);
+        newline();
+        print(splitArg(args, 8),0x0C);
+        newline();
+        print(splitArg(args, 9),0x0C);
+        newline();
+        print(splitArg(args, 10),0x0C);
     }
 }
