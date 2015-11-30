@@ -34,4 +34,6 @@ int stoi(string);
 
 double stod(string);
 
+string sentenceCase(string);
+
 #endif
