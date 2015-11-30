@@ -368,7 +368,6 @@ bool cityValid = false;
 bool zipValid = false;
 
 void me(string args) {
-
     if (strEql(splitArg(args, 1), "setup") || !hasSetup)
     {
         if (strEql(splitArg(args, 2), "skipper") && !hasSetup)
@@ -403,7 +402,7 @@ void me(string args) {
                 print("What month were you born in: ",0x0B);
                 readStr(birthMonth,128);
 
-                for(int tmp = 0; tmp < 12; tmp++)
+                for(int tmp = 0; tmp < arrLength(months); tmp++)
                 {
                     if (strEql(months[tmp],birthMonth))
                     {
@@ -425,7 +424,7 @@ void me(string args) {
                 print("What continent do you live in: ",0x0B);
                 readStr(continent,128);
 
-                for(int tmp = 0; tmp < 7; tmp++)
+                for(int tmp = 0; tmp < arrLength(continents); tmp++)
                 {
                     if (strEql(continents[tmp],continent))
                     {
@@ -447,7 +446,7 @@ void me(string args) {
                 print("What country do you live in: ",0x0B);
                 readStr(country,128);
 
-                for(int tmp = 0; tmp < 249; tmp++)
+                for(int tmp = 0; tmp < arrLength(countries); tmp++)
                 {
                     if (strEql(countries[tmp],country))
                     {
