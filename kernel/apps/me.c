@@ -29,7 +29,7 @@ char *continents[] = {
 
 // Thanks to https://www.countries-ofthe-world.com/all-countries.html
 // For a list of countries that I have turned into an array here
-CHAR *months[] = {
+char *months[] = {
     "JANUARY",
     "FEBUARY",
     "MARCH",
@@ -44,7 +44,7 @@ CHAR *months[] = {
     "DECEMBER",
 };
 
-CHAR *continents[] = {
+char *continents[] = {
     "AUSTRALIA",
     "AFRICA",
     "ANTARCTICA",
@@ -56,7 +56,7 @@ CHAR *continents[] = {
 
 // THANKS TO HTTPS://WWW.COUNTRIES-OFTHE-WORLD.COM/ALL-COUNTRIES.HTML
 // FOR A LIST OF COUNTRIES THAT I HAVE TURNED INTO AN ARRAY HERE
-CHAR *countries[] = {
+char *countries[] = {
     "AFGHANISTAN",
     "ALBANIA",
     "ALGERIA",
