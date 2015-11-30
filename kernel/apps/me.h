@@ -11,14 +11,28 @@
 string name;
 
 string birthYear;
+bool birthYearValid;
+
 string birthDate;
+bool birthDateValid;
+
 string birthMonth;
+bool birthMonthValid;
 
 string continent;
+bool continentValid;
+
 string country;
+bool countryValid;
+
 string state;
+bool stateValid;
+
 string city;
+bool cityValid;
+
 string zip;
+bool zipValid;
 
 void me(string args);
 
