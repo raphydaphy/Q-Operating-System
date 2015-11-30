@@ -317,11 +317,11 @@ void me(string args) {
 
             newline();
             print("What year were you born in: ",0x0B);
-            readStr(birthYear,128);
+            readStr(birthYear,5); // Only four digits is possible
 
             newline();
             print("What day of the month were you born in: ",0x0B);
-            readStr(birthDate,128);
+            readStr(birthDate,3); // Only max 2 digits is possible
 
             while (!birthMonthValid)
             {
@@ -331,7 +331,7 @@ void me(string args) {
 
                 for(int tmp = 0; tmp < 12; tmp++)
                 {
-                    if (strEql(months[tmp],birthMonth))
+                    if (strEql(months[tmp], sentenceCase(birthMonth)))
                     {
                         birthMonthValid = true;
                         print(" Good",0x02);
