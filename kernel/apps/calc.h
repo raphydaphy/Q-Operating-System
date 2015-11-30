@@ -16,7 +16,7 @@
 // math storage variables
 char calcInput[CALCSIZE + 2]; // For `+0`
 int mathOp[CALCSIZE];
-int tempNum;
+double tempNum;
 double strNum[CALCSIZE];
 int strNumCount;
 
@@ -24,7 +24,7 @@ int strNumCount;
 void initialize_calc();
 
 // contatination function for the calculator app
-int concat(int, int);
+double concat(double, double);
 
 // main calc() function to run from kernel.c
 void calc(string);
