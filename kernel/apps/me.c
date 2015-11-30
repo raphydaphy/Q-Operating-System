@@ -2,6 +2,33 @@
 
 // Here we declare all the arrays we need for Me runtime
 // We should probably move this to another file soon
+char *months[] = {
+    "January",
+    "Febuary",
+    "March",
+    "April",
+    "May",
+    "June",
+    "July",
+    "August",
+    "September",
+    "October",
+    "November",
+    "December",
+};
+
+char *continents[] = {
+    "Australia",
+    "Africa",
+    "Antarctica",
+    "Europe",
+    "North America",
+    "South America",
+    "Asia",
+};
+
+// Thanks to https://www.countries-ofthe-world.com/all-countries.html
+// For a list of countries that I have turned into an array here
 CHAR *months[] = {
     "JANUARY",
     "FEBUARY",
@@ -391,11 +418,11 @@ void me(string args) {
 
             newline();
             print("What year were you born in: ",0x0B);
-            readStr(birthYear,5); // Only four digits is possible
+            readStr(birthYear,5);
 
             newline();
             print("What day of the month were you born in: ",0x0B);
-            readStr(birthDate,3); // Only max 2 digits is possible
+            readStr(birthDate,3);
 
             while (!birthMonthValid)
             {
@@ -405,7 +432,7 @@ void me(string args) {
 
                 for(int tmp = 0; tmp < 12; tmp++)
                 {
-                    if (strEql(months[tmp], toLower(birthMonth)))
+                    if (strEql(months[tmp],birthMonth))
                     {
                         birthMonthValid = true;
                         print(" Good",0x02);
@@ -427,7 +454,7 @@ void me(string args) {
 
                 for(int tmp = 0; tmp < 7; tmp++)
                 {
-                    if (strEql(continents[tmp], toLower(continent)))
+                    if (strEql(continents[tmp],continent))
                     {
                         continentValid = true;
                         print(" Good",0x02);
@@ -447,9 +474,9 @@ void me(string args) {
                 print("What country do you live in: ",0x0B);
                 readStr(country,128);
 
-                for(int tmp = 0; tmp < 246; tmp++)
+                for(int tmp = 0; tmp < 249; tmp++)
                 {
-                    if (strEql(countries[tmp], toLower(country)))
+                    if (strEql(countries[tmp],country))
                     {
                         countryValid = true;
                         print(" Good",0x02);
