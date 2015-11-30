@@ -27,6 +27,20 @@ char *continents[] = {
     "Asia"
 };
 
+char *countries[] = {
+    "Afghanistan",
+    "Albania",
+    "Algeria",
+    "Andorra",
+    "Angola",
+    "Antigua and Barbuda",
+    "Argentina",
+    "Armenia",
+    "Australia",
+    "Austria",
+    "Azerbaijan"
+};
+
 // Here we setup all the boolean values that we need for Me
 // We should probably move this to another file soon when it gets longer
 bool hasSetup = false;
@@ -36,7 +50,7 @@ bool birthDateValid;
 bool birthMonthValid = false;
 
 bool continentValid = false;
-bool countryValid;
+bool countryValid = false;
 bool stateValid;
 bool cityValid;
 bool zipValid;
@@ -111,9 +125,26 @@ void me(string args) {
                 }
             }
 
-            newline();
-            print("What country do you live in: ",0x02);
-            readStr(country,128);
+
+            while (!countryValid)
+            {
+                newline();
+                print("What country do you live in: ",0x02);
+                readStr(country,128);
+
+                for(int tmp = 0; tmp < 10; tmp++)
+                {
+                    if (strEql(countries[tmp],country))
+                    {
+                        countryValid = true;
+                    }
+                }
+
+                if (!countryValid)
+                {
+                    print("\nThe country you entered appears to be invalid. Please enter the correct country you live in.",0x0C);
+                }
+            }
 
             newline();
             print("What state do you currently live in: ",0x02);
