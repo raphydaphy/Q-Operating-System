@@ -431,12 +431,13 @@ void me(string args) {
                     if (strEql(continents[tmp],continent))
                     {
                         continentValid = true;
+                        print(" Good",0x02);
                     }
                 }
 
                 if (!continentValid)
                 {
-                    print("\nThe continent you entered appears to be invalid. Please enter the correct continent you live in.",0x0C);
+                    print(" Invalid",0x0C);
                 }
             }
 
@@ -452,12 +453,13 @@ void me(string args) {
                     if (strEql(countries[tmp],country))
                     {
                         countryValid = true;
+                        print(" Good",0x02);
                     }
                 }
 
                 if (!countryValid)
                 {
-                    print("\nThe country you entered appears to be invalid. Please enter the correct country you live in.",0x0C);
+                    print(" Invalid",0x0C);
                 }
             }
 
