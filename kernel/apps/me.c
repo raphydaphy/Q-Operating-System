@@ -353,7 +353,7 @@ void me(string args) {
 
                 for(int tmp = 0; tmp < 7; tmp++)
                 {
-                    if (strEql(continents[tmp],continent))
+                    if (strEql(continents[tmp], sentenceCase(continent)))
                     {
                         continentValid = true;
                         print(" Good",0x02);
@@ -375,7 +375,7 @@ void me(string args) {
 
                 for(int tmp = 0; tmp < 246; tmp++)
                 {
-                    if (strEql(countries[tmp],country))
+                    if (strEql(countries[tmp], sentenceCase(country)))
                     {
                         countryValid = true;
                         print(" Good",0x02);
