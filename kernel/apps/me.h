@@ -11,27 +11,16 @@
 string name;
 
 string birthYear;
-
-
 string birthDate;
-
-
 string birthMonth;
 
-
 string continent;
-
 string country;
-
 string state;
-
-
 string city;
-
-
 string zip;
 
-
+// define the main Me funciton that does all the data handling for Me
 void me(string args);
 
 #endif
