@@ -219,3 +219,33 @@ string splitArg(string args, int argc) {//argc is the argument the program needs
 
     return (string)fargs;
 }
+
+string sentenceCase(string s) {
+    s[0] = toUpperC(s[0]);
+    uint16 i = 1;
+    while(s[i]) {
+        s[i] = toLowerC(s[i]);
+        i++;
+    }
+    return s;
+}
+
+string toUpper(string s) {
+    uint16 i = 0;
+    while(s[i]) {
+        s[i] = toUpperC(s[i]);
+        i++;
+    }
+    return s;
+}
+
+string toLower(string s) {
+    uint16 i = 0;
+    while(s[i]) {
+        s[i] = toLowerC(s[i]);
+        i++;
+    }
+    return s;
+}
+
+

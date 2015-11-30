@@ -34,4 +34,10 @@ int stoi(string);
 
 double stod(string);
 
+string sentenceCase(string);
+
+string toUpper(string);
+
+string toLower(string);
+
 #endif
