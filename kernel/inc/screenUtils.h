@@ -32,6 +32,7 @@ void newLineCheck();
 void printch(char, int);
 void print(string, int);
 void printint(int, int);
+void printfloat(float, int);
 void printhex(uint32, int);
 void moveCursorX(int);
 void moveCursorY(int);

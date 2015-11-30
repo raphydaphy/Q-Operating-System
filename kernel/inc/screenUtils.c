@@ -135,6 +135,10 @@ void printint(int n, int bh) {
     print(itos10(n), bh);
 }
 
+void printfloat(float n, int bh) {
+    print(ftos(n), bh);
+}
+
 void printhex(uint32 n, int bh)
 {
     print("0x", bh);
