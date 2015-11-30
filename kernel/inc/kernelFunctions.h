@@ -19,6 +19,7 @@
 #include "../apps/files.h"
 #include "../apps/system.h"
 #include "../apps/skip.h"
+#include "../apps/me.h"
 
 void printIntro();
 
