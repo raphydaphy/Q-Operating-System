@@ -35,7 +35,7 @@ bool birthYearValid;
 bool birthDateValid;
 bool birthMonthValid = false;
 
-bool continentValid;
+bool continentValid = false;
 bool countryValid;
 bool stateValid;
 bool cityValid;
@@ -77,7 +77,7 @@ void me(string args) {
                 print("What month were you born in: ",0x02);
                 readStr(birthMonth,128);
 
-                for(int tmp = 0; tmp < 11; tmp++)
+                for(int tmp = 0; tmp < 6; tmp++)
                 {
                     if (strEql(months[tmp],birthMonth))
                     {
@@ -91,9 +91,25 @@ void me(string args) {
                 }
             }
 
-            newline();
-            print("What continent do you live in: ",0x02);
-            readStr(continent,128);
+            while (!continentValid)
+            {
+                newline();
+                print("What continent do you live in: ",0x02);
+                readStr(continent,128);
+
+                for(int tmp = 0; tmp < 6; tmp++)
+                {
+                    if (strEql(continents[tmp],continent))
+                    {
+                        continentValid = true;
+                    }
+                }
+
+                if (!continentValid)
+                {
+                    print("\nThe continent you entered appears to be invalid. Please enter the correct continent you live in.",0x0C);
+                }
+            }
 
             newline();
             print("What country do you live in: ",0x02);
