@@ -18,5 +18,22 @@ extern bool zipValid;
 extern char *months[12];
 extern char *countries[320];
 extern char *continents[7];
+extern char *states[16];
+
+string name;
+
+string birthYear;
+int birthYearInt;
+
+string birthDate;
+int birthDateInt;
+
+string birthMonth;
+
+string continent;
+string country;
+string state;
+string city;
+string zip;
 
 #endif

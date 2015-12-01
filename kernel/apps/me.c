@@ -21,9 +21,26 @@ void me(string args) {
             print("What is your name: ",0x0B);
             readStr(name,128);
 
-            newline();
-            print("What year were you born in: ",0x0B);
-            readStr(birthYear,5);
+            while (!birthYearValid)
+            {
+                newline();
+                print("What year were you born in: ",0x0B);
+                readStr(birthYear,5);
+                birthYearInt = stoi(birthYear);
+
+                // need to make this always the current year + 1
+                if (birthYearInt < 2016 && birthYearInt > 1900)
+                {
+                    birthYearValid = true;
+                    print(" Good",0x02);
+                }
+
+                if (!birthYearValid)
+                {
+                    print(" Invalid",0x0C);
+                }
+            }
+
 
             while (!birthDateValid)
             {
@@ -51,7 +68,7 @@ void me(string args) {
                 readStr(birthMonth,128);
                 birthMonth = toUpper(birthMonth);
 
-                for(int tmp = 0; tmp < arrLength(months); tmp++)
+                for(uint32 tmp = 0; tmp < arrLength(months); tmp++)
                 {
                     if (strEql(months[tmp],birthMonth))
                     {
@@ -74,7 +91,7 @@ void me(string args) {
                 readStr(continent,128);
                 continent = toUpper(continent);
 
-                for(int tmp = 0; tmp < arrLength(continents); tmp++)
+                for(uint32 tmp = 0; tmp < arrLength(continents); tmp++)
                 {
                     if (strEql(continents[tmp],continent))
                     {
@@ -97,7 +114,7 @@ void me(string args) {
                 readStr(country,128);
                 country = toUpper(country);
 
-                for(int tmp = 0; tmp < arrLength(countries); tmp++)
+                for(uint32 tmp = 0; tmp < arrLength(countries); tmp++)
                 {
                     if (strEql(countries[tmp],country))
                     {
@@ -112,9 +129,22 @@ void me(string args) {
                 }
             }
 
-            newline();
-            print("What state do you currently live in: ",0x0B);
-            readStr(state,128);
+            while (!stateValid)
+            {
+                newline();
+                print("What state/province do you currently live in: ",0x0B);
+                readStr(state,128);
+                state = toUpper(state);
+
+                for(uint8 tmp = 0; tmp < arrLength(states); tmp++)
+                {
+                    if(strEql(states[tmp],country))
+                    {
+                        stateValid = true;
+                        print(" Good",0x02);
+                    }
+                }
+            }
 
             newline();
             print("What city do you live in: ",0x0B);
