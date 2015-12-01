@@ -257,6 +257,9 @@ char *verbs[] = {
     "DOUBT",
     "DRAG",
     "DRAIN",
+};
+
+char *verbs2[] = {
     "DRAW",
     "DREAM",
     "DRESS",
