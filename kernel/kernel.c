@@ -11,6 +11,7 @@
 #include "inc/descriptorTables.h"
 #include "inc/assemblyFunctions.h"
 #include "inc/math.h"
+#include "inc/list.h"
 
 extern uint32 placement_address;
 

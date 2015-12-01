@@ -20,6 +20,8 @@ void add(list_t*, string);
 
 void remove(list_t*);
 
+void replace(list_t*, uint32, string);
+
 void shrink(list_t*);
 
 void clear(list_t*);
