@@ -53,11 +53,10 @@ bool contains(list_t* lst, string e) {
     return indexOf(lst, e) < (lst->size);
 }
 
-void destroy(list_t* lst) {
+void destroyList(list_t* lst) {
     for(uint32 i = 0; i < lst->size; i++) {
         kfree(lst->data[i]);
     }
     kfree(lst->data);
     lst->capt = lst->size = 0;
-    kfree(lst);
 }
