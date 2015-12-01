@@ -3,8 +3,6 @@
 
 #include "../../inc/intTypeDefs.h"
 
-extern bool hasSetup;
-
 extern bool birthYearValid;
 extern bool birthDateValid;
 extern bool birthMonthValid;
