@@ -5,7 +5,7 @@ int mathOp[CALCSIZE];
 double strNum[CALCSIZE];
 int strNumCount = 0;
 double tempNum = -1;
-bool isNegative = false, isUnaryNot = false;
+bool isNegative = false, isUnaryNot = false, decPoint = false;
 
 // initialize value storages! (a-z, A-Z) -> (1-26, 27-52)
 #define STO_SIZE 51
@@ -25,12 +25,13 @@ double concat(double x, double y)
     if(y < 0) {
         return x;
     }
-    int pow = 10;
-    while(y >= pow)
-    {
-        pow *= 10;
+    double pow = 10;
+    if (!decPoint) {
+        while(y >= pow) pow *= 10;
+        return x * pow + y;
     }
-    return x * pow + y;
+    pow = 0.1;
+    return x + y * pow;
 }
 
 bool isMathOperator(char charToCheck) {
@@ -53,6 +54,7 @@ void resetVar() {
     strNumCount = 0;
     isNegative = false;
     isUnaryNot = false;
+    decPoint = false;
 }
 
 //Prints an error based on the error ID
@@ -88,7 +90,8 @@ void calc(string args)
     {
        calcHelp();
     }
-    else if(strEql(args," -y")){
+    else if(strEql(args," -y"))
+    {
        //getTime() test
        printint(getTime("year"),0x0F);
     }
@@ -124,15 +127,19 @@ void calc(string args)
                 break;
             else
             {
-                double pInput = stod(calcInput[i]);
+                int pInput = ntoi(calcInput[i]);
                 if (pInput != -1)
                     tempNum = concat(tempNum, pInput);
-                else if (isalpha(calcInput[i])) {
+                else if (calcInput[i] == '.') {
+                    decPoint = true;
+                } else if (isalpha(calcInput[i])) {
+                    decPoint = false;
                     int valIndex = ctoi(calcInput[i]) - 10; // [0-9], [a-z], [A-Z], +, /
                     tempNum = concat(tempNum, valIndex);
                     print("\nVar: ", 0x0f);
                     printint(valStorage[valIndex], 0x0f);
                 } else {
+                    decPoint = false;
                     // Properly check for math operator
                     if(isMathOperator(calcInput[i])) {
                         //check if user enter negative and not minus operator
@@ -173,6 +180,7 @@ void calc(string args)
                             tempNum = -1;
                             isNegative = false;
                             isUnaryNot = false;
+                            decPoint = false;
                         }
                     }
                 }
