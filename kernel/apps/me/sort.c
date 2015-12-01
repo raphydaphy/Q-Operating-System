@@ -1,6 +1,6 @@
 #include "sort.h"
 
-double sort(string word)
+double sort(char* word)
 {
     // Here are the basic category numbers, for more information look on the Q OS Wiki for Me
     // Link: https://github.com/raphydaphy/Q-Operating-System/wiki/Me
@@ -15,7 +15,39 @@ double sort(string word)
     // 7 = Conjunction                  A conjunction is a word that joins together multiple thoughts
     // 8 = Pronoun                      A pronoun replaces a noun/noun phase that is understood from context
 
-    int type = 0;
+    double type = 0;
+
+    // turn the word into uppercase for easier sorting
+    word = toUpper(word);
+
+    print(word,0x0E);
+
+    for(uint8 tmp = 0; tmp < arrLength(noun_act); tmp++)
+    {
+        if (strEql(noun_act[tmp],word))
+        {
+            print(" Noun Act ",0x0E);
+            return 2.1;
+        }
+    }
+
+    for(uint8 tmp = 0; tmp < arrLength(noun_animal); tmp++)
+    {
+        if (strEql(noun_animal[tmp],word))
+        {
+            print(" Noun Animal ",0x0E);
+            return 2.2;
+        }
+    }
+
+    for(uint8 tmp = 0; tmp < arrLength(noun_artifact); tmp++)
+    {
+        if (strEql(noun_artifact[tmp],word))
+        {
+            print(" Noun Artifact ",0x0E);
+            return 2.3;
+        }
+    }
 
     return type;
 }
