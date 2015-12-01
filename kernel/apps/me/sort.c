@@ -20,14 +20,15 @@ double sort(char* word)
     // turn the word into uppercase for easier sorting
     word = toUpper(word);
 
-    print(word,0x0E);
 
     for(uint8 tmp = 0; tmp < arrLength(noun_act); tmp++)
     {
         if (strEql(noun_act[tmp],word))
         {
-            print(" Noun Act ",0x0E);
-            return 2.1;
+            print(" Noun ",0x0B);
+            print(" Act ",0x0C);
+            type = 1.1;
+            return 1.1;
         }
     }
 
@@ -35,8 +36,10 @@ double sort(char* word)
     {
         if (strEql(noun_animal[tmp],word))
         {
-            print(" Noun Animal ",0x0E);
-            return 2.2;
+            print(" Noun ",0x0B);
+            print(" Animal ",0x0C);
+            type = 1.2;
+            return 1.2;
         }
     }
 
@@ -44,10 +47,25 @@ double sort(char* word)
     {
         if (strEql(noun_artifact[tmp],word))
         {
-            print(" Noun Artifact ",0x0E);
-            return 2.3;
+            print(" Noun ",0x0B);
+            print(" Artifact ",0x0C);
+            type = 1.3;
+            return 1.3;
         }
     }
+
+
+    for(uint8 tmp = 0; tmp < arrLength(verbs); tmp++)
+    {
+        if (strEql(verbs[tmp],word))
+        {
+            print(" Verb ",0x0B);
+            type = 2.0;
+            return 2.0;
+        }
+    }
+
+
 
     return type;
 }
