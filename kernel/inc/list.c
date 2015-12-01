@@ -20,3 +20,8 @@ void add(list_t* lst, string e) {
     lst->size++;
 }
 
+void remove(list_t* lst) {
+    lst->data[lst->size] = NULL;
+    lst->size--;
+}
+

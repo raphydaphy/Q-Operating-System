@@ -17,4 +17,6 @@ list_t init_list();
 
 void add(list_t*, string);
 
+void remove(list_t*);
+
 #endif
