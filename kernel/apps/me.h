@@ -7,22 +7,10 @@
 #include "../inc/stringUtils.h"
 #include "../inc/screenUtils.h"
 
-// Some variables to store basic information about our user
-string name;
-
-string birthYear;
-int birthYearInt;
-
-string birthDate;
-int birthDateInt;
-
-string birthMonth;
-
-string continent;
-string country;
-string state;
-string city;
-string zip;
+// Me Libraries
+#include "me/setup.h"
+#include "me/noun.h"
+#include "me/verb.h"
 
 // define the main Me funciton that does all the data handling for Me
 void me(string args);
