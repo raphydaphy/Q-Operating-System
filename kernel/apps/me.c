@@ -168,12 +168,24 @@ void me(string args) {
     }
     else
     {
-        for(int tmp = 1; tmp < 10; tmp++)
+        bool over = false;
+        int tmp = 0;
+        while (!over)
         {
-            newline();
-            printint(tmp,0x0A);
-            print(" : ",0x0B);
-            print(splitArg(args, tmp),0x0A);
+            tmp++;
+
+            if (strEql(splitArg(args, tmp),""))
+            {
+                over = true;
+            }
+            else
+            {
+                newline();
+                printint(tmp,0x0A);
+                print(" : ",0x0B);
+                print(splitArg(args, tmp),0x0A);
+            }
         }
+
     }
 }
