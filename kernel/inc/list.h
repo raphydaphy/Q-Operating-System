@@ -19,4 +19,8 @@ void add(list_t*, string);
 
 void remove(list_t*);
 
+void shrink(list_t*);
+
+void clear(list_t*);
+
 #endif

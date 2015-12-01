@@ -25,3 +25,18 @@ void remove(list_t* lst) {
     lst->size--;
 }
 
+void shrink(list_t* lst) {
+    lst->capt = lst->size;
+    string* oldData = lst->data;
+    uint32 len = lst->capt * sizeof(string);
+    lst->data = kmalloc(len);
+    memcpy(lst->data, oldData, len);
+}
+
+void clear(list_t* lst) {
+    kfree(lst->data);
+    lst->capt = GROWTH_FACTOR;
+    lst->size = 0;
+    lst->data = kmalloc(lst->capt * sizeof(string));
+}
+
