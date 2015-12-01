@@ -8,7 +8,7 @@ int century_register = 0x00;                                // Set by ACPI table
 unsigned char second;
 unsigned char minute;
 unsigned char hour;
-unsigned char day;
+unsigned char day;//Not the day of the week, but day of the month
 unsigned char month;
 unsigned int year;
 
@@ -237,8 +237,23 @@ int getTime(string args){
   if(strEql(args,"year"))
   {
      return year;
+  }else if(strEql(args,"month"))
+  {
+     return (int)month;
+  }else if(strEql(args,"day"))
+  {
+     return (int)day;
+  }else if(strEql(args,"hour"))
+  {
+     return (int)hour;
+  }else if(strEql(args,"minute"))
+  {
+     return (int)minute;
+  }else if(strEql(args,"second"))
+  {
+     return (int)second;
   }else{
-  	return 0;
+  	return -1;
   }
 }
 //END CHRONO FUNCTIONS
