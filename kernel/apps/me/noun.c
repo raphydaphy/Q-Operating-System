@@ -13,7 +13,7 @@ char *noun_act[] = {
     "winning",
 };
 
-char *noun_animal[] {
+char *noun_animal[] = {
     "darter",
     "varmint",
     "peeper",
@@ -26,102 +26,110 @@ char *noun_animal[] {
     "mutant",
 };
 
-char *noun_artifact[] {
+char *noun_artifact[] = {
+    "abacus",
+    "abattis",
+    "abattoir",
+    "abaya",
+    "accelerator",
+    "academy",
+    "acid",
+    "adit",
+    "aerosol",
+    "aileron",
+};
+
+char *noun_attribute[] = {
     "Thing",
     "Another Thing"
 };
 
-char *noun_attribute[] {
+char *noun_body[] = {
     "Thing",
     "Another Thing"
 };
 
-char *noun_body[] {
+char *noun_cognition[] = {
     "Thing",
     "Another Thing"
 };
 
-char *noun_cognition[] {
+char *noun_communication[] = {
     "Thing",
     "Another Thing"
 };
 
-char *noun_communication[] {
+char *noun_event[] = {
     "Thing",
     "Another Thing"
 };
 
-char *noun_event[] {
+char *noun_feeling[] = {
     "Thing",
     "Another Thing"
 };
 
-char *noun_feeling[] {
+char *noun_food[] = {
     "Thing",
     "Another Thing"
 };
 
-char *noun_food[] {
+char *noun_group[] = {
     "Thing",
     "Another Thing"
 };
 
-char *noun_group[] {
+char *noun_location[] = {
     "Thing",
     "Another Thing"
 };
 
-char *noun_location[] {
+char *noun_motive[] = {
     "Thing",
     "Another Thing"
 };
 
-char *noun_motive[] {
+char *noun_object[] = {
     "Thing",
     "Another Thing"
 };
 
-char *noun_object[] {
+char *noun_person[] = {
     "Thing",
     "Another Thing"
 };
 
-char *noun_person[] {
+char *noun_quantity[] = {
     "Thing",
     "Another Thing"
 };
 
-char *noun_quantity[] {
+char *noun_relation[] = {
     "Thing",
     "Another Thing"
 };
 
-char *noun_relation[] {
+char *noun_shape[] = {
     "Thing",
     "Another Thing"
 };
 
-char *noun_shape[] {
+char *noun_state[] = {
     "Thing",
     "Another Thing"
 };
 
-char *noun_state[] {
+char *noun_substance[] = {
     "Thing",
     "Another Thing"
 };
 
-char *noun_substance[] {
+char *noun_time[] = {
     "Thing",
     "Another Thing"
 };
 
-char *noun_time[] {
-    "Thing",
-    "Another Thing"
-};
-
-char *noun_tops[] {
+char *noun_tops[] = {
     "Thing",
     "Another Thing"
 };
