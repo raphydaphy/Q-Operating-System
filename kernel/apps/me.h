@@ -11,7 +11,11 @@
 string name;
 
 string birthYear;
+int birthYearInt;
+
 string birthDate;
+int birthDateInt;
+
 string birthMonth;
 
 string continent;

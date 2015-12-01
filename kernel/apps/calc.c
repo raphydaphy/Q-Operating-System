@@ -3,7 +3,8 @@
 // initialize the math storage variables
 int mathOp[CALCSIZE];
 double strNum[CALCSIZE];
-int strNumCount = 0, tempNum = -1;
+int strNumCount = 0;
+double tempNum = -1;
 bool isNegative = false, isUnaryNot = false;
 
 // initialize value storages! (a-z, A-Z) -> (1-26, 27-52)
@@ -16,7 +17,7 @@ void initialize_calc() {
 }
 
 // concatinating for calculator
-int concat(int x, int y)
+double concat(double x, double y)
 {
     if(x < 0) {
         return y;
@@ -27,7 +28,7 @@ int concat(int x, int y)
     int pow = 10;
     while(y >= pow)
     {
-        pow*= 10;
+        pow *= 10;
     }
     return x * pow + y;
 }
@@ -38,20 +39,20 @@ bool isMathOperator(char charToCheck) {
 
 void calcHelp()
 {
-  printint(mathOp[0], 0x0F);
+    printint(mathOp[0], 0x0F);
     print("\nCalculator help: ", 0x0F);
     print("\n[HELP TEXT HERE]", 0x0F);
 }
 
-void resetVar(){
-  //Reset operational variable to its default state
-  memset(calcInput, '\0', CALCSIZE);
-  memset(mathOp, '\0', CALCSIZE);
-  memset(strNum, '\0', CALCSIZE);
-  tempNum = -1;
-  strNumCount = 0;
-  isNegative = false;
-  isUnaryNot = false;
+void resetVar() {
+    //Reset operational variable to its default state
+    memset(calcInput, '\0', CALCSIZE);
+    memset(mathOp, '\0', CALCSIZE);
+    memset(strNum, '\0', CALCSIZE);
+    tempNum = -1;
+    strNumCount = 0;
+    isNegative = false;
+    isUnaryNot = false;
 }
 
 //Prints an error based on the error ID
@@ -119,7 +120,7 @@ void calc(string args)
                 break;
             else
             {
-                int pInput = ntoi(calcInput[i]);
+                double pInput = stod(calcInput[i]);
                 if (pInput != -1)
                     tempNum = concat(tempNum, pInput);
                 else if (isalpha(calcInput[i])) {
@@ -162,7 +163,7 @@ void calc(string args)
                             if(isNegative)
                                 tempNum *= -1;
                             else if (isUnaryNot)
-                                tempNum = ~tempNum;
+                                tempNum = ~((long) tempNum);
                             strNum[strNumCount] = tempNum;
                             mathOp[strNumCount++] = calcInput[i]; 	// set math operator
                             tempNum = -1;
@@ -406,7 +407,7 @@ void calc(string args)
             }
         }
         newline();
-        printint(round(strNum[0]), 0x0F);
+        printfloat((float) strNum[0], 0x0F);
 
         //Reset operational variable to its default state
         resetVar();

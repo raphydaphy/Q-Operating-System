@@ -182,9 +182,9 @@ double stod(string s)
         if (isnum(s[i])) {
             if (hasDec) {
                 fmp *= 0.1;
-                msg += ctoi(s[i]) * fmp;
+                msg += ntoi(s[i]) * fmp;
             } else
-                msg = msg * 10 + ctoi(s[i]);
+                msg = msg * 10 + ntoi(s[i]);
         } else if (s[i] == '.') {
             if (hasDec) break;
             hasDec = true;
@@ -218,4 +218,32 @@ string splitArg(string args, int argc) {//argc is the argument the program needs
     j = 0;
 
     return (string)fargs;
+}
+
+string sentenceCase(string s) {
+    s[0] = toUpperC(s[0]);
+    uint16 i = 1;
+    while(s[i]) {
+        s[i] = toLowerC(s[i]);
+        i++;
+    }
+    return s;
+}
+
+string toUpper(string s) {
+    uint16 i = 0;
+    while(s[i]) {
+        s[i] = toUpperC(s[i]);
+        i++;
+    }
+    return s;
+}
+
+string toLower(string s) {
+    uint16 i = 0;
+    while(s[i]) {
+        s[i] = toLowerC(s[i]);
+        i++;
+    }
+    return s;
 }
