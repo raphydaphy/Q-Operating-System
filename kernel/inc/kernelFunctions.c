@@ -1,4 +1,5 @@
 #include "kernelFunctions.h"
+#include "math.h"
 
 #define MULTI_ARG_DEBUG false
 
@@ -114,7 +115,15 @@ void launchShell() {
         else if(strEql(bufStr, "clear -i"))     {   BIGCLEAR;         }
         else if(strEql(bufStr, "newdir"))       {   MKDIR;            }
         else if(strEql(bufStr, "erase"))        {   RMFILE;           }
-        else if(strEql(bufStr, "me"))           {   ME;               }
+	else if(strEql(bufStr, "me"))           {   ME;               }
+	else if(strEql(bufStr, "search"))
+	{
+	    print("\nDictionary File Name>  ", 0x0F);
+	    readStr(bufStr, bufSize);
+	    ASSERT(strlength(bufStr) < MAX_FNAME_LEN);
+	    findInDictionary(finddir_fs(fs_root, bufStr),1013,"ACCEPT");
+	
+	}
         else                                    {   CMDNOTFOUND;      }
 
         newline();

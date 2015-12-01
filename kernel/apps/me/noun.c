@@ -1,127 +1,135 @@
 #include "noun.h"
 
 char *noun_act[] = {
-    "abort",
-    "kindness",
-    "feat",
-    "update",
-    "playing",
-    "recovery",
-    "going",
-    "entree",
-    "getaway",
-    "winning",
+    "ABORT",
+    "KINDNESS",
+    "FEAT",
+    "UPDATE",
+    "PLAYING",
+    "RECOVERY",
+    "GOING",
+    "ENTREE",
+    "GETAWAY",
+    "WINNING",
 };
 
-char *noun_animal[] {
-    "darter",
-    "varmint",
-    "peeper",
-    "stocker",
-    "migrator",
-    "polyploid",
-    "diploid",
-    "puppy",
-    "animalcule",
-    "mutant",
+char *noun_animal[] = {
+    "DARTER",
+    "VARMINT",
+    "PEEPER",
+    "STOCKER",
+    "MIGRATOR",
+    "POLYPLOID",
+    "DIPLOID",
+    "PUPPY",
+    "ANIMALCULE",
+    "MUTANT",
 };
 
-char *noun_artifact[] {
-    "Thing",
-    "Another Thing"
+char *noun_artifact[] = {
+    "ABACUS",
+    "ABATTIS",
+    "ABATTOIR",
+    "ABAYA",
+    "ACCELERATOR",
+    "ACADEMY",
+    "ACID",
+    "ADIT",
+    "AEROSOL",
+    "AILERON",
 };
 
-char *noun_attribute[] {
-    "Thing",
-    "Another Thing"
+char *noun_attribute[] = {
+    "",
+    ""
 };
 
-char *noun_body[] {
-    "Thing",
-    "Another Thing"
+char *noun_body[] = {
+    "",
+    ""
 };
 
-char *noun_cognition[] {
-    "Thing",
-    "Another Thing"
+char *noun_cognition[] = {
+    "",
+    ""
 };
 
-char *noun_communication[] {
-    "Thing",
-    "Another Thing"
+char *noun_communication[] = {
+    "",
+    ""
 };
 
-char *noun_event[] {
-    "Thing",
-    "Another Thing"
+char *noun_event[] = {
+    "",
+    ""
 };
 
-char *noun_feeling[] {
-    "Thing",
-    "Another Thing"
+char *noun_feeling[] = {
+    "",
+    ""
 };
 
-char *noun_food[] {
-    "Thing",
-    "Another Thing"
+char *noun_food[] = {
+    "",
+    ""
 };
 
-char *noun_group[] {
-    "Thing",
-    "Another Thing"
+char *noun_group[] = {
+    "",
+    ""
 };
 
-char *noun_location[] {
-    "Thing",
-    "Another Thing"
+char *noun_location[] = {
+    "",
+    ""
 };
 
-char *noun_motive[] {
-    "Thing",
-    "Another Thing"
+char *noun_motive[] = {
+    "",
+    ""
 };
 
-char *noun_object[] {
-    "Thing",
-    "Another Thing"
+char *noun_object[] = {
+    "",
+    ""
 };
 
-char *noun_person[] {
-    "Thing",
-    "Another Thing"
+char *noun_person[] = {
+    "",
+    ""
 };
 
-char *noun_quantity[] {
-    "Thing",
-    "Another Thing"
+char *noun_quantity[] = {
+    "",
+    ""
 };
 
-char *noun_relation[] {
-    "Thing",
-    "Another Thing"
+char *noun_relation[] = {
+    "",
+    ""
 };
 
-char *noun_shape[] {
-    "Thing",
-    "Another Thing"
+char *noun_shape[] = {
+    "",
+    ""
 };
 
-char *noun_state[] {
-    "Thing",
-    "Another Thing"
+char *noun_state[] = {
+    "",
+    ""
 };
 
-char *noun_substance[] {
-    "Thing",
-    "Another Thing"
+char *noun_substance[] = {
+    "",
+    ""
 };
 
-char *noun_time[] {
-    "Thing",
-    "Another Thing"
+char *noun_time[] = {
+    "",
+    ""
 };
 
-char *noun_tops[] {
-    "Thing",
-    "Another Thing"
+char *noun_tops[] = {
+    "",
+    ""
 };

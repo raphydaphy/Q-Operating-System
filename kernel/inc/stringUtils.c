@@ -200,7 +200,7 @@ string splitArg(string args, int argc) {//argc is the argument the program needs
     int j = 0;
     int argLoc = 0;
 
-    char fargs[128] = {0};
+    char fargs[1028] = {0};
     while(args[i] != 0 && args[i] != 10) {
 		if(args[i] == 32) {
 	    	argLoc += 1;
@@ -247,3 +247,4 @@ string toLower(string s) {
     }
     return s;
 }
+ 

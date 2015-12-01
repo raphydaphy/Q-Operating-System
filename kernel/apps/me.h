@@ -7,22 +7,14 @@
 #include "../inc/stringUtils.h"
 #include "../inc/screenUtils.h"
 
-// Some variables to store basic information about our user
-string name;
+// Me Libraries
+#include "me/setup.h"
+#include "me/noun.h"
+#include "me/verb.h"
+#include "me/sort.h"
 
-string birthYear;
-int birthYearInt;
-
-string birthDate;
-int birthDateInt;
-
-string birthMonth;
-
-string continent;
-string country;
-string state;
-string city;
-string zip;
+// define a boolean to see if the setup process is completed
+bool hasSetup;
 
 // define the main Me funciton that does all the data handling for Me
 void me(string args);
