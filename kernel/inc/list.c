@@ -40,3 +40,15 @@ void clear(list_t* lst) {
     lst->data = kmalloc(lst->capt * sizeof(string));
 }
 
+uint32 indexOf(list_t* lst, string e) {
+    for(uint32 i = 0; i < lst->size; i++) {
+        if (strEql(lst->data[i], e)) {
+            return i;
+        }
+    }
+    return lst->size; // This is a OutOfBounds
+}
+
+bool contains(list_t* lst, string e) {
+    return indexOf(lst, e) < (lst->size);
+}
