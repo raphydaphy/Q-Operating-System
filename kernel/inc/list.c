@@ -25,6 +25,11 @@ void remove(list_t* lst) {
     lst->size--;
 }
 
+void replace(list_t* lst, uint32 index, string e) {
+    if (index >= lst->size) return;
+    lst->data[index] = e;
+}
+
 void shrink(list_t* lst) {
     lst->capt = lst->size;
     string* oldData = lst->data;
