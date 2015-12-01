@@ -29,9 +29,9 @@ double concat(double x, double y)
     if (!decPoint) {
         while(y >= pow) pow *= 10;
         return x * pow + y;
-    } else
-        while(x >= pow) pow /= 10;
-        return x + y * pow;
+    }
+    pow = 0.1;
+    return x + y * pow;
 }
 
 bool isMathOperator(char charToCheck) {
@@ -90,7 +90,8 @@ void calc(string args)
     {
        calcHelp();
     }
-    else if(strEql(args," -y")){
+    else if(strEql(args," -y"))
+    {
        //getTime() test
        printint(getTime("year"),0x0F);
     }
