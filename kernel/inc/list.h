@@ -28,6 +28,6 @@ uint32 indexOf(list_t*, string);
 
 bool contains(list_t*, string);
 
-void destroy(list_t*);
+void destroyList(list_t*);
 
 #endif
