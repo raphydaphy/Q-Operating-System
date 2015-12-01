@@ -11,6 +11,10 @@
 #include "me/setup.h"
 #include "me/noun.h"
 #include "me/verb.h"
+#include "me/sort.h"
+
+// define a boolean to see if the setup process is completed
+bool hasSetup;
 
 // define the main Me funciton that does all the data handling for Me
 void me(string args);

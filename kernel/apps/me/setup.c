@@ -1,7 +1,5 @@
 #include "setup.h"
 
-bool hasSetup = false;
-
 bool birthYearValid = false;
 bool birthDateValid = false;
 bool birthMonthValid = false;
@@ -383,3 +381,4 @@ char *states[] = {
     "VICTORIA",
     "WESTERN AUSTRALIA",
 };
+ 

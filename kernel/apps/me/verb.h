@@ -1,7 +1,7 @@
 #ifndef VERB_H
 #define VERB_H
 
-extern char *verbs[];
+extern char *verbs[256];
 
 extern char *verb_body[];
 extern char *verb_change[];

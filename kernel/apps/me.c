@@ -1,9 +1,13 @@
 #include "me.h"
 
+#define curWord toUpper(splitArg(args, tmp))
+
+bool hasSetup = false;
+
 void me(string args) {
     if (strEql(splitArg(args, 1), "setup") || !hasSetup)
     {
-        if (strEql(splitArg(args, 2), "skipper") && !hasSetup)
+        if (strEql(splitArg(args, 2), "skip") && !hasSetup)
         {
             hasSetup = true;
             print("\nYou have skipped the Me setup process, some answers may be strange :D",0x06);
@@ -144,15 +148,43 @@ void me(string args) {
                         print(" Good",0x02);
                     }
                 }
+
+                if (!stateValid)
+                {
+                    print(" Invalid",0x0C);
+                }
             }
 
             newline();
             print("What city do you live in: ",0x0B);
             readStr(city,128);
 
-            newline();
-            print("What is the zip code in your area: ",0x0B);
-            readStr(zip,128);
+            while (!zipValid)
+            {
+                newline();
+                print("What is the zip/post code in your area: ",0x0B);
+                readStr(zip,17);
+
+                if (strEql(country,"CANADA"))
+                {
+                    print(" Good Enough",0x02);
+                    zipValid = true;
+                }
+                else
+                {
+                    zipInt = stoi(zip);
+                    if (zipInt < 9999999999999999 && zipInt > 0)
+                    {
+                        zipValid = true;
+                        print(" Good",0x02);
+                    }
+
+                    if (!zipValid)
+                    {
+                        print(" Invalid",0x0C);
+                    }
+                }
+            }
 
             newline();
             hasSetup = "true";
@@ -168,12 +200,26 @@ void me(string args) {
     }
     else
     {
-        for(int tmp = 1; tmp < 10; tmp++)
+        bool over = false;
+        int tmp = 0;
+        while (!over)
         {
-            newline();
-            printint(tmp,0x0A);
-            print(" : ",0x0B);
-            print(splitArg(args, tmp),0x0A);
+            tmp++;
+
+            if (strEql(splitArg(args, tmp),""))
+            {
+                over = true;
+            }
+            else
+            {
+                newline();
+                printint(tmp,0x0A);
+                print(" : ",0x0B);
+                print(curWord,0x0A);
+                print(" : ",0x0B);
+                printfloat(sort(splitArg(args, tmp)),0x09);
+
+            }
         }
     }
 }

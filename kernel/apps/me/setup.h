@@ -3,8 +3,6 @@
 
 #include "../../inc/intTypeDefs.h"
 
-extern bool hasSetup;
-
 extern bool birthYearValid;
 extern bool birthDateValid;
 extern bool birthMonthValid;
@@ -34,6 +32,8 @@ string continent;
 string country;
 string state;
 string city;
+
 string zip;
+int zipInt;
 
 #endif
