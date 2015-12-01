@@ -88,6 +88,10 @@ void calc(string args)
     {
        calcHelp();
     }
+    else if(strEql(args," -y")){
+       //getTime() test
+       printint(getTime("year"),0x0F);
+    }
     else if(strEql(args," -pi"))
     {
         newline();
