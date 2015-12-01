@@ -148,15 +148,35 @@ void me(string args) {
                         print(" Good",0x02);
                     }
                 }
+
+                if (!stateValid)
+                {
+                    print(" Invalid",0x0C);
+                }
             }
 
             newline();
             print("What city do you live in: ",0x0B);
             readStr(city,128);
 
-            newline();
-            print("What is the zip code in your area: ",0x0B);
-            readStr(zip,128);
+            while (!zipValid)
+            {
+                newline();
+                print("What is the zip/post code in your area: ",0x0B);
+                readStr(zip,17);
+                zipInt = stoi(zip);
+
+                if (zipInt < 9999999999999999 && zipInt > 0)
+                {
+                    zipValid = true;
+                    print(" Good",0x02);
+                }
+
+                if (!zipValid)
+                {
+                    print(" Invalid",0x0C);
+                }
+            }
 
             newline();
             hasSetup = "true";
@@ -189,12 +209,9 @@ void me(string args) {
                 print(" : ",0x0B);
                 print(curWord,0x0A);
                 print(" : ",0x0B);
-                sort(splitArg(args, tmp));
+                printfloat(sort(splitArg(args, tmp)),0x09);
 
             }
         }
-        newline();
-        printfloat(sort("darter"),0x0D);
-
     }
 }
