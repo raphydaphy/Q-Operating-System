@@ -164,17 +164,25 @@ void me(string args) {
                 newline();
                 print("What is the zip/post code in your area: ",0x0B);
                 readStr(zip,17);
-                zipInt = stoi(zip);
 
-                if (zipInt < 9999999999999999 && zipInt > 0)
+                if (strEql(country,"CANADA"))
                 {
+                    print(" Good Enough",0x02);
                     zipValid = true;
-                    print(" Good",0x02);
                 }
-
-                if (!zipValid)
+                else
                 {
-                    print(" Invalid",0x0C);
+                    zipInt = stoi(zip);
+                    if (zipInt < 9999999999999999 && zipInt > 0)
+                    {
+                        zipValid = true;
+                        print(" Good",0x02);
+                    }
+
+                    if (!zipValid)
+                    {
+                        print(" Invalid",0x0C);
+                    }
                 }
             }
 
