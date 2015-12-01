@@ -21,6 +21,10 @@
 #define E_S "2.71828182845904523536028747135266249775724709369995"
 #endif
 
+#ifdef CURRENT_YEAR
+#define CURRENT_YEAR 2015
+#endif
+
 //Square root function
 double sqrt(double);
 
@@ -40,5 +44,11 @@ long ceil(double);
 long floor(double);
 
 double abs(double);
+
+//Chrono function
+int get_update_in_progress_flag();
+unsigned char get_RTC_register(int);
+void read_rtc();
+int getTime(string);
 
 #endif
