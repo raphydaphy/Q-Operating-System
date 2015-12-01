@@ -3,6 +3,7 @@
 
 #include "kheap.h"
 #include "byteUtils.h"
+#include "stringUtils.h"
 #include "intTypeDefs.h"
 
 #define GROWTH_FACTOR 16
@@ -22,5 +23,9 @@ void remove(list_t*);
 void shrink(list_t*);
 
 void clear(list_t*);
+
+uint32 indexOf(list_t*, string);
+
+bool contains(list_t*, string);
 
 #endif
