@@ -1,9 +1,13 @@
 #include "me.h"
 
+#define curWord toUpper(splitArg(args, tmp))
+
+bool hasSetup = false;
+
 void me(string args) {
     if (strEql(splitArg(args, 1), "setup") || !hasSetup)
     {
-        if (strEql(splitArg(args, 2), "skipper") && !hasSetup)
+        if (strEql(splitArg(args, 2), "skip") && !hasSetup)
         {
             hasSetup = true;
             print("\nYou have skipped the Me setup process, some answers may be strange :D",0x06);
@@ -183,9 +187,14 @@ void me(string args) {
                 newline();
                 printint(tmp,0x0A);
                 print(" : ",0x0B);
-                print(splitArg(args, tmp),0x0A);
+                print(curWord,0x0A);
+                print(" : ",0x0B);
+                sort(splitArg(args, tmp));
+
             }
         }
+        newline();
+        printfloat(sort("darter"),0x0D);
 
     }
 }
