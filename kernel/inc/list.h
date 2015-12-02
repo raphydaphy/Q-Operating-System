@@ -16,6 +16,8 @@ typedef struct {
 
 list_t init_list();
 
+list_t init_list_s(uint32);
+
 void add(list_t*, string);
 
 void remove(list_t*);
