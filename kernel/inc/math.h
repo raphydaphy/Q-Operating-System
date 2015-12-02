@@ -49,6 +49,8 @@ uint32 factorial(uint32);
 
 long addRange(long, long);
 
+long subRange(long, long);
+
 void swap(long*, long*);
 
 //Chrono function

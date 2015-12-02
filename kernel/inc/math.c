@@ -111,11 +111,15 @@ long addRange(long l, long h) {
     if (h < l) swap(&l, &h);
     if ((h - l) >= AR_THERSOLD) return (h * (h + 1) / 2) - ((l - 1) * l / 2);
     long acc = 0;
-    while(h > l) {
+    while(h >= l) {
         acc += h;
         h--;
     }
     return acc;
+}
+
+long subRange(long l, long h) {
+    return (addRange(l + 1, h) - l) * -1;
 }
 
 void swap(long* a, long* b) {
