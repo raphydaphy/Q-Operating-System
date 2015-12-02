@@ -15,7 +15,21 @@ void cat(fs_node_t* fsnode)
     }
 }
 
-bool findInDictionary(fs_node_t* fsnode,int dictionaryLength,string searchTerm)
+bool findInDictionary(string dictionary,string searchWord)
+{
+
+    ASSERT(strlength(dictionary) < MAX_FNAME_LEN);
+    if (lookup(finddir_fs(fs_root, dictionary),searchWord))
+    {
+        return true;
+    }
+    else
+    {
+        return false;
+    }
+}
+
+bool lookup(fs_node_t* fsnode,string searchTerm)
 {
   newline();
   searchTerm = toUpper(searchTerm);
@@ -50,7 +64,7 @@ bool findInDictionary(fs_node_t* fsnode,int dictionaryLength,string searchTerm)
             {
                 print(curWord,0x0A);
             }
-            memset(curWord, '\0', dictionaryLength);
+            memset(curWord, '\0', 128);
         }
         else
         {
