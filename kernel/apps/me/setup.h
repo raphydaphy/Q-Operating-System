@@ -33,7 +33,6 @@ string country;
 string state;
 string city;
 
-string zip;
 int zipInt;
 
 #endif

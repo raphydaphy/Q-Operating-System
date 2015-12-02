@@ -34,6 +34,8 @@ string splitArg(string, int);
 
 int stoi(string);
 
+int htoi(string);
+
 double stod(string);
 
 string sentenceCase(string);

@@ -147,6 +147,8 @@ string ftos(float f) {
     return p;
 }
 
+static int convValidate;
+
 int stoi(string s)
 {
     int msg = 0;
@@ -157,10 +159,30 @@ int stoi(string s)
         i++;
     }
     while(s[i]) {
-        if (isnum(s[i])) {
-            msg *= 10;
-            msg += ctoi(s[i]);
-        } else break;
+        msg *= 10;
+        convValidate = ntoi(s[i]);
+        if(convValidate == -1) break;
+        msg += convValidate = ctoi(s[i]);
+        i++;
+    }
+    if (hasN) msg = -msg;
+    return msg;
+}
+
+int htoi(string s)
+{
+    int msg = 0;
+    bool hasN = false;
+    uint16 i = 0;
+    if (s[0] == '-') {
+        hasN = true;
+        i++;
+    }
+    while(s[i]) {
+        msg *= 10;
+        convValidate = ctoi(s[i]);
+        if(convValidate == -1) break;
+        msg += convValidate;
         i++;
     }
     if (hasN) msg = -msg;
