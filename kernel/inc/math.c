@@ -45,68 +45,6 @@ double cbrt(double x) {
     return b;
 }
 
-// We should make this more efficient
-string makeHex(int num)
-{
-    string hex = num;
-
-    if (num == 10)
-    {
-        hex = 'A';
-    }
-    else if (num == 11)
-    {
-        hex = 'B';
-    }
-    else if (num == 12)
-    {
-        hex = 'C';
-    }
-    else if (num == 13)
-    {
-        hex = 'D';
-    }
-    else if (num == 14)
-    {
-        hex = 'E';
-    }
-    else if (num == 15)
-    {
-        hex = 'F';
-    }
-    else if (num == 16)
-    {
-        hex = 'G';
-    }
-    else
-    {
-        hex = 'Z';
-    }
-
-    return hex;
-}
-
-string convertBase10(int base,int num)
-{
-    string result;
-
-    int div;
-    int rem;
-
-    int curDiv;
-    int curRem;
-
-    div = num/base;
-    rem = num%base;
-
-    print("\nDiv: ",0x0D);
-    printint(div,0x0E);
-    print("\nRem: ",0x0D);
-    printint(div,0x0E);
-
-    return result;
-}
-
 double sqrt(double a)
 {
    /*
