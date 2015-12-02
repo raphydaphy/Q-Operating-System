@@ -106,6 +106,24 @@ uint32 factorial(uint32 num) {
     return acc;
 }
 
+#define AR_THERSOLD 1024
+long addRange(long l, long h) {
+    if (h < l) swap(&l, &h);
+    if ((h - l) >= AR_THERSOLD) return (h * (h + 1) / 2) - ((l - 1) * l / 2);
+    long acc = 0;
+    while(h > l) {
+        acc += h;
+        h--;
+    }
+    return acc;
+}
+
+void swap(long* a, long* b) {
+    *a ^= *b;
+    *b ^= *a;
+    *a ^= *b;
+}
+
 long round(double num)
 {
     long res = (long) num;

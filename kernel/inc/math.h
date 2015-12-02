@@ -47,6 +47,10 @@ double abs(double);
 
 uint32 factorial(uint32);
 
+long addRange(long, long);
+
+void swap(long*, long*);
+
 //Chrono function
 int get_update_in_progress_flag();
 unsigned char get_RTC_register(int);
