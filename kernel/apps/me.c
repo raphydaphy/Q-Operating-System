@@ -3,6 +3,7 @@
 #define curWord toUpper(splitArg(args, tmp))
 
 bool hasSetup = false;
+char zip[18];
 
 void me(string args) {
     if (strEql(splitArg(args, 1), "setup") || !hasSetup)
@@ -163,26 +164,12 @@ void me(string args) {
             {
                 newline();
                 print("What is the zip/post code in your area: ",0x0B);
-                readStr(zip,17);
-
-                if (strEql(country,"CANADA"))
+                readStr(zip, 17);
+                zipInt = htoi(zip);
+                if (zipInt > 0) // The other test was invalid
                 {
-                    print(" Good Enough",0x02);
                     zipValid = true;
-                }
-                else
-                {
-                    zipInt = stoi(zip);
-                    if (zipInt > 0) // The other test was invalid
-                    {
-                        zipValid = true;
-                        print(" Good",0x02);
-                    }
-
-                    if (!zipValid)
-                    {
-                        print(" Invalid",0x0C);
-                    }
+                    print(" Good",0x02);
                 }
             }
 
