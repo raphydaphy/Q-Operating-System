@@ -6,7 +6,7 @@ list_t list_init() {
     rl.size = 0;
     rl.autoShrink = false;
     rl.autoShrinkTrigger = GROWTH_FACTOR*4;
-    rl.data = kmalloc(rl.capt * sizeof(string));
+    rl.data = (string*) kmalloc(rl.capt * sizeof(string));
     return rl;
 }
 
@@ -16,7 +16,7 @@ list_t list_init_s(uint32 ns) {
     rl.size = 0;
     rl.autoShrink = false;
     rl.autoShrinkTrigger = GROWTH_FACTOR*4;
-    rl.data = kmalloc(rl.capt * sizeof(string));
+    rl.data = (string*) kmalloc(rl.capt * sizeof(string));
     return rl;
 }
 
@@ -29,7 +29,7 @@ void list_add(list_t* lst, string e) {
 }
 
 void list_remove(list_t* lst, uint32 index) {
-    if (index < 0) return;
+    // No need to check for negative (unsigned)
     if (index >= lst->size) return;
     for (uint8 i = index; i < lst->size-1; i++){
         lst->data[i] = lst->data[i+1];
@@ -71,33 +71,29 @@ void list_shrink(list_t* lst) {
 
 void list_resize(list_t* lst, uint32 amount) {
     uint32 tempCapt;
-    if(amount < lst->size){//Don't let it resize to less than lst->size
+    if(amount < lst->size) //Don't let it resize to less than lst->size
         tempCapt = lst->size;
-    }else{
-        tempCapt = amount;
-    }
-    if(tempCapt == lst->capt){
-        return;//There is no need to resize
-    }
+    else tempCapt = amount;
+
+    if(tempCapt == lst->capt) return; //There is no need to resize
     lst->capt = tempCapt;
     string* oldData = lst->data;
-    lst->data = kmalloc(lst->capt * sizeof(string));
+    lst->data = (string*) kmalloc(lst->capt * sizeof(string));
     memcpy(lst->data, oldData, lst->size * sizeof(string));
+    kfree(oldData);
 }
 
 void list_clear(list_t* lst) {
     kfree(lst->data);
     lst->capt = GROWTH_FACTOR;
     lst->size = 0;
-    lst->data = kmalloc(lst->capt * sizeof(string));
+    lst->data = (string*) kmalloc(lst->capt * sizeof(string));
 }
 
 uint32 list_indexOf(list_t* lst, string e) {
-    for(uint32 i = 0; i < lst->size; i++) {
-        if (strEql(lst->data[i], e)) {
+    for(uint32 i = 0; i < lst->size; i++)
+        if (strEql(lst->data[i], e))
             return i;
-        }
-    }
     return lst->size; // This is a OutOfBounds
 }
 

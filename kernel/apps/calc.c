@@ -260,10 +260,11 @@ void calc(string args)
         list_shift(&test_list);
         list_shift(&test_list);
         list_shift(&test_list);
+
+        newline();
         println("Removed all items from test_list", 0x0F);
-        for(uint8 i = 0; i < test_list.size; i++){
+        for(uint8 i = 0; i < test_list.size; i++)
             println(test_list.data[i], 0x0F);
-        }
         println("Done sizing up", 0x0F);
         printint(test_list.capt, 0x0f);
         
