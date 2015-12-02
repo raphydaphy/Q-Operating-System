@@ -112,6 +112,7 @@ void launchShell() {
         else if(strEql(bufStr, "calc"))         {   calc(arguments);  }
         else if(strEql(bufStr, "clear"))        {   clearScreen();    }
         else if(strEql(bufStr, "clear -i"))     {   BIGCLEAR;         }
+        else if(strEql(bufStr, "test"))         {   test(arguments);  }
         else if(strEql(bufStr, "newdir"))       {   MKDIR;            }
         else if(strEql(bufStr, "erase"))        {   RMFILE;           }
 	    else if(strEql(bufStr, "me"))           {   ME;               }

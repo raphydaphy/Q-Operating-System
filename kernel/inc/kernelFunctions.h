@@ -20,6 +20,7 @@
 #include "../apps/system.h"
 #include "../apps/skip.h"
 #include "../apps/me.h"
+#include "../apps/testing.h"
 
 void printIntro();
 
