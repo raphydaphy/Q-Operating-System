@@ -8,6 +8,14 @@ list_t init_list() {
     return rl;
 }
 
+list_t init_list_s(uint32 ns) {
+    list_t rl;
+    rl.capt = ns; // You can initialize with 0...
+    rl.size = 0;
+    rl.data = kmalloc(rl.capt * sizeof(string));
+    return rl;
+}
+
 void add(list_t* lst, string e) {
     if (lst->size == lst->capt) {
         lst->capt += GROWTH_FACTOR;
