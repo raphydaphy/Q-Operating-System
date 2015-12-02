@@ -1,6 +1,8 @@
 #ifndef MATH_H
 #define MATH_H
 
+#include "intTypeDefs.h"
+#include "stringUtils.h"
 #include "charUtils.h"
 #include "screenUtils.h"
 
@@ -48,6 +50,10 @@ double abs(double);
 uint32 factorial(uint32);
 
 long addRange(long, long);
+
+string makeHex(int);
+
+string convertBase10(int,int);
 
 long subRange(long, long);
 
