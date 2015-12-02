@@ -162,7 +162,7 @@ int stoi(string s)
         msg *= 10;
         convValidate = ntoi(s[i]);
         if(convValidate == -1) break;
-        msg += convValidate = ctoi(s[i]);
+        msg += convValidate;
         i++;
     }
     if (hasN) msg = -msg;
