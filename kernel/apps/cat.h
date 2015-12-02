@@ -9,6 +9,7 @@
 #include "../inc/fs.h"
 
 void cat(fs_node_t*);
-bool findInDictionary(fs_node_t*,int,string);
+bool lookup(fs_node_t*,string);
+bool findInDictionary(string,string);
 
 #endif
