@@ -120,6 +120,30 @@ void calc(string args)
     	char ans = powerOfTen((int)calcInput);
     	printch(ans, 0x0F);
     }
+    else if(strEql(args, " -list"))//For testing lists
+    {
+        newline();
+        list_t test_list = list_init();
+        list_add(&test_list, "0");
+        list_add(&test_list, "1");
+        list_add(&test_list, "2");
+        list_add(&test_list, "3");
+        list_add(&test_list, "4");
+        list_add(&test_list, "5");
+        list_add(&test_list, "6");
+        list_add(&test_list, "7");
+        for(uint8 i = 0; i < test_list.size; i++){
+            println(test_list.data[i], 0x0F);
+        }
+        list_remove(&test_list,0);
+        list_remove(&test_list,0);
+        list_remove(&test_list,0);
+        println("Removed 3 items from test_list", 0x0F)
+        for(uint8 i = 0; i < test_list.size; i++){
+            println(test_list.data[i], 0x0F);
+        }
+        list_destroy(&test_list);
+    }
     else
     {
         print("\nUse calc -h for help\n>  ", 0x0F);

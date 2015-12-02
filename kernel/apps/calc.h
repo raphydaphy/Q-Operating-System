@@ -8,6 +8,7 @@
 #include "../inc/intTypeDefs.h"
 #include "../inc/stringUtils.h"
 #include "../inc/screenUtils.h"
+#include "../inc/list.h"
 
 #ifndef CALCSIZE
 #define CALCSIZE 128
