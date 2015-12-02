@@ -8,24 +8,21 @@ int century_register = 0x00;                                // Set by ACPI table
 unsigned char second;
 unsigned char minute;
 unsigned char hour;
-unsigned char day;//Not the day of the week, but day of the month
+unsigned char day; //Not the day of the week, but day of the month
 unsigned char month;
 unsigned int year;
 
 //END CHRONO VARIABLES
 
-double powerOfTen(int num){
-   double rst = 1.0;
-   if(num >= 0){
-       for(int i = 0; i < num ; i++){
-           rst *= 10.0;
-       }
-   }else{
-       for(int i = 0; i < (0 - num ); i++){
-           rst *= 0.1;
-       }
-   }
-   return rst;
+double powerOfTen(int num) {
+    double rst = 1.0;
+    if(num >= 0) {
+        while(num-- > 0) rst *= 10;
+    } else {
+        num = -num;
+        while(num--) rst *= 0.1;
+    }
+    return rst;
 }
 
 //double pow(double num, double){

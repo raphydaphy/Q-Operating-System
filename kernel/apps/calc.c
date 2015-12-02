@@ -92,6 +92,7 @@ void mathError(uint8 ID)
 
 void calc(string args)
 {
+    memset(calcInput, '\0', CALCSIZE);
     if(strEql(args," -h"))
     {
        calcHelp();
@@ -117,13 +118,11 @@ void calc(string args)
         print("Number>  ",0x08);
         readStr(calcInput, CALCSIZE);
         newline();
-    	char ans = powerOfTen((int)calcInput);
-    	printch(ans, 0x0F);
+    	printfloat(powerOfTen(stoi(calcInput)), 0x0F);
     }
     else
     {
         print("\nUse calc -h for help\n>  ", 0x0F);
-        memset(calcInput, '\0', CALCSIZE);
         readStr(calcInput, CALCSIZE);
         strcat(calcInput, "+0"); // Unary related hack! do not delete
 
