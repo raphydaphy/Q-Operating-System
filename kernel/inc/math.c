@@ -97,6 +97,15 @@ double sqrt(double a)
      return rst;
 }
 
+uint32 factorial(uint32 num) {
+    uint32 acc = 1;
+    while(num > 1) {
+        acc *= num;
+        num--;
+    }
+    return acc;
+}
+
 long round(double num)
 {
     long res = (long) num;
