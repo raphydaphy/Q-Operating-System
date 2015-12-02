@@ -6,6 +6,7 @@ double strNum[CALCSIZE];
 int strNumCount = 0;
 double tempNum = -1;
 bool isNegative = false, isUnaryNot = false, decPoint = false;
+static float decimalMul = 1;
 
 // initialize value storages! (a-z, A-Z) -> (1-26, 27-52)
 #define STO_SIZE 51
@@ -14,6 +15,11 @@ static double valStorage[STO_SIZE];
 // Must be called before calc is used!
 void initialize_calc() {
     memset(valStorage, 0, STO_SIZE);
+}
+
+static void __resetDecimals() {
+    decPoint = false;
+    decimalMul = 1;
 }
 
 // concatinating for calculator
@@ -25,13 +31,13 @@ double concat(double x, double y)
     if(y < 0) {
         return x;
     }
-    double pow = 10;
     if (!decPoint) {
+        int pow = 10;
         while(y >= pow) pow *= 10;
         return x * pow + y;
     }
-    pow = 0.1;
-    return x + y * pow;
+    decimalMul *= 0.1;
+    return x + y * decimalMul;
 }
 
 bool isMathOperator(char charToCheck) {
@@ -54,7 +60,7 @@ void resetVar() {
     strNumCount = 0;
     isNegative = false;
     isUnaryNot = false;
-    decPoint = false;
+    __resetDecimals();
 }
 
 //Prints an error based on the error ID
@@ -133,13 +139,13 @@ void calc(string args)
                 else if (calcInput[i] == '.') {
                     decPoint = true;
                 } else if (isalpha(calcInput[i])) {
-                    decPoint = false;
+                    __resetDecimals();
                     int valIndex = ctoi(calcInput[i]) - 10; // [0-9], [a-z], [A-Z], +, /
                     tempNum = concat(tempNum, valIndex);
                     print("\nVar: ", 0x0f);
                     printint(valStorage[valIndex], 0x0f);
                 } else {
-                    decPoint = false;
+                    __resetDecimals();
                     // Properly check for math operator
                     if(isMathOperator(calcInput[i])) {
                         //check if user enter negative and not minus operator
@@ -181,6 +187,7 @@ void calc(string args)
                             isNegative = false;
                             isUnaryNot = false;
                             decPoint = false;
+                            decimalMul = 1;
                         }
                     }
                 }
