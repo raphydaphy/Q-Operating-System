@@ -18,11 +18,11 @@ void cat(fs_node_t* fsnode)
 bool findInDictionary(fs_node_t* fsnode,int dictionaryLength,string searchTerm)
 {
   newline();
-  print(searchTerm,0x09);
+  searchTerm = toUpper(searchTerm);
 
   // Current letter and word that we are analyzing
   char curChar;
-  int curCharInt = 0;
+  int curCharInt;
 
   if ((fsnode->flags & 0x7) == FS_FILE)
   {
@@ -35,29 +35,28 @@ bool findInDictionary(fs_node_t* fsnode,int dictionaryLength,string searchTerm)
 
     for (j = 0; j < sz; j++)
     {
-      char curCharString[] = { curChar, '\0' };
-      curChar = buf[j];
-      curCharInt = curChar;
+        char curCharString[] = { curChar, '\0' };
+        curChar = buf[j];
+        curCharInt = curChar;
 
-      if (strEql(curCharString," "))
-      {
-        if (strEql(curWord,searchTerm))
+        if (strEql(curCharString," "))
         {
-            // The curWord string now stores the word we were looking for
-            return true;
+            print(" ",0x0F);
+            if (strEql(curWord,searchTerm))
+            {
+                print(curWord,0x09);
+            }
+            else
+            {
+                print(curWord,0x0A);
+            }
+            memset(curWord, '\0', dictionaryLength);
         }
         else
         {
-          return false;
+            strcat(curWord,curCharString);
         }
-        memset(curWord, '\0', dictionaryLength);
-      }
-      else
-      {
-        strcat(curWord,curCharString);
-      }
     }
-
-    return false;
   }
+  newline();
 }
