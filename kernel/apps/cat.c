@@ -17,42 +17,50 @@ void cat(fs_node_t* fsnode)
 
 bool findInDictionary(fs_node_t* fsnode,int dictionaryLength,string searchTerm)
 {
-    newline();
+  newline();
+  print(searchTerm,0x09);
 
-	// Current letter and word that we are analyzing
-    char* curChar;
-	char* curWord = "";
+  // Current letter and word that we are analyzing
+  char curChar;
+  int curCharInt;
 
-    if ((fsnode->flags & 0x7) == FS_FILE)
+  if ((fsnode->flags & 0x7) == FS_FILE)
+  {
+    const uint32 rbuff = fsnode->length;
+    char buf[rbuff];
+    uint32 sz = read_fs(fsnode, 0, rbuff, (uint8*) buf);
+    uint32 j;
+
+    string curWord = kmalloc((4 + 5 + 1) * sizeof(char));
+
+    for (j = 0; j < sz; j++)
     {
-        const uint32 rbuff = fsnode->length;
-        char buf[rbuff];
-        uint32 sz = read_fs(fsnode, 0, rbuff, (uint8*) buf);
-        uint32 j;
-        for (j = 0; j < sz; j++)
-        {
-            print("So Far So Gud",0x0E);
-            curChar = buf[j];
-            if (strEql(curChar," "))
-			{
-				// The curWord value now stores the next word in the dictionary so now we can see if the word
-                //we are looking for is the same as the one we are currently on...
-				for(uint8 tmp = 0; tmp < dictionaryLength; tmp++)
-				{
-                    printint(tmp,0x0D);
-					if (strEql(curWord,searchTerm))
-					{
-						print("We found the word in the dictionary!",0x0D);
-						return true;
-                    }
-				}
-				curWord = "";
-			}
-			else
-			{
-				strcat(curWord,curChar);
-			}
-        }
+      char curCharString[] = { curChar, '\0' };
+      curChar = buf[j];
+      curCharInt = curChar;
+
+      if (curCharInt == 32)
+      {
         newline();
+        if (strEql(curWord,searchTerm))
+        {
+          print("Found Search Word: ",0x04);
+          print("",0x07);
+        }
+        else
+        {
+          print("Current Word: ",0x04);
+          print(curWord,0x0A);
+        }
+        memset(curWord, '\0', dictionaryLength);
+        newline();
+      }
+      else
+      {
+        strcat(curWord,curCharString);
+        //print(curCharString,0x0E);
+      }
     }
+  }
+  newline();
 }
