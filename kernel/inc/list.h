@@ -13,26 +13,33 @@ typedef struct {
     uint32 capt;
     uint32 size;
     bool autoShrink; // False on default...
+    uint32 autoShrinkTrigger;
 } list_t;
 
-list_t init_list();
+list_t list_init();
 
-list_t init_list_s(uint32);
+list_t list_init_s(uint32);
 
-void add(list_t*, string);
+void list_add(list_t*, string);
 
-void remove(list_t*);
+void list_pop(list_t*);
 
-void replace(list_t*, uint32, string);
+void list_shift(list_t*);
 
-void shrink(list_t*);
+void list_remove(list_t*, uint32);
 
-void clear(list_t*);
+void list_replace(list_t*, uint32, string);
 
-uint32 indexOf(list_t*, string);
+void list_shrink(list_t*);
 
-bool contains(list_t*, string);
+void list_resize(list_t*, uint32);
 
-void destroyList(list_t*);
+void list_clear(list_t*);
+
+uint32 list_indexOf(list_t*, string);
+
+bool list_contains(list_t*, string);
+
+void list_destroy(list_t*);
 
 #endif
