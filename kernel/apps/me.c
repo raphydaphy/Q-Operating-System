@@ -173,7 +173,7 @@ void me(string args) {
                 else
                 {
                     zipInt = stoi(zip);
-                    if (zipInt < 9999999999999999 && zipInt > 0)
+                    if (zipInt > 0) // The other test was invalid
                     {
                         zipValid = true;
                         print(" Good",0x02);
