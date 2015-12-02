@@ -34,7 +34,26 @@ void list_remove(list_t* lst, uint32 index) {
     for (uint8 i = index; i < lst->size-1; i++){
         lst->data[i] = lst->data[i+1];
     }
+    lst->data[index] = NULL;
+    lst->size--;
+    if (lst->autoShrink)
+        if (lst->capt - lst->size >= lst->autoShrinkTrigger)
+            list_resize(lst, lst->size + GROWTH_FACTOR);
+}
+
+void list_pop(list_t* lst) {
     lst->data[lst->size] = NULL;
+    lst->size--;
+    if (lst->autoShrink)
+        if (lst->capt - lst->size >= lst->autoShrinkTrigger)
+            list_resize(lst, lst->size + GROWTH_FACTOR);
+}
+
+void list_shift(list_t* lst) {
+    for (uint8 i = 0; i < lst->size-1; i++){
+        lst->data[i] = lst->data[i+1];
+    }
+    lst->data[0] = NULL;
     lst->size--;
     if (lst->autoShrink)
         if (lst->capt - lst->size >= lst->autoShrinkTrigger)
@@ -87,10 +106,6 @@ bool list_contains(list_t* lst, string e) {
 }
 
 void list_destroy(list_t* lst) {
-    //This needs testing. I'm not sure it does anything, since there is a line clearing the entire dataset underneath. It was also giving me errors when I tried deleting a list that had a size > 0.
-    /*for(uint32 i = 0; i < lst->size; i++) {
-        kfree(lst->data[i]);
-    }*/
     kfree(lst->data);
     lst->capt = lst->size = 0;
 }

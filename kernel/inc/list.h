@@ -22,6 +22,10 @@ list_t list_init_s(uint32);
 
 void list_add(list_t*, string);
 
+void list_pop(list_t*);
+
+void list_shift(list_t*);
+
 void list_remove(list_t*, uint32);
 
 void list_replace(list_t*, uint32, string);

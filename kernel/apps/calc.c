@@ -124,7 +124,7 @@ void calc(string args)
     {
         newline();
         list_t test_list = list_init();
-        list_add(&test_list, "0");
+        test_list.autoShrink = true;
         list_add(&test_list, "1");
         list_add(&test_list, "2");
         list_add(&test_list, "3");
@@ -132,16 +132,141 @@ void calc(string args)
         list_add(&test_list, "5");
         list_add(&test_list, "6");
         list_add(&test_list, "7");
+        list_add(&test_list, "8");
+        list_add(&test_list, "9");
+        list_add(&test_list, "10");
+        list_add(&test_list, "11");
+        list_add(&test_list, "12");
+        list_add(&test_list, "13");
+        list_add(&test_list, "14");
+        list_add(&test_list, "15");
+        list_add(&test_list, "16");
+
+        list_add(&test_list, "1");
+        list_add(&test_list, "2");
+        list_add(&test_list, "3");
+        list_add(&test_list, "4");
+        list_add(&test_list, "5");
+        list_add(&test_list, "6");
+        list_add(&test_list, "7");
+        list_add(&test_list, "8");
+        list_add(&test_list, "9");
+        list_add(&test_list, "10");
+        list_add(&test_list, "11");
+        list_add(&test_list, "12");
+        list_add(&test_list, "13");
+        list_add(&test_list, "14");
+        list_add(&test_list, "15");
+        list_add(&test_list, "16");
+
+        list_add(&test_list, "1");
+        list_add(&test_list, "2");
+        list_add(&test_list, "3");
+        list_add(&test_list, "4");
+        list_add(&test_list, "5");
+        list_add(&test_list, "6");
+        list_add(&test_list, "7");
+        list_add(&test_list, "8");
+        list_add(&test_list, "9");
+        list_add(&test_list, "10");
+        list_add(&test_list, "11");
+        list_add(&test_list, "12");
+        list_add(&test_list, "13");
+        list_add(&test_list, "14");
+        list_add(&test_list, "15");
+        list_add(&test_list, "16");
+
+        list_add(&test_list, "1");
+        list_add(&test_list, "2");
+        list_add(&test_list, "3");
+        list_add(&test_list, "4");
+        list_add(&test_list, "5");
+        list_add(&test_list, "6");
+        list_add(&test_list, "7");
+        list_add(&test_list, "8");
+        list_add(&test_list, "9");
+        list_add(&test_list, "10");
+        list_add(&test_list, "11");
+        list_add(&test_list, "12");
+        list_add(&test_list, "13");
+        list_add(&test_list, "14");
+        list_add(&test_list, "15");
+        list_add(&test_list, "16");
+
+        println("Done sizing up", 0x0F);
+        printint(test_list.capt, 0x0f);
+
+        list_shift(&test_list);
+        list_shift(&test_list);
+        list_shift(&test_list);
+        list_shift(&test_list);
+        list_shift(&test_list);
+        list_shift(&test_list);
+        list_shift(&test_list);
+        list_shift(&test_list);
+        list_shift(&test_list);
+        list_shift(&test_list);
+        list_shift(&test_list);
+        list_shift(&test_list);
+        list_shift(&test_list);
+        list_shift(&test_list);
+        list_shift(&test_list);
+        list_shift(&test_list);
+        list_shift(&test_list);
+        list_shift(&test_list);
+        list_shift(&test_list);
+        list_shift(&test_list);
+        list_shift(&test_list);
+        list_shift(&test_list);
+        list_shift(&test_list);
+        list_shift(&test_list);
+        list_shift(&test_list);
+        list_shift(&test_list);
+        list_shift(&test_list);
+        list_shift(&test_list);
+        list_shift(&test_list);
+        list_shift(&test_list);
+        list_shift(&test_list);
+        list_shift(&test_list);
+        list_shift(&test_list);
+        list_shift(&test_list);
+        list_shift(&test_list);
+        list_shift(&test_list);
+        list_shift(&test_list);
+        list_shift(&test_list);
+        list_shift(&test_list);
+        list_shift(&test_list);
+        list_shift(&test_list);
+        list_shift(&test_list);
+        list_shift(&test_list);
+        list_shift(&test_list);
+        list_shift(&test_list);
+        list_shift(&test_list);
+        list_shift(&test_list);
+        list_shift(&test_list);
+        list_shift(&test_list);
+        list_shift(&test_list);
+        list_shift(&test_list);
+        list_shift(&test_list);
+        list_shift(&test_list);
+        list_shift(&test_list);
+        list_shift(&test_list);
+        list_shift(&test_list);
+        list_shift(&test_list);
+        list_shift(&test_list);
+        list_shift(&test_list);
+        list_shift(&test_list);
+        list_shift(&test_list);
+        list_shift(&test_list);
+        list_shift(&test_list);
+        list_shift(&test_list);
+        println("Removed all items from test_list", 0x0F);
         for(uint8 i = 0; i < test_list.size; i++){
             println(test_list.data[i], 0x0F);
         }
-        list_remove(&test_list,0);
-        list_remove(&test_list,0);
-        list_remove(&test_list,0);
-        println("Removed 3 items from test_list", 0x0F)
-        for(uint8 i = 0; i < test_list.size; i++){
-            println(test_list.data[i], 0x0F);
-        }
+        println("Done sizing up", 0x0F);
+        printint(test_list.capt, 0x0f);
+        
         list_destroy(&test_list);
     }
     else
