@@ -2,15 +2,15 @@
 
 // initialize the math storage variables
 int mathOp[CALCSIZE];
-double strNum[CALCSIZE];
+float strNum[CALCSIZE];
 int strNumCount = 0;
-double tempNum = -1;
+float tempNum = -1;
 bool isNegative = false, isUnaryNot = false, decPoint = false;
 static float decimalMul = 1;
 
 // initialize value storages! (a-z, A-Z) -> (1-26, 27-52)
 #define STO_SIZE 51
-static double valStorage[STO_SIZE];
+static float valStorage[STO_SIZE];
 
 // Must be called before calc is used!
 void initialize_calc() {
@@ -23,7 +23,7 @@ static void __resetDecimals() {
 }
 
 // concatinating for calculator
-double concat(double x, double y)
+float concat(float x, float y)
 {
     if(x < 0) {
         return y;
@@ -180,14 +180,13 @@ void calc(string args)
                             if(isNegative)
                                 tempNum *= -1;
                             else if (isUnaryNot)
-                                tempNum = ~((long) tempNum);
+                                tempNum = ~((int) tempNum);
                             strNum[strNumCount] = tempNum;
                             mathOp[strNumCount++] = calcInput[i]; 	// set math operator
                             tempNum = -1;
                             isNegative = false;
                             isUnaryNot = false;
-                            decPoint = false;
-                            decimalMul = 1;
+                            __resetDecimals();
                         }
                     }
                 }
@@ -282,7 +281,7 @@ void calc(string args)
                     mathError(1);
                     return;
                 }else{
-                  strNum[i] = ((long) strNum[i]) % ((long) strNum[i+1]);
+                  strNum[i] = ((int) strNum[i]) % ((int) strNum[i+1]);
                   for(int j = i+1; j < strNumCount-1; j++)
                   {
                       strNum[j] = strNum[j+1];
@@ -333,7 +332,7 @@ void calc(string args)
         for(int i = 0; i < strNumCount-1;i++) {
             if(mathOp[i] == '[') // Shift to right
             {
-                strNum[i] = ((long) strNum[i]) << ((long) strNum[i+1]);
+                strNum[i] = ((int) strNum[i]) << ((int) strNum[i+1]);
                 for(int j = i+1; j < strNumCount-1; j++)
                 {
                     strNum[j] = strNum[j+1];
@@ -347,7 +346,7 @@ void calc(string args)
             }
             else if(mathOp[i] == ']') // Shift to left
             {
-                strNum[i] = ((long) strNum[i]) >> ((long) strNum[i+1]);
+                strNum[i] = ((int) strNum[i]) >> ((int) strNum[i+1]);
                 for(int j = i+1; j < strNumCount-1; j++)
                 {
                     strNum[j] = strNum[j+1];
@@ -365,7 +364,7 @@ void calc(string args)
         for(int i = 0; i < strNumCount-1;i++) {
             if(mathOp[i] == '&')
             {
-                strNum[i] = ((long) strNum[i]) & ((long) strNum[i+1]);
+                strNum[i] = ((int) strNum[i]) & ((int) strNum[i+1]);
                 for(int j = i+1; j < strNumCount-1; j++)
                 {
                     strNum[j] = strNum[j+1];
@@ -379,7 +378,7 @@ void calc(string args)
             }
             else if(mathOp[i] == '|')
             {
-                strNum[i] = ((long) strNum[i]) | ((long) strNum[i+1]);
+                strNum[i] = ((int) strNum[i]) | ((int) strNum[i+1]);
                 for(int j = i+1; j < strNumCount-1; j++)
                 {
                     strNum[j] = strNum[j+1];
@@ -393,7 +392,7 @@ void calc(string args)
             }
             else if(mathOp[i] == '^')
             {
-                strNum[i] = ((long) strNum[i]) ^ ((long) strNum[i+1]);
+                strNum[i] = ((int) strNum[i]) ^ ((int) strNum[i+1]);
                 for(int j = i+1; j < strNumCount-1; j++)
                 {
                     strNum[j] = strNum[j+1];
@@ -426,7 +425,7 @@ void calc(string args)
             }
         }
         newline();
-        printfloat((float) strNum[0], 0x0F);
+        printfloat(strNum[0], 0x0F);
 
         //Reset operational variable to its default state
         resetVar();
