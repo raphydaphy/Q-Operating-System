@@ -12,6 +12,7 @@ typedef struct {
     string* data;
     uint32 capt;
     uint32 size;
+    bool autoShrink; // False on default...
 } list_t;
 
 list_t init_list();
