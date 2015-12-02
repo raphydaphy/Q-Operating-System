@@ -118,13 +118,18 @@ void launchShell() {
 	else if(strEql(bufStr, "me"))           {   ME;               }
 	else if(strEql(bufStr, "search"))
 	{
+string searchTerm;
+
 	    print("\nDictionary File Name>  ", 0x0F);
 	    readStr(bufStr, bufSize);
-	    //print(“\nSearch Term>  “, 0x0A);
-	    string searchTerm;
-      readStr(searchTerm, bufSize);
-	    ASSERT(strlength(bufStr) < MAX_FNAME_LEN);
-	    findInDictionary(finddir_fs(fs_root, bufStr),1013,searchTerm);
+	    print("\nSearch Term>  ", 0x0A);
+
+        readStr(searchTerm, bufSize);
+
+	    if (findInDictionary(bufStr,searchTerm))
+        {
+            print("We found the word!",0x0F);
+        }
 
 	}
         else                                    {   CMDNOTFOUND;      }

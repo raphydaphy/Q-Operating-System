@@ -15,10 +15,24 @@ void cat(fs_node_t* fsnode)
     }
 }
 
-bool findInDictionary(fs_node_t* fsnode,int dictionaryLength,string searchTerm)
+bool findInDictionary(string dictionary,string searchWord)
+{
+
+    ASSERT(strlength(dictionary) < MAX_FNAME_LEN);
+    if (lookup(finddir_fs(fs_root, dictionary),searchWord))
+    {
+        return true;
+    }
+    else
+    {
+        return false;
+    }
+}
+
+bool lookup(fs_node_t* fsnode,string searchTerm)
 {
   newline();
-  print(searchTerm,0x09);
+  searchTerm = toUpper(searchTerm);
 
   // Current letter and word that we are analyzing
   char curChar;
@@ -35,31 +49,27 @@ bool findInDictionary(fs_node_t* fsnode,int dictionaryLength,string searchTerm)
 
     for (j = 0; j < sz; j++)
     {
-      char curCharString[] = { curChar, '\0' };
-      curChar = buf[j];
-      curCharInt = curChar;
+        char curCharString[] = { curChar, '\0' };
+        curChar = buf[j];
+        curCharInt = curChar;
 
-      if (curCharInt == 32)
-      {
-        newline();
-        if (strEql(curWord,searchTerm))
+        if (strEql(curCharString," "))
         {
-          print("Found Search Word: ",0x04);
-          print("",0x07);
+            print(" ",0x0F);
+            if (strEql(curWord,searchTerm))
+            {
+                print(curWord,0x09);
+            }
+            else
+            {
+                print(curWord,0x0A);
+            }
+            memset(curWord, '\0', 128);
         }
         else
         {
-          print("Current Word: ",0x04);
-          print(curWord,0x0A);
+            strcat(curWord,curCharString);
         }
-        memset(curWord, '\0', dictionaryLength);
-        newline();
-      }
-      else
-      {
-        strcat(curWord,curCharString);
-        //print(curCharString,0x0E);
-      }
     }
   }
   newline();
