@@ -12,13 +12,18 @@ typedef struct {
     string* data;
     uint32 capt;
     uint32 size;
+    bool autoShrink; // False on default...
 } list_t;
 
 list_t init_list();
 
+list_t init_list_s(uint32);
+
 void add(list_t*, string);
 
 void remove(list_t*);
+
+void replace(list_t*, uint32, string);
 
 void shrink(list_t*);
 
@@ -27,5 +32,7 @@ void clear(list_t*);
 uint32 indexOf(list_t*, string);
 
 bool contains(list_t*, string);
+
+void destroyList(list_t*);
 
 #endif

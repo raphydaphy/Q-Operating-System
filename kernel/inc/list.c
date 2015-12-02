@@ -4,6 +4,16 @@ list_t init_list() {
     list_t rl;
     rl.capt = GROWTH_FACTOR;
     rl.size = 0;
+    rl.autoShrink = false;
+    rl.data = kmalloc(rl.capt * sizeof(string));
+    return rl;
+}
+
+list_t init_list_s(uint32 ns) {
+    list_t rl;
+    rl.capt = ns; // You can initialize with 0...
+    rl.size = 0;
+    rl.autoShrink = false;
     rl.data = kmalloc(rl.capt * sizeof(string));
     return rl;
 }
@@ -21,8 +31,17 @@ void add(list_t* lst, string e) {
 }
 
 void remove(list_t* lst) {
+    if (lst->size == 0) return;
     lst->data[lst->size] = NULL;
     lst->size--;
+    if (lst->autoShrink)
+        if (lst->size % GROWTH_FACTOR == 0)
+            shrink(lst);
+}
+
+void replace(list_t* lst, uint32 index, string e) {
+    if (index >= lst->size) return;
+    lst->data[index] = e;
 }
 
 void shrink(list_t* lst) {
@@ -51,4 +70,12 @@ uint32 indexOf(list_t* lst, string e) {
 
 bool contains(list_t* lst, string e) {
     return indexOf(lst, e) < (lst->size);
+}
+
+void destroyList(list_t* lst) {
+    for(uint32 i = 0; i < lst->size; i++) {
+        kfree(lst->data[i]);
+    }
+    kfree(lst->data);
+    lst->capt = lst->size = 0;
 }

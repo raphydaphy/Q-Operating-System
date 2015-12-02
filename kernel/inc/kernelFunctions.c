@@ -120,9 +120,15 @@ void launchShell() {
 	{
 	    print("\nDictionary File Name>  ", 0x0F);
 	    readStr(bufStr, bufSize);
+	    //print(“\nSearch Term>  “, 0x0A);
+	    string searchTerm;
+      readStr(searchTerm, bufSize);
 	    ASSERT(strlength(bufStr) < MAX_FNAME_LEN);
-	    findInDictionary(finddir_fs(fs_root, bufStr),1013,"ACCEPT");
-	
+	    if (findInDictionary(finddir_fs(fs_root, bufStr),1013,searchTerm))
+        {
+            print("We found the word!",0x0F);
+        }
+
 	}
         else                                    {   CMDNOTFOUND;      }
 
