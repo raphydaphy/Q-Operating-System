@@ -29,6 +29,7 @@ void add(list_t* lst, string e) {
 }
 
 void remove(list_t* lst) {
+    if (lst->size == 0) return;
     lst->data[lst->size] = NULL;
     lst->size--;
 }
