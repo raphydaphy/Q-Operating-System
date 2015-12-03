@@ -1,13 +1,7 @@
 #include "list.h"
 
 list_t list_init() {
-    list_t rl;
-    rl.capt = GROWTH_FACTOR;
-    rl.size = 0;
-    rl.autoShrink = false;
-    rl.autoShrinkTrigger = GROWTH_FACTOR * 4;
-    rl.data = (pdata_t*) kmalloc(rl.capt * sizeof(pdata_t));
-    return rl;
+    return list_init_s(GROWTH_FACTOR);
 }
 
 list_t list_init_s(uint32 ns) {
