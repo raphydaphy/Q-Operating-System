@@ -30,11 +30,13 @@ void test(string args) {
         println("Done sizing up", 0x0F);
         printint(test_list.capt, 0x0f);
 
-        for(uint8 i = 0; i < 64; i++){
-            list_shift(&test_list);
+        pdata_t t;
+        for(uint8 i = 0; i < 64; i++) {
+            t = list_shift(&test_list);
         }
-        newline();
-        println("Deleting all but element \"Pointless\"", 0x0F);
+        println("\nLast item deleted should be \"16\"", 0x0F);
+        println(t.strdata, 0x0F);
+        println("\nDeleting all but element \"Pointless\"", 0x0F);
         for(uint8 i = 0; i < test_list.size; i++)
             println(list_get(test_list, i), 0x0F);
         println("Done resizing up", 0x0F);
