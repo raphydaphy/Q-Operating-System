@@ -72,22 +72,6 @@ char list_getc(list_t lst, uint32 index) {
     return lst.data[index].chardata;
 }
 
-string list_heads(list_t lst) {
-    return list_gets(lst, 0);
-}
-
-int list_headi(list_t lst) {
-    return list_geti(lst, 0);
-}
-
-float list_headf(list_t lst) {
-    return list_getf(lst, 0);
-}
-
-char list_headc(list_t lst) {
-    return list_getc(lst, 0);
-}
-
 pdata_t list_remove(list_t* lst, uint32 index) {
     // No need to check for negative (unsigned)
     if (index >= lst->size) return __makeNull();
