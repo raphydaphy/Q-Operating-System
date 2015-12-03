@@ -27,9 +27,7 @@ static pdata_t __makeNull() {
 }
 
 static void __vlist_add(list_t* lst, pdata_t e) {
-    if (lst->size == lst->capt) {
-        list_resize(lst, lst->size + GROWTH_FACTOR);
-    }
+    if (lst->size == lst->capt) list_resize(lst, lst->size + GROWTH_FACTOR);
     lst->data[lst->size] = e;
     lst->size++;
 }
@@ -52,6 +50,12 @@ void list_addf(list_t* lst, float e) {
      __vlist_add(lst, tmp);
 }
 
+void list_addc(list_t* lst, char e) {
+     pdata_t tmp = __makeNull();
+     tmp.floatdata = e;
+     __vlist_add(lst, tmp);
+}
+
 string list_gets(list_t lst, uint32 index) {
     return lst.data[index].strdata;
 }
@@ -62,6 +66,10 @@ int list_geti(list_t lst, uint32 index) {
 
 float list_getf(list_t lst, uint32 index) {
     return lst.data[index].floatdata;
+}
+
+char list_getc(list_t lst, uint32 index) {
+    return lst.data[index].chardata;
 }
 
 void list_remove(list_t* lst, uint32 index) {
@@ -119,6 +127,10 @@ static bool __cmpPdata_t(pdata_t a, pdata_t b) {
     } else if (a.floatdata != NULL) {
         if (b.floatdata != NULL) {
             return a.floatdata == b.floatdata;
+        }
+    } else if (a.chardata != NULL) {
+        if (b.chardata != NULL) {
+            return a.chardata == b.chardata;
         }
     }
     return false;

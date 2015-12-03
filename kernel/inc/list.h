@@ -12,6 +12,7 @@ typedef union {
     string strdata;
     int intdata;
     float floatdata;
+    char chardata;
 } pdata_t;
     
 typedef struct {
@@ -35,6 +36,8 @@ void list_addi(list_t*, int);
 
 void list_addf(list_t*, float);
 
+void list_addc(list_t*, char);
+
 #define list_get(lst, i) \
     list_gets(lst, i)
 
@@ -43,6 +46,8 @@ string list_gets(list_t, uint32);
 int list_geti(list_t, uint32);
 
 float list_getf(list_t, uint32);
+
+char list_getc(list_t, uint32);
 
 void list_remove(list_t*, uint32);
 
