@@ -128,6 +128,22 @@ void calc(string args)
         newline();
     	printfloat(powerOfTen(stoi(calcInput)), 0x0F);
     }
+    else if(strEql(args," -sin"))
+    {
+        newline();
+        print("Angle in gradiant>  ",0x08);
+        readStr(calcInput, CALCSIZE);
+        newline();
+    	printfloat(sin(stoi(calcInput)), 0x0F);
+    }
+    else if(strEql(args," -cos"))
+    {
+        newline();
+        print("Angle in gradiant>  ",0x08);
+        readStr(calcInput, CALCSIZE);
+        newline();
+    	printfloat(cos(stoi(calcInput)), 0x0F);
+    }
     else
     {
         print("\nUse calc -h for help\n>  ", 0x0F);
