@@ -8,7 +8,7 @@ initrd_file_header_t *file_headers; // The list of file headers.
 fs_node_t *initrd_root;             // Our root directory node.
 fs_node_t *initrd_dev;              // We also add a directory node for /dev, so we can mount devfs later on.
 fs_node_t *root_nodes;              // List of file nodes.
-int nroot_nodes;                    // Number of file nodes.
+uint16 nroot_nodes;                 // Number of file nodes.
 
 struct dirent dirent;
 
@@ -16,9 +16,13 @@ static uint32 initrd_read(fs_node_t *node, uint32 offset, uint32 size, uint8 *bu
 {
     initrd_file_header_t header = file_headers[node->inode];
     if (offset > header.length)
+    {
         return 0;
+    }
     if (offset+size > header.length)
+    {
         size = header.length-offset;
+    }
     memcpy(buffer, (uint8*) (header.offset+offset), size);
     return size;
 }
@@ -34,7 +38,9 @@ static struct dirent *initrd_readdir(fs_node_t *node, uint32 index)
     }
 
     if (index-1 >= nroot_nodes)
+    {
         return 0;
+    }
     strcpy(dirent.name, root_nodes[index-1].name);
     dirent.name[strlength(root_nodes[index-1].name)] = 0;
     dirent.ino = root_nodes[index-1].inode;
@@ -43,14 +49,19 @@ static struct dirent *initrd_readdir(fs_node_t *node, uint32 index)
 
 static fs_node_t *initrd_finddir(fs_node_t *node, char *name)
 {
-    if (node == initrd_root &&
-        !strcmp(name, "dev") )
+    if (node == initrd_root && !strcmp(name, "dev") )
+    {
         return initrd_dev;
+    }
 
     int i;
     for (i = 0; i < nroot_nodes; i++)
+    {
         if (!strcmp(name, root_nodes[i].name))
+        {
             return &root_nodes[i];
+        }
+    }
     return 0;
 }
 

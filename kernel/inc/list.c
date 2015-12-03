@@ -87,11 +87,35 @@ pdata_t list_remove(list_t* lst, uint32 index) {
     return msg;
 }
 
-pdata_t list_replace(list_t* lst, uint32 index, pdata_t e) {
+static pdata_t __vlist_replace(list_t* lst, uint32 index, pdata_t e) {
     if (index >= lst->size) return;
     pdata_t msg = lst->data[index];
     lst->data[index] = e;
     return msg;
+}
+
+pdata_t list_replaces(list_t* lst, uint32 index, string e) {
+    pdata_t ne = __makeNull();
+    ne.strdata = e;
+    return __vlist_replace(lst, index, ne);
+}
+
+pdata_t list_replacei(list_t* lst, uint32 index, int e) {
+    pdata_t ne = __makeNull();
+    ne.intdata = e;
+    return __vlist_replace(lst, index, ne);
+}
+
+pdata_t list_replacef(list_t* lst, uint32 index, float e) {
+    pdata_t ne = __makeNull();
+    ne.floatdata = e;
+    return __vlist_replace(lst, index, ne);
+}
+
+pdata_t list_replacec(list_t* lst, uint32 index, char e) {
+    pdata_t ne = __makeNull();
+    ne.chardata = e;
+    return __vlist_replace(lst, index, ne);
 }
 
 void list_shrink(list_t* lst) {

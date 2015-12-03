@@ -2,8 +2,7 @@
 
 // initialize the math storage variables
 int mathOp[CALCSIZE];
-float strNum[CALCSIZE];
-int strNumCount = 0;
+list_t strNum = init_list();
 float tempNum = -1;
 bool isNegative = false, isUnaryNot = false, decPoint = false;
 static float decimalMul = 1;
@@ -57,7 +56,6 @@ void resetVar() {
     memset(mathOp, '\0', CALCSIZE);
     memset(strNum, '\0', CALCSIZE);
     tempNum = -1;
-    strNumCount = 0;
     isNegative = false;
     isUnaryNot = false;
     __resetDecimals();
@@ -91,13 +89,10 @@ void mathError(uint8 ID)
 }
 
 static void __realign(int* i) {
-    for(int j = *i + 1; j < strNumCount - 1; j++)
-    {
-        strNum[j] = strNum[j + 1];
-    }
-    strNumCount--;
+    uint32 olds = strNum.size;
+    list_remove(strNum, j);
     i--;
-    for(int j = *i + 1; j < strNumCount - 1; j++)
+    for(int j = *i + 1; j < olds - 1; j++)
     {
         mathOp[j] = mathOp[j + 1];
     }
@@ -178,7 +173,7 @@ void calc(string args)
                             }
                             else
                             {
-                                mathError(strNumCount == 0 ? 0 : 2);
+                                mathError(strNum.size == 0 ? 0 : 2);
                                 return;
                             }
                         }
@@ -188,8 +183,8 @@ void calc(string args)
                                 tempNum *= -1;
                             else if (isUnaryNot)
                                 tempNum = ~((int) tempNum);
-                            strNum[strNumCount] = tempNum;
-                            mathOp[strNumCount++] = calcInput[i]; 	// set math operator
+                            list_addi(&strNum, tempNum);
+                            mathOp[strNum.size - 1] = calcInput[i]; 	// set math operator
                             tempNum = -1;
                             isNegative = false;
                             isUnaryNot = false;
@@ -199,113 +194,111 @@ void calc(string args)
                 }
             }
         }
-        strNum[strNumCount++] = tempNum;
+        list_addi(&strNum, tempNum);
         static int i = 0;
         // '<' '>' and '='
-        for(i = 0; i < strNumCount-1;i++) {
+        for(i = 0; i < strNum.size - 1;i++) {
             if(mathOp[i] == '<')
             {
-                strNum[i] = strNum[i] < strNum[i+1];
+                list_replacef(&strNum, i, list_getf(strNum, i) < list_getf(strNum, i + 1));
                 __realign(&i);
             }
             else if(mathOp[i] == '>')
             {
-                strNum[i] = strNum[i] > strNum[i+1];
+                list_replacef(&strNum, i, list_getf(strNum, i) > list_getf(strNum, i + 1));
                 __realign(&i);
             }
             else if(mathOp[i] == '=')
             {
-                strNum[i] = strNum[i] == strNum[i+1];
+                list_replacef(&strNum, i, list_getf(strNum, i) == list_getf(strNum, i + 1));
                 __realign(&i);
             }
         }
         //'*' '/' and '%'
-        for(i = 0; i < strNumCount-1;i++) {
+        for(i = 0; i < strNum.size - 1;i++) {
             if(mathOp[i] == '*')
             {
-                strNum[i] *= strNum[i+1];
+                list_replacef(&strNum, i, list_getf(strNum, i) * list_getf(strNum, i + 1));
                 __realign(&i);
             }
             else if(mathOp[i] == '/')
             {
-                if(strNum[i+1] == 0) {
+                if(list_getf(strNum, i + 1) == 0) {
                     mathError(1);
                     return;
-                } else {
-                    strNum[i] /= strNum[i+1];
-                    __realign(&i);
                 }
+                list_replacef(&strNum, i, list_getf(strNum, i) / list_getf(strNum, i + 1));
+                __realign(&i);
             }
             else if(mathOp[i] == '%')
             {
-                if(strNum[i+1] == 0) {
+                if(list_getf(strNum, i + 1) == 0) {
                     mathError(1);
                     return;
-                } else {
-                    strNum[i] = ((int) strNum[i]) % ((int) strNum[i+1]);
-                    __realign(&i);
                 }
+                list_replacef(&strNum, i, ((int) list_getf(strNum, i)) % ((int) list_getf(strNum, i + 1)));
+                __realign(&i);
             }
         }
 
         //Then do + and -
-        for(i = 0; i < strNumCount-1;i++) {
+        for(i = 0; i < strNum.size - 1;i++) {
             if(mathOp[i] == '+')
             {
-                strNum[i] += strNum[i+1];
+                list_replacef(&strNum, i, list_getf(strNum, i) + list_getf(strNum, i + 1));
                 __realign(&i);
             }
             else if(mathOp[i] == '-')
             {
-                strNum[i] -= strNum[i+1];
+                list_replacef(&strNum, i, list_getf(strNum, i) - list_getf(strNum, i + 1));
                 __realign(&i);
             }
         }
 
         //Then do '[' and ']' (Bitshifts)
-        for(i = 0; i < strNumCount-1;i++) {
+        for(i = 0; i < strNum.size - 1;i++) {
             if(mathOp[i] == '[') // Shift to right
             {
-                strNum[i] = ((int) strNum[i]) << ((int) strNum[i+1]);
+                list_replacef(&strNum, i, ((int) list_getf(strNum, i)) << ((int) list_getf(strNum, i + 1)));
                 __realign(&i);
             }
             else if(mathOp[i] == ']') // Shift to left
             {
-                strNum[i] = ((int) strNum[i]) >> ((int) strNum[i+1]);
+                list_replacef(&strNum, i, ((int) list_getf(strNum, i)) >> ((int) list_getf(strNum, i + 1)));
                 __realign(&i);
             }
         }
 
         //Then do '&', '|', and '^'
-        for(i = 0; i < strNumCount-1;i++) {
+        for(i = 0; i < strNum.size - 1;i++) {
             if(mathOp[i] == '&')
             {
-                strNum[i] = ((int) strNum[i]) & ((int) strNum[i+1]);
+                list_replacef(&strNum, i, ((int) list_getf(strNum, i)) & ((int) list_getf(strNum, i + 1)));
                 __realign(&i);
             }
             else if(mathOp[i] == '|')
             {
-                strNum[i] = ((int) strNum[i]) | ((int) strNum[i+1]);
+                list_replacef(&strNum, i, ((int) list_getf(strNum, i)) | ((int) list_getf(strNum, i + 1)));
                 __realign(&i);
             }
             else if(mathOp[i] == '^')
             {
-                strNum[i] = ((int) strNum[i]) ^ ((int) strNum[i+1]);
+                list_replacef(&strNum, i, ((int) list_getf(strNum, i)) ^ ((int) list_getf(strNum, i + 1)));
                 __realign(&i);
             }
         }
 
         // ':' the assign operator
-        for(i = 0; i < strNumCount-1;i++) {
+        for(i = 0; i < strNum.size - 1;i++) {
             if(mathOp[i] == ':')
             {
-                valStorage[(int) strNum[i-1]] = strNum[i+1];
-                strNum[i] = strNum[i+1]; // Resume tail expressions
+                valStorage[(int) list_getf(strNum, i - 1)] = list_getf(strNum, i + 1);
+                list_replacef(&strNum, i, list_getf(strNum, i + 1)); // Resume tail expressions
                 __realign(&i);
             }
         }
         newline();
-        printfloat(strNum[0], 0x0F);
+        printfloat(list_getf(strNum, 0), 0x0F);
 
         //Reset operational variable to its default state
         resetVar();

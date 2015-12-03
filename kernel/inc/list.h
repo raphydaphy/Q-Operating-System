@@ -57,7 +57,16 @@ pdata_t list_remove(list_t*, uint32);
 #define list_shift(lst) \
     list_remove(lst, 0)
 
-pdata_t list_replace(list_t*, uint32, pdata_t);
+pdata_t list_replaces(list_t*, uint32, string);
+
+pdata_t list_replacei(list_t*, uint32, int);
+
+pdata_t list_replacef(list_t*, uint32, float);
+
+pdata_t list_replacec(list_t*, uint32, char);
+
+#define list_replace(lst, i, s) \
+    list_replaces(lst, i, s)
 
 void list_shrink(list_t*);
 

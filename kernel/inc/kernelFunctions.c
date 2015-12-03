@@ -12,10 +12,28 @@ void printIntro() {
 void launchShell() {
     initialize_calc();
 
+<<<<<<< HEAD
     const int bufSize = sizeof(string);
     char* bufStr;//Store sanitized user command (no arguments)
     char* rawCommand;//Gets user raw command from command line
     char* arguments[bufSize/2];//Store command arguments
+=======
+    //allocate some memory for command string buffer. 1kB should be enough for now
+    const int bufSize = 128;
+    char bufStr[bufSize];//Store sanitized user command (no arguments)
+    char rawCommand[bufSize];//Gets user raw command from command line
+    char arguments[bufSize/2][bufSize/2];//Store command arguments
+    int fs = 1;//First space (first word means actual command)
+    int ay = -1;//Y location for arguments
+    int ax = 0;//X location for argumetns
+
+    //prepare variable
+    for(int i = 0; i < bufSize; ++i)
+        bufStr[i] = 0;
+    for(int y = 0; y < bufSize; ++y)
+        for(int x = 0; x < bufSize; ++x)
+            arguments[y][x] = 0;
+>>>>>>> refs/remotes/origin/master
 
     #define TIP print("\nTip: If enter key does not work, it might mean that the input is too long",0x0F);
     #define HELP print("\nWorking Commands in Q OS: \nwriter\nclear\nexecute\nhi\nskip (the no action)\nfiles\ncat\nreboot\ncalc", 0x0F);
@@ -39,6 +57,7 @@ void launchShell() {
         newCmd = true;
         readStr(rawCommand, bufSize);
         typingCmd = false;
+<<<<<<< HEAD
         
         uint8 i = 0;
         bool wordStarted = false;
@@ -58,6 +77,14 @@ void launchShell() {
                 arguments[y][x] = 0;
     	    }
     	}
+=======
+
+    	for(int i = 0; i < bufSize; ++i)
+    	    bufStr[i] = 0;
+    	for(int y = 0; y < bufSize; ++y)
+            for(int x = 0; x < bufSize; ++x)
+                arguments[y][x] = 0;
+>>>>>>> refs/remotes/origin/master
     	fs = 1;
         ay = -1;
         ax = 0;
