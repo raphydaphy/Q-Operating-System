@@ -55,7 +55,7 @@ double sort(char* word)
     }
 
 
-    for(uint8 tmp = 0; tmp < arrLength(verbs); tmp++)
+    for(uint32 tmp = 0; tmp < arrLength(verbs); tmp++)
     {
         if (strEql(verbs[tmp],word))
         {
