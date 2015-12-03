@@ -49,6 +49,36 @@ float list_getf(list_t, uint32);
 
 char list_getc(list_t, uint32);
 
+#define list_head(lst) \
+    list_heads(lst)
+
+#define list_heads(lst) \
+    list_gets(lst, 0)
+
+#define list_headi(lst) \
+    list_geti(lst, 0)
+
+#define list_headf(lst) \
+    list_getf(lst, 0)
+
+#define list_headc(lst) \
+    list_getc(lst, 0)
+
+#define list_tail(lst) \
+    list_tails(lst)
+
+#define list_tails(lst) \
+    list_gets(lst, lst.size - 1)
+
+#define list_taili(lst) \
+    list_geti(lst, lst.size - 1)
+
+#define list_tailf(lst) \
+    list_getf(lst, lst.size - 1)
+
+#define list_tailc(lst) \
+    list_getc(lst, lst.size - 1)
+
 pdata_t list_remove(list_t*, uint32);
 
 #define list_pop(lst) \
