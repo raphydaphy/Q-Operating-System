@@ -72,9 +72,10 @@ char list_getc(list_t lst, uint32 index) {
     return lst.data[index].chardata;
 }
 
-void list_remove(list_t* lst, uint32 index) {
+pdata_t list_remove(list_t* lst, uint32 index) {
     // No need to check for negative (unsigned)
     if (index >= lst->size) return;
+    pdata_t msg = lst->data[index];
     for (uint32 i = index; i < lst->size-1; i++) {
         lst->data[i] = lst->data[i+1];
     }
@@ -83,11 +84,14 @@ void list_remove(list_t* lst, uint32 index) {
     if (lst->autoShrink)
         if (lst->capt - lst->size >= lst->autoShrinkTrigger)
             list_resize(lst, lst->size + GROWTH_FACTOR);
+    return msg;
 }
 
-void list_replace(list_t* lst, uint32 index, pdata_t e) {
+pdata_t list_replace(list_t* lst, uint32 index, pdata_t e) {
     if (index >= lst->size) return;
+    pdata_t msg = lst->data[index];
     lst->data[index] = e;
+    return msg;
 }
 
 void list_shrink(list_t* lst) {

@@ -49,7 +49,7 @@ float list_getf(list_t, uint32);
 
 char list_getc(list_t, uint32);
 
-void list_remove(list_t*, uint32);
+pdata_t list_remove(list_t*, uint32);
 
 #define list_pop(lst) \
     list_remove(lst, lst->size)
@@ -57,7 +57,7 @@ void list_remove(list_t*, uint32);
 #define list_shift(lst) \
     list_remove(lst, 0)
 
-void list_replace(list_t*, uint32, pdata_t);
+pdata_t list_replace(list_t*, uint32, pdata_t);
 
 void list_shrink(list_t*);
 
