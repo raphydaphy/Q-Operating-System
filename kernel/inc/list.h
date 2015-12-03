@@ -49,16 +49,16 @@ float list_getf(list_t, uint32);
 
 char list_getc(list_t, uint32);
 
-#define list_head(lst, i) \
-    list_heads(lst, i)
+#define list_head(lst) \
+    list_heads(lst)
 
-string list_heads(list_t, uint32);
+string list_heads(list_t);
 
-int list_headi(list_t, uint32);
+int list_headi(list_t);
 
-float list_headf(list_t, uint32);
+float list_headf(list_t);
 
-char list_headc(list_t, uint32);
+char list_headc(list_t);
 
 pdata_t list_remove(list_t*, uint32);
 
