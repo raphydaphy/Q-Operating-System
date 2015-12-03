@@ -52,13 +52,17 @@ char list_getc(list_t, uint32);
 #define list_head(lst) \
     list_heads(lst)
 
-string list_heads(list_t);
+#define list_heads(lst) \
+    list_gets(lst, 0);
 
-int list_headi(list_t);
+#define list_headi(list_t) \
+    list_geti(lst, 0);
 
-float list_headf(list_t);
+#define list_headf(list_t) \
+    list_getf(lst, 0);
 
-char list_headc(list_t);
+#define list_headc(list_t) \
+    list_getc(lst, 0);
 
 pdata_t list_remove(list_t*, uint32);
 
