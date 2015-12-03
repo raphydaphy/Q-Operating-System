@@ -1,6 +1,5 @@
-o/
-q/
 kernel/q/
+kernel/o/
 *.ao
 *.o
 *.d
