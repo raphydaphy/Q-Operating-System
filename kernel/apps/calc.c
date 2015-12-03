@@ -90,6 +90,19 @@ void mathError(uint8 ID)
     }
 }
 
+static void __realign(int* i) {
+    for(int j = *i + 1; j < strNumCount - 1; j++)
+    {
+        strNum[j] = strNum[j + 1];
+    }
+    strNumCount--;
+    i--;
+    for(int j = *i + 1; j < strNumCount - 1; j++)
+    {
+        mathOp[j] = mathOp[j + 1];
+    }
+}
+
 void calc(string args)
 {
     memset(calcInput, '\0', CALCSIZE);
@@ -187,235 +200,108 @@ void calc(string args)
             }
         }
         strNum[strNumCount++] = tempNum;
+        static int i = 0;
         // '<' '>' and '='
-        for(int i = 0; i < strNumCount-1;i++) {
+        for(i = 0; i < strNumCount-1;i++) {
             if(mathOp[i] == '<')
             {
                 strNum[i] = strNum[i] < strNum[i+1];
-                for(int j = i+1; j < strNumCount-1; j++)
-                {
-                    strNum[j] = strNum[j+1];
-                }
-                strNumCount--;
-                i--;
-                for(int j = i+1; j < strNumCount-1; j++)
-                {
-                    mathOp[j] = mathOp[j+1];
-                }
+                __realign(&i);
             }
             else if(mathOp[i] == '>')
             {
                 strNum[i] = strNum[i] > strNum[i+1];
-                for(int j = i+1; j < strNumCount-1; j++)
-                {
-                    strNum[j] = strNum[j+1];
-                }
-                strNumCount--;
-                i--;
-                for(int j = i+1; j < strNumCount-1; j++)
-                {
-                    mathOp[j] = mathOp[j+1];
-                }
+                __realign(&i);
             }
             else if(mathOp[i] == '=')
             {
                 strNum[i] = strNum[i] == strNum[i+1];
-                for(int j = i+1; j < strNumCount-1; j++)
-                {
-                    strNum[j] = strNum[j+1];
-                }
-                strNumCount--;
-                i--;
-                for(int j = i+1; j < strNumCount-1; j++)
-                {
-                    mathOp[j] = mathOp[j+1];
-                }
+                __realign(&i);
             }
         }
         //'*' '/' and '%'
-        for(int i = 0; i < strNumCount-1;i++) {
+        for(i = 0; i < strNumCount-1;i++) {
             if(mathOp[i] == '*')
             {
                 strNum[i] *= strNum[i+1];
-                for(int j = i+1; j < strNumCount-1; j++)
-                {
-                    strNum[j] = strNum[j+1];
-                }
-                strNumCount--;
-                i--;
-                for(int j = i+1; j < strNumCount-1; j++)
-                {
-                    mathOp[j] = mathOp[j+1];
-                }
+                __realign(&i);
             }
             else if(mathOp[i] == '/')
             {
-                if(strNum[i+1] == 0)
-                {
+                if(strNum[i+1] == 0) {
                     mathError(1);
                     return;
-                }else{
-                  strNum[i] /= strNum[i+1];
-                  for(int j = i+1; j < strNumCount-1; j++)
-                  {
-                      strNum[j] = strNum[j+1];
-                  }
-                  strNumCount--;
-                  i--;
-                  for(int j = i+1; j < strNumCount-1; j++)
-                  {
-                      mathOp[j] = mathOp[j+1];
-                  }
+                } else {
+                    strNum[i] /= strNum[i+1];
+                    __realign(&i);
                 }
             }
             else if(mathOp[i] == '%')
             {
-                if(strNum[i+1] == 0)
-                {
+                if(strNum[i+1] == 0) {
                     mathError(1);
                     return;
-                }else{
-                  strNum[i] = ((int) strNum[i]) % ((int) strNum[i+1]);
-                  for(int j = i+1; j < strNumCount-1; j++)
-                  {
-                      strNum[j] = strNum[j+1];
-                  }
-                  strNumCount--;
-                  i--;
-                  for(int j = i+1; j < strNumCount-1; j++)
-                  {
-                      mathOp[j] = mathOp[j+1];
-                  }
+                } else {
+                    strNum[i] = ((int) strNum[i]) % ((int) strNum[i+1]);
+                    __realign(&i);
                 }
             }
         }
 
         //Then do + and -
-        for(int i = 0; i < strNumCount-1;i++) {
+        for(i = 0; i < strNumCount-1;i++) {
             if(mathOp[i] == '+')
             {
                 strNum[i] += strNum[i+1];
-                for(int j = i+1; j < strNumCount-1; j++)
-                {
-                    strNum[j] = strNum[j+1];
-                }
-                strNumCount--;
-                i--;
-                for(int j = i+1; j < strNumCount-1; j++)
-                {
-                    mathOp[j] = mathOp[j+1];
-                }
+                __realign(&i);
             }
             else if(mathOp[i] == '-')
             {
                 strNum[i] -= strNum[i+1];
-                for(int j = i+1; j < strNumCount-1; j++)
-                {
-                    strNum[j] = strNum[j+1];
-                }
-                strNumCount--;
-                i--;
-                for(int j = i+1; j < strNumCount-1; j++)
-                {
-                    mathOp[j] = mathOp[j+1];
-                }
+                __realign(&i);
             }
         }
 
         //Then do '[' and ']' (Bitshifts)
-        for(int i = 0; i < strNumCount-1;i++) {
+        for(i = 0; i < strNumCount-1;i++) {
             if(mathOp[i] == '[') // Shift to right
             {
                 strNum[i] = ((int) strNum[i]) << ((int) strNum[i+1]);
-                for(int j = i+1; j < strNumCount-1; j++)
-                {
-                    strNum[j] = strNum[j+1];
-                }
-                strNumCount--;
-                i--;
-                for(int j = i+1; j < strNumCount-1; j++)
-                {
-                    mathOp[j] = mathOp[j+1];
-                }
+                __realign(&i);
             }
             else if(mathOp[i] == ']') // Shift to left
             {
                 strNum[i] = ((int) strNum[i]) >> ((int) strNum[i+1]);
-                for(int j = i+1; j < strNumCount-1; j++)
-                {
-                    strNum[j] = strNum[j+1];
-                }
-                strNumCount--;
-                i--;
-                for(int j = i+1; j < strNumCount-1; j++)
-                {
-                    mathOp[j] = mathOp[j+1];
-                }
+                __realign(&i);
             }
         }
 
         //Then do '&', '|', and '^'
-        for(int i = 0; i < strNumCount-1;i++) {
+        for(i = 0; i < strNumCount-1;i++) {
             if(mathOp[i] == '&')
             {
                 strNum[i] = ((int) strNum[i]) & ((int) strNum[i+1]);
-                for(int j = i+1; j < strNumCount-1; j++)
-                {
-                    strNum[j] = strNum[j+1];
-                }
-                strNumCount--;
-                i--;
-                for(int j = i+1; j < strNumCount-1; j++)
-                {
-                    mathOp[j] = mathOp[j+1];
-                }
+                __realign(&i);
             }
             else if(mathOp[i] == '|')
             {
                 strNum[i] = ((int) strNum[i]) | ((int) strNum[i+1]);
-                for(int j = i+1; j < strNumCount-1; j++)
-                {
-                    strNum[j] = strNum[j+1];
-                }
-                strNumCount--;
-                i--;
-                for(int j = i+1; j < strNumCount-1; j++)
-                {
-                    mathOp[j] = mathOp[j+1];
-                }
+                __realign(&i);
             }
             else if(mathOp[i] == '^')
             {
                 strNum[i] = ((int) strNum[i]) ^ ((int) strNum[i+1]);
-                for(int j = i+1; j < strNumCount-1; j++)
-                {
-                    strNum[j] = strNum[j+1];
-                }
-                strNumCount--;
-                i--;
-                for(int j = i+1; j < strNumCount-1; j++)
-                {
-                    mathOp[j] = mathOp[j+1];
-                }
+                __realign(&i);
             }
         }
 
         // ':' the assign operator
-        for(int i = 0; i < strNumCount-1;i++) {
+        for(i = 0; i < strNumCount-1;i++) {
             if(mathOp[i] == ':')
             {
                 valStorage[(int) strNum[i-1]] = strNum[i+1];
                 strNum[i] = strNum[i+1]; // Resume tail expressions
-                for(int j = i+1; j < strNumCount-1; j++)
-                {
-                    strNum[j] = strNum[j+1];
-                }
-                strNumCount--;
-                i--;
-                for(int j = i+1; j < strNumCount-1; j++)
-                {
-                    mathOp[j] = mathOp[j+1];
-                }
+                __realign(&i);
             }
         }
         newline();
