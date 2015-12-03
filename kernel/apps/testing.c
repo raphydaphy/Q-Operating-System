@@ -30,7 +30,7 @@ void test(string args) {
         println("Done sizing up", 0x0F);
         printint(test_list.capt, 0x0f);
 
-        pdata_t t;
+        element_t t;
         for(uint8 i = 0; i < 64; i++) {
             t = list_shift(&test_list);
         }
