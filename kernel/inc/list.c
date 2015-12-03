@@ -5,8 +5,8 @@ list_t list_init() {
     rl.capt = GROWTH_FACTOR;
     rl.size = 0;
     rl.autoShrink = false;
-    rl.autoShrinkTrigger = GROWTH_FACTOR*4;
-    rl.data = (string*) kmalloc(rl.capt * sizeof(string));
+    rl.autoShrinkTrigger = GROWTH_FACTOR * 4;
+    rl.data = (pdata_t*) kmalloc(rl.capt * sizeof(pdata_t));
     return rl;
 }
 
@@ -15,12 +15,18 @@ list_t list_init_s(uint32 ns) {
     rl.capt = ns; // You can initialize with 0...
     rl.size = 0;
     rl.autoShrink = false;
-    rl.autoShrinkTrigger = GROWTH_FACTOR*4;
-    rl.data = (string*) kmalloc(rl.capt * sizeof(string));
+    rl.autoShrinkTrigger = GROWTH_FACTOR * 4;
+    rl.data = (pdata_t*) kmalloc(rl.capt * sizeof(pdata_t));
     return rl;
 }
 
-void list_add(list_t* lst, string e) {
+static pdata_t __makeNull() {
+    pdata_t tmp;
+    tmp.intdata = NULL;
+    return tmp;
+}
+
+static void __vlist_add(list_t* lst, pdata_t e) {
     if (lst->size == lst->capt) {
         list_resize(lst, lst->size + GROWTH_FACTOR);
     }
@@ -28,39 +34,50 @@ void list_add(list_t* lst, string e) {
     lst->size++;
 }
 
+void list_adds(list_t* lst, string e) {
+     pdata_t tmp = __makeNull();
+     tmp.strdata = e;
+     __vlist_add(lst, tmp);
+}
+
+void list_addi(list_t* lst, int e) {
+     pdata_t tmp = __makeNull();
+     tmp.intdata = e;
+     __vlist_add(lst, tmp);
+}
+
+void list_addf(list_t* lst, float e) {
+     pdata_t tmp = __makeNull();
+     tmp.floatdata = e;
+     __vlist_add(lst, tmp);
+}
+
+string list_gets(list_t lst, uint32 index) {
+    return lst.data[index].strdata;
+}
+
+int list_geti(list_t lst, uint32 index) {
+    return lst.data[index].intdata;
+}
+
+float list_getf(list_t lst, uint32 index) {
+    return lst.data[index].floatdata;
+}
+
 void list_remove(list_t* lst, uint32 index) {
     // No need to check for negative (unsigned)
     if (index >= lst->size) return;
-    for (uint8 i = index; i < lst->size-1; i++){
+    for (uint32 i = index; i < lst->size-1; i++) {
         lst->data[i] = lst->data[i+1];
     }
-    lst->data[index] = NULL;
+    lst->data[lst->size] = __makeNull();
     lst->size--;
     if (lst->autoShrink)
         if (lst->capt - lst->size >= lst->autoShrinkTrigger)
             list_resize(lst, lst->size + GROWTH_FACTOR);
 }
 
-void list_pop(list_t* lst) {
-    lst->data[lst->size] = NULL;
-    lst->size--;
-    if (lst->autoShrink)
-        if (lst->capt - lst->size >= lst->autoShrinkTrigger)
-            list_resize(lst, lst->size + GROWTH_FACTOR);
-}
-
-void list_shift(list_t* lst) {
-    for (uint8 i = 0; i < lst->size-1; i++){
-        lst->data[i] = lst->data[i+1];
-    }
-    lst->data[0] = NULL;
-    lst->size--;
-    if (lst->autoShrink)
-        if (lst->capt - lst->size >= lst->autoShrinkTrigger)
-            list_resize(lst, lst->size + GROWTH_FACTOR);
-}
-
-void list_replace(list_t* lst, uint32 index, string e) {
+void list_replace(list_t* lst, uint32 index, pdata_t e) {
     if (index >= lst->size) return;
     lst->data[index] = e;
 }
@@ -77,9 +94,9 @@ void list_resize(list_t* lst, uint32 amount) {
 
     if(tempCapt == lst->capt) return; //There is no need to resize
     lst->capt = tempCapt;
-    string* oldData = lst->data;
-    lst->data = (string*) kmalloc(lst->capt * sizeof(string));
-    memcpy(lst->data, oldData, lst->size * sizeof(string));
+    pdata_t* oldData = lst->data;
+    lst->data = (pdata_t*) kmalloc(lst->capt * sizeof(pdata_t));
+    memcpy(lst->data, oldData, lst->size * sizeof(pdata_t));
     kfree(oldData);
 }
 
@@ -87,17 +104,36 @@ void list_clear(list_t* lst) {
     kfree(lst->data);
     lst->capt = GROWTH_FACTOR;
     lst->size = 0;
-    lst->data = (string*) kmalloc(lst->capt * sizeof(string));
+    lst->data = (pdata_t*) kmalloc(lst->capt * sizeof(pdata_t));
 }
 
-uint32 list_indexOf(list_t* lst, string e) {
-    for(uint32 i = 0; i < lst->size; i++)
-        if (strEql(lst->data[i], e))
+static bool __cmpPdata_t(pdata_t a, pdata_t b) {
+    if (a.strdata != NULL) {
+        if (b.strdata != NULL) {
+            return strEql(a.strdata, b.strdata);
+        }
+    } else if (a.intdata != NULL) {
+        if (b.intdata != NULL) {
+            return a.intdata == b.intdata;
+        }
+    } else if (a.floatdata != NULL) {
+        if (b.floatdata != NULL) {
+            return a.floatdata == b.floatdata;
+        }
+    }
+    return false;
+}
+
+uint32 list_indexOf(list_t* lst, pdata_t e) {
+    for(uint32 i = 0; i < lst->size; i++) {
+        if (__cmpPdata_t(lst->data[i], e)) {
             return i;
+        }
+    }
     return lst->size; // This is a OutOfBounds
 }
 
-bool list_contains(list_t* lst, string e) {
+bool list_contains(list_t* lst, pdata_t e) {
     return list_indexOf(lst, e) < (lst->size);
 }
 
