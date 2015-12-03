@@ -6,7 +6,8 @@ void test(string args) {
         newline();
         list_t test_list = list_init();
         test_list.autoShrink = true;
-        for(uint8 i = 0; i < 4; i++){
+
+        for(uint8 i = 0; i < 4; i++) {
             list_add(&test_list, "1");
             list_add(&test_list, "2");
             list_add(&test_list, "3");
@@ -24,17 +25,20 @@ void test(string args) {
             list_add(&test_list, "15");
             list_add(&test_list, "16");
         }
+        list_add(&test_list, "Pointless");
 
         println("Done sizing up", 0x0F);
         printint(test_list.capt, 0x0f);
 
-        for(uint8 i = 0; i < 64; i++){
-            list_shift(&test_list);
+        pdata_t t;
+        for(uint8 i = 0; i < 64; i++) {
+            t = list_shift(&test_list);
         }
-        newline();
-        println("Removed all items from test_list", 0x0F);
+        println("\nLast item deleted should be \"16\"", 0x0F);
+        println(t.strdata, 0x0F);
+        println("\nDeleting all but element \"Pointless\"", 0x0F);
         for(uint8 i = 0; i < test_list.size; i++)
-            println(test_list.data[i], 0x0F);
+            println(list_get(test_list, i), 0x0F);
         println("Done resizing up", 0x0F);
         printint(test_list.capt, 0x0f);
         
