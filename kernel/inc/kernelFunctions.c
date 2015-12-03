@@ -22,14 +22,11 @@ void launchShell() {
     int ax = 0;//X location for argumetns
 
     //prepare variable
-    for(int i = 0; i < bufSize; ++i){
-	bufStr[i] = 0;
-    }
-    for(int y = 0; y < bufSize; ++y){
-	for(int x = 0; x < bufSize; ++x){
-		arguments[y][x] = 0;
-    	}
-    }
+    for(int i = 0; i < bufSize; ++i)
+        bufStr[i] = 0;
+    for(int y = 0; y < bufSize; ++y)
+        for(int x = 0; x < bufSize; ++x)
+            arguments[y][x] = 0;
 
     #define TIP print("\nTip: If enter key does not work, it might mean that the input is too long",0x0F);
     #define HELP print("\nWorking Commands in Q OS: \nwriter\nclear\nexecute\nhi\nskip (the no action)\nfiles\ncat\nreboot\ncalc", 0x0F);
@@ -54,14 +51,11 @@ void launchShell() {
         readStr(rawCommand, bufSize);
         typingCmd = false;
 
-    	for(int i = 0; i < bufSize; ++i){
+    	for(int i = 0; i < bufSize; ++i)
     	    bufStr[i] = 0;
-    	}
-    	for(int y = 0; y < bufSize; ++y){
-                for(int x = 0; x < bufSize; ++x){
-    		arguments[y][x] = 0;
-    	    }
-    	}
+    	for(int y = 0; y < bufSize; ++y)
+            for(int x = 0; x < bufSize; ++x)
+                arguments[y][x] = 0;
     	fs = 1;
         ay = -1;
         ax = 0;
