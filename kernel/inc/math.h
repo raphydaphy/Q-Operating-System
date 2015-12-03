@@ -45,13 +45,17 @@ long floor(double);
 
 double abs(double);
 
-uint32 factorial(uint32);
+int factorial(int);
 
 long addRange(long, long);
 
 long subRange(long, long);
 
 void swap(long*, long*);
+
+float sin(int ang);
+
+float cos(int ang);
 
 //Chrono function
 int get_update_in_progress_flag();
