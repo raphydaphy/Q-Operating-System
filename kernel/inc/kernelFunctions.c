@@ -31,7 +31,7 @@ void launchShell() {
     #define TIP print("\nTip: If enter key does not work, it might mean that the input is too long",0x0F);
     #define HELP print("\nWorking Commands in Q OS: \nwriter\nclear\nexecute\nhi\nskip (the no action)\nfiles\ncat\nreboot\ncalc", 0x0F);
     #define BIGHELP kbHelp(); TIP; HELP;
-    #define SYSTEMMAN system(arguments);
+    #define SYSTEMMAN system(arguments[0]);
     #define SAYHI print("\nHello!", 0x3F);
     #define CATFILE print("\nFile Name>  ", 0x0F); readStr(bufStr, bufSize); ASSERT(strlength(bufStr) < MAX_FNAME_LEN); cat(finddir_fs(fs_root, bufStr));
     #define SWITCHDIR print("\nThe specified directory was not found ", 0x0F);
@@ -39,8 +39,8 @@ void launchShell() {
     #define MKDIR print("\nThis Command is Reserved for when we have a FAT32 or better FileSystem...", 0x3F);
     #define RMFILE print("\nThis Command is Reserved for when we have a FAT32 or better FileSystem...", 0x3F);
     #define SKIP skip(rawCommand);
-    #define FILEMAN files(arguments);
-    #define WRITE writer(arguments);
+    #define FILEMAN files(arguments[0]);
+    #define WRITE writer(arguments[0]);
     #define ME me(rawCommand);
     #define CMDNOTFOUND print("\n", 0x0F); print(bufStr, 0x0F); print(": Command Not Found ", 0x0F);
 
@@ -103,10 +103,10 @@ void launchShell() {
         else if(strEql(bufStr,"execute"))       {   execute();        }
         else if(strEql(bufStr,"switch"))        {   SWITCHDIR;        }
         else if(strEql(bufStr,"writer"))        {   WRITE;            }
-        else if(strEql(bufStr, "calc"))         {   calc(arguments);  }
+        else if(strEql(bufStr, "calc"))         {   calc(arguments[0]);  }
         else if(strEql(bufStr, "clear"))        {   clearScreen();    }
         else if(strEql(bufStr, "clear -i"))     {   BIGCLEAR;         }
-        else if(strEql(bufStr, "test"))         {   test(arguments);  }
+        else if(strEql(bufStr, "test"))         {   test(arguments[0]);  }
         else if(strEql(bufStr, "newdir"))       {   MKDIR;            }
         else if(strEql(bufStr, "erase"))        {   RMFILE;           }
 	    else if(strEql(bufStr, "me"))           {   ME;               }

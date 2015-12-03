@@ -18,7 +18,8 @@
 char calcInput[CALCSIZE + 2]; // For `+0`
 int mathOp[CALCSIZE];
 float tempNum;
-list_t strNum;
+float strNum[CALCSIZE];  
+int strNumCount;  
 
 // Initializes the variable map! IMPORTANT!
 void initialize_calc();

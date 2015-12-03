@@ -210,8 +210,8 @@ void *alloc(uint32 size, uint8 page_align, heap_t *heap)
         // Find the endmost header. (Not endmost in size, but in location).
         iterator = 0;
         // Vars to hold the index of, and value of, the endmost header found so far.
-        int32 idx = -1; uint32 value = 0x0;
-        while (iterator < heap->index.size)
+        int64 idx = -1; uint32 value = 0x0;
+        while (iterator < (int64) heap->index.size)
         {
             uint32 tmp = (uint32)lookup_ordered_array(iterator, &heap->index);
             if (tmp > value)
