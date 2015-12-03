@@ -36,7 +36,6 @@ bool lookup(fs_node_t* fsnode,string searchTerm)
 
   // Current letter and word that we are analyzing
   char curChar;
-  int curCharInt;
 
   if ((fsnode->flags & 0x7) == FS_FILE)
   {
@@ -45,13 +44,12 @@ bool lookup(fs_node_t* fsnode,string searchTerm)
     uint32 sz = read_fs(fsnode, 0, rbuff, (uint8*) buf);
     uint32 j;
 
-    string curWord = kmalloc((4 + 5 + 1) * sizeof(char));
+    string curWord = (string) kmalloc(10 * sizeof(char));
 
     for (j = 0; j < sz; j++)
     {
         char curCharString[] = { curChar, '\0' };
         curChar = buf[j];
-        curCharInt = curChar;
 
         if (strEql(curCharString," "))
         {
@@ -73,4 +71,5 @@ bool lookup(fs_node_t* fsnode,string searchTerm)
     }
   }
   newline();
+  return true;
 }

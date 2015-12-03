@@ -147,6 +147,8 @@ string ftos(float f) {
     return p;
 }
 
+static int convValidate;
+
 int stoi(string s)
 {
     int msg = 0;
@@ -157,10 +159,30 @@ int stoi(string s)
         i++;
     }
     while(s[i]) {
-        if (isnum(s[i])) {
-            msg *= 10;
-            msg += ctoi(s[i]);
-        } else break;
+        msg *= 10;
+        convValidate = ntoi(s[i]);
+        if(convValidate == -1) break;
+        msg += convValidate;
+        i++;
+    }
+    if (hasN) msg = -msg;
+    return msg;
+}
+
+int htoi(string s)
+{
+    int msg = 0;
+    bool hasN = false;
+    uint16 i = 0;
+    if (s[0] == '-') {
+        hasN = true;
+        i++;
+    }
+    while(s[i]) {
+        msg *= 10;
+        convValidate = ctoi(s[i]);
+        if(convValidate == -1) break;
+        msg += convValidate;
         i++;
     }
     if (hasN) msg = -msg;
@@ -200,7 +222,8 @@ string splitArg(string args, int argc) {//argc is the argument the program needs
     int j = 0;
     int argLoc = 0;
 
-    char fargs[1028] = {0};
+    static char fargs[1028];
+    memset(fargs, 0, 1028);
     while(args[i] != 0 && args[i] != 10) {
 		if(args[i] == 32) {
 	    	argLoc += 1;
@@ -217,7 +240,7 @@ string splitArg(string args, int argc) {//argc is the argument the program needs
     i = 0;
     j = 0;
 
-    return (string)fargs;
+    return fargs;
 }
 
 string sentenceCase(string s) {

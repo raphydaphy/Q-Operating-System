@@ -48,22 +48,14 @@ void scrollUp(uint8 lineNumber)
         vidmem[i] = vidmem[i+sw*2*lineNumber];
     }
     clearLine(sh-1-lineNumber,sh-1);
-    if((cursorY - lineNumber) < 0 ) 
-    {
-        cursorY = 0;
-        cursorX = 0;
-    } 
-    else 
-    {
-        cursorY -= lineNumber;
-    }
+    cursorY -= lineNumber;
     updateCursor();
 }
 
 
 void newLineCheck()
 {
-    if(cursorY >= sh - 1)
+    if(cursorY >= (uint8)(sh - 1))
     {
         scrollUp(1);
     }
@@ -133,10 +125,6 @@ void print(string ch, int bh)
 
 void moveCursorX(int x) {
     cursorX += x;
-    while(cursorX < 0) {
-        cursorX += sw;
-        cursorY -= 1;
-    }
     while(cursorX >= sw) {
         cursorX -= sw;
         cursorY += 1;

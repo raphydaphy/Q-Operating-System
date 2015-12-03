@@ -38,7 +38,6 @@ void launchShell() {
     #define SAYHI print("\nHello!", 0x3F);
     #define CATFILE print("\nFile Name>  ", 0x0F); readStr(bufStr, bufSize); ASSERT(strlength(bufStr) < MAX_FNAME_LEN); cat(finddir_fs(fs_root, bufStr));
     #define SWITCHDIR print("\nThe specified directory was not found ", 0x0F);
-    #define CALCULATE calc(arguments);
     #define BIGCLEAR clearScreen(); printIntro();
     #define MKDIR print("\nThis Command is Reserved for when we have a FAT32 or better FileSystem...", 0x3F);
     #define RMFILE print("\nThis Command is Reserved for when we have a FAT32 or better FileSystem...", 0x3F);
@@ -110,30 +109,30 @@ void launchShell() {
         else if(strEql(bufStr,"execute"))       {   execute();        }
         else if(strEql(bufStr,"switch"))        {   SWITCHDIR;        }
         else if(strEql(bufStr,"writer"))        {   WRITE;            }
-        else if(strEql(bufStr, "calc"))         {   CALCULATE;        }
+        else if(strEql(bufStr, "calc"))         {   calc(arguments);  }
         else if(strEql(bufStr, "clear"))        {   clearScreen();    }
         else if(strEql(bufStr, "clear -i"))     {   BIGCLEAR;         }
+        else if(strEql(bufStr, "test"))         {   test(arguments);  }
         else if(strEql(bufStr, "newdir"))       {   MKDIR;            }
         else if(strEql(bufStr, "erase"))        {   RMFILE;           }
-	else if(strEql(bufStr, "me"))           {   ME;               }
-	else if(strEql(bufStr, "search"))
-	{
-string searchTerm;
+	    else if(strEql(bufStr, "me"))           {   ME;               }
+	    else if(strEql(bufStr, "search"))
+	    {
+            string searchTerm = (string) kmalloc(bufSize * sizeof(char));
 
-	    print("\nDictionary File Name>  ", 0x0F);
-	    readStr(bufStr, bufSize);
-	    print("\nSearch Term>  ", 0x0A);
+	        print("\nDictionary File Name>  ", 0x0F);
+	        readStr(bufStr, bufSize);
+	        print("\nSearch Term>  ", 0x0A);
 
-        readStr(searchTerm, bufSize);
+            readStr(searchTerm, bufSize);
 
-	    if (findInDictionary(bufStr,searchTerm))
-        {
-            print("We found the word!",0x0F);
-        }
+	        if (findInDictionary(bufStr,searchTerm))
+            {
+                print("We found the word!",0x0F);
+            }
 
-	}
+	    }
         else                                    {   CMDNOTFOUND;      }
-
         newline();
     }
 }

@@ -8,24 +8,21 @@ int century_register = 0x00;                                // Set by ACPI table
 unsigned char second;
 unsigned char minute;
 unsigned char hour;
-unsigned char day;//Not the day of the week, but day of the month
+unsigned char day; //Not the day of the week, but day of the month
 unsigned char month;
 unsigned int year;
 
 //END CHRONO VARIABLES
 
-double powerOfTen(int num){
-   double rst = 1.0;
-   if(num >= 0){
-       for(int i = 0; i < num ; i++){
-           rst *= 10.0;
-       }
-   }else{
-       for(int i = 0; i < (0 - num ); i++){
-           rst *= 0.1;
-       }
-   }
-   return rst;
+double powerOfTen(int num) {
+    double rst = 1.0;
+    if(num >= 0) {
+        while(num-- > 0) rst *= 10;
+    } else {
+        num = -num;
+        while(num--) rst *= 0.1;
+    }
+    return rst;
 }
 
 //double pow(double num, double){
@@ -46,68 +43,6 @@ double cbrt(double x) {
         b = (b + x / b / b) / 2;
     }
     return b;
-}
-
-// We should make this more efficient
-string makeHex(int num)
-{
-    string hex = num;
-
-    if (num == 10)
-    {
-        hex = 'A';
-    }
-    else if (num == 11)
-    {
-        hex = 'B';
-    }
-    else if (num == 12)
-    {
-        hex = 'C';
-    }
-    else if (num == 13)
-    {
-        hex = 'D';
-    }
-    else if (num == 14)
-    {
-        hex = 'E';
-    }
-    else if (num == 15)
-    {
-        hex = 'F';
-    }
-    else if (num == 16)
-    {
-        hex = 'G';
-    }
-    else
-    {
-        hex = 'Z';
-    }
-
-    return hex;
-}
-
-string convertBase10(int base,int num)
-{
-    string result;
-
-    int div;
-    int rem;
-
-    int curDiv;
-    int curRem;
-
-    div = num/base;
-    rem = num%base;
-
-    print("\nDiv: ",0x0D);
-    printint(div,0x0E);
-    print("\nRem: ",0x0D);
-    printint(div,0x0E);
-
-    return result;
 }
 
 double sqrt(double a)

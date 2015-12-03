@@ -2,6 +2,7 @@
 #define ME_H
 
 // Q Libraries
+#include "../inc/kheap.h"
 #include "../inc/kbDetect.h"
 #include "../inc/intTypeDefs.h"
 #include "../inc/stringUtils.h"
