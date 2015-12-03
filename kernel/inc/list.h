@@ -1,13 +1,8 @@
 #ifndef LIST_H
 #define LIST_H
 
-#include "kheap.h"
-#include "element.h"
-#include "byteUtils.h"
-#include "intTypeDefs.h"
+#include "dynsto.h"
 
-#define GROWTH_FACTOR 16
-    
 typedef struct {
     element_t* data;
     uint32 capt;
