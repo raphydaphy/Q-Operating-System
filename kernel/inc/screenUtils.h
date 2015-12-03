@@ -33,14 +33,14 @@ void printch(char, int);
 void print(string, int);
 
 #define printint(n, bh) \
-    print(itos10(n), bh);
+    print(itos10(n), bh)
 
 #define printfloat(n, bh) \
-    print(ftos(n), bh);
+    print(ftos(n), bh)
 
 #define printhex(n, bh) \
     print("0x", bh); \
-    print(itos16(n), bh);
+    print(itos16(n), bh)
 
 void moveCursorX(int);
 void moveCursorY(int);
@@ -48,11 +48,11 @@ void moveCursorY(int);
 void kprintch(char, int, bool);
 /* Macros */
 #define newline() \
-    printch('\n', 0x0F);
+    printch('\n', 0x0F)
 
 #define println(str, c) \
     print(str, c); \
-    newline();
+    newline()
 
 //end the if statment at the start of the file
 #endif
