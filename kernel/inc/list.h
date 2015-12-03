@@ -49,6 +49,17 @@ float list_getf(list_t, uint32);
 
 char list_getc(list_t, uint32);
 
+#define list_head(lst, i) \
+    list_heads(lst, i)
+
+string list_heads(list_t, uint32);
+
+int list_headi(list_t, uint32);
+
+float list_headf(list_t, uint32);
+
+char list_headc(list_t, uint32);
+
 pdata_t list_remove(list_t*, uint32);
 
 #define list_pop(lst) \
