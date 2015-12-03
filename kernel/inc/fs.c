@@ -25,16 +25,18 @@ uint32 write_fs(fs_node_t *node, uint32 offset, uint32 size, uint8 *buffer)
 
 void open_fs(fs_node_t *node, uint8 read, uint8 write)
 {
+    UNUSED(read);
+    UNUSED(write);
     // Has the node got an open callback?
     if (node->open != 0)
-        return node->open(node);
+        node->open(node);
 }
 
 void close_fs(fs_node_t *node)
 {
     // Has the node got a close callback?
     if (node->close != 0)
-        return node->close(node);
+        node->close(node);
 }
 
 struct dirent *readdir_fs(fs_node_t *node, uint32 index)

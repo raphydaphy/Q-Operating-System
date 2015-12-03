@@ -74,7 +74,7 @@ char list_getc(list_t lst, uint32 index) {
 
 pdata_t list_remove(list_t* lst, uint32 index) {
     // No need to check for negative (unsigned)
-    if (index >= lst->size) return;
+    if (index >= lst->size) return __makeNull();
     pdata_t msg = lst->data[index];
     for (uint32 i = index; i < lst->size-1; i++) {
         lst->data[i] = lst->data[i+1];
@@ -88,7 +88,7 @@ pdata_t list_remove(list_t* lst, uint32 index) {
 }
 
 static pdata_t __vlist_replace(list_t* lst, uint32 index, pdata_t e) {
-    if (index >= lst->size) return;
+    if (index >= lst->size) return __makeNull();
     pdata_t msg = lst->data[index];
     lst->data[index] = e;
     return msg;

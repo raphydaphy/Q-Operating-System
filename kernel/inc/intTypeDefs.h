@@ -24,5 +24,7 @@ typedef _Bool bool;
 
 #define NULL 0
 
+#define UNUSED(x) (void)(x)
+
 #endif
 
