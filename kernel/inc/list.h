@@ -2,21 +2,14 @@
 #define LIST_H
 
 #include "kheap.h"
+#include "element.h"
 #include "byteUtils.h"
-#include "stringUtils.h"
 #include "intTypeDefs.h"
 
 #define GROWTH_FACTOR 16
-
-typedef union {
-    string strdata;
-    int intdata;
-    float floatdata;
-    char chardata;
-} pdata_t;
     
 typedef struct {
-    pdata_t* data;
+    element_t* data;
     uint32 capt;
     uint32 size;
     bool autoShrink; // False on default...
@@ -79,7 +72,7 @@ char list_getc(list_t, uint32);
 #define list_tailc(lst) \
     list_getc(lst, lst.size - 1)
 
-pdata_t list_remove(list_t*, uint32);
+element_t list_remove(list_t*, uint32);
 
 #define list_pop(lst) \
     list_remove(lst, lst->size)
@@ -87,13 +80,13 @@ pdata_t list_remove(list_t*, uint32);
 #define list_shift(lst) \
     list_remove(lst, 0)
 
-pdata_t list_replaces(list_t*, uint32, string);
+element_t list_replaces(list_t*, uint32, string);
 
-pdata_t list_replacei(list_t*, uint32, int);
+element_t list_replacei(list_t*, uint32, int);
 
-pdata_t list_replacef(list_t*, uint32, float);
+element_t list_replacef(list_t*, uint32, float);
 
-pdata_t list_replacec(list_t*, uint32, char);
+element_t list_replacec(list_t*, uint32, char);
 
 #define list_replace(lst, i, s) \
     list_replaces(lst, i, s)
@@ -104,9 +97,9 @@ void list_resize(list_t*, uint32);
 
 void list_clear(list_t*);
 
-uint32 list_indexOf(list_t*, pdata_t);
+uint32 list_indexOf(list_t*, element_t);
 
-bool list_contains(list_t*, pdata_t);
+bool list_contains(list_t*, element_t);
 
 void list_destroy(list_t*);
 
