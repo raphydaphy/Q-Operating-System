@@ -222,7 +222,8 @@ string splitArg(string args, int argc) {//argc is the argument the program needs
     int j = 0;
     int argLoc = 0;
 
-    char fargs[1028] = {0};
+    static char fargs[1028];
+    memset(fargs, 0, 1028);
     while(args[i] != 0 && args[i] != 10) {
 		if(args[i] == 32) {
 	    	argLoc += 1;
@@ -239,7 +240,7 @@ string splitArg(string args, int argc) {//argc is the argument the program needs
     i = 0;
     j = 0;
 
-    return (string)fargs;
+    return fargs;
 }
 
 string sentenceCase(string s) {

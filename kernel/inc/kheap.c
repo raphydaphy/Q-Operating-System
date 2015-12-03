@@ -13,7 +13,7 @@ uint32 kmalloc_int(uint32 sz, int align, uint32 *phys)
         if (phys != 0)
         {
             page_t *page = get_page((uint32)addr, 0, kernel_directory);
-            *phys = page->frame*0x1000 + (uint32)addr&0xFFF;
+            *phys = page->frame*0x1000 + ((uint32)addr & 0xFFF);
         }
         return (uint32)addr;
     }
@@ -66,7 +66,7 @@ static void expand(uint32 new_size, heap_t* heap)
     ASSERT(new_size > heap->end_address - heap->start_address);
 
     // Get the nearest following page boundary.
-    if (new_size&0xFFFFF000 != 0)
+    if ((new_size & 0xFFFFF000) != 0)
     {
         new_size &= 0xFFFFF000;
         new_size += 0x1000;
@@ -129,7 +129,7 @@ static int32 find_smallest_hole(uint32 size, uint8 page_align, heap_t *heap)
             // Page-align the starting point of this header.
             uint32 location = (uint32)header;
             int32 offset = 0;
-            if ((location+sizeof(header_t)) & 0xFFFFF000 != 0)
+            if (((location + sizeof(header_t)) & 0xFFFFF000) != 0)
                 offset = 0x1000 /* page size */  - (location+sizeof(header_t))%0x1000;
             int32 hole_size = (int32)header->size - offset;
             // Can we fit now?
@@ -167,7 +167,7 @@ heap_t *create_heap(uint32 start, uint32 end_addr, uint32 max, uint8 supervisor,
     start += sizeof(type_t)*HEAP_INDEX_SIZE;
 
     // Make sure the start address is page-aligned.
-    if (start & 0xFFFFF000 != 0)
+    if ((start & 0xFFFFF000) != 0)
     {
         start &= 0xFFFFF000;
         start += 0x1000;
@@ -210,7 +210,7 @@ void *alloc(uint32 size, uint8 page_align, heap_t *heap)
         // Find the endmost header. (Not endmost in size, but in location).
         iterator = 0;
         // Vars to hold the index of, and value of, the endmost header found so far.
-        uint32 idx = -1; uint32 value = 0x0;
+        int32 idx = -1; uint32 value = 0x0;
         while (iterator < heap->index.size)
         {
             uint32 tmp = (uint32)lookup_ordered_array(iterator, &heap->index);

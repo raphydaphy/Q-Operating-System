@@ -92,7 +92,7 @@ fs_node_t *initialize_initrd(uint32 location)
     nroot_nodes = initrd_header->nfiles;
 
     // For every file...
-    int i;
+    uint32 i;
     for (i = 0; i < initrd_header->nfiles; i++)
     {
         // Edit the file's header - currently it holds the file offset
