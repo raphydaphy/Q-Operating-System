@@ -10,6 +10,7 @@
 #include "kbDetect.h"
 #include "descriptorTables.h"
 #include "assemblyFunctions.h"
+#include "list.h"
 
 // Q Applications
 #include "../apps/execute.h"
@@ -21,6 +22,8 @@
 #include "../apps/skip.h"
 #include "../apps/me.h"
 #include "../apps/testing.h"
+
+#define BUFSIZE 128
 
 void printIntro();
 
