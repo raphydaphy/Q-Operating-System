@@ -44,6 +44,34 @@ void test(string args) {
         
         list_destroy(&test_list);
     }
+    else if(strEql(args," -set"))
+    {
+        set_t test_set = set_init();
+        for(uint8 i = 0; i < 4; i++) {
+            set_add(&test_set, "0");
+            set_add(&test_set, "1");
+            set_add(&test_set, "2");
+            set_add(&test_set, "3");
+            set_add(&test_set, "4");
+            set_add(&test_set, "5");
+            set_add(&test_set, "6");
+            set_add(&test_set, "7");
+            set_add(&test_set, "8");
+            set_add(&test_set, "9");
+            set_add(&test_set, "10");
+            set_add(&test_set, "11");
+            set_add(&test_set, "12");
+            set_add(&test_set, "13");
+            set_add(&test_set, "14");
+            set_add(&test_set, "15");
+            set_add(&test_set, "16");
+            print("\nIteration: ", 0x0F);
+            printint(i, 0x0F);
+        }
+        println("\n\nOutput should be 17", 0x0F);
+        printint(test_set.size, 0x0F);
+        set_destroy(&test_set);
+    }
     else if(strEql(args," -y"))
     {
        //getTime() test

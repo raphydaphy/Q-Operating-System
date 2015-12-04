@@ -21,3 +21,9 @@ bool cmpElement_t(element_t a, element_t b) {
     return false;
 }
 
+element_t makeNullElement() {
+    element_t tmp;
+    tmp.intdata = NULL;
+    return tmp;
+}
+

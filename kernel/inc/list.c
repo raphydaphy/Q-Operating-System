@@ -14,12 +14,6 @@ list_t list_init_s(uint32 ns) {
     return rl;
 }
 
-static element_t __makeNull() {
-    element_t tmp;
-    tmp.intdata = NULL;
-    return tmp;
-}
-
 static void __vlist_add(list_t* lst, element_t e) {
     if (lst->size == lst->capt) list_resize(lst, lst->size + GROWTH_FACTOR);
     lst->data[lst->size] = e;
@@ -27,25 +21,25 @@ static void __vlist_add(list_t* lst, element_t e) {
 }
 
 void list_adds(list_t* lst, string e) {
-     element_t tmp = __makeNull();
+     element_t tmp = makeNullElement();
      tmp.strdata = e;
      __vlist_add(lst, tmp);
 }
 
 void list_addi(list_t* lst, int e) {
-     element_t tmp = __makeNull();
+     element_t tmp = makeNullElement();
      tmp.intdata = e;
      __vlist_add(lst, tmp);
 }
 
 void list_addf(list_t* lst, float e) {
-     element_t tmp = __makeNull();
+     element_t tmp = makeNullElement();
      tmp.floatdata = e;
      __vlist_add(lst, tmp);
 }
 
 void list_addc(list_t* lst, char e) {
-     element_t tmp = __makeNull();
+     element_t tmp = makeNullElement();
      tmp.floatdata = e;
      __vlist_add(lst, tmp);
 }
@@ -68,12 +62,12 @@ char list_getc(list_t lst, uint32 index) {
 
 element_t list_remove(list_t* lst, uint32 index) {
     // No need to check for negative (unsigned)
-    if (index >= lst->size) return __makeNull();
+    if (index >= lst->size) return makeNullElement();
     element_t msg = lst->data[index];
     for (uint32 i = index; i < lst->size-1; i++) {
         lst->data[i] = lst->data[i+1];
     }
-    lst->data[lst->size] = __makeNull();
+    lst->data[lst->size] = makeNullElement();
     lst->size--;
     if (lst->autoShrink)
         if (lst->capt - lst->size >= lst->autoShrinkTrigger)
@@ -82,32 +76,32 @@ element_t list_remove(list_t* lst, uint32 index) {
 }
 
 static element_t __vlist_replace(list_t* lst, uint32 index, element_t e) {
-    if (index >= lst->size) return __makeNull();
+    if (index >= lst->size) return makeNullElement();
     element_t msg = lst->data[index];
     lst->data[index] = e;
     return msg;
 }
 
 element_t list_replaces(list_t* lst, uint32 index, string e) {
-    element_t ne = __makeNull();
+    element_t ne = makeNullElement();
     ne.strdata = e;
     return __vlist_replace(lst, index, ne);
 }
 
 element_t list_replacei(list_t* lst, uint32 index, int e) {
-    element_t ne = __makeNull();
+    element_t ne = makeNullElement();
     ne.intdata = e;
     return __vlist_replace(lst, index, ne);
 }
 
 element_t list_replacef(list_t* lst, uint32 index, float e) {
-    element_t ne = __makeNull();
+    element_t ne = makeNullElement();
     ne.floatdata = e;
     return __vlist_replace(lst, index, ne);
 }
 
 element_t list_replacec(list_t* lst, uint32 index, char e) {
-    element_t ne = __makeNull();
+    element_t ne = makeNullElement();
     ne.chardata = e;
     return __vlist_replace(lst, index, ne);
 }
