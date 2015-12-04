@@ -90,8 +90,15 @@ char set_getc(set_t lst, uint32 index) {
 }
 
 void set_union(set_t* a, set_t* b) {
-    for(uint32 i = 0; i < b->size; i++) {
+    for(uint32 i = 0; i < b->size; i++)
         __vset_add(a, b->data[i]);
-    }
+}
+
+void set_intersect(set_t* a, set_t* b) {
+    set_t tmp = set_init();
+    for(uint32 i = 0; i < b->size; i++)
+        if(set_contains(a, b->data[i]))
+            __vset_add(&tmp, b->data[i]);
+    *a = tmp;
 }
 

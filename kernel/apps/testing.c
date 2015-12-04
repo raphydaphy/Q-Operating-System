@@ -68,14 +68,19 @@ void test(string args) {
             print("\nIteration: ", 0x0F);
             printint(i, 0x0F);
         }
-        println("\n\nOutput should be 17", 0x0F);
+        println("\n\nInsertion::Output should be 17", 0x0F);
         printint(test_set.size, 0x0F);
         
         set_t tmp = set_init();
         set_add(&tmp, "Union item");
         set_union(&test_set, &tmp);
         
-        println("\n\nOutput should be 18", 0x0F);
+        println("\n\nUnion::Output should be 18", 0x0F);
+        printint(test_set.size, 0x0F);
+        
+        set_intersect(&test_set, &tmp);
+        
+        println("\n\nIntersect::Output should be 1", 0x0F);
         printint(test_set.size, 0x0F);
         
         set_destroy(&tmp);

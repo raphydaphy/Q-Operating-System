@@ -43,4 +43,6 @@ void set_destroy(set_t*);
 
 void set_union(set_t*, set_t*);
 
+void set_intersect(set_t*, set_t*);
+
 #endif
