@@ -40,7 +40,7 @@ void list_addf(list_t* lst, float e) {
 
 void list_addc(list_t* lst, char e) {
      element_t tmp = makeNullElement();
-     tmp.floatdata = e;
+     tmp.chardata = e;
      __vlist_add(lst, tmp);
 }
 

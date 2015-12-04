@@ -95,6 +95,14 @@ void test(string args) {
         set_destroy(&tmp);
         set_destroy(&test_set);
     }
+    else if(streql(args, " -strb"))
+    {
+        strbuilder_t test_strb = strbuilder_init();
+        strbuilder_append(&test_strb, "Hello, world ");
+        strbuilder_append(&test_strb, "Hello, 2nd world");
+        println("\nOutput should be \"Hello, world Hello, 2nd world\"", 0x0F);
+        println(strbuilder_tostr(test_strb), 0x0F);
+    }
     else if(streql(args," -y"))
     {
        //getTime() test

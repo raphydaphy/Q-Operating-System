@@ -3,6 +3,7 @@
 
 #include "../inc/set.h"
 #include "../inc/list.h"
+#include "../inc/strbuilder.h"
 #include "../inc/screenUtils.h"
 
 void test(string);
