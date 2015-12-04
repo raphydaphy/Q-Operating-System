@@ -13,4 +13,6 @@ typedef union {
 
 bool cmpElement_t(element_t, element_t);
 
+element_t makeNullElement();
+
 #endif
