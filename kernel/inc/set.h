@@ -41,8 +41,12 @@ bool set_contains(set_t*, element_t);
 
 void set_destroy(set_t*);
 
+element_t set_remove(set_t*, uint32);
+
 void set_union(set_t*, set_t*);
 
 void set_intersect(set_t*, set_t*);
+
+void set_diff(set_t*, set_t*);
 
 #endif

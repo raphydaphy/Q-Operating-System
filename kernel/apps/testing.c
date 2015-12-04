@@ -74,15 +74,24 @@ void test(string args) {
         set_t tmp = set_init();
         set_add(&tmp, "Union item");
         set_union(&test_set, &tmp);
-        
         println("\n\nUnion::Output should be 18", 0x0F);
         printint(test_set.size, 0x0F);
         
         set_intersect(&test_set, &tmp);
-        
         println("\n\nIntersect::Output should be 1", 0x0F);
         printint(test_set.size, 0x0F);
         
+        println("\n\nPreparing for diff test", 0x0F);
+        set_add(&test_set, "1");
+        set_add(&test_set, "2");
+        set_add(&test_set, "3");
+        set_add(&tmp, "2");
+        set_add(&tmp, "3");
+        set_add(&tmp, "4");
+        set_diff(&test_set, &tmp);
+        println("Diff::Output should be 2", 0x0F);
+        printint(test_set.size, 0x0F);
+
         set_destroy(&tmp);
         set_destroy(&test_set);
     }
