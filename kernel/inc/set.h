@@ -40,4 +40,7 @@ uint32 set_indexOf(set_t*, element_t);
 bool set_contains(set_t*, element_t);
 
 void set_destroy(set_t*);
+
+void set_union(set_t*, set_t*);
+
 #endif

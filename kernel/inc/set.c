@@ -89,3 +89,9 @@ char set_getc(set_t lst, uint32 index) {
     return lst.data[index].chardata;
 }
 
+void set_union(set_t* a, set_t* b) {
+    for(uint32 i = 0; i < b->size; i++) {
+        __vset_add(a, b->data[i]);
+    }
+}
+

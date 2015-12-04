@@ -70,6 +70,15 @@ void test(string args) {
         }
         println("\n\nOutput should be 17", 0x0F);
         printint(test_set.size, 0x0F);
+        
+        set_t tmp = set_init();
+        set_add(&tmp, "Union item");
+        set_union(&test_set, &tmp);
+        
+        println("\n\nOutput should be 18", 0x0F);
+        printint(test_set.size, 0x0F);
+        
+        set_destroy(&tmp);
         set_destroy(&test_set);
     }
     else if(strEql(args," -y"))
