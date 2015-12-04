@@ -2,8 +2,9 @@
 
 // initialize the math storage variables
 int mathOp[CALCSIZE];
-list_t strNum = init_list();
 float tempNum = -1;
+float strNum[CALCSIZE];
+int strNumCount = 0;
 bool isNegative = false, isUnaryNot = false, decPoint = false;
 static float decimalMul = 1;
 
@@ -56,6 +57,7 @@ void resetVar() {
     memset(mathOp, '\0', CALCSIZE);
     memset(strNum, '\0', CALCSIZE);
     tempNum = -1;
+    strNumCount = 0;
     isNegative = false;
     isUnaryNot = false;
     __resetDecimals();
@@ -89,10 +91,13 @@ void mathError(uint8 ID)
 }
 
 static void __realign(int* i) {
-    uint32 olds = strNum.size;
-    list_remove(strNum, j);
+    for(int j = *i + 1; j < strNumCount - 1; j++)
+    {
+        strNum[j] = strNum[j + 1];
+    }
+    strNumCount--;
     i--;
-    for(int j = *i + 1; j < olds - 1; j++)
+    for(int j = *i + 1; j < strNumCount - 1; j++)
     {
         mathOp[j] = mathOp[j + 1];
     }
@@ -101,27 +106,41 @@ static void __realign(int* i) {
 void calc(string args)
 {
     memset(calcInput, '\0', CALCSIZE);
-    if(strEql(args," -h"))
-    {
+    if(streql(args," -h"))
        calcHelp();
-    }
-    else if(strEql(args," -pi"))
+    else if(streql(args," -pi"))
     {
         newline();
         print(PI_S, 0x08);
     }
-    else if(strEql(args," -e"))
+    else if(streql(args," -e"))
     {
         newline();
         print(E_S, 0x08);
     }
-    else if(strEql(args," -pow"))
+    else if(streql(args," -pow"))
     {
         newline();
         print("Number>  ",0x08);
         readStr(calcInput, CALCSIZE);
         newline();
     	printfloat(powerOfTen(stoi(calcInput)), 0x0F);
+    }
+    else if(streql(args," -sin"))
+    {
+        newline();
+        print("Angle in gradiant>  ",0x08);
+        readStr(calcInput, CALCSIZE);
+        newline();
+    	printfloat(sin(stoi(calcInput)), 0x0F);
+    }
+    else if(streql(args," -cos"))
+    {
+        newline();
+        print("Angle in gradiant>  ",0x08);
+        readStr(calcInput, CALCSIZE);
+        newline();
+    	printfloat(cos(stoi(calcInput)), 0x0F);
     }
     else
     {
@@ -173,7 +192,7 @@ void calc(string args)
                             }
                             else
                             {
-                                mathError(strNum.size == 0 ? 0 : 2);
+                                mathError(strNumCount == 0 ? 0 : 2); 
                                 return;
                             }
                         }
@@ -183,8 +202,8 @@ void calc(string args)
                                 tempNum *= -1;
                             else if (isUnaryNot)
                                 tempNum = ~((int) tempNum);
-                            list_addi(&strNum, tempNum);
-                            mathOp[strNum.size - 1] = calcInput[i]; 	// set math operator
+                            strNum[strNumCount] = tempNum;
+                            mathOp[strNumCount++] = calcInput[i]; 	// set math operator
                             tempNum = -1;
                             isNegative = false;
                             isUnaryNot = false;
@@ -194,111 +213,111 @@ void calc(string args)
                 }
             }
         }
-        list_addi(&strNum, tempNum);
+        strNum[strNumCount++] = tempNum;
         static int i = 0;
         // '<' '>' and '='
-        for(i = 0; i < strNum.size - 1;i++) {
+        for(i = 0; i < strNumCount - 1;i++) {
             if(mathOp[i] == '<')
             {
-                list_replacef(&strNum, i, list_getf(strNum, i) < list_getf(strNum, i + 1));
+                strNum[i] = strNum[i] < strNum[i + 1];
                 __realign(&i);
             }
             else if(mathOp[i] == '>')
             {
-                list_replacef(&strNum, i, list_getf(strNum, i) > list_getf(strNum, i + 1));
+                strNum[i] = (strNum[i] > strNum[i + 1]);
                 __realign(&i);
             }
             else if(mathOp[i] == '=')
             {
-                list_replacef(&strNum, i, list_getf(strNum, i) == list_getf(strNum, i + 1));
+                strNum[i] = (strNum[i] == strNum[i + 1]);
                 __realign(&i);
             }
         }
         //'*' '/' and '%'
-        for(i = 0; i < strNum.size - 1;i++) {
+        for(i = 0; i < strNumCount - 1;i++) {
             if(mathOp[i] == '*')
             {
-                list_replacef(&strNum, i, list_getf(strNum, i) * list_getf(strNum, i + 1));
+                strNum[i] = (strNum[i] * strNum[i + 1]);
                 __realign(&i);
             }
             else if(mathOp[i] == '/')
             {
-                if(list_getf(strNum, i + 1) == 0) {
+                if(strNum[i + 1] == 0) {
                     mathError(1);
                     return;
                 }
-                list_replacef(&strNum, i, list_getf(strNum, i) / list_getf(strNum, i + 1));
+                strNum[i] = (strNum[i] / strNum[i + 1]);
                 __realign(&i);
             }
             else if(mathOp[i] == '%')
             {
-                if(list_getf(strNum, i + 1) == 0) {
+                if(strNum[i + 1] == 0) {
                     mathError(1);
                     return;
                 }
-                list_replacef(&strNum, i, ((int) list_getf(strNum, i)) % ((int) list_getf(strNum, i + 1)));
+                strNum[i] = (((int) strNum[i]) % ((int) strNum[i + 1]));
                 __realign(&i);
             }
         }
 
         //Then do + and -
-        for(i = 0; i < strNum.size - 1;i++) {
+        for(i = 0; i < strNumCount - 1;i++) {
             if(mathOp[i] == '+')
             {
-                list_replacef(&strNum, i, list_getf(strNum, i) + list_getf(strNum, i + 1));
+                strNum[i] = (strNum[i] + strNum[i + 1]);
                 __realign(&i);
             }
             else if(mathOp[i] == '-')
             {
-                list_replacef(&strNum, i, list_getf(strNum, i) - list_getf(strNum, i + 1));
+                strNum[i] = (strNum[i] - strNum[i + 1]);
                 __realign(&i);
             }
         }
 
         //Then do '[' and ']' (Bitshifts)
-        for(i = 0; i < strNum.size - 1;i++) {
+        for(i = 0; i < strNumCount - 1;i++) {
             if(mathOp[i] == '[') // Shift to right
             {
-                list_replacef(&strNum, i, ((int) list_getf(strNum, i)) << ((int) list_getf(strNum, i + 1)));
+                strNum[i] = (((int) strNum[i]) << ((int) strNum[i + 1]));
                 __realign(&i);
             }
             else if(mathOp[i] == ']') // Shift to left
             {
-                list_replacef(&strNum, i, ((int) list_getf(strNum, i)) >> ((int) list_getf(strNum, i + 1)));
+                strNum[i] = (((int) strNum[i]) >> ((int) strNum[i + 1]));
                 __realign(&i);
             }
         }
 
         //Then do '&', '|', and '^'
-        for(i = 0; i < strNum.size - 1;i++) {
+        for(i = 0; i < strNumCount - 1;i++) {
             if(mathOp[i] == '&')
             {
-                list_replacef(&strNum, i, ((int) list_getf(strNum, i)) & ((int) list_getf(strNum, i + 1)));
+                strNum[i] = (((int) strNum[i]) & ((int) strNum[i + 1]));
                 __realign(&i);
             }
             else if(mathOp[i] == '|')
             {
-                list_replacef(&strNum, i, ((int) list_getf(strNum, i)) | ((int) list_getf(strNum, i + 1)));
+                strNum[i] = (((int) strNum[i]) | ((int) strNum[i + 1]));
                 __realign(&i);
             }
             else if(mathOp[i] == '^')
             {
-                list_replacef(&strNum, i, ((int) list_getf(strNum, i)) ^ ((int) list_getf(strNum, i + 1)));
+                strNum[i] = (((int) strNum[i]) ^ ((int) strNum[i + 1]));
                 __realign(&i);
             }
         }
 
         // ':' the assign operator
-        for(i = 0; i < strNum.size - 1;i++) {
+        for(i = 0; i < strNumCount - 1;i++) {
             if(mathOp[i] == ':')
             {
-                valStorage[(int) list_getf(strNum, i - 1)] = list_getf(strNum, i + 1);
-                list_replacef(&strNum, i, list_getf(strNum, i + 1)); // Resume tail expressions
+                valStorage[(int) strNum[i - 1]] = strNum[i + 1];
+                strNum[i] = (strNum[i + 1]); // Resume tail expressions
                 __realign(&i);
             }
         }
         newline();
-        printfloat(list_getf(strNum, 0), 0x0F);
+        printfloat(strNum[0], 0x0F);
 
         //Reset operational variable to its default state
         resetVar();

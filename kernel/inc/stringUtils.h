@@ -6,9 +6,9 @@
 #include "charUtils.h"
 #include "intTypeDefs.h"
 
-uint16 strlength(string);
+uint16 strlen(string);
 
-bool strEql(string, string);
+bool streql(string, string);
 
 uint8 strcmp(string, string);
 

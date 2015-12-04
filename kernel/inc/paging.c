@@ -36,15 +36,6 @@ static void clear_frame(uint32 frame_addr)
     frames[idx] &= ~(0x1 << off);
 }
 
-// Static function to test if a bit is set.
-static uint32 test_frame(uint32 frame_addr)
-{
-    uint32 frame = frame_addr/0x1000;
-    uint32 idx = INDEX_FROM_BIT(frame);
-    uint32 off = OFFSET_FROM_BIT(frame);
-    return (frames[idx] & (0x1 << off));
-}
-
 // Static function to find the first free frame.
 static uint32 first_frame()
 {
@@ -125,7 +116,7 @@ void initialize_paging()
     // to be created where necessary. We can't allocate frames yet because they
     // they need to be identity mapped first below, and yet we can't increase
     // placement_address between identity mapping and enabling the heap!
-    int i = 0;
+    uint32 i = 0;
     for (i = KHEAP_START; i < KHEAP_START+KHEAP_INITIAL_SIZE; i += 0x1000)
         get_page(i, 1, kernel_directory);
 
@@ -208,7 +199,6 @@ void page_fault(registers_t regs)
     int rw = regs.err_code & 0x2;           // Write operation?
     int us = regs.err_code & 0x4;           // Processor was in user-mode?
     int reserved = regs.err_code & 0x8;     // Overwritten CPU-reserved bits of page entry?
-    int id = regs.err_code & 0x10;          // Caused by an instruction fetch?
 
     // Output an error message.
     print("Page fault! ( ", 0x08);

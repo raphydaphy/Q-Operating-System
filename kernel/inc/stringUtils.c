@@ -1,13 +1,13 @@
 #include "stringUtils.h"
 
-uint16 strlength(string ch)
+uint16 strlen(string ch)
 {
     uint16 i = 0;
     while(ch[++i]);
     return i;
 }
 
-bool strEql(string ch1,string ch2)
+bool streql(string ch1,string ch2)
 {
     /* Zero from strcmp means ch1 eq ch2 */
     return strcmp(ch1, ch2) == 0;
@@ -70,7 +70,7 @@ string strTrim(string str)
     if(str[0] == '\0')
         return str;
 
-    len = strlength(str);
+    len = strlen(str);
     endp = str + len;
 
     /* Move the front and back pointers to address the first non-whitespace

@@ -19,11 +19,10 @@ double sort(char* word)
 
     // turn the word into uppercase for easier sorting
     word = toUpper(word);
-
-
-    for(uint8 tmp = 0; tmp < arrLength(noun_act); tmp++)
+    static uint32 tmp;
+    for(tmp = 0; tmp < arrLength(noun_act); tmp++)
     {
-        if (strEql(noun_act[tmp],word))
+        if (streql(noun_act[tmp],word))
         {
             print(" Noun ",0x0B);
             print(" Act ",0x0C);
@@ -32,9 +31,9 @@ double sort(char* word)
         }
     }
 
-    for(uint8 tmp = 0; tmp < arrLength(noun_animal); tmp++)
+    for(tmp = 0; tmp < arrLength(noun_animal); tmp++)
     {
-        if (strEql(noun_animal[tmp],word))
+        if (streql(noun_animal[tmp],word))
         {
             print(" Noun ",0x0B);
             print(" Animal ",0x0C);
@@ -43,9 +42,9 @@ double sort(char* word)
         }
     }
 
-    for(uint8 tmp = 0; tmp < arrLength(noun_artifact); tmp++)
+    for(tmp = 0; tmp < arrLength(noun_artifact); tmp++)
     {
-        if (strEql(noun_artifact[tmp],word))
+        if (streql(noun_artifact[tmp],word))
         {
             print(" Noun ",0x0B);
             print(" Artifact ",0x0C);
@@ -54,18 +53,14 @@ double sort(char* word)
         }
     }
 
-
-    for(uint32 tmp = 0; tmp < arrLength(verbs); tmp++)
+    for(tmp = 0; tmp < arrLength(verbs); tmp++)
     {
-        if (strEql(verbs[tmp],word))
+        if (streql(verbs[tmp],word))
         {
             print(" Verb ",0x0B);
             type = 2.0;
             return 2.0;
         }
     }
-
-
-
     return type;
 }

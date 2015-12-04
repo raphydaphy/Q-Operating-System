@@ -1,7 +1,7 @@
 #include "testing.h"
 
 void test(string args) {
-    if(strEql(args, " -list"))//For testing lists
+    if(streql(args, " -list"))//For testing lists
     {
         newline();
         list_t test_list = list_init();
@@ -30,7 +30,7 @@ void test(string args) {
         println("Done sizing up", 0x0F);
         printint(test_list.capt, 0x0f);
 
-        pdata_t t;
+        element_t t;
         for(uint8 i = 0; i < 64; i++) {
             t = list_shift(&test_list);
         }
@@ -44,7 +44,58 @@ void test(string args) {
         
         list_destroy(&test_list);
     }
-    else if(strEql(args," -y"))
+    else if(streql(args," -set"))
+    {
+        set_t test_set = set_init();
+        for(uint8 i = 0; i < 4; i++) {
+            set_add(&test_set, "0");
+            set_add(&test_set, "1");
+            set_add(&test_set, "2");
+            set_add(&test_set, "3");
+            set_add(&test_set, "4");
+            set_add(&test_set, "5");
+            set_add(&test_set, "6");
+            set_add(&test_set, "7");
+            set_add(&test_set, "8");
+            set_add(&test_set, "9");
+            set_add(&test_set, "10");
+            set_add(&test_set, "11");
+            set_add(&test_set, "12");
+            set_add(&test_set, "13");
+            set_add(&test_set, "14");
+            set_add(&test_set, "15");
+            set_add(&test_set, "16");
+            print("\nIteration: ", 0x0F);
+            printint(i, 0x0F);
+        }
+        println("\n\nInsertion::Output should be 17", 0x0F);
+        printint(test_set.size, 0x0F);
+        
+        set_t tmp = set_init();
+        set_add(&tmp, "Union item");
+        set_union(&test_set, &tmp);
+        println("\n\nUnion::Output should be 18", 0x0F);
+        printint(test_set.size, 0x0F);
+        
+        set_intersect(&test_set, &tmp);
+        println("\n\nIntersect::Output should be 1", 0x0F);
+        printint(test_set.size, 0x0F);
+        
+        println("\n\nPreparing for diff test", 0x0F);
+        set_add(&test_set, "1");
+        set_add(&test_set, "2");
+        set_add(&test_set, "3");
+        set_add(&tmp, "2");
+        set_add(&tmp, "3");
+        set_add(&tmp, "4");
+        set_diff(&test_set, &tmp);
+        println("Diff::Output should be 2", 0x0F);
+        printint(test_set.size, 0x0F);
+
+        set_destroy(&tmp);
+        set_destroy(&test_set);
+    }
+    else if(streql(args," -y"))
     {
        //getTime() test
        printint(getTime("year"),0x0F);
