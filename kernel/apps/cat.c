@@ -31,7 +31,6 @@ bool findInDictionary(string dictionary,string searchWord)
 
 bool lookup(fs_node_t* fsnode,string searchTerm)
 {
-  newline();
   searchTerm = toUpper(searchTerm);
 
   // Current letter and word that we are analyzing
@@ -56,11 +55,7 @@ bool lookup(fs_node_t* fsnode,string searchTerm)
             print(" ",0x0F);
             if (streql(curWord,searchTerm))
             {
-                print(curWord,0x09);
-            }
-            else
-            {
-                print(curWord,0x0A);
+                return true;
             }
             memset(curWord, '\0', 128);
         }
@@ -70,6 +65,5 @@ bool lookup(fs_node_t* fsnode,string searchTerm)
         }
     }
   }
-  newline();
-  return true;
+  return false;
 }
