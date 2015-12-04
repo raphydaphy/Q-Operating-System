@@ -1,6 +1,6 @@
 #include "set.h"
 
-static const int __shrinkTrigger = GROWTH_FACTOR * 4;
+static const uint32 __shrinkTrigger = GROWTH_FACTOR * 4;
 
 set_t set_init() {
     set_t rl;
@@ -87,5 +87,38 @@ float set_getf(set_t lst, uint32 index) {
 
 char set_getc(set_t lst, uint32 index) {
     return lst.data[index].chardata;
+}
+
+element_t set_remove(set_t* lst, uint32 index) {
+    // No need to check for negative (unsigned)
+    if (index >= lst->size) return makeNullElement();
+    element_t msg = lst->data[index];
+    for (uint32 i = index; i < lst->size-1; i++) {
+        lst->data[i] = lst->data[i+1];
+    }
+    lst->data[lst->size] = makeNullElement();
+    lst->size--;
+    if (lst->capt - lst->size >= __shrinkTrigger)
+        __set_resize(lst, lst->size + GROWTH_FACTOR);
+    return msg;
+}
+
+void set_union(set_t* a, set_t* b) {
+    for(uint32 i = 0; i < b->size; i++)
+        __vset_add(a, b->data[i]);
+}
+
+void set_intersect(set_t* a, set_t* b) {
+    set_t tmp = set_init();
+    for(uint32 i = 0; i < b->size; i++)
+        if(set_contains(a, b->data[i]))
+            __vset_add(&tmp, b->data[i]);
+    *a = tmp;
+}
+
+void set_diff(set_t* a, set_t* b) {
+    for(uint32 i = 0; i < a->size; i++)
+        if(set_contains(b, a->data[i]))
+            set_remove(a, i);
 }
 
