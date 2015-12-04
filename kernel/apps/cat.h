@@ -8,7 +8,9 @@
 #include "../inc/kernelFunctions.h"
 #include "../inc/fs.h"
 
-void cat(fs_node_t*);
+void cat(string);
+void catTheFile(fs_node_t*);
+
 bool lookup(fs_node_t*,string);
 bool findInDictionary(string,string);
 
