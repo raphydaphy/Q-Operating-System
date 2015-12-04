@@ -3,6 +3,7 @@
 
 #include "list.h"
 #include "dynsto.h"
+#include "stringUtils.h"
 
 typedef struct {
     string prevTxt; // like a backup...
@@ -11,10 +12,21 @@ typedef struct {
 
 strbuilder_t strbuilder_init();
 
+#define strbuilder_append(stb, str) \
+    strbuilder_appends(stb, str)
+
 void strbuilder_appendc(strbuilder_t*, char);
 
 void strbuilder_appends(strbuilder_t*, string);
 
-void list_destroy(strbuilder_t*);
+#define strbuilder_appendf(stb, f) \
+    strbuilder_append(stb, ftos(f))
+
+#define strbuilder_appendi(stb, i) \
+    strbuilder_append(stb, itos(i))
+
+string strbuilder_tostr(strbuilder_t);
+
+void strbuilder_destroy(strbuilder_t*);
 
 #endif
