@@ -1,6 +1,15 @@
 #include "cat.h"
 
-void cat(fs_node_t* fsnode)
+void cat(string args)
+{
+    string fileName = splitArg(args, 1);
+
+    ASSERT(strlen(fileName) < MAX_FNAME_LEN);
+    catTheFile(finddir_fs(fs_root, fileName));
+}
+
+
+void catTheFile(fs_node_t* fsnode)
 {
     newline();
     if ((fsnode->flags & 0x7) == FS_FILE)
@@ -17,7 +26,6 @@ void cat(fs_node_t* fsnode)
 
 bool findInDictionary(string dictionary,string searchWord)
 {
-
     ASSERT(strlen(dictionary) < MAX_FNAME_LEN);
     if (lookup(finddir_fs(fs_root, dictionary),searchWord))
     {
