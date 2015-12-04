@@ -6,9 +6,9 @@ bool hasSetup = false;
 char zip[18];
 
 void me(string args) {
-    if (strEql(splitArg(args, 1), "setup") || !hasSetup)
+    if (streql(splitArg(args, 1), "setup") || !hasSetup)
     {
-        if (strEql(splitArg(args, 2), "skip") && !hasSetup)
+        if (streql(splitArg(args, 2), "skip") && !hasSetup)
         {
             hasSetup = true;
             print("\nYou have skipped the Me setup process, some answers may be strange :D",0x06);
@@ -75,7 +75,7 @@ void me(string args) {
 
                 for(uint32 tmp = 0; tmp < arrLength(months); tmp++)
                 {
-                    if (strEql(months[tmp],birthMonth))
+                    if (streql(months[tmp],birthMonth))
                     {
                         birthMonthValid = true;
                         print(" Good",0x02);
@@ -98,7 +98,7 @@ void me(string args) {
 
                 for(uint32 tmp = 0; tmp < arrLength(continents); tmp++)
                 {
-                    if (strEql(continents[tmp],continent))
+                    if (streql(continents[tmp],continent))
                     {
                         continentValid = true;
                         print(" Good",0x02);
@@ -121,7 +121,7 @@ void me(string args) {
 
                 for(uint32 tmp = 0; tmp < arrLength(countries); tmp++)
                 {
-                    if (strEql(countries[tmp],country))
+                    if (streql(countries[tmp],country))
                     {
                         countryValid = true;
                         print(" Good",0x02);
@@ -143,7 +143,7 @@ void me(string args) {
 
                 for(uint8 tmp = 0; tmp < arrLength(states); tmp++)
                 {
-                    if(strEql(states[tmp],country))
+                    if(streql(states[tmp],country))
                     {
                         stateValid = true;
                         print(" Good",0x02);
@@ -193,10 +193,8 @@ void me(string args) {
         {
             tmp++;
 
-            if (strEql(splitArg(args, tmp),""))
-            {
+            if (streql(splitArg(args, tmp),""))
                 over = true;
-            }
             else
             {
                 newline();

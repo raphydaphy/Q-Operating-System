@@ -3,7 +3,7 @@
 bool cmpElement_t(element_t a, element_t b) {
     if (a.strdata != NULL) {
         if (b.strdata != NULL) {
-            return strEql(a.strdata, b.strdata);
+            return streql(a.strdata, b.strdata);
         }
     } else if (a.intdata != NULL) {
         if (b.intdata != NULL) {

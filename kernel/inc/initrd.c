@@ -42,7 +42,7 @@ static struct dirent *initrd_readdir(fs_node_t *node, uint32 index)
         return 0;
     }
     strcpy(dirent.name, root_nodes[index-1].name);
-    dirent.name[strlength(root_nodes[index-1].name)] = 0;
+    dirent.name[strlen(root_nodes[index-1].name)] = 0;
     dirent.ino = root_nodes[index-1].inode;
     return &dirent;
 }
