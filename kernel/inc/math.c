@@ -348,27 +348,19 @@ void read_rtc() {
 }
 
 int getTime(string args) {
-  read_rtc();
-  if(strEql(args,"year"))
-  {
-     return year;
-  } else if(strEql(args,"month"))
-  {
-     return (int)month;
-  } else if(strEql(args,"day"))
-  {
+    read_rtc();
+    if(streql(args, "year"))
+        return year;
+    else if(streql(args, "month"))
+        return (int)month;
+    else if(streql(args, "day"))
      return (int)day;
-  } else if(strEql(args,"hour"))
-  {
-     return (int)hour;
-  } else if(strEql(args,"minute"))
-  {
-     return (int)minute;
-  } else if(strEql(args,"second"))
-  {
-     return (int)second;
-  } else {
-  	return -1;
-  }
+    else if(streql(args, "hour"))
+        return (int)hour;
+    else if(streql(args, "minute"))
+        return (int)minute;
+    else if(streql(args, "second"))
+        return (int)second;
+    else return -1;
 }
 //END CHRONO FUNCTIONS

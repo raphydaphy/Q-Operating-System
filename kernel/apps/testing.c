@@ -1,7 +1,7 @@
 #include "testing.h"
 
 void test(string args) {
-    if(strEql(args, " -list"))//For testing lists
+    if(streql(args, " -list"))//For testing lists
     {
         newline();
         list_t test_list = list_init();
@@ -44,7 +44,7 @@ void test(string args) {
         
         list_destroy(&test_list);
     }
-    else if(strEql(args," -set"))
+    else if(streql(args," -set"))
     {
         set_t test_set = set_init();
         for(uint8 i = 0; i < 4; i++) {
@@ -95,7 +95,7 @@ void test(string args) {
         set_destroy(&tmp);
         set_destroy(&test_set);
     }
-    else if(strEql(args," -y"))
+    else if(streql(args," -y"))
     {
        //getTime() test
        printint(getTime("year"),0x0F);

@@ -106,21 +106,19 @@ static void __realign(int* i) {
 void calc(string args)
 {
     memset(calcInput, '\0', CALCSIZE);
-    if(strEql(args," -h"))
-    {
+    if(streql(args," -h"))
        calcHelp();
-    }
-    else if(strEql(args," -pi"))
+    else if(streql(args," -pi"))
     {
         newline();
         print(PI_S, 0x08);
     }
-    else if(strEql(args," -e"))
+    else if(streql(args," -e"))
     {
         newline();
         print(E_S, 0x08);
     }
-    else if(strEql(args," -pow"))
+    else if(streql(args," -pow"))
     {
         newline();
         print("Number>  ",0x08);
@@ -128,7 +126,7 @@ void calc(string args)
         newline();
     	printfloat(powerOfTen(stoi(calcInput)), 0x0F);
     }
-    else if(strEql(args," -sin"))
+    else if(streql(args," -sin"))
     {
         newline();
         print("Angle in gradiant>  ",0x08);
@@ -136,7 +134,7 @@ void calc(string args)
         newline();
     	printfloat(sin(stoi(calcInput)), 0x0F);
     }
-    else if(strEql(args," -cos"))
+    else if(streql(args," -cos"))
     {
         newline();
         print("Angle in gradiant>  ",0x08);

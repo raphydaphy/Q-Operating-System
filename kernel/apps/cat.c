@@ -18,7 +18,7 @@ void cat(fs_node_t* fsnode)
 bool findInDictionary(string dictionary,string searchWord)
 {
 
-    ASSERT(strlength(dictionary) < MAX_FNAME_LEN);
+    ASSERT(strlen(dictionary) < MAX_FNAME_LEN);
     if (lookup(finddir_fs(fs_root, dictionary),searchWord))
     {
         return true;
@@ -51,10 +51,10 @@ bool lookup(fs_node_t* fsnode,string searchTerm)
         char curCharString[] = { curChar, '\0' };
         curChar = buf[j];
 
-        if (strEql(curCharString," "))
+        if (streql(curCharString," "))
         {
             print(" ",0x0F);
-            if (strEql(curWord,searchTerm))
+            if (streql(curWord,searchTerm))
             {
                 print(curWord,0x09);
             }

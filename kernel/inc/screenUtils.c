@@ -116,7 +116,7 @@ void printch(char c, int b)
 
 void print(string ch, int bh)
 {
-    uint8 length = strlength(ch);
+    uint8 length = strlen(ch);
     for(uint16 i = 0; i < length; i++)
     {
         printch(ch[i], bh);

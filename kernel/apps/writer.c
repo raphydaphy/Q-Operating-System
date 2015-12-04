@@ -10,10 +10,8 @@ void writerHelp()
 
 void writer(string args)
 {
-	if (strEql(args," -h"))
-	{
+	if (streql(args," -h"))
 		writerHelp();
-	}
 	else
 	{
 		// this is called when someone types "writer" on the command line
