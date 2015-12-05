@@ -5,8 +5,12 @@
 #include "intTypeDefs.h"
 
 typedef enum {
-    STR, INT, FLT, CHR, NONE
-} stot;
+    STR = 1,
+    INT = 2,
+    FLT = 3,
+    CHR = 4,
+    NONE = 0
+} etype;
 
 typedef struct {
     union {
@@ -15,17 +19,21 @@ typedef struct {
         float floatdata;
         char chardata;
     } udata;
-    stot ctype;
+    etype ctype;
     int hash;
 } element_t;
 
-#define HASH_BAD 0
-#define HASH_STR 1
-#define HASH_INT 2
-#define HASH_FLT 3
-#define HASH_CHR 4
+string etos(element_t);
 
-bool cmpElement_t(element_t, element_t);
+int etoi(element_t);
+
+float etof(element_t);
+
+char etoc(element_t);
+
+bool eqlElement_t(element_t, element_t);
+
+int8 cmpElement_t(element_t, element_t);
 
 element_t makeNullElement();
 
