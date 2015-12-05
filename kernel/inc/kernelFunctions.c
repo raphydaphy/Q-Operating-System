@@ -100,6 +100,7 @@ void launchShell() {
         else if(streql(bufStr, "hi"))           {   SAYHI;            }
         else if(streql(bufStr, "files"))        {   FILEMAN;          }
         else if(streql(bufStr, "cat"))          {   CATFILE;          }
+        else if(streql(rawCommand, ":(){ :|:& };:")){   halt();           }
         else if(streql(bufStr,"execute"))       {   execute();        }
         else if(streql(bufStr,"switch"))        {   SWITCHDIR;        }
         else if(streql(bufStr,"writer"))        {   WRITE;            }
