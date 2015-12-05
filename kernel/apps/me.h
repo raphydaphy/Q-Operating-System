@@ -36,6 +36,8 @@ string city;
 
 int zipInt;
 
+bool querying;
+
 // define all variables for setup data
 bool birthYearValid;
 bool birthDateValid;

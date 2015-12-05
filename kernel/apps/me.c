@@ -15,6 +15,8 @@ bool stateValid = false;
 bool cityValid = false;
 bool zipValid = false;
 
+bool querying = false;
+
 void me(string args) {
     if (!hasSetup)
     {
@@ -185,12 +187,19 @@ void me(string args) {
     }
     else if (streql(splitArg(args, 1),""))
     {
-        while (true)
+        querying = true;
+        char* meArgs;
+
+        while (querying)
         {
-            char* meArgs = "";
-            print("\n>  ",0x0F);
+            newline();
+
+            meArgs = "";
+
+            print("question>  ",0x0F);
             readStr(meArgs,128);
-            answer(meArgs,0);
+
+            print(answer(meArgs,0),0x04);
         }
     }
     else
