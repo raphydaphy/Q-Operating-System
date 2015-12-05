@@ -5,6 +5,16 @@
 bool hasSetup = false;
 char zip[18];
 
+bool birthYearValid = false;
+bool birthDateValid = false;
+bool birthMonthValid = false;
+
+bool continentValid = false;
+bool countryValid = false;
+bool stateValid = false;
+bool cityValid = false;
+bool zipValid = false;
+
 void me(string args) {
     if (streql(splitArg(args, 1), "setup") || !hasSetup)
     {
@@ -73,13 +83,10 @@ void me(string args) {
                 readStr(birthMonth,128);
                 birthMonth = toUpper(birthMonth);
 
-                for(uint32 tmp = 0; tmp < arrLength(months); tmp++)
+                if (findInDictionary("me/setup/month.txt",birthMonth))
                 {
-                    if (streql(months[tmp],birthMonth))
-                    {
-                        birthMonthValid = true;
-                        print(" Good",0x02);
-                    }
+                    birthMonthValid = true;
+                    print(" Good",0x02);
                 }
 
                 if (!birthMonthValid)
@@ -96,13 +103,10 @@ void me(string args) {
                 readStr(continent,128);
                 continent = toUpper(continent);
 
-                for(uint32 tmp = 0; tmp < arrLength(continents); tmp++)
+                if (findInDictionary("me/setup/continent.txt",continent))
                 {
-                    if (streql(continents[tmp],continent))
-                    {
-                        continentValid = true;
-                        print(" Good",0x02);
-                    }
+                    continentValid = true;
+                    print(" Good",0x02);
                 }
 
                 if (!continentValid)
@@ -119,13 +123,10 @@ void me(string args) {
                 readStr(country,128);
                 country = toUpper(country);
 
-                for(uint32 tmp = 0; tmp < arrLength(countries); tmp++)
+                if (findInDictionary("me/setup/country.txt",country))
                 {
-                    if (streql(countries[tmp],country))
-                    {
-                        countryValid = true;
-                        print(" Good",0x02);
-                    }
+                    countryValid = true;
+                    print(" Good",0x02);
                 }
 
                 if (!countryValid)
@@ -141,13 +142,10 @@ void me(string args) {
                 readStr(state,128);
                 state = toUpper(state);
 
-                for(uint8 tmp = 0; tmp < arrLength(states); tmp++)
+                if (findInDictionary("me/setup/state.txt",state))
                 {
-                    if(streql(states[tmp],country))
-                    {
-                        stateValid = true;
-                        print(" Good",0x02);
-                    }
+                    stateValid = true;
+                    print(" Good",0x02);
                 }
 
                 if (!stateValid)
@@ -166,7 +164,7 @@ void me(string args) {
                 print("What is the zip/post code in your area: ",0x0B);
                 readStr(zip, 17);
                 zipInt = htoi(zip);
-                if (zipInt > 0) // The other test was invalid
+                if (zipInt > 0)
                 {
                     zipValid = true;
                     print(" Good",0x02);
@@ -200,12 +198,9 @@ void me(string args) {
             else
             {
                 newline();
-                printint(tmp,0x0A);
-                print(" : ",0x0B);
-                print(curWord,0x0A);
-                print(" : ",0x0B);
-                sort(splitArg(args, tmp));
-
+                print(splitArg(args, tmp),0x0D);
+                print(" : ",0x0C);
+                print(sort(splitArg(args, tmp)),0x0D);
             }
         }
     }

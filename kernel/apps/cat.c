@@ -60,7 +60,6 @@ bool lookup(fs_node_t* fsnode,string searchTerm)
 
         if (streql(curCharString," "))
         {
-            print(" ",0x0F);
             if (streql(curWord,searchTerm))
             {
                 return true;
