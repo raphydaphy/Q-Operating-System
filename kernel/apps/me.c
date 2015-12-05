@@ -194,7 +194,9 @@ void me(string args) {
             tmp++;
 
             if (streql(splitArg(args, tmp),""))
+            {
                 over = true;
+            }
             else
             {
                 newline();
@@ -202,7 +204,7 @@ void me(string args) {
                 print(" : ",0x0B);
                 print(curWord,0x0A);
                 print(" : ",0x0B);
-                printfloat(sort(splitArg(args, tmp)),0x09);
+                sort(splitArg(args, tmp));
 
             }
         }

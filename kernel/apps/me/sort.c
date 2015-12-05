@@ -19,48 +19,38 @@ double sort(char* word)
 
     // turn the word into uppercase for easier sorting
     word = toUpper(word);
-    static uint32 tmp;
-    for(tmp = 0; tmp < arrLength(noun_act); tmp++)
+
+    if (findInDictionary("me/noun/act.txt",word))
     {
-        if (streql(noun_act[tmp],word))
-        {
-            print(" Noun ",0x0B);
-            print(" Act ",0x0C);
-            type = 1.1;
-            return 1.1;
-        }
+        print(" Noun ",0x0B);
+        print(" Act ",0x0C);
+        type = 1.1;
+        return 1.1;
     }
 
-    for(tmp = 0; tmp < arrLength(noun_animal); tmp++)
+    if (findInDictionary("me/noun/animal.txt",word))
     {
-        if (streql(noun_animal[tmp],word))
-        {
-            print(" Noun ",0x0B);
-            print(" Animal ",0x0C);
-            type = 1.2;
-            return 1.2;
-        }
+        print(" Noun ",0x0B);
+        print(" Animal ",0x0C);
+        type = 1.2;
+        return 1.2;
     }
 
-    for(tmp = 0; tmp < arrLength(noun_artifact); tmp++)
+    if (findInDictionary("me/noun/artifact.txt",word))
     {
-        if (streql(noun_artifact[tmp],word))
-        {
-            print(" Noun ",0x0B);
-            print(" Artifact ",0x0C);
-            type = 1.3;
-            return 1.3;
-        }
+        print(" Noun ",0x0B);
+        print(" Artifact ",0x0C);
+        type = 1.3;
+        return 1.3;
     }
 
-    for(tmp = 0; tmp < arrLength(verbs); tmp++)
+    if (findInDictionary("me/verb/verb.txt",word))
     {
-        if (streql(verbs[tmp],word))
-        {
-            print(" Verb ",0x0B);
-            type = 2.0;
-            return 2.0;
-        }
+        print(" Verb ",0x0B);
+        type = 2.0;
+        return 2.0;
     }
+
+
     return type;
 }
