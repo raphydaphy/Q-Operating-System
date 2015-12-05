@@ -5,7 +5,11 @@
 #include "intTypeDefs.h"
 
 typedef enum {
-    STR, INT, FLT, CHR, NONE
+    STR = 1,
+    INT = 2,
+    FLT = 3,
+    CHR = 4,
+    NONE = 0
 } etype;
 
 typedef struct {
@@ -18,12 +22,6 @@ typedef struct {
     etype ctype;
     int hash;
 } element_t;
-
-#define HASH_BAD 0
-#define HASH_STR 1
-#define HASH_INT 2
-#define HASH_FLT 3
-#define HASH_CHR 4
 
 bool eqlElement_t(element_t, element_t);
 
