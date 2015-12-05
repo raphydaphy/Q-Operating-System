@@ -36,11 +36,8 @@ void strbuilder_clear(strbuilder_t*);
 
 void strbuilder_destroy(strbuilder_t*);
 
-<<<<<<< HEAD
-=======
 void strbuilder_trim(strbuilder_t*);
 
 uint32 strbuilder_indexOf(strbuilder_t, string);
 
->>>>>>> 4704b18de6acab1fd2f25ab3d5a2c57d121e14c9
 #endif
