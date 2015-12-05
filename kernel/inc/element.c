@@ -30,6 +30,30 @@ int8 cmpElement_t(element_t a, element_t b) {
     return 1; // Otherwise assume a.hash > b.hash
 }
 
+inline string etos(element_t e) {
+    if (e.ctype == STR)
+        return e.udata.strdata;
+    return "";
+}
+
+inline int etoi(element_t e) {
+    if (e.ctype == INT)
+        return e.udata.intdata;
+    return 0;
+}
+
+inline float etof(element_t e) {
+    if (e.ctype == FLT)
+        return e.udata.floatdata;
+    return 0;
+}
+
+inline char etoc(element_t e) {
+    if (c.ctype == CHR)
+        return e.udata.chardata;
+    return '\0';
+}
+
 element_t makeNullElement() {
     element_t tmp;
     tmp.ctype = NONE;
