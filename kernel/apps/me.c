@@ -187,16 +187,14 @@ void me(string args) {
     {
         while (true)
         {
-            string meArgs = "";
-            print("\n>  ",0x08);
-            readStr(meArgs,5012);
-            answer(meArgs);
+            char* meArgs = "";
+            print("\n>  ",0x0F);
+            readStr(meArgs,128);
+            answer(meArgs,0);
         }
     }
     else
     {
-        string meArgs = "";
-        readStr(meArgs,5012);
-        answer(meArgs);
+        answer(args,1);
     }
 }
