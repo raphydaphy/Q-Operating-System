@@ -16,12 +16,12 @@ bool cityValid = false;
 bool zipValid = false;
 
 void me(string args) {
-    if (streql(splitArg(args, 1), "setup") || !hasSetup)
+    if (!hasSetup)
     {
-        if (streql(splitArg(args, 2), "skip") && !hasSetup)
+        if (streql(splitArg(args, 1), "test") && !hasSetup)
         {
             hasSetup = true;
-            print("\nYou have skipped the Me setup process, some answers may be strange :D",0x06);
+            print("\nYou have skipped the Me setup process.",0x06);
         }
         else if (!hasSetup)
         {
@@ -182,6 +182,10 @@ void me(string args) {
         {
             print("\nYou have already completed the setup process for Me!",0x05);
         }
+    }
+    else if (streql(splitArg(args, 1),""))
+    {
+        print(" ITS GO TIME!!!!!!!!!!!!!!!!!!!!!! ",0x0E);
     }
     else
     {
