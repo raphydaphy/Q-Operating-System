@@ -29,19 +29,13 @@ void launchShell() {
             arguments[y][x] = 0;
 
     #define TIP print("\nTip: If enter key does not work, it might mean that the input is too long",0x0F);
-    #define HELP print("\nWorking Commands in Q OS: \nwriter\nclear\nexecute\nhi\nskip (the no action)\nfiles\ncat\nreboot\ncalc", 0x0F);
+    #define HELP print("\nWorking Commands in Q OS: \nwriter\nclear\nexecute\nhi\nskip\nfiles\ncat\nsystem\ncalc\nme\ntest", 0x0F);
     #define BIGHELP kbHelp(); TIP; HELP;
-    #define SYSTEMMAN system(arguments[0]);
-    #define SAYHI print("\nHello!", 0x3F);
-    #define CATFILE cat(rawCommand);
     #define SWITCHDIR print("\nThe specified directory was not found ", 0x0F);
     #define BIGCLEAR clearScreen(); printIntro();
     #define MKDIR print("\nThis Command is Reserved for when we have a FAT32 or better FileSystem...", 0x3F);
     #define RMFILE print("\nThis Command is Reserved for when we have a FAT32 or better FileSystem...", 0x3F);
-    #define SKIP skip(rawCommand);
-    #define FILEMAN files(arguments[0]);
-    #define WRITE writer(arguments[0]);
-    #define ME me(rawCommand);
+    #define SEARCHFOR string searchTerm = (string) kmalloc(bufSize * sizeof(char)); print("\nDictionary File Name>  ", 0x0F); readStr(bufStr, bufSize); print("\nSearch Term>  ", 0x0A); readStr(searchTerm, bufSize); if (findInDictionary(bufStr,searchTerm)) { print("\nWe found the word!",0x0F); }
     #define CMDNOTFOUND print("\n", 0x0F); print(bufStr, 0x0F); print(": Command Not Found ", 0x0F);
 
     while (true) {
@@ -93,41 +87,23 @@ void launchShell() {
             }
         }
 
-        if (streql(strTrim(bufStr), ""))        {   HELP;             }
-        else if(streql(bufStr, "help"))         {   BIGHELP;          }
-        else if(streql(bufStr, "system"))       {   SYSTEMMAN;        }
-        else if(streql(bufStr, "skip"))         {   SKIP;             }
-        else if(streql(bufStr, "hi"))           {   SAYHI;            }
-        else if(streql(bufStr, "files"))        {   FILEMAN;          }
-        else if(streql(bufStr, "cat"))          {   CATFILE;          }
-        else if(streql(rawCommand, ":(){ :|:& };:")){   halt();           }
-        else if(streql(bufStr,"execute"))       {   execute();        }
-        else if(streql(bufStr,"switch"))        {   SWITCHDIR;        }
-        else if(streql(bufStr,"writer"))        {   WRITE;            }
-        else if(streql(bufStr, "calc"))         {   calc(arguments[0]);  }
-        else if(streql(rawCommand, "clear -i"))     {   BIGCLEAR;         }
-        else if(streql(bufStr, "clear"))        {   clearScreen();    }
-        else if(streql(bufStr, "test"))         {   test(arguments[0]);  }
-        else if(streql(bufStr, "newdir"))       {   MKDIR;            }
-        else if(streql(bufStr, "erase"))        {   RMFILE;           }
-	    else if(streql(bufStr, "me"))           {   ME;               }
-	    else if(streql(bufStr, "search"))
-	    {
-            string searchTerm = (string) kmalloc(bufSize * sizeof(char));
-
-	        print("\nDictionary File Name>  ", 0x0F);
-	        readStr(bufStr, bufSize);
-	        print("\nSearch Term>  ", 0x0A);
-
-            readStr(searchTerm, bufSize);
-
-	        if (findInDictionary(bufStr,searchTerm))
-            {
-                print("We found the word!",0x0F);
-            }
-
-	    }
-        else                                    {   CMDNOTFOUND;      }
+        if (streql(strTrim(bufStr), ""))            {   HELP;                   }
+        else if(streql(bufStr, "help"))             {   BIGHELP;                }
+        else if(streql(bufStr, "system"))           {   system(rawCommand);     }
+        else if(streql(bufStr, "skip"))             {   skip(rawCommand);       }
+        else if(streql(bufStr, "files"))            {   files(arguments[0]);    }
+        else if(streql(bufStr, "cat"))              {   cat(rawCommand);        }
+        else if(streql(bufStr,"execute"))           {   execute();              }
+        else if(streql(bufStr,"switch"))            {   SWITCHDIR;              }
+        else if(streql(bufStr,"writer"))            {   writer(arguments[0]);   }
+        else if(streql(bufStr, "calc"))             {   calc(arguments[0]);     }
+        else if(streql(bufStr, "clear"))            {   clearScreen();          }
+        else if(streql(bufStr, "test"))             {   test(arguments[0]);     }
+        else if(streql(bufStr, "newdir"))           {   MKDIR;                  }
+        else if(streql(bufStr, "erase"))            {   RMFILE;                 }
+	    else if(streql(bufStr, "me"))               {   me(rawCommand);         }
+	    else if(streql(bufStr, "search"))           {   SEARCHFOR;              }
+        else                                        {   CMDNOTFOUND;            }
         newline();
     }
 }

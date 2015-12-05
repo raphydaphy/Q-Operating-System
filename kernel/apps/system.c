@@ -12,12 +12,20 @@ void systemHelp(string cmd)
 
 void system(string args)
 {
-	if (streql(args," reboot"))
+	if (streql(splitArg(args, 1),"reboot"))
+    {
 		reboot();
-	else if (streql(args," shutdown"))
+    }
+	else if (streql(splitArg(args, 1),"shutdown"))
+    {
         shutdown();
-    else if (streql(args," halt"))
+    }
+    else if (streql(splitArg(args, 1),"halt"))
+    {
         halt();
+    }
     else
+    {
         systemHelp(args);
+    }
 }
