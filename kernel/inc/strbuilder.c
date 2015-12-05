@@ -24,8 +24,9 @@ void strbuilder_appends(strbuilder_t* stb, string str) {
     while (*str != 0);
 }
 
-string strbuilder_tostr(strbuilder_t stb) {
-    uint32 strlen = stb.ilist.size;
+static string __vstb_tos(strbuilder_t stb, uint32 l, uint32 h) {
+    uint32 strlen = abs(h - l);
+    if (strlen > stb.ilist.size) return NULL;
     string msg = (string) kmalloc((strlen) * sizeof(char));
     uint32 i = 0;
     for(i = 0; i < strlen; i++) {
@@ -33,8 +34,16 @@ string strbuilder_tostr(strbuilder_t stb) {
     }
     msg[i] = '\0'; // Strings are null terminated!
     return msg;
-
 }
+
+string strbuilder_tostr(strbuilder_t stb) {
+    return __vstb_tos(stb, 0, stb.ilist.size);
+}
+
+string strbuilder_substr(strbuilder_t stb, uint32 l, uint32 h) {
+    return __vstb_tos(stb, l, h);
+}
+
 void strbuilder_clear(strbuilder_t* stb) {
     __backupText(stb);
     list_clear(&(stb->ilist));

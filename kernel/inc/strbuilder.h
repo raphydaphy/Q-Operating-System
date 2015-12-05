@@ -2,6 +2,7 @@
 #define STRBUILD_H
 
 #include "list.h"
+#include "math.h"
 #include "dynsto.h"
 #include "stringUtils.h"
 
@@ -26,6 +27,8 @@ void strbuilder_appends(strbuilder_t*, string);
     strbuilder_append(stb, itos(i))
 
 string strbuilder_tostr(strbuilder_t);
+
+string strbuilder_substr(strbuilder_t, uint32, uint32);
 
 void strbuilder_clear(strbuilder_t*);
 
