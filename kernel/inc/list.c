@@ -14,50 +14,70 @@ list_t list_init_s(uint32 ns) {
     return rl;
 }
 
-static void __vlist_add(list_t* lst, element_t e) {
+static void __vlist_add(list_t* lst, element_t e, uint32 index) {
+    if (index > lst->size) return; // Cannot insert out of the list!
     if (lst->size == lst->capt) list_resize(lst, lst->size + GROWTH_FACTOR);
-    lst->data[lst->size] = e;
+    for (uint32 i = lst->size - 1; i > index; i++) {
+        lst->data[i + 1] = lst->data[i];
+    }
+    lst->data[index] = e;
     lst->size++;
 }
 
 void list_adds(list_t* lst, string e) {
-     element_t tmp = makeNullElement();
-     tmp.strdata = e;
-     __vlist_add(lst, tmp);
+    element_t tmp = makeStrElement(e);
+    __vlist_add(lst, tmp, lst->size);
 }
 
 void list_addi(list_t* lst, int e) {
-     element_t tmp = makeNullElement();
-     tmp.intdata = e;
-     __vlist_add(lst, tmp);
+    element_t tmp = makeIntElement(e);
+    __vlist_add(lst, tmp, lst->size);
 }
 
 void list_addf(list_t* lst, float e) {
-     element_t tmp = makeNullElement();
-     tmp.floatdata = e;
-     __vlist_add(lst, tmp);
+    element_t tmp = makeFloatElement(e);
+    __vlist_add(lst, tmp, lst->size);
 }
 
 void list_addc(list_t* lst, char e) {
-     element_t tmp = makeNullElement();
-     tmp.floatdata = e;
-     __vlist_add(lst, tmp);
+    element_t tmp = makeCharElement(e);
+    __vlist_add(lst, tmp, lst->size);
 }
 
-string list_gets(list_t lst, uint32 index) {
-    return lst.data[index].strdata;
+void list_inserts(list_t* lst, string e, uint32 i) {
+    element_t tmp = makeStrElement(e);
+    __vlist_add(lst, tmp, i);
 }
 
-int list_geti(list_t lst, uint32 index) {
-    return lst.data[index].intdata;
+void list_inserti(list_t* lst, int e, uint32 i) {
+    element_t tmp = makeIntElement(e);
+    __vlist_add(lst, tmp, i);
 }
 
-float list_getf(list_t lst, uint32 index) {
-    return lst.data[index].floatdata;
+void list_insertf(list_t* lst, float e, uint32 i) {
+    element_t tmp = makeFloatElement(e);
+    __vlist_add(lst, tmp, i);
 }
 
-char list_getc(list_t lst, uint32 index) {
-    return lst.data[index].chardata;
+void list_insertc(list_t* lst, char e, uint32 i) {
+    element_t tmp = makeCharElement(e);
+    __vlist_add(lst, tmp, i);
+}
+
+inline string list_gets(list_t lst, uint32 index) {
+    return lst.data[index].udata.strdata;
+}
+
+inline int list_geti(list_t lst, uint32 index) {
+    return lst.data[index].udata.intdata;
+}
+
+inline float list_getf(list_t lst, uint32 index) {
+    return lst.data[index].udata.floatdata;
+}
+
+inline char list_getc(list_t lst, uint32 index) {
+    return lst.data[index].udata.chardata;
 }
 
 element_t list_remove(list_t* lst, uint32 index) {
@@ -83,26 +103,22 @@ static element_t __vlist_replace(list_t* lst, uint32 index, element_t e) {
 }
 
 element_t list_replaces(list_t* lst, uint32 index, string e) {
-    element_t ne = makeNullElement();
-    ne.strdata = e;
+    element_t ne = makeStrElement(e);
     return __vlist_replace(lst, index, ne);
 }
 
 element_t list_replacei(list_t* lst, uint32 index, int e) {
-    element_t ne = makeNullElement();
-    ne.intdata = e;
+    element_t ne = makeIntElement(e);
     return __vlist_replace(lst, index, ne);
 }
 
 element_t list_replacef(list_t* lst, uint32 index, float e) {
-    element_t ne = makeNullElement();
-    ne.floatdata = e;
+    element_t ne = makeFloatElement(e);
     return __vlist_replace(lst, index, ne);
 }
 
 element_t list_replacec(list_t* lst, uint32 index, char e) {
-    element_t ne = makeNullElement();
-    ne.chardata = e;
+    element_t ne = makeCharElement(e);
     return __vlist_replace(lst, index, ne);
 }
 

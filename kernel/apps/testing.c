@@ -35,13 +35,13 @@ void test(string args) {
             t = list_shift(&test_list);
         }
         println("\nLast item deleted should be \"16\"", 0x0F);
-        println(t.strdata, 0x0F);
+        println(t.udata.strdata, 0x0F);
         println("\nDeleting all but element \"Pointless\"", 0x0F);
         for(uint8 i = 0; i < test_list.size; i++)
             println(list_get(test_list, i), 0x0F);
         println("Done resizing up", 0x0F);
         printint(test_list.capt, 0x0f);
-        
+
         list_destroy(&test_list);
     }
     else if(streql(args," -set"))
@@ -70,17 +70,17 @@ void test(string args) {
         }
         println("\n\nInsertion::Output should be 17", 0x0F);
         printint(test_set.size, 0x0F);
-        
+
         set_t tmp = set_init();
         set_add(&tmp, "Union item");
         set_union(&test_set, &tmp);
         println("\n\nUnion::Output should be 18", 0x0F);
         printint(test_set.size, 0x0F);
-        
+
         set_intersect(&test_set, &tmp);
         println("\n\nIntersect::Output should be 1", 0x0F);
         printint(test_set.size, 0x0F);
-        
+
         println("\n\nPreparing for diff test", 0x0F);
         set_add(&test_set, "1");
         set_add(&test_set, "2");
@@ -94,6 +94,23 @@ void test(string args) {
 
         set_destroy(&tmp);
         set_destroy(&test_set);
+    }
+    else if(streql(args, " -strb"))
+    {
+        static const string bak = "Hello, world ";
+        static const uint32 bln = 13;
+        strbuilder_t test_strb = strbuilder_init();
+
+        strbuilder_append(&test_strb, bak);
+        strbuilder_append(&test_strb, "Hello, 2nd world");
+        println("\nTesting backup text. Output should 1", 0x0F);
+        printint(streql(bak, test_strb.prevTxt), 0x0F);
+        println("\nOutput should be \"Hello, world Hello, 2nd world\"", 0x0F);
+        println(strbuilder_tostr(test_strb), 0x0F);
+        println("\nRemoving greeters from first world", 0x0F);
+        strbuilder_delete(&test_strb, 0, bln);
+        println("\nOutput should be \"Hello, 2nd world\"", 0x0F);
+        println(strbuilder_tostr(test_strb), 0x0F);
     }
     else if(streql(args," -y"))
     {

@@ -16,20 +16,13 @@ void launchShell() {
     list_t arguments = list_init();//Store command arguments
 
     #define TIP print("\nTip: If enter key does not work, it might mean that the input is too long",0x0F);
-    #define HELP print("\nWorking Commands in Q OS: \nwriter\nclear\nexecute\nhi\nskip (the no action)\nfiles\ncat\nreboot\ncalc", 0x0F);
+    #define HELP print("\nWorking Commands in Q OS: \nwriter\nclear\nexecute\nhi\nskip\nfiles\ncat\nsystem\ncalc\nme\ntest", 0x0F);
     #define BIGHELP kbHelp(); TIP; HELP;
-    #define SYSTEMMAN system(list_get(arguments,1));
-    #define SAYHI print("\nHello!", 0x3F);
-    #define CATFILE print("\nFile Name>  ", 0x0F); readStr(rawCommand, BUFSIZE); ASSERT(strlen(rawCommand) < MAX_FNAME_LEN); cat(finddir_fs(fs_root, rawCommand));
     #define SWITCHDIR print("\nThe specified directory was not found ", 0x0F);
-    #define BIGCLEAR clearScreen(); printIntro();
     #define MKDIR print("\nThis Command is Reserved for when we have a FAT32 or better FileSystem...", 0x3F);
     #define RMFILE print("\nThis Command is Reserved for when we have a FAT32 or better FileSystem...", 0x3F);
-    #define SKIP skip(rawCommand);
-    #define FILEMAN files(list_get(arguments,1));
-    #define WRITE writer(list_get(arguments,1));
-    #define ME me(rawCommand);
     #define CMDNOTFOUND print("\n", 0x0F); print(rawCommand, 0x0F); print(": Command Not Found ", 0x0F);
+    #define SEARCHFOR string searchTerm = (string) kmalloc(bufSize * sizeof(char)); print("\nDictionary File Name>  ", 0x0F); readStr(bufStr, bufSize); print("\nSearch Term>  ", 0x0A); readStr(searchTerm, bufSize); if (findInDictionary(bufStr,searchTerm)) { print("\nWe found the word!",0x0F); }
 
     while (true) {
         print("\nQ-Kernel>  ", 0x08);
@@ -72,38 +65,21 @@ void launchShell() {
 
         string firstArgument = list_gets(arguments,0);
         if(streql(firstArgument, "help"))         {   BIGHELP;          }
-        else if(streql(firstArgument, "system"))       {   system(list_get(arguments,1));  }
-        else if(streql(firstArgument, "skip"))         {   SKIP;             }
-        else if(streql(firstArgument, "hi"))           {   SAYHI;            }
-        else if(streql(firstArgument, "files"))        {   FILEMAN;          }
-        else if(streql(firstArgument, "cat"))          {   CATFILE			 }
+        else if(streql(firstArgument, "system"))       {   system(rawCommand);  }
+        else if(streql(firstArgument, "skip"))         {   skip(rawCommand);    }
+        else if(streql(firstArgument, "files"))        {   files(list_get(arguments,1));          }
+        else if(streql(firstArgument, "cat"))          {   cat(rawCommand);			 }
         else if(streql(firstArgument,"execute"))       {   execute();        }
         else if(streql(firstArgument,"switch"))        {   SWITCHDIR;        }
-        else if(streql(firstArgument,"writer"))        {   WRITE;            }
+        else if(streql(firstArgument,"writer"))        {   writer(list_get(arguments,1));   }
         else if(streql(firstArgument, "calc"))         {   calc(list_get(arguments,1));  }
         else if(streql(firstArgument, "clear"))        {   clearScreen();    }
-        else if(streql(firstArgument, "clear -i"))     {   BIGCLEAR;         }
         else if(streql(firstArgument, "test"))         {   test(list_get(arguments,1));  }
         else if(streql(firstArgument, "newdir"))       {   MKDIR;            }
         else if(streql(firstArgument, "erase"))        {   RMFILE;           }
-	    else if(streql(firstArgument, "me"))           {   ME;               }
-	    else if(streql(firstArgument, "search"))
-	    {
-            string searchTerm = (string) kmalloc(BUFSIZE * sizeof(char));
-
-	        print("\nDictionary File Name>  ", 0x0F);
-	        readStr(rawCommand, BUFSIZE);
-	        print("\nSearch Term>  ", 0x0A);
-
-            readStr(searchTerm, BUFSIZE);
-
-	        if (findInDictionary(rawCommand,searchTerm))
-            {
-                print("We found the word!",0x0F);
-            }
-
-	    }
-        else                                    {   CMDNOTFOUND;      }
+	    else if(streql(firstArgument, "me"))           {   me(rawCommand);         }
+	    else if(streql(firstArgument, "search"))       {   SEARCHFOR;              }
+        else                                           {   CMDNOTFOUND;            }
         newline();
     }
 }

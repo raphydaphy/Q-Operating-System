@@ -32,26 +32,22 @@ static void __vset_add(set_t* set, element_t e) {
 }
 
 void set_adds(set_t* set, string e) {
-    element_t tmp = makeNullElement();
-    tmp.strdata = e;
+    element_t tmp = makeStrElement(e);
     __vset_add(set, tmp);
 }
 
 void set_addi(set_t* set, int e) {
-    element_t tmp = makeNullElement();
-    tmp.intdata = e;
+    element_t tmp = makeIntElement(e);
     __vset_add(set, tmp);
 }
 
 void set_addf(set_t* set, float e) {
-    element_t tmp = makeNullElement();
-    tmp.floatdata = e;
+    element_t tmp = makeFloatElement(e);
     __vset_add(set, tmp);
 }
 
 void set_addc(set_t* set, char e) {
-    element_t tmp = makeNullElement();
-    tmp.chardata = e;
+    element_t tmp = makeCharElement(e);
     __vset_add(set, tmp);
 }
 
@@ -74,19 +70,19 @@ void set_destroy(set_t* lst) {
 }
 
 string set_gets(set_t lst, uint32 index) {
-    return lst.data[index].strdata;
+    return lst.data[index].udata.strdata;
 }
 
 int set_geti(set_t lst, uint32 index) {
-    return lst.data[index].intdata;
+    return lst.data[index].udata.intdata;
 }
 
 float set_getf(set_t lst, uint32 index) {
-    return lst.data[index].floatdata;
+    return lst.data[index].udata.floatdata;
 }
 
 char set_getc(set_t lst, uint32 index) {
-    return lst.data[index].chardata;
+    return lst.data[index].udata.chardata;
 }
 
 element_t set_remove(set_t* lst, uint32 index) {

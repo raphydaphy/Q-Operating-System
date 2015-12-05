@@ -13,6 +13,8 @@
 #include "inc/math.h"
 #include "inc/list.h"
 
+#include "apps/me/actparse.h"
+
 extern uint32 placement_address;
 
 #define COMMAND_HELP "\nWorking Commands in Q OS: \nwriter\nclear\nexecute\nhi\nskip (the no action)\nfiles\ncat\nsystem\ncalc"
@@ -38,7 +40,16 @@ int kmain(struct multiboot* mboot_ptr)
 	println(PRO_TIP, 0x0F);
 	kbHelp();
 
-	launchShell();
+list_t l = parse("{ intrusion2, entrance,@ (entrance by force or without permission or welcome) }");
+for (uint32 i = 0; i < l.size; i++) {
+    println(list_get(l, i), 0x0F);
+}
+l = parse("{ [ attainment, verb.social:attain,+ ] accomplishment,@ (the act of achieving an aim; \"the attainment of independence\") }");
+for (uint32 i = 0; i < l.size; i++) {
+    println(list_get(l, i), 0x0F);
+}
+list_destroy(&l);
+launchShell();
 
 	return 0;
 }
