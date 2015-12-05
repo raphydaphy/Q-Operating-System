@@ -6,7 +6,7 @@
 
 typedef enum {
     STR, INT, FLT, CHR, NONE
-} stot;
+} etype;
 
 typedef struct {
     union {
@@ -15,7 +15,7 @@ typedef struct {
         float floatdata;
         char chardata;
     } udata;
-    stot ctype;
+    etype ctype;
     int hash;
 } element_t;
 
@@ -25,7 +25,9 @@ typedef struct {
 #define HASH_FLT 3
 #define HASH_CHR 4
 
-bool cmpElement_t(element_t, element_t);
+bool eqlElement_t(element_t, element_t);
+
+int8 cmpElement_t(element_t, element_t);
 
 element_t makeNullElement();
 

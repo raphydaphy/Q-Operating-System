@@ -149,14 +149,14 @@ void list_clear(list_t* lst) {
 
 uint32 list_indexOf(list_t* lst, element_t e) {
     for(uint32 i = 0; i < lst->size; i++) {
-        if (cmpElement_t(lst->data[i], e)) {
+        if (eqlElement_t(lst->data[i], e)) {
             return i;
         }
     }
     return lst->size; // This is a OutOfBounds
 }
 
-bool list_contains(list_t* lst, element_t e) {
+inline bool list_contains(list_t* lst, element_t e) {
     return list_indexOf(lst, e) < (lst->size);
 }
 

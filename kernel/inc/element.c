@@ -1,7 +1,31 @@
 #include "element.h"
 
-inline bool cmpElement_t(element_t a, element_t b) {
-    return a.hash == b.hash; // Yay!
+static inline bool __hashDigit(int v, uint8 type)
+{
+    return ((v % 10) ^ type) == 0;
+}
+
+inline bool eqlElement_t(element_t a, element_t b) {
+    return cmpElement_t(a, b) == 0;
+}
+
+// Compare two element_t's. Should return -1 if
+// a.hash < b.hash, 0 if they are equal or 1 otherwise.
+int8 cmpElement_t(element_t a, element_t b) {
+    if (a.hash == b.hash) return 0;
+    if (__hashDigit(a.hash, HASH_STR) && __hashDigit(b.hash, HASH_STR)) {
+        return a.hash < b.hash ? -1 : 1;
+    }
+    if (__hashDigit(a.hash, HASH_INT) && __hashDigit(b.hash, HASH_INT)) {
+        return a.hash < b.hash ? -1 : 1;
+    }
+    if (__hashDigit(a.hash, HASH_FLT) && __hashDigit(b.hash, HASH_FLT)) {
+        return a.hash < b.hash ? -1 : 1;
+    }
+    if (__hashDigit(a.hash, HASH_CHR) && __hashDigit(b.hash, HASH_CHR)) {
+        return a.hash < b.hash ? -1 : 1;
+    }
+    return 1; // Otherwise assume a.hash > b.hash
 }
 
 element_t makeNullElement() {
