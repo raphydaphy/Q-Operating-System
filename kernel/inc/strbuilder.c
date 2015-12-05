@@ -45,6 +45,18 @@ string strbuilder_substr(strbuilder_t stb, uint32 l, uint32 h) {
     return __vstb_tos(stb, l, h);
 }
 
+inline char strbuilder_head(strbuilder_t stb) {
+    return strbuilder_charAt(stb, 0);
+}
+
+inline char strbuilder_tail(strbuilder_t stb) {
+    return strbuilder_charAt(stb, stb.ilist.size);
+}
+
+inline char strbuilder_charAt(strbuilder_t stb, uint32 i) {
+    return list_getc(stb.ilist, i);
+}
+
 void strbuilder_delete(strbuilder_t* stb, uint32 l, uint32 h) {
     __backupText(stb);
     uint32 dist = abs(h - l);
@@ -71,3 +83,11 @@ uint32 strbuilder_indexOf(strbuilder_t stb, string str) {
     return stb.size;
 }
 
+void strbuilder_trim(strbuilder_t* stb) {
+    __backupText(stb);
+    while(isspace(strbuilder_head(*stb)))
+        strbuilder_delete(stb, 0, 1);
+    while(isspace(strbuilder_tail(*stb)))
+        strbuilder_delete(stb, stb->ilist.size - 1, stb->ilist.size);
+    stb->size = stb->ilist.size;
+}
