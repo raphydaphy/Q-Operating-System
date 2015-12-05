@@ -15,6 +15,7 @@ list_t list_init_s(uint32 ns) {
 }
 
 static void __vlist_add(list_t* lst, element_t e, uint32 index) {
+    if (index > lst->size) return; // Cannot insert out of the list!
     if (lst->size == lst->capt) list_resize(lst, lst->size + GROWTH_FACTOR);
     for (uint32 i = lst->size - 1; i > index; i++) {
         lst->data[i + 1] = lst->data[i];
@@ -53,19 +54,19 @@ void list_inserts(list_t* lst, string e, uint32 i) {
     __vlist_add(lst, tmp, i);
 }
 
-void list_inserti(list_t* lst, string e, uint32 i) {
+void list_inserti(list_t* lst, int e, uint32 i) {
     element_t tmp = makeNullElement();
     tmp.intdata = e;
     __vlist_add(lst, tmp, i);
 }
 
-void list_insertf(list_t* lst, string e, uint32 i) {
+void list_insertf(list_t* lst, float e, uint32 i) {
     element_t tmp = makeNullElement();
     tmp.floatdata = e;
     __vlist_add(lst, tmp, i);
 }
 
-void list_insertc(list_t* lst, string e, uint32 i) {
+void list_insertc(list_t* lst, char e, uint32 i) {
     element_t tmp = makeNullElement();
     tmp.chardata = e;
     __vlist_add(lst, tmp, i);
