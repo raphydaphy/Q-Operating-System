@@ -57,7 +57,6 @@ bool lookup(fs_node_t* fsnode,string searchTerm)
     {
 
         char curCharString[] = { curChar, '\0' };
-        print(curCharString,0x0E);
         curChar = buf[j];
 
         if (streql(curCharString," "))
