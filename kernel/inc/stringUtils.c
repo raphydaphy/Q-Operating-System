@@ -189,6 +189,14 @@ int htoi(string s)
     return msg;
 }
 
+uint32 stoc(string str) {
+    uint32 msg = 0;
+    do
+      msg += abs(*str++);
+    while (*str != 0);
+    return msg;
+}
+
 double stod(string s)
 {
     double fmp = 1;
