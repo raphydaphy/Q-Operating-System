@@ -36,6 +36,8 @@ int stoi(string);
 
 int htoi(string);
 
+uint32 stoc(string);
+
 double stod(string);
 
 string sentenceCase(string);
