@@ -27,3 +27,18 @@ element_t makeNullElement() {
     return tmp;
 }
 
+int generateHash(element_t e) {
+    int tmp = HASH_BAD;
+    if (e.strdata != NULL) {
+        tmp = stoc(e.strdata) * 10 + HASH_STR;
+    } else if (e.intdata != NULL) {
+        tmp = e.intdata * 10 + HASH_INT;
+    } else if (e.floatdata != NULL) {
+        // Floats are converted TWICE!!!
+        tmp = stoc(ftos(e.floatdata)) * 10 + HASH_FLT;
+    } else if (e.chardata != NULL) {
+        tmp = e.chardata * 10 + HASH_CHR;
+    }
+    return tmp;
+}
+
