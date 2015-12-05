@@ -83,7 +83,7 @@ void me(string args) {
                 readStr(birthMonth,128);
                 birthMonth = toUpper(birthMonth);
 
-                if (findInDictionary("me/setup/month.txt",birthMonth))
+                if (findInDictionary("me/setup/month.text",birthMonth))
                 {
                     birthMonthValid = true;
                     print(" Good",0x02);
@@ -103,7 +103,7 @@ void me(string args) {
                 readStr(continent,128);
                 continent = toUpper(continent);
 
-                if (findInDictionary("me/setup/continent.txt",continent))
+                if (findInDictionary("me/setup/continent.text",continent))
                 {
                     continentValid = true;
                     print(" Good",0x02);
@@ -123,7 +123,7 @@ void me(string args) {
                 readStr(country,128);
                 country = toUpper(country);
 
-                if (findInDictionary("me/setup/country.txt",country))
+                if (findInDictionary("me/setup/country.text",country))
                 {
                     countryValid = true;
                     print(" Good",0x02);
@@ -142,7 +142,7 @@ void me(string args) {
                 readStr(state,128);
                 state = toUpper(state);
 
-                if (findInDictionary("me/setup/state.txt",state))
+                if (findInDictionary("me/setup/state.text",state))
                 {
                     stateValid = true;
                     print(" Good",0x02);
