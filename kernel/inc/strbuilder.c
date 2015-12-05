@@ -89,7 +89,7 @@ string strbuilder_delete(strbuilder_t* stb, uint32 l, uint32 h) {
     l = l < h ? l : h; // Make sure l is actually smaller than h
     uint32 i = 0;
     for( ; i < dist; i++) {
-        msg[i] = list_remove(&(stb->ilist), l).chardata;
+        msg[i] = list_remove(&(stb->ilist), l).udata.chardata;
     }
     msg[i] = '\0';
     return msg;

@@ -4,11 +4,19 @@
 #include "stringUtils.h"
 #include "intTypeDefs.h"
 
-typedef union {
-    string strdata;
-    int intdata;
-    float floatdata;
-    char chardata;
+typedef enum {
+    STR, INT, FLT, CHR, NONE
+} stot;
+
+typedef struct {
+    union {
+        string strdata;
+        int intdata;
+        float floatdata;
+        char chardata;
+    } udata;
+    stot ctype;
+    int hash;
 } element_t;
 
 #define HASH_BAD 0
@@ -21,6 +29,16 @@ bool cmpElement_t(element_t, element_t);
 
 element_t makeNullElement();
 
+element_t makeIntElement(int);
+
+element_t makeFloatElement(float);
+
+element_t makeCharElement(char);
+
+element_t makeStrElement(string);
+
 int generateHash(element_t);
+
+void rehash(element_t*);
 
 #endif
