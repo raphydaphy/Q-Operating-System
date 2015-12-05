@@ -189,6 +189,14 @@ int htoi(string s)
     return msg;
 }
 
+uint32 stoc(string str) {
+    uint32 msg = 0;
+    do
+      msg += abs(*str++);
+    while (*str != 0);
+    return msg;
+}
+
 double stod(string s)
 {
     double fmp = 1;
@@ -217,7 +225,7 @@ double stod(string s)
     return msg;
 }
 
-string splitArg(string args, int argc) {//argc is the argument the program needs (argument n)
+string splitArg(string args, int argc) {// argc is the argument the program needs (argument n)
     int i = 0;
     int j = 0;
     int argLoc = 0;
@@ -270,4 +278,3 @@ string toLower(string s) {
     }
     return s;
 }
- 

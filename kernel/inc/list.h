@@ -26,6 +26,17 @@ void list_addf(list_t*, float);
 
 void list_addc(list_t*, char);
 
+#define list_insert(lst, e) \
+    list_inserts(lst, e)
+
+void list_inserts(list_t*, string, uint32);
+
+void list_inserti(list_t*, int, uint32);
+
+void list_insertf(list_t*, float, uint32);
+
+void list_insertc(list_t*, char, uint32);
+
 #define list_get(lst, i) \
     list_gets(lst, i)
 

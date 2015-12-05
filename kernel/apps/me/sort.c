@@ -53,10 +53,18 @@ char *words[10][50] = {
     {   // Interjections
         "ADVERB UNKNOWN"
     },
-    {   // Prepositions
-        "CONJUNCTION UNKNOWN"
+    {   // cONJUNCTIONS
+        "CONJUNCTION UNKNOWN",
+        "CONJUNCTION COMPARISON",
+        "CONJUNCTION CONCESSION",
+        "CONJUNCTION CONDITION",
+        "CONJUNCTION COORDINATING",
+        "CONJUNCTION MANNER",
+        "CONJUNCTION PLACE",
+        "CONJUNCTION REASON",
+        "CONJUNCTION TIME"
     },
-    {   // Conjunctions
+    {   // Prepositions
         "PREPOSITION UNKNOWN"
     },
     {   // Pronouns
@@ -92,9 +100,6 @@ string sort(char* word)
     if (findInDictionary("me/noun/substance.text",word))        { return words[1][20];  }
     if (findInDictionary("me/noun/tops.text",word))             { return words[1][21];  }
 
-    // failing to find the word in any noun sub-categories, look in the main nouns list
-    if (findInDictionary("me/noun/noun.text",word))             { return words[1][0];   }
-
     // try to find the sub-category of the word if we assume it to be a verb
     if (findInDictionary("me/verb/body.text",word))             { return words[2][1];   }
     if (findInDictionary("me/verb/change.text",word))           { return words[2][2];   }
@@ -113,13 +118,24 @@ string sort(char* word)
     if (findInDictionary("me/verb/stative.text",word))          { return words[2][15];  }
     if (findInDictionary("me/verb/weather.text",word))          { return words[2][16];  }
 
-    // failing to find the word in the verb sub-categories, look in the main verbs list
+    // search for the word in all our conjunction lists
+    if (findInDictionary("me/conj/comparison.text",word))       { return words[5][1];   }
+    if (findInDictionary("me/conj/concession.text",word))       { return words[5][2];   }
+    if (findInDictionary("me/conj/condition.text",word))        { return words[5][3];   }
+    if (findInDictionary("me/conj/coordinating.text",word))     { return words[5][4];   }
+    if (findInDictionary("me/conj/manner.text",word))           { return words[5][5];   }
+    if (findInDictionary("me/conj/place.text",word))            { return words[5][6];   }
+    if (findInDictionary("me/conj/reason.text",word))           { return words[5][7];   }\
+    if (findInDictionary("me/conj/time.text",word))             { return words[5][0];   }
+
+    // if the word is not found in any sub category then look in the main lists here
+    if (findInDictionary("me/noun/noun1.text",word))            { return words[1][0];   }
+    if (findInDictionary("me/noun/noun2.text",word))            { return words[1][0];   }
+    if (findInDictionary("me/noun/noun3.text",word))            { return words[1][0];   }
     if (findInDictionary("me/verb/verb.text",word))             { return words[2][0];   }
-
-    // search for our word in the adjective word list
     if (findInDictionary("me/adj/adj.text",word))               { return words[3][0];   }
-
-    
+    if (findInDictionary("me/adv/adv.text",word))               { return words[4][0];   }
+    if (findInDictionary("me/conj/conj.text",word))             { return words[5][0];   }
 
     return words[0][0];
 }
