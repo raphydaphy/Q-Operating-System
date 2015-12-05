@@ -41,6 +41,7 @@ int kmain(struct multiboot* mboot_ptr)
 	kbHelp();
 
 println(parse("{ intrusion2, entrance,@ (entrance by force or without permission or welcome) }"), 0x0F);
+println(parse("{ [ attainment, verb.social:attain,+ ] accomplishment,@ (the act of achieving an aim; \"the attainment of independence\") }"), 0x0F);
 launchShell();
 
 	return 0;
