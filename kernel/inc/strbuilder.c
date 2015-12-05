@@ -60,6 +60,15 @@ void strbuilder_delete(strbuilder_t* stb, uint32 l, uint32 h) {
     stb->size = stb->ilist.size;
 }
 
+inline char strbuilder_head(strbuilder_t stb) {
+    return strbuilder_charAt(stb, 0);
+}
+
+inline char strbuilder_tail(strbuilder_t stb) {
+    // stb.ilist.size should be used in preference
+    return strbuilder_charAt(stb, stb.ilist.size - 1);
+}
+
 void strbuilder_clear(strbuilder_t* stb) {
     __backupText(stb);
     list_clear(&(stb->ilist));
@@ -69,6 +78,15 @@ void strbuilder_clear(strbuilder_t* stb) {
 void strbuilder_destroy(strbuilder_t* stb) {
     list_destroy(&(stb->ilist));
     stb->prevTxt = "";
+    stb->size = stb->ilist.size;
+}
+
+void strbuilder_trim(strbuilder_t* stb) {
+    __backupText(stb);
+    while(isspace(strbuilder_head(*stb)))
+        list_remove(&(stb->ilist), 0);
+    while(isspace(strbuilder_tail(*stb)))
+        list_remove(&(stb->ilist), stb->ilist.size - 1);
     stb->size = stb->ilist.size;
 }
 

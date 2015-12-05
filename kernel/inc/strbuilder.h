@@ -4,6 +4,7 @@
 #include "list.h"
 #include "math.h"
 #include "dynsto.h"
+#include "charUtils.h"
 #include "stringUtils.h"
 
 typedef struct {
@@ -31,11 +32,9 @@ string strbuilder_tostr(strbuilder_t);
 
 string strbuilder_substr(strbuilder_t, uint32, uint32);
 
-#define strbuilder_head(stb) \
-    strbuilder_charAt(stb, 0)
+char strbuilder_head(strbuilder_t);
 
-#define strbuilder_tail(stb) \
-    strbuilder_charAt(stb, stb.size - 1)
+char strbuilder_tail(strbuilder_t);
 
 char strbuilder_charAt(strbuilder_t, uint32);
 
@@ -44,5 +43,7 @@ void strbuilder_delete(strbuilder_t*, uint32, uint32);
 void strbuilder_clear(strbuilder_t*);
 
 void strbuilder_destroy(strbuilder_t*);
+
+void strbuilder_trim(strbuilder_t*);
 
 #endif
