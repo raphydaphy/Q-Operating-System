@@ -13,6 +13,6 @@
 #include "sort.h"
 
 // Main answer function to provide answer to any question in theory
-string answer(char*,short);
+string answer(string, uint8);
 
 #endif
