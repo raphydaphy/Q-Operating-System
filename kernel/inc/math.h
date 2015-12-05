@@ -45,6 +45,18 @@ long floor(double);
 
 double abs(double);
 
+int factorial(int);
+
+long addRange(long, long);
+
+long subRange(long, long);
+
+void swap(long*, long*);
+
+float sin(int ang);
+
+float cos(int ang);
+
 //Chrono function
 int get_update_in_progress_flag();
 unsigned char get_RTC_register(int);

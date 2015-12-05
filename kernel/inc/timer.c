@@ -5,7 +5,7 @@
 
 uint32 tick = 0;
 
-static void timer_callback(registers_t regs)
+static void timer_callback()
 {
     tick++;
     print("Tick: ", 0x0F);

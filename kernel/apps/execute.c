@@ -5,13 +5,13 @@ void execute()
 	print("\ntype>  ", 0x0F);
 	readStr(executeContents, EXECUTESIZE);
 	//Entering ? will allow for the user to see all of the available execute commands. Once the line gets long, we can put them in groups.
-	if(strEql(executeContents,"?")) {
+	if(streql(executeContents,"?")) {
 		//All of the else if statments to follow should have an entry here.
 		print("\n\"repeat\"=>  prints the next line over and over again, forever.", 0x0F);
 		print("\n\"q\"=>  Asks for a Q-Compiler, then does nothing with it.", 0x0F);
 	}
 	// One day this else-if statement will take up thousands of lines (hopefully :D)
-	else if(strEql(executeContents,"repeat"))
+	else if(streql(executeContents,"repeat"))
 	{
 		print("\nrepeat>  ", 0x0F);
 		readStr(executeContents, EXECUTESIZE);
@@ -22,7 +22,7 @@ void execute()
 			print(executeContents, 0x0F);
 		}
 	}
-	else if(strEql(executeContents,"q"))
+	else if(streql(executeContents,"q"))
 	{
 		print("\nQ-Compiler>  ",0x0F);
 		readStr(executeContents, EXECUTESIZE);

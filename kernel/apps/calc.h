@@ -2,6 +2,7 @@
 #define CALC_H
 
 #include "../inc/math.h"
+#include "../inc/list.h"
 #include "../inc/kbDetect.h"
 #include "../inc/byteUtils.h"
 #include "../inc/charUtils.h"
@@ -16,15 +17,15 @@
 // math storage variables
 char calcInput[CALCSIZE + 2]; // For `+0`
 int mathOp[CALCSIZE];
-double tempNum;
-double strNum[CALCSIZE];
-int strNumCount;
+float tempNum;
+float strNum[CALCSIZE];  
+int strNumCount;  
 
 // Initializes the variable map! IMPORTANT!
 void initialize_calc();
 
 // contatination function for the calculator app
-double concat(double, double);
+float concat(float, float);
 
 // main calc() function to run from kernel.c
 void calc(string);

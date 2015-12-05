@@ -8,24 +8,21 @@ int century_register = 0x00;                                // Set by ACPI table
 unsigned char second;
 unsigned char minute;
 unsigned char hour;
-unsigned char day;//Not the day of the week, but day of the month
+unsigned char day; //Not the day of the week, but day of the month
 unsigned char month;
 unsigned int year;
 
 //END CHRONO VARIABLES
 
-double powerOfTen(int num){
-   double rst = 1.0;
-   if(num >= 0){
-       for(int i = 0; i < num ; i++){
-           rst *= 10.0;
-       }
-   }else{
-       for(int i = 0; i < (0 - num ); i++){
-           rst *= 0.1;
-       }
-   }
-   return rst;
+double powerOfTen(int num) {
+    double rst = 1.0;
+    if(num >= 0) {
+        while(num-- > 0) rst *= 10;
+    } else {
+        num = -num;
+        while(num--) rst *= 0.1;
+    }
+    return rst;
 }
 
 //double pow(double num, double){
@@ -97,6 +94,122 @@ double sqrt(double a)
      return rst;
 }
 
+int factorial(int num) {
+    int acc = 1;
+    while(num > 1) {
+        acc *= num;
+        num--;
+    }
+    return acc;
+}
+
+// sine
+// added by telip007
+
+float sin(int ang)
+{
+  
+    // convert gradiant in to radiant 
+    
+    float angrad = PI / 180 * ang;
+    
+    int angf3 = factorial(3);
+    int angf5 = factorial(5);
+    int angf7 = factorial(7);
+    int angf9 = factorial(9);
+    int angf11 = factorial(11);
+    int angf13 = factorial(13);
+    int angf15 = factorial(15);
+    
+    float ang3 = angrad * angrad * angrad;
+    float ang5 = ang3 * angrad * angrad;
+    float ang7 = ang5 * angrad * angrad;
+    float ang9 = ang7 * angrad * angrad;
+    float ang11 = ang9 * angrad * angrad;
+    float ang13 = ang11 * angrad * angrad;
+    float ang15 = ang13 * angrad * angrad;
+    
+    float ang33 = ang3 / angf3;
+    float ang55 = ang5 / angf5;
+    float ang77 = ang7 / angf7;
+    float ang99 = ang9 / angf9;
+    float ang111 = ang11 / angf11;
+    float ang133 = ang13 / angf13;
+    float ang155 = ang15 / angf15;
+    
+    // taylor series
+    
+    float sin = angrad - ang33 + ang55 - ang77 + ang99 - ang111 + ang133 - ang155;
+   
+    return sin;
+}
+
+
+// cosine
+// added by telip007
+
+float cos(int ang)
+{
+  
+    // convert gradiant in to radiant 
+    
+    float angrad = PI / 180 * ang;
+    
+    int angf2 = factorial(2);
+    int angf4 = factorial(4);
+    int angf6 = factorial(6);
+    int angf8 = factorial(8);
+    int angf10 = factorial(10);
+    int angf12 = factorial(12);
+    int angf14 = factorial(14);
+    
+    float ang2 = angrad * angrad;
+    float ang4 = ang2 * angrad * angrad;
+    float ang6 = ang4 * angrad * angrad;
+    float ang8 = ang6 * angrad * angrad;
+    float ang10 = ang8 * angrad * angrad;
+    float ang12 = ang10 * angrad * angrad;
+    float ang14 = ang12 * angrad * angrad;
+    
+    float ang22 = ang2 / angf2;
+    float ang44 = ang4 / angf4;
+    float ang66 = ang6 / angf6;
+    float ang88 = ang8 / angf8;
+    float ang101 = ang10 / angf10;
+    float ang122 = ang12 / angf12;
+    float ang144 = ang14 / angf14;
+    
+    // taylor series
+    
+    float cos = 1 - ang22 + ang44 - ang66 + ang88 - ang101 + ang122 - ang144;
+   
+    return cos;
+}
+
+
+
+#define AR_THERSOLD 1024
+long addRange(long l, long h) {
+    if (h < l) swap(&l, &h);
+    if ((h - l) >= AR_THERSOLD) return (h * (h + 1) / 2) - ((l - 1) * l / 2);
+    long acc = 0;
+    while(h >= l) {
+        acc += h;
+        h--;
+    }
+    return acc;
+}
+
+long subRange(long l, long h) {
+    return (addRange(l + 1, h) - l) * -1;
+}
+
+void swap(long* a, long* b) {
+    *a ^= *b;
+    *b ^= *a;
+    *a ^= *b;
+}
+
 long round(double num)
 {
     long res = (long) num;
@@ -123,6 +236,8 @@ double abs(double num)
     if (num < 0) return -num;
     return num;
 }
+
+
 
 //CHRONO FUNCTIONS
 uint8 in_byte (uint16 _port)
@@ -232,28 +347,20 @@ void read_rtc() {
       }
 }
 
-int getTime(string args){
-  read_rtc();
-  if(strEql(args,"year"))
-  {
-     return year;
-  }else if(strEql(args,"month"))
-  {
-     return (int)month;
-  }else if(strEql(args,"day"))
-  {
+int getTime(string args) {
+    read_rtc();
+    if(streql(args, "year"))
+        return year;
+    else if(streql(args, "month"))
+        return (int)month;
+    else if(streql(args, "day"))
      return (int)day;
-  }else if(strEql(args,"hour"))
-  {
-     return (int)hour;
-  }else if(strEql(args,"minute"))
-  {
-     return (int)minute;
-  }else if(strEql(args,"second"))
-  {
-     return (int)second;
-  }else{
-  	return -1;
-  }
+    else if(streql(args, "hour"))
+        return (int)hour;
+    else if(streql(args, "minute"))
+        return (int)minute;
+    else if(streql(args, "second"))
+        return (int)second;
+    else return -1;
 }
 //END CHRONO FUNCTIONS

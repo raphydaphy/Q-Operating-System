@@ -6,12 +6,12 @@ ASMFLAGS:=-f elf32
 
 #C compiler
 CC:=gcc
-#C coompiler flags
+#C compiler flags
 WARNINGS:=-Wall -Wextra #-pedantic -Wshadow -Wpointer-arith -Wcast-align \
             #-Wwrite-strings -Wmissing-prototypes -Wmissing-declarations \
             #-Wredundant-decls -Wnested-externs -Winline -Wno-long-long \
-            #-Wuninitialized -Wconversion -Wstrict-prototypes
-CFLAGS:=-m32 -ffreestanding -std=c99 $(WARNINGS)
+            #-Wuninitialized -Wconversion -Wstrict-prototypes -Werror
+CFLAGS:=-m32 -ffreestanding -std=c99 -Werror -pedantic $(WARNINGS)
 #object file directory
 
 ODIR:=kernel/o

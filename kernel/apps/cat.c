@@ -1,6 +1,15 @@
 #include "cat.h"
 
-void cat(fs_node_t* fsnode)
+void cat(string args)
+{
+    string fileName = splitArg(args, 1);
+
+    ASSERT(strlen(fileName) < MAX_FNAME_LEN);
+    catTheFile(finddir_fs(fs_root, fileName));
+}
+
+
+void catTheFile(fs_node_t* fsnode)
 {
     newline();
     if ((fsnode->flags & 0x7) == FS_FILE)
@@ -15,14 +24,25 @@ void cat(fs_node_t* fsnode)
     }
 }
 
-bool findInDictionary(fs_node_t* fsnode,int dictionaryLength,string searchTerm)
+bool findInDictionary(string dictionary,string searchWord)
 {
-  newline();
+    ASSERT(strlen(dictionary) < MAX_FNAME_LEN);
+    if (lookup(finddir_fs(fs_root, dictionary),searchWord))
+    {
+        return true;
+    }
+    else
+    {
+        return false;
+    }
+}
+
+bool lookup(fs_node_t* fsnode,string searchTerm)
+{
   searchTerm = toUpper(searchTerm);
 
   // Current letter and word that we are analyzing
   char curChar;
-  int curCharInt;
 
   if ((fsnode->flags & 0x7) == FS_FILE)
   {
@@ -31,26 +51,20 @@ bool findInDictionary(fs_node_t* fsnode,int dictionaryLength,string searchTerm)
     uint32 sz = read_fs(fsnode, 0, rbuff, (uint8*) buf);
     uint32 j;
 
-    string curWord = kmalloc((4 + 5 + 1) * sizeof(char));
+    string curWord = (string) kmalloc(10 * sizeof(char));
 
     for (j = 0; j < sz; j++)
     {
         char curCharString[] = { curChar, '\0' };
         curChar = buf[j];
-        curCharInt = curChar;
 
-        if (strEql(curCharString," "))
+        if (streql(curCharString," "))
         {
-            print(" ",0x0F);
-            if (strEql(curWord,searchTerm))
+            if (streql(curWord,searchTerm))
             {
-                print(curWord,0x09);
+                return true;
             }
-            else
-            {
-                print(curWord,0x0A);
-            }
-            memset(curWord, '\0', dictionaryLength);
+            memset(curWord, '\0', 128);
         }
         else
         {
@@ -58,5 +72,5 @@ bool findInDictionary(fs_node_t* fsnode,int dictionaryLength,string searchTerm)
         }
     }
   }
-  newline();
+  return false;
 }
