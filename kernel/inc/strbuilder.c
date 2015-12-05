@@ -50,7 +50,8 @@ inline char strbuilder_head(strbuilder_t stb) {
 }
 
 inline char strbuilder_tail(strbuilder_t stb) {
-    return strbuilder_charAt(stb, stb.ilist.size);
+    // Use stb.ilist.size because it is more accurate
+    return strbuilder_charAt(stb, stb.ilist.size - 1);
 }
 
 inline char strbuilder_charAt(strbuilder_t stb, uint32 i) {
