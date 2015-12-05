@@ -97,10 +97,19 @@ void test(string args) {
     }
     else if(streql(args, " -strb"))
     {
+        static const string bak = "Hello, world ";
+        static const uint32 bln = 13;
         strbuilder_t test_strb = strbuilder_init();
-        strbuilder_append(&test_strb, "Hello, world ");
+
+        strbuilder_append(&test_strb, bak);
         strbuilder_append(&test_strb, "Hello, 2nd world");
+        println("\nTesting backup text. Output should 1", 0x0F);
+        printint(streql(bak, test_strb.prevTxt), 0x0F);
         println("\nOutput should be \"Hello, world Hello, 2nd world\"", 0x0F);
+        println(strbuilder_tostr(test_strb), 0x0F);
+        println("\nRemoving greeters from first world", 0x0F);
+        strbuilder_delete(&test_strb, 0, bln);
+        println("\nOutput should be \"Hello, 2nd world\"", 0x0F);
         println(strbuilder_tostr(test_strb), 0x0F);
     }
     else if(streql(args," -y"))
