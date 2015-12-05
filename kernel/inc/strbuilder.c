@@ -24,6 +24,18 @@ void strbuilder_appends(strbuilder_t* stb, string str) {
     while (*str != 0);
 }
 
+void strbuilder_inserts(strbuilder_t* stb, string str, uint32 index) {
+    __backupText(stb);
+    do
+        list_insertc(&(stb->ilist), *str++, index++);
+    while (*str != 0);
+}
+
+void strbuilder_insertc(strbuilder_t* stb, char c, uint32 index) {
+    __backupText(stb);
+    list_insertc(&(stb->ilist), c, index);
+}
+
 static string __vstb_tos(strbuilder_t stb, uint32 l, uint32 h) {
     uint32 strlen = abs(h - l);
     if (strlen > stb.ilist.size) return NULL;
