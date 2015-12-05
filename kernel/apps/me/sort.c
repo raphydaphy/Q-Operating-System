@@ -119,7 +119,13 @@ string sort(char* word)
     else if (findInDictionary("me/verb/verb.text",word))             { return words[2][0];   }
 
     // search for our word in the adjective word list
-    if (findInDictionary("me/adj/adj.text",word))               { return words[3][0];   }
+    if (findInDictionary("me/adj/adj.text",word))                    { return words[3][0];   }
+
+    // search for our word in the adverbs word list
+    if (findInDictionary("me/adv/adv.text",word))                    { return words[4][0];   }
+
+    // search for the word in our conjunctions list
+    if (findInDictionary("me/conj/conj.text",word))                  { return words[3][0];   }
 
 
 
