@@ -51,13 +51,13 @@ char *words[10][50] = {
         "ADJECTIVE UNKNOWN"
     },
     {   // Interjections
-        "INTERJECTION UNKNOWN"
+        "ADVERB UNKNOWN"
     },
     {   // Prepositions
-        "PREPOSITION UNKNOWN"
+        "CONJUNCTION UNKNOWN"
     },
     {   // Conjunctions
-        "CONJUNCTION UNKNOWN"
+        "PREPOSITION UNKNOWN"
     },
     {   // Pronouns
         "PRONOUN UNKNOWN"
@@ -116,6 +116,10 @@ string sort(char* word)
     // failing to find the word in the verb sub-categories, look in the main verbs list
     if (findInDictionary("me/verb/verb.text",word))             { return words[2][0];   }
 
+    // search for our word in the adjective word list
+    if (findInDictionary("me/adj/adj.text",word))               { return words[3][0];   }
+
+    
 
     return words[0][0];
 }
