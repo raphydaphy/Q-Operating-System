@@ -27,6 +27,8 @@ void strbuilder_appends(strbuilder_t*, string);
 
 string strbuilder_tostr(strbuilder_t);
 
+void strbuilder_clear(strbuilder_t*);
+
 void strbuilder_destroy(strbuilder_t*);
 
 #endif

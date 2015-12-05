@@ -98,8 +98,11 @@ void test(string args) {
     else if(streql(args, " -strb"))
     {
         strbuilder_t test_strb = strbuilder_init();
-        strbuilder_append(&test_strb, "Hello, world ");
+        static const string bak = "Hello, world ";
+        strbuilder_append(&test_strb, bak);
         strbuilder_append(&test_strb, "Hello, 2nd world");
+        println("\nTesting backup text. Output should 1", 0x0F);
+        printint(streql(bak, test_strb.prevTxt), 0x0F);
         println("\nOutput should be \"Hello, world Hello, 2nd world\"", 0x0F);
         println(strbuilder_tostr(test_strb), 0x0F);
     }
