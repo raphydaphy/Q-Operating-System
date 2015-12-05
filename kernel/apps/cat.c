@@ -55,7 +55,7 @@ bool lookup(fs_node_t* fsnode,string searchTerm)
 
     for (j = 0; j < sz; j++)
     {
-        print("\nNum: ",0x0D);
+        print(" ",0x0D);
         printint(j,0x0F);
         char curCharString[] = { curChar, '\0' };
         curChar = buf[j];
