@@ -20,7 +20,7 @@ void launchShell() {
     #define BIGHELP kbHelp(); TIP; HELP;
     #define SYSTEMMAN system(list_get(arguments,1));
     #define SAYHI print("\nHello!", 0x3F);
-    #define CATFILE print("\nFile Name>  ", 0x0F); readStr(rawCommand, BUFSIZE); ASSERT(strlength(rawCommand) < MAX_FNAME_LEN); cat(finddir_fs(fs_root, rawCommand));
+    #define CATFILE print("\nFile Name>  ", 0x0F); readStr(rawCommand, BUFSIZE); ASSERT(strlen(rawCommand) < MAX_FNAME_LEN); cat(finddir_fs(fs_root, rawCommand));
     #define SWITCHDIR print("\nThe specified directory was not found ", 0x0F);
     #define BIGCLEAR clearScreen(); printIntro();
     #define MKDIR print("\nThis Command is Reserved for when we have a FAT32 or better FileSystem...", 0x3F);
@@ -39,16 +39,17 @@ void launchShell() {
         typingCmd = false;
 		newline();
 
-        if (strlength(rawCommand) == 0)        {   HELP;             }
+        if (strlen(rawCommand) == 0)        {   HELP;             }
 
-		rawCommand += ' ';;
+		rawCommand += ' ';
 
         bool wordStarted = false;
         string tempArgument = "";
-        for(uint8 i = 0; i < strlength(rawCommand); i++){
+        for(uint8 i = 0; i < strlen(rawCommand); i++){
 			printint(i, 0x0F);
             if(isspace(rawCommand[i])){
                 if(wordStarted){
+				    println(tempArgument, 0x0F);
                     list_add(&arguments, tempArgument);
                     wordStarted = false;
                     tempArgument = "";
@@ -56,7 +57,7 @@ void launchShell() {
             }else{
                 wordStarted = true;
                 tempArgument += rawCommand[i];
-				println(tempArgument, 0x0F);
+				//println(tempArgument, 0x0F);
             }
         }
         //list_shrink(&arguments);
@@ -68,23 +69,23 @@ void launchShell() {
         }*/
 
         string firstArgument = list_gets(arguments,0);
-        if(strEql(firstArgument, "help"))         {   BIGHELP;          }
-        else if(strEql(firstArgument, "system"))       {   system(list_get(arguments,1));  }
-        else if(strEql(firstArgument, "skip"))         {   SKIP;             }
-        else if(strEql(firstArgument, "hi"))           {   SAYHI;            }
-        else if(strEql(firstArgument, "files"))        {   FILEMAN;          }
-        else if(strEql(firstArgument, "cat"))          {   CATFILE			 }
-        else if(strEql(firstArgument,"execute"))       {   execute();        }
-        else if(strEql(firstArgument,"switch"))        {   SWITCHDIR;        }
-        else if(strEql(firstArgument,"writer"))        {   WRITE;            }
-        else if(strEql(firstArgument, "calc"))         {   calc(list_get(arguments,1));  }
-        else if(strEql(firstArgument, "clear"))        {   clearScreen();    }
-        else if(strEql(firstArgument, "clear -i"))     {   BIGCLEAR;         }
-        else if(strEql(firstArgument, "test"))         {   test(list_get(arguments,1));  }
-        else if(strEql(firstArgument, "newdir"))       {   MKDIR;            }
-        else if(strEql(firstArgument, "erase"))        {   RMFILE;           }
-	    else if(strEql(firstArgument, "me"))           {   ME;               }
-	    else if(strEql(firstArgument, "search"))
+        if(streql(firstArgument, "help"))         {   BIGHELP;          }
+        else if(streql(firstArgument, "system"))       {   system(list_get(arguments,1));  }
+        else if(streql(firstArgument, "skip"))         {   SKIP;             }
+        else if(streql(firstArgument, "hi"))           {   SAYHI;            }
+        else if(streql(firstArgument, "files"))        {   FILEMAN;          }
+        else if(streql(firstArgument, "cat"))          {   CATFILE			 }
+        else if(streql(firstArgument,"execute"))       {   execute();        }
+        else if(streql(firstArgument,"switch"))        {   SWITCHDIR;        }
+        else if(streql(firstArgument,"writer"))        {   WRITE;            }
+        else if(streql(firstArgument, "calc"))         {   calc(list_get(arguments,1));  }
+        else if(streql(firstArgument, "clear"))        {   clearScreen();    }
+        else if(streql(firstArgument, "clear -i"))     {   BIGCLEAR;         }
+        else if(streql(firstArgument, "test"))         {   test(list_get(arguments,1));  }
+        else if(streql(firstArgument, "newdir"))       {   MKDIR;            }
+        else if(streql(firstArgument, "erase"))        {   RMFILE;           }
+	    else if(streql(firstArgument, "me"))           {   ME;               }
+	    else if(streql(firstArgument, "search"))
 	    {
             string searchTerm = (string) kmalloc(BUFSIZE * sizeof(char));
 
