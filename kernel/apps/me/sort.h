@@ -5,10 +5,7 @@
 #include "../../inc/intTypeDefs.h"
 #include "../../inc/stringUtils.h"
 #include "../../inc/screenUtils.h"
-
-// Me Data Libraries
-#include "noun.h"
-#include "verb.h"
+#include "../cat.h"
 
 // give this function a word and it will potentially tell you what kind of word it is in detail
 // for example, "puppy" returns 1.2 which indicates a "noun" about "animals"

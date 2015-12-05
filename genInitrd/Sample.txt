@@ -1,2 +1,1 @@
-You should be able to `cat` this file.
-Or not...
+THIS IS THE SAMPLE TEXT FILE FOR Q OS PLEASE APPRECIATE IT FOR ITS AMAZINGNESS!
