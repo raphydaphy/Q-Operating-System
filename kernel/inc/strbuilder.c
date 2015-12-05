@@ -31,9 +31,10 @@ static string __vstb_tos(strbuilder_t stb, uint32 l, uint32 h) {
     uint32 strlen = abs(h - l);
     if (strlen > stb.ilist.size) return NULL;
     string msg = (string) kmalloc((strlen) * sizeof(char));
+    l = l < h ? l : h; // Make sure l is actually smaller than h
     uint32 i = 0;
     for(i = 0; i < strlen; i++) {
-        msg[i] = list_getc(stb.ilist, i);
+        msg[i] = list_getc(stb.ilist, i + l);
     }
     msg[i] = '\0'; // Strings are null terminated!
     return msg;
@@ -88,5 +89,13 @@ void strbuilder_trim(strbuilder_t* stb) {
     while(isspace(strbuilder_tail(*stb)))
         list_remove(&(stb->ilist), stb->ilist.size - 1);
     stb->size = stb->ilist.size;
+}
+
+uint32 strbuilder_indexOf(strbuilder_t stb, string str) {
+    uint32 tstrlen = strlen(str);
+    for(uint32 i = 0; (i + tstrlen) < stb.size; i++) {
+        if (streql(str, strbuilder_substr(stb, i, i + tstrlen))) return i;
+    }
+    return stb.size;
 }
 

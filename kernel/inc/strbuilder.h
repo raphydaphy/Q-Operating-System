@@ -46,4 +46,6 @@ void strbuilder_destroy(strbuilder_t*);
 
 void strbuilder_trim(strbuilder_t*);
 
+uint32 strbuilder_indexOf(strbuilder_t, string);
+
 #endif

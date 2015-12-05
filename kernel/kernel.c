@@ -39,8 +39,9 @@ int kmain(struct multiboot* mboot_ptr)
 
 	println(PRO_TIP, 0x0F);
 	kbHelp();
+
 println(parse("{ intrusion2, entrance,@ (entrance by force or without permission or welcome) }"), 0x0F);
-//	launchShell();
+launchShell();
 
 	return 0;
 }

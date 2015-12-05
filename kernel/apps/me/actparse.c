@@ -9,6 +9,10 @@ string parse(string input) {
         strbuilder_delete(&stb, 0, 1);
         strbuilder_delete(&stb, stb.size - 1, stb.size);
         strbuilder_trim(&stb);
+
+        uint32 spi = strbuilder_indexOf(stb, ",@"); // We will keep everything before this index
+        strbuilder_delete(&stb, spi, stb.size);
+        strbuilder_trim(&stb);
     } else return "";
     return strbuilder_tostr(stb);
 }
