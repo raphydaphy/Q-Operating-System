@@ -8,6 +8,7 @@
 
 typedef struct {
     string prevTxt; // like a backup...
+    uint32 size; // Should be same as ilist.size
     list_t ilist; // list_t is the internal engine!
 } strbuilder_t;
 
@@ -29,6 +30,14 @@ void strbuilder_appends(strbuilder_t*, string);
 string strbuilder_tostr(strbuilder_t);
 
 string strbuilder_substr(strbuilder_t, uint32, uint32);
+
+#define strbuilder_head(stb) \
+    strbuilder_charAt(stb, 0)
+
+#define strbuilder_tail(stb) \
+    strbuilder_charAt(stb, stb.size - 1)
+
+char strbuilder_charAt(strbuilder_t, uint32);
 
 void strbuilder_delete(strbuilder_t*, uint32, uint32);
 
