@@ -49,7 +49,7 @@ inline float etof(element_t e) {
 }
 
 inline char etoc(element_t e) {
-    if (c.ctype == CHR)
+    if (e.ctype == CHR)
         return e.udata.chardata;
     return '\0';
 }
