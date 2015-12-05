@@ -11,6 +11,6 @@
 // for example, "puppy" returns 1.2 which indicates a "noun" about "animals"
 // for more information on all the return values for this function have a look at the wiki
 // link: https://github.com/raphydaphy/Q-Operating-System/wiki/Me
-double sort(char*);
+string sort(char*);
 
 #endif

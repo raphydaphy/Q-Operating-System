@@ -1,21 +1,25 @@
 #include "sort.h"
 
-double sort(char* word)
+// This enum holds all the main categories of words that can be returned from this function
+//typedef enum {UNKNOWN,NOUN,VERB,ADJECTIVE,ADVERB,INTERJECTION,PREOPSITION,CONJUNCTION,PRONOUN} words;
+
+char *words[] = {
+    "UNKNOWN",
+    "NOUN",
+    "VERB",
+    "ADJETIVE",
+    "INTERJECTION",
+    "PREPOSITION",
+    "CONJUNCTION",
+    "PRONOUN"
+};
+
+// These enum types hold the sub-categories for each main type of word
+//typedef enum {ACT,ANIMAL,ARTIFACT,ATTRIBUTE,BODY,COGNITION,COMMUNICATION,EVENT,FEELING,FOOD,GROUP,LOCATION,MOTIVE,OBJECT,PERSON,QUANTITY,RELATION,SHAPE,STATE,SUBSTANCE,TIME,TOPS} noun;
+//typedef enum {BODY,CHANGE,COGNITION,COMMUNICATION,COMPETITION,CONSUMPTION,CONTACT,CREATION,EMOTION,FRAMESTEXT,MOTION,PERCEPTION,POSSESSION,SOCIAL,STATIVE,WEATHER} verb;
+
+string sort(char* word)
 {
-    // Here are the basic category numbers, for more information look on the Q OS Wiki for Me
-    // Link: https://github.com/raphydaphy/Q-Operating-System/wiki/Me
-
-    // 0 = unknown                      The kind of this word is unknown or unspecified
-    // 1 = noun                         A noun is a person, place, thing, quality or act word
-    // 2 = verb                         Verbs are action/existence words that say what a noun does
-    // 3 = adjective                    An adjective is a word that describes a noun
-    // 4 = Adverb                       An adverb descries a verb, adjective or adverb. It often ends in 'ly'
-    // 5 = Interjection                 An interjection is an outcry/ sudden utterance. Usally the start of a sentence
-    // 6 = Preposition                  A preposition describes the relationship between a noun and another noun (can also be verb/adverb)
-    // 7 = Conjunction                  A conjunction is a word that joins together multiple thoughts
-    // 8 = Pronoun                      A pronoun replaces a noun/noun phase that is understood from context
-
-    double type = 0;
 
     // turn the word into uppercase for easier sorting
     word = toUpper(word);
@@ -24,33 +28,29 @@ double sort(char* word)
     {
         print(" Noun ",0x0B);
         print(" Act ",0x0C);
-        type = 1.1;
-        return 1.1;
+        return words[1];
     }
 
     if (findInDictionary("me/noun/animal.txt",word))
     {
         print(" Noun ",0x0B);
         print(" Animal ",0x0C);
-        type = 1.2;
-        return 1.2;
+        return words[1];
     }
 
     if (findInDictionary("me/noun/artifact.txt",word))
     {
         print(" Noun ",0x0B);
         print(" Artifact ",0x0C);
-        type = 1.3;
-        return 1.3;
+        return words[1];
     }
 
     if (findInDictionary("me/verb/verb.txt",word))
     {
         print(" Verb ",0x0B);
-        type = 2.0;
-        return 2.0;
+        return words[2];
     }
 
 
-    return type;
+    return words[0];
 }

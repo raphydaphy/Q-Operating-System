@@ -199,12 +199,7 @@ void me(string args) {
             }
             else
             {
-                newline();
-                printint(tmp,0x0A);
-                print(" : ",0x0B);
-                print(curWord,0x0A);
-                print(" : ",0x0B);
-                sort(splitArg(args, tmp));
+                print(sort(splitArg(args, tmp)),0x0D);
 
             }
         }
