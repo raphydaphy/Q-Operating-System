@@ -15,13 +15,15 @@ bool stateValid = false;
 bool cityValid = false;
 bool zipValid = false;
 
+bool querying = false;
+
 void me(string args) {
-    if (streql(splitArg(args, 1), "setup") || !hasSetup)
+    if (!hasSetup)
     {
-        if (streql(splitArg(args, 2), "skip") && !hasSetup)
+        if (streql(splitArg(args, 1), "test") && !hasSetup)
         {
             hasSetup = true;
-            print("\nYou have skipped the Me setup process, some answers may be strange :D",0x06);
+            print("\nYou have skipped the Me setup process.",0x06);
         }
         else if (!hasSetup)
         {
@@ -183,25 +185,25 @@ void me(string args) {
             print("\nYou have already completed the setup process for Me!",0x05);
         }
     }
+    else if (streql(splitArg(args, 1),""))
+    {
+        querying = true;
+        char* meArgs;
+
+        while (querying)
+        {
+            newline();
+
+            meArgs = "";
+
+            print("question>  ",0x0F);
+            readStr(meArgs,128);
+
+            print(answer(meArgs,0),0x04);
+        }
+    }
     else
     {
-        bool over = false;
-        int tmp = 0;
-        while (!over)
-        {
-            tmp++;
-
-            if (streql(splitArg(args, tmp),""))
-            {
-                over = true;
-            }
-            else
-            {
-                newline();
-                print(splitArg(args, tmp),0x0D);
-                print(" : ",0x0C);
-                print(sort(splitArg(args, tmp)),0x0D);
-            }
-        }
+        answer(args,1);
     }
 }

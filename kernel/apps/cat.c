@@ -46,15 +46,16 @@ bool lookup(fs_node_t* fsnode,string searchTerm)
 
   if ((fsnode->flags & 0x7) == FS_FILE)
   {
-    const uint32 rbuff = fsnode->length;
+    const uint64 rbuff = fsnode->length;
     char buf[rbuff];
-    uint32 sz = read_fs(fsnode, 0, rbuff, (uint8*) buf);
-    uint32 j;
+    uint64 sz = read_fs(fsnode, 0, rbuff, (uint8*) buf);
+    uint64 j;
 
     string curWord = (string) kmalloc(10 * sizeof(char));
 
     for (j = 0; j < sz; j++)
     {
+
         char curCharString[] = { curChar, '\0' };
         curChar = buf[j];
 

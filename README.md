@@ -82,7 +82,7 @@ The first time you run this command, `Me` will start the setup process. This is 
 
 If you want to try using `Me` without going through the (relativly short) setup process, you can do so by entering some quick arguments on the end of the `me` command.
 
-    me setup skip
+    me test
 
 This will result in some less accurate answers since they depend on the setup process but allows you to quickly test `Me` if you are in a hurry or don't want to give `Me` your personal information.
 
