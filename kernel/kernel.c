@@ -40,8 +40,15 @@ int kmain(struct multiboot* mboot_ptr)
 	println(PRO_TIP, 0x0F);
 	kbHelp();
 
-println(parse("{ intrusion2, entrance,@ (entrance by force or without permission or welcome) }"), 0x0F);
-println(parse("{ [ attainment, verb.social:attain,+ ] accomplishment,@ (the act of achieving an aim; \"the attainment of independence\") }"), 0x0F);
+list_t l = parse("{ intrusion2, entrance,@ (entrance by force or without permission or welcome) }");
+for (uint32 i = 0; i < l.size; i++) {
+    println(list_get(l, i), 0x0F);
+}
+l = parse("{ [ attainment, verb.social:attain,+ ] accomplishment,@ (the act of achieving an aim; \"the attainment of independence\") }");
+for (uint32 i = 0; i < l.size; i++) {
+    println(list_get(l, i), 0x0F);
+}
+list_destroy(&l);
 launchShell();
 
 	return 0;

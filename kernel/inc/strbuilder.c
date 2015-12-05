@@ -58,12 +58,17 @@ inline char strbuilder_charAt(strbuilder_t stb, uint32 i) {
     return list_getc(stb.ilist, i);
 }
 
-void strbuilder_delete(strbuilder_t* stb, uint32 l, uint32 h) {
+string strbuilder_delete(strbuilder_t* stb, uint32 l, uint32 h) {
     __backupText(stb);
     uint32 dist = abs(h - l);
-    while(dist-- > 0) {
-        list_remove(&(stb->ilist), l);
+    string msg = (string) kmalloc(dist * sizeof(char));
+    l = l < h ? l : h; // Make sure l is actually smaller than h
+    uint32 i = 0;
+    for( ; i < dist; i++) {
+        msg[i] = list_remove(&(stb->ilist), l).chardata;
     }
+    msg[i] = '\0';
+    return msg;
 }
 
 void strbuilder_clear(strbuilder_t* stb) {

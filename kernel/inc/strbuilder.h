@@ -38,7 +38,7 @@ char strbuilder_tail(strbuilder_t);
 
 char strbuilder_charAt(strbuilder_t, uint32);
 
-void strbuilder_delete(strbuilder_t*, uint32, uint32);
+string strbuilder_delete(strbuilder_t*, uint32, uint32);
 
 void strbuilder_clear(strbuilder_t*);
 
