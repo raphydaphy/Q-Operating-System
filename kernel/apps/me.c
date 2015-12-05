@@ -185,30 +185,18 @@ void me(string args) {
     }
     else if (streql(splitArg(args, 1),""))
     {
-        print(" ITS GO TIME!!!!!!!!!!!!!!!!!!!!!! ",0x0E);
+        while (true)
+        {
+            string meArgs = "";
+            print("\n>  ",0x08);
+            readStr(meArgs,5012);
+            answer(meArgs);
+        }
     }
     else
     {
-        bool over = false;
-        int tmp = 0;
-
-        newline();
-
-        while (!over)
-        {
-            tmp++;
-
-            if (streql(splitArg(args, tmp),""))
-            {
-                over = true;
-            }
-            else
-            {
-                print(" | ",0x0A);
-                print(toUpper(splitArg(args, tmp)),0x0D);
-                print(" ",0x0D);
-                print(sort(splitArg(args, tmp)),0x0D);
-            }
-        }
+        string meArgs = "";
+        readStr(meArgs,5012);
+        answer(meArgs);
     }
 }
