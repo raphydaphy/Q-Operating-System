@@ -187,6 +187,9 @@ void me(string args) {
     {
         bool over = false;
         int tmp = 0;
+
+        newline();
+
         while (!over)
         {
             tmp++;
@@ -197,9 +200,9 @@ void me(string args) {
             }
             else
             {
-                newline();
-                print(splitArg(args, tmp),0x0D);
-                print(" : ",0x0C);
+                print(" | ",0x0A);
+                print(toUpper(splitArg(args, tmp)),0x0D);
+                print(" ",0x0D);
                 print(sort(splitArg(args, tmp)),0x0D);
             }
         }
