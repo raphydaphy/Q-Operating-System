@@ -4,12 +4,10 @@
 #include "list.h"
 #include "math.h"
 #include "dynsto.h"
-#include "charUtils.h"
 #include "stringUtils.h"
 
 typedef struct {
     string prevTxt; // like a backup...
-    uint32 size; // Should be same as ilist.size
     list_t ilist; // list_t is the internal engine!
 } strbuilder_t;
 
@@ -31,12 +29,6 @@ void strbuilder_appends(strbuilder_t*, string);
 string strbuilder_tostr(strbuilder_t);
 
 string strbuilder_substr(strbuilder_t, uint32, uint32);
-
-char strbuilder_head(strbuilder_t);
-
-char strbuilder_tail(strbuilder_t);
-
-char strbuilder_charAt(strbuilder_t, uint32);
 
 void strbuilder_delete(strbuilder_t*, uint32, uint32);
 
