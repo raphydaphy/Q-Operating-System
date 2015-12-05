@@ -12,7 +12,7 @@ void printIntro() {
 void launchShell() {
     initialize_calc();
 
-    string rawCommand;//Gets user raw command from command line
+    string rawCommand = "";//Gets user raw command from command line
     list_t arguments = list_init();//Store command arguments
 
     #define TIP print("\nTip: If enter key does not work, it might mean that the input is too long",0x0F);
@@ -41,13 +41,15 @@ void launchShell() {
 
         if (strlen(rawCommand) == 0)        {   HELP;             }
 
-		rawCommand += ' ';
-
         bool wordStarted = false;
         string tempArgument = "";
         for(uint8 i = 0; i < strlen(rawCommand); i++){
 			printint(i, 0x0F);
-            if(isspace(rawCommand[i])){
+            if(isspace(rawCommand[i]) || i+1 == strlen(rawCommand)){
+                if(i+1 == strlen(rawCommand)){
+                    wordStarted = true;
+                    tempArgument += rawCommand[i];
+                }
                 if(wordStarted){
 				    println(tempArgument, 0x0F);
                     list_add(&arguments, tempArgument);
@@ -56,8 +58,8 @@ void launchShell() {
                 }
             }else{
                 wordStarted = true;
-                tempArgument += rawCommand[i];
-				//println(tempArgument, 0x0F);
+                strcat(tempArgument,&rawCommand[i]);
+				//printch((char)rawCommand[i], 0x0F);
             }
         }
         //list_shrink(&arguments);
