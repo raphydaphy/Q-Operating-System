@@ -194,7 +194,9 @@ void me(string args) {
             tmp++;
 
             if (streql(splitArg(args, tmp),""))
+            {
                 over = true;
+            }
             else
             {
                 newline();
