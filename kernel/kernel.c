@@ -13,8 +13,6 @@
 #include "inc/math.h"
 #include "inc/list.h"
 
-#include "apps/me/actparse.h"
-
 extern uint32 placement_address;
 
 #define COMMAND_HELP "\nWorking Commands in Q OS: \nwriter\nclear\nexecute\nhi\nskip (the no action)\nfiles\ncat\nsystem\ncalc"
@@ -39,8 +37,8 @@ int kmain(struct multiboot* mboot_ptr)
 
 	println(PRO_TIP, 0x0F);
 	kbHelp();
-println(parse("{ intrusion2, entrance,@ (entrance by force or without permission or welcome) }"), 0x0F);
-//	launchShell();
+
+	launchShell();
 
 	return 0;
 }
