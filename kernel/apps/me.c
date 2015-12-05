@@ -195,8 +195,7 @@ void me(string args) {
             newline();
 
             meArgs = "";
-
-            print("question>  ",0x0F);
+            print("me>  ",0x0A);
             readStr(meArgs,128);
 
             print(answer(meArgs,0),0x04);
