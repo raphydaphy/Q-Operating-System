@@ -30,6 +30,8 @@ string strbuilder_tostr(strbuilder_t);
 
 string strbuilder_substr(strbuilder_t, uint32, uint32);
 
+void strbuilder_delete(strbuilder_t*, uint32, uint32);
+
 void strbuilder_clear(strbuilder_t*);
 
 void strbuilder_destroy(strbuilder_t*);

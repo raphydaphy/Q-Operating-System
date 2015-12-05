@@ -44,6 +44,14 @@ string strbuilder_substr(strbuilder_t stb, uint32 l, uint32 h) {
     return __vstb_tos(stb, l, h);
 }
 
+void strbuilder_delete(strbuilder_t* stb, uint32 l, uint32 h) {
+    __backupText(stb);
+    uint32 dist = abs(h - l);
+    while(dist-- > 0) {
+        list_remove(&(stb->ilist), l);
+    }
+}
+
 void strbuilder_clear(strbuilder_t* stb) {
     __backupText(stb);
     list_clear(&(stb->ilist));
