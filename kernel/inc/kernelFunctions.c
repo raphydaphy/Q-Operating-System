@@ -105,8 +105,8 @@ void launchShell() {
         else if(streql(bufStr,"switch"))        {   SWITCHDIR;        }
         else if(streql(bufStr,"writer"))        {   WRITE;            }
         else if(streql(bufStr, "calc"))         {   calc(arguments[0]);  }
+        else if(streql(rawCommand, "clear -i"))     {   BIGCLEAR;         }
         else if(streql(bufStr, "clear"))        {   clearScreen();    }
-        else if(streql(bufStr, "clear -i"))     {   BIGCLEAR;         }
         else if(streql(bufStr, "test"))         {   test(arguments[0]);  }
         else if(streql(bufStr, "newdir"))       {   MKDIR;            }
         else if(streql(bufStr, "erase"))        {   RMFILE;           }

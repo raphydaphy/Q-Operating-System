@@ -199,6 +199,9 @@ void me(string args) {
             }
             else
             {
+                newline();
+                print(splitArg(args, tmp),0x0D);
+                print(" : ",0x0C);
                 print(sort(splitArg(args, tmp)),0x0D);
             }
         }
