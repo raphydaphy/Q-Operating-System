@@ -30,7 +30,6 @@ string answer(string question, uint8 offset)
             tmp++;
         }
 
-        question = "qquestion>  ";
         return "Not Terminated.";
     }
 }
