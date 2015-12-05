@@ -36,6 +36,18 @@ void strbuilder_insertc(strbuilder_t* stb, char c, uint32 index) {
     list_insertc(&(stb->ilist), c, index);
 }
 
+void strbuilder_replaces(strbuilder_t* stb, string str, uint32 l) {
+    __backupText(stb);
+    do
+        list_replacec(&(stb->ilist), *str++, l++);
+    while (*str != 0);
+}
+
+void strbuilder_replacec(strbuilder_t* stb, char c, uint32 l) {
+    __backupText(stb);
+    list_replacec(&(stb->ilist), c, l);
+}
+
 static string __vstb_tos(strbuilder_t stb, uint32 l, uint32 h) {
     uint32 strlen = abs(h - l);
     if (strlen > stb.ilist.size) return NULL;

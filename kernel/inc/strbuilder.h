@@ -28,18 +28,31 @@ void strbuilder_appends(strbuilder_t*, string);
 #define strbuilder_appendi(stb, i) \
     strbuilder_append(stb, itos(i))
 
-#define strbuilder_insert(stb, str) \
-    strbuilder_insert(stb, str)
+#define strbuilder_insert(stb, str, i) \
+    strbuilder_insert(stb, str, i)
 
 void strbuilder_inserts(strbuilder_t*, string, uint32);
 
 void strbuilder_insertc(strbuilder_t*, char, uint32);
 
-#define strbuilder_insertf(stb, f) \
-    strbuilder_insert(stb, ftos(f))
+#define strbuilder_insertf(stb, f, i) \
+    strbuilder_insert(stb, ftos(f), i)
 
-#define strbuilder_inserti(stb, i) \
-    strbuilder_insert(stb, itos(i))
+#define strbuilder_inserti(stb, i, index) \
+    strbuilder_insert(stb, itos(i), index)
+
+#define strbuilder_replace(stb, str, i) \
+    strbuilder_replaces(stb, str, i)
+
+void strbuilder_replaces(strbuilder_t*, string, uint32);
+
+void strbuilder_replacec(strbuilder_t*, char, uint32);
+
+#define strbuilder_replacef(stb, f, i) \
+    strbuilder_replace(stb, ftos(f), i)
+
+#define strbuilder_replacei(stb, i, index) \
+    strbuilder_replace(stb, itos(i), index)
 
 string strbuilder_tostr(strbuilder_t);
 
