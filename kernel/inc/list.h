@@ -107,6 +107,8 @@ uint32 list_indexOf(list_t*, element_t);
 
 bool list_contains(list_t*, element_t);
 
+void list_flip(list_t*);
+
 void list_destroy(list_t*);
 
 #endif
