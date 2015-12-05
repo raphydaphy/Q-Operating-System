@@ -1,6 +1,6 @@
 #include "answer.h"
 
-string answer(char* question,short offset)
+string answer(string question, uint8 offset)
 {
     if (streql(question,"exit"))
     {

@@ -14,49 +14,77 @@ list_t list_init_s(uint32 ns) {
     return rl;
 }
 
-static void __vlist_add(list_t* lst, element_t e) {
+static void __vlist_add(list_t* lst, element_t e, uint32 index) {
+    if (index > lst->size) return; // Cannot insert out of the list!
     if (lst->size == lst->capt) list_resize(lst, lst->size + GROWTH_FACTOR);
-    lst->data[lst->size] = e;
+    for (uint32 i = lst->size - 1; i > index; i++) {
+        lst->data[i + 1] = lst->data[i];
+    }
+    lst->data[index] = e;
     lst->size++;
 }
 
 void list_adds(list_t* lst, string e) {
-     element_t tmp = makeNullElement();
-     tmp.strdata = e;
-     __vlist_add(lst, tmp);
+    element_t tmp = makeNullElement();
+    tmp.strdata = e;
+    __vlist_add(lst, tmp, lst->size);
 }
 
 void list_addi(list_t* lst, int e) {
-     element_t tmp = makeNullElement();
-     tmp.intdata = e;
-     __vlist_add(lst, tmp);
+    element_t tmp = makeNullElement();
+    tmp.intdata = e;
+    __vlist_add(lst, tmp, lst->size);
 }
 
 void list_addf(list_t* lst, float e) {
-     element_t tmp = makeNullElement();
-     tmp.floatdata = e;
-     __vlist_add(lst, tmp);
+    element_t tmp = makeNullElement();
+    tmp.floatdata = e;
+    __vlist_add(lst, tmp, lst->size);
 }
 
 void list_addc(list_t* lst, char e) {
-     element_t tmp = makeNullElement();
-     tmp.chardata = e;
-     __vlist_add(lst, tmp);
+    element_t tmp = makeNullElement();
+    tmp.chardata = e;
+    __vlist_add(lst, tmp, lst->size);
 }
 
-string list_gets(list_t lst, uint32 index) {
+void list_inserts(list_t* lst, string e, uint32 i) {
+    element_t tmp = makeNullElement();
+    tmp.strdata = e;
+    __vlist_add(lst, tmp, i);
+}
+
+void list_inserti(list_t* lst, int e, uint32 i) {
+    element_t tmp = makeNullElement();
+    tmp.intdata = e;
+    __vlist_add(lst, tmp, i);
+}
+
+void list_insertf(list_t* lst, float e, uint32 i) {
+    element_t tmp = makeNullElement();
+    tmp.floatdata = e;
+    __vlist_add(lst, tmp, i);
+}
+
+void list_insertc(list_t* lst, char e, uint32 i) {
+    element_t tmp = makeNullElement();
+    tmp.chardata = e;
+    __vlist_add(lst, tmp, i);
+}
+
+inline string list_gets(list_t lst, uint32 index) {
     return lst.data[index].strdata;
 }
 
-int list_geti(list_t lst, uint32 index) {
+inline int list_geti(list_t lst, uint32 index) {
     return lst.data[index].intdata;
 }
 
-float list_getf(list_t lst, uint32 index) {
+inline float list_getf(list_t lst, uint32 index) {
     return lst.data[index].floatdata;
 }
 
-char list_getc(list_t lst, uint32 index) {
+inline char list_getc(list_t lst, uint32 index) {
     return lst.data[index].chardata;
 }
 
