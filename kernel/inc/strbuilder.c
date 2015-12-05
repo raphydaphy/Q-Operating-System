@@ -105,12 +105,25 @@ void strbuilder_destroy(strbuilder_t* stb) {
     stb->prevTxt = "";
 }
 
-uint32 strbuilder_indexOf(strbuilder_t stb, string str) {
+inline bool strbuilder_contains(strbuilder_t stb, string str) {
+    return strbuilder_indexOf(stb, str) < stb.size;
+}
+
+static uint32 __strb_indexOf(strbuilder_t stb, string str, uint32 sindex) {
+    if (sindex >= stb.size) return stb.size; // Obviously cannot find outside of str
     uint32 tstrlen = strlen(str);
-    for(uint32 i = 0; (i + tstrlen) < stb.size; i++) {
+    for(uint32 i = sindex; (i + tstrlen) < stb.size; i++) {
         if (streql(str, strbuilder_substr(stb, i, i + tstrlen))) return i;
     }
     return stb.size;
+}
+
+inline uint32 strbuilder_indexOf(strbuilder_t stb, string str) {
+    return __strb_indexOf(stb, str, 0);
+}
+
+inline uint32 strbuilder_indexFrom(strbuilder_t stb, string str, uint32 sindex) {
+    return __strb_indexOf(stb, str, sindex);
 }
 
 void strbuilder_trim(strbuilder_t* stb) {

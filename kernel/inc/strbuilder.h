@@ -72,6 +72,10 @@ void strbuilder_destroy(strbuilder_t*);
 
 void strbuilder_trim(strbuilder_t*);
 
+bool strbuilder_contains(strbuilder_t, string);
+
 uint32 strbuilder_indexOf(strbuilder_t, string);
+
+uint32 strbuilder_indexFrom(strbuilder_t, string, uint32);
 
 #endif
