@@ -1,8 +1,5 @@
 #include "sort.h"
 
-// This enum holds all the main categories of words that can be returned from this function
-//typedef enum {UNKNOWN,NOUN,VERB,ADJECTIVE,ADVERB,INTERJECTION,PREOPSITION,CONJUNCTION,PRONOUN} words;
-
 char *words[10][50] = {
     {   // Unknown Words
         "UNKNOWN UNKNOWN"
@@ -66,10 +63,6 @@ char *words[10][50] = {
         "PRONOUN UNKNOWN"
     }
 };
-
-// These enum types hold the sub-categories for each main type of word
-//typedef enum {ACT,ANIMAL,ARTIFACT,ATTRIBUTE,BODY,COGNITION,COMMUNICATION,EVENT,FEELING,FOOD,GROUP,LOCATION,MOTIVE,OBJECT,PERSON,QUANTITY,RELATION,SHAPE,STATE,SUBSTANCE,TIME,TOPS} noun;
-//typedef enum {BODY,CHANGE,COGNITION,COMMUNICATION,COMPETITION,CONSUMPTION,CONTACT,CREATION,EMOTION,FRAMESTEXT,MOTION,PERCEPTION,POSSESSION,SOCIAL,STATIVE,WEATHER} verb;
 
 string sort(char* word)
 {
