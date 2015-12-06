@@ -14,9 +14,29 @@ list_t list_init_s(uint32 ns) {
     return rl;
 }
 
-static void __vlist_add(list_t* lst, element_t e, uint32 index) {
-    if (index > lst->size) return; // Cannot insert out of the list!
-    if (lst->size == lst->capt) list_resize(lst, lst->size + GROWTH_FACTOR);
+static void __vlist_resize(list_t* lst, uint32 amount) {
+    uint32 tempCapt;
+    if(amount < lst->size) { //Don't let it resize to less than lst->size
+        tempCapt = lst->size;
+    } else {
+        tempCapt = amount;
+    }
+
+    if(tempCapt == lst->capt) return; //There is no need to resize
+    lst->capt = tempCapt;
+    element_t* oldData = lst->data;
+    lst->data = (element_t*) kmalloc(lst->capt * sizeof(element_t));
+    memcpy(lst->data, oldData, lst->size * sizeof(element_t));
+    kfree(oldData);
+}
+
+static inline void __vlist_add(list_t* lst, element_t e, uint32 index) {
+    if (index > lst->size) {
+        return; // Cannot insert out of the list!
+    }
+    if (lst->size == lst->capt) {
+        __vlist_resize(lst, lst->size + GROWTH_FACTOR);
+    }
     for (uint32 i = lst->size - 1; i > index; i++) {
         lst->data[i + 1] = lst->data[i];
     }
@@ -24,44 +44,36 @@ static void __vlist_add(list_t* lst, element_t e, uint32 index) {
     lst->size++;
 }
 
-void list_adds(list_t* lst, string e) {
-    element_t tmp = makeStrElement(e);
-    __vlist_add(lst, tmp, lst->size);
+inline void list_adds(list_t* lst, string e) {
+    __vlist_add(lst, makeStrElement(e), lst->size);
 }
 
-void list_addi(list_t* lst, int e) {
-    element_t tmp = makeIntElement(e);
-    __vlist_add(lst, tmp, lst->size);
+inline void list_addi(list_t* lst, int e) {
+    __vlist_add(lst, makeIntElement(e), lst->size);
 }
 
-void list_addf(list_t* lst, float e) {
-    element_t tmp = makeFloatElement(e);
-    __vlist_add(lst, tmp, lst->size);
+inline void list_addf(list_t* lst, float e) {
+    __vlist_add(lst, makeFloatElement(e), lst->size);
 }
 
-void list_addc(list_t* lst, char e) {
-    element_t tmp = makeCharElement(e);
-    __vlist_add(lst, tmp, lst->size);
+inline void list_addc(list_t* lst, char e) {
+    __vlist_add(lst, makeCharElement(e), lst->size);
 }
 
-void list_inserts(list_t* lst, string e, uint32 i) {
-    element_t tmp = makeStrElement(e);
-    __vlist_add(lst, tmp, i);
+inline void list_inserts(list_t* lst, string e, uint32 i) {
+    __vlist_add(lst, makeStrElement(e), i);
 }
 
-void list_inserti(list_t* lst, int e, uint32 i) {
-    element_t tmp = makeIntElement(e);
-    __vlist_add(lst, tmp, i);
+inline void list_inserti(list_t* lst, int e, uint32 i) {
+    __vlist_add(lst, makeIntElement(e), i);
 }
 
-void list_insertf(list_t* lst, float e, uint32 i) {
-    element_t tmp = makeFloatElement(e);
-    __vlist_add(lst, tmp, i);
+inline void list_insertf(list_t* lst, float e, uint32 i) {
+    __vlist_add(lst, makeFloatElement(e), i);
 }
 
-void list_insertc(list_t* lst, char e, uint32 i) {
-    element_t tmp = makeCharElement(e);
-    __vlist_add(lst, tmp, i);
+inline void list_insertc(list_t* lst, char e, uint32 i) {
+    __vlist_add(lst, makeCharElement(e), i);
 }
 
 inline string list_gets(list_t lst, uint32 index) {
@@ -82,62 +94,50 @@ inline char list_getc(list_t lst, uint32 index) {
 
 element_t list_remove(list_t* lst, uint32 index) {
     // No need to check for negative (unsigned)
-    if (index >= lst->size) return makeNullElement();
+    if (index >= lst->size) {
+        return makeNullElement();
+    }
     element_t msg = lst->data[index];
-    for (uint32 i = index; i < lst->size-1; i++) {
-        lst->data[i] = lst->data[i+1];
+    for (uint32 i = index; i < lst->size - 1; i++) {
+        lst->data[i] = lst->data[i + 1];
     }
     lst->data[lst->size] = makeNullElement();
     lst->size--;
-    if (lst->autoShrink)
-        if (lst->capt - lst->size >= lst->autoShrinkTrigger)
-            list_resize(lst, lst->size + GROWTH_FACTOR);
+    if (lst->autoShrink) {
+        if (lst->capt - lst->size >= lst->autoShrinkTrigger) {
+            __vlist_resize(lst, lst->size + GROWTH_FACTOR);
+        }
+    }
     return msg;
 }
 
 static element_t __vlist_replace(list_t* lst, uint32 index, element_t e) {
-    if (index >= lst->size) return makeNullElement();
+    if (index >= lst->size) {
+        return makeNullElement();
+    }
     element_t msg = lst->data[index];
     lst->data[index] = e;
     return msg;
 }
 
-element_t list_replaces(list_t* lst, uint32 index, string e) {
-    element_t ne = makeStrElement(e);
-    return __vlist_replace(lst, index, ne);
+inline element_t list_replaces(list_t* lst, uint32 index, string e) {
+    return __vlist_replace(lst, index, makeStrElement(e));
 }
 
-element_t list_replacei(list_t* lst, uint32 index, int e) {
-    element_t ne = makeIntElement(e);
-    return __vlist_replace(lst, index, ne);
+inline element_t list_replacei(list_t* lst, uint32 index, int e) {
+    return __vlist_replace(lst, index, makeIntElement(e));
 }
 
-element_t list_replacef(list_t* lst, uint32 index, float e) {
-    element_t ne = makeFloatElement(e);
-    return __vlist_replace(lst, index, ne);
+inline element_t list_replacef(list_t* lst, uint32 index, float e) {
+    return __vlist_replace(lst, index, makeFloatElement(e));
 }
 
-element_t list_replacec(list_t* lst, uint32 index, char e) {
-    element_t ne = makeCharElement(e);
-    return __vlist_replace(lst, index, ne);
+inline element_t list_replacec(list_t* lst, uint32 index, char e) {
+    return __vlist_replace(lst, index, makeCharElement(e));
 }
 
-void list_shrink(list_t* lst) {
-    list_resize(lst, lst->size);
-}
-
-void list_resize(list_t* lst, uint32 amount) {
-    uint32 tempCapt;
-    if(amount < lst->size) //Don't let it resize to less than lst->size
-        tempCapt = lst->size;
-    else tempCapt = amount;
-
-    if(tempCapt == lst->capt) return; //There is no need to resize
-    lst->capt = tempCapt;
-    element_t* oldData = lst->data;
-    lst->data = (element_t*) kmalloc(lst->capt * sizeof(element_t));
-    memcpy(lst->data, oldData, lst->size * sizeof(element_t));
-    kfree(oldData);
+inline void list_shrink(list_t* lst) {
+    __vlist_resize(lst, lst->size);
 }
 
 void list_clear(list_t* lst) {

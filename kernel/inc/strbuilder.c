@@ -19,16 +19,16 @@ void strbuilder_appendc(strbuilder_t* stb, char c) {
 
 void strbuilder_appends(strbuilder_t* stb, string str) {
     __backupText(stb);
-    do
+    do {
         list_addc(&(stb->ilist), *str++);
-    while (*str != 0);
+    } while (*str != 0);
 }
 
 void strbuilder_inserts(strbuilder_t* stb, string str, uint32 index) {
     __backupText(stb);
-    do
+    do {
         list_insertc(&(stb->ilist), *str++, index++);
-    while (*str != 0);
+    } while (*str != 0);
 }
 
 void strbuilder_insertc(strbuilder_t* stb, char c, uint32 index) {
@@ -43,9 +43,9 @@ void strbuilder_flip(strbuilder_t* stb) {
 
 void strbuilder_replaces(strbuilder_t* stb, string str, uint32 l) {
     __backupText(stb);
-    do
+    do {
         list_replacec(&(stb->ilist), *str++, l++);
-    while (*str != 0);
+    } while (*str != 0);
 }
 
 void strbuilder_replacec(strbuilder_t* stb, char c, uint32 l) {
@@ -53,13 +53,15 @@ void strbuilder_replacec(strbuilder_t* stb, char c, uint32 l) {
     list_replacec(&(stb->ilist), c, l);
 }
 
-static string __vstb_tos(strbuilder_t stb, uint32 l, uint32 h) {
+static inline string __vstb_tos(strbuilder_t stb, uint32 l, uint32 h) {
     uint32 strlen = abs(h - l);
-    if (strlen > stb.ilist.size) return NULL;
+    if (strlen > stb.ilist.size) {
+        return ""; // Do not return NULL!
+    }
     string msg = (string) kmalloc((strlen) * sizeof(char));
     l = l < h ? l : h; // Make sure l is actually smaller than h
     uint32 i = 0;
-    for(i = 0; i < strlen; i++) {
+    for( ; i < strlen; i++) {
         msg[i] = list_getc(stb.ilist, i + l);
     }
     msg[i] = '\0'; // Strings are null terminated!
@@ -74,16 +76,16 @@ string strbuilder_substr(strbuilder_t stb, uint32 l, uint32 h) {
     return __vstb_tos(stb, l, h);
 }
 
-inline char strbuilder_head(strbuilder_t stb) {
+char strbuilder_head(strbuilder_t stb) {
     return strbuilder_charAt(stb, 0);
 }
 
-inline char strbuilder_tail(strbuilder_t stb) {
+char strbuilder_tail(strbuilder_t stb) {
     // Use stb.ilist.size because it is more accurate
     return strbuilder_charAt(stb, stb.ilist.size - 1);
 }
 
-inline char strbuilder_charAt(strbuilder_t stb, uint32 i) {
+char strbuilder_charAt(strbuilder_t stb, uint32 i) {
     return list_getc(stb.ilist, i);
 }
 
@@ -94,7 +96,7 @@ string strbuilder_delete(strbuilder_t* stb, uint32 l, uint32 h) {
     l = l < h ? l : h; // Make sure l is actually smaller than h
     uint32 i = 0;
     for( ; i < dist; i++) {
-        msg[i] = list_remove(&(stb->ilist), l).udata.chardata;
+        msg[i] = etoc(list_remove(&(stb->ilist), l));
     }
     msg[i] = '\0';
     return msg;
@@ -114,11 +116,16 @@ inline bool strbuilder_contains(strbuilder_t stb, string str) {
     return strbuilder_indexOf(stb, str) < stb.size;
 }
 
-static uint32 __strb_indexOf(strbuilder_t stb, string str, uint32 sindex) {
-    if (sindex >= stb.size) return stb.size; // Obviously cannot find outside of str
+static inline uint32 __strb_indexOf(strbuilder_t stb, string str, uint32 sindex) {
+    if (sindex >= stb.size) {
+        return stb.size; // Obviously cannot find outside of str
+    }
     uint32 tstrlen = strlen(str);
     for(uint32 i = sindex; (i + tstrlen) < stb.size; i++) {
-        if (streql(str, strbuilder_substr(stb, i, i + tstrlen))) return i;
+        string test = strbuilder_substr(stb, i, i + tstrlen);
+        if (streql(str, test)) {
+            return i;
+        }
     }
     return stb.size;
 }
@@ -133,9 +140,11 @@ inline uint32 strbuilder_indexFrom(strbuilder_t stb, string str, uint32 sindex) 
 
 void strbuilder_trim(strbuilder_t* stb) {
     __backupText(stb);
-    while(isspace(strbuilder_head(*stb)))
+    while(isspace(strbuilder_head(*stb))) {
         strbuilder_delete(stb, 0, 1);
-    while(isspace(strbuilder_tail(*stb)))
+    }
+    while(isspace(strbuilder_tail(*stb))) {
         strbuilder_delete(stb, stb->ilist.size - 1, stb->ilist.size);
+    }
     stb->size = stb->ilist.size;
 }
