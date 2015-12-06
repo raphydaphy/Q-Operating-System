@@ -1,6 +1,7 @@
 #ifndef LIST_H
 #define LIST_H
 
+#include "math.h"
 #include "dynsto.h"
 
 typedef struct {
@@ -101,6 +102,8 @@ void list_shrink(list_t*);
 
 void list_clear(list_t*);
 
+list_t list_sublist(list_t, uint32, uint32);
+
 uint32 list_indexOf(list_t*, element_t);
 
 bool list_contains(list_t*, element_t);
@@ -108,5 +111,7 @@ bool list_contains(list_t*, element_t);
 void list_flip(list_t*);
 
 void list_destroy(list_t*);
+
+etype list_getType(list_t, uint32);
 
 #endif

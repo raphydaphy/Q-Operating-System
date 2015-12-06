@@ -77,19 +77,33 @@ inline void list_insertc(list_t* lst, char e, uint32 i) {
 }
 
 inline string list_gets(list_t lst, uint32 index) {
-    return lst.data[index].udata.strdata;
+    return etos(lst.data[index]);
 }
 
 inline int list_geti(list_t lst, uint32 index) {
-    return lst.data[index].udata.intdata;
+    return etoi(lst.data[index]);
 }
 
 inline float list_getf(list_t lst, uint32 index) {
-    return lst.data[index].udata.floatdata;
+    return etof(lst.data[index]);
 }
 
 inline char list_getc(list_t lst, uint32 index) {
-    return lst.data[index].udata.chardata;
+    return etoc(lst.data[index]);
+}
+
+inline etype list_getType(list_t lst, uint32 index) {
+    return lst.data[index].ctype;
+}
+
+list_t list_sublist(list_t lst, uint32 l, uint32 h) {
+    uint32 arrlen = abs(h - l);
+    l = l < h ? l : h;
+    list_t msg = list_init_s(arrlen);
+    for(uint32 i = 0; i < arrlen; i++) {
+        __vlist_add(&msg, lst.data[i + l], i);
+    }
+    return msg;
 }
 
 element_t list_remove(list_t* lst, uint32 index) {
