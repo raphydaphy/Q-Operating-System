@@ -6,6 +6,8 @@
 #include "../inc/stringUtils.h"
 #include "../inc/screenUtils.h"
 
+#include "cat.h"
+
 void skip(string args);
 
 #endif
