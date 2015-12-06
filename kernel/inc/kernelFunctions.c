@@ -21,7 +21,7 @@ void launchShell() {
     #define SWITCHDIR print("\nThe specified directory was not found ", 0x0F);
     #define MKDIR print("\nThis Command is Reserved for when we have a FAT32 or better FileSystem...", 0x3F);
     #define RMFILE print("\nThis Command is Reserved for when we have a FAT32 or better FileSystem...", 0x3F);
-    #define CMDNOTFOUND newline(); print(firstArg, 0x0F); print(": Command Not Found ", 0x04);
+    #define CMDNOTFOUND newline(); print(commandString, 0x0F); print(": Command Not Found ", 0x04);
     #define SEARCHFOR string searchTerm = (string) kmalloc(BUFSIZE * sizeof(char)); print("\nDictionary File Name>  ", 0x0F); readStr(rawInput, BUFSIZE); print("\nSearch Term>  ", 0x0A); readStr(searchTerm, BUFSIZE); if (findInDictionary(rawInput,searchTerm)) { print("\nWe found the word!",0x0F); }
 
     while (true) {
@@ -45,40 +45,42 @@ void launchShell() {
             }else{
                 wordStarted = true;
                 append(tempArg,rawInput[i]);
+                if(i+1 == strlen(rawInput)){
+                    list_add(&args, tempArg);
+                    wordStarted = false;
+                    tempArg = (string) kmalloc(BUFSIZE * sizeof(char));
+                }
             }
         }
-        if(wordStarted){
-            list_add(&args, tempArg);
-            wordStarted = false;
-            tempArg = (string) kmalloc(BUFSIZE * sizeof(char));
+        string commandString = (string) kmalloc(BUFSIZE * sizeof(char));
+        if(args.size > 0){
+            commandString = list_gets(args,0);
         }
-        
-        list_shrink(&args);
+        list_remove(&args,0);
         string firstArg = (string) kmalloc(BUFSIZE * sizeof(char));
         if(args.size > 0){
             firstArg = list_gets(args,0);
         }
-        string secondArg = (string) kmalloc(BUFSIZE * sizeof(char));
-        if(args.size > 1){
-            secondArg = list_gets(args,1);
-        }
-             if(streql(firstArg, ""             )) {   HELP;             }
-        else if(streql(firstArg, "help"         )) {   BIGHELP;          }
-        else if(streql(firstArg, "system"       )) {   system(rawInput); }
-        else if(streql(firstArg, "skip"         )) {   skip(rawInput);   }
-        else if(streql(firstArg, "files"        )) {   files(secondArg); }
-        else if(streql(firstArg, "cat"          )) {   cat(rawInput);	}
-        else if(streql(firstArg, "execute"      )) {   execute();        }
-        else if(streql(firstArg, "switch"       )) {   SWITCHDIR;        }
-        else if(streql(firstArg, "writer"       )) {   writer(secondArg);}
-        else if(streql(firstArg, "calc"         )) {   calc(secondArg);  }
-        else if(streql(firstArg, "clear"        )) {   clearScreen();    }
-        else if(streql(firstArg, "test"         )) {   test(secondArg);  }
-        else if(streql(firstArg, "newdir"       )) {   MKDIR;            }
-        else if(streql(firstArg, "erase"        )) {   RMFILE;           }
-	    else if(streql(firstArg, "me"           )) {   me(rawInput);     }
-	    else if(streql(firstArg, "search"       )) {   SEARCHFOR;        }
+        list_shrink(&args);
+             if(streql(commandString, ""             )) {   HELP;             }
+        else if(streql(commandString, "help"         )) {   BIGHELP;          }
+        else if(streql(commandString, "system"       )) {   system(rawInput); }
+        else if(streql(commandString, "skip"         )) {   skip(rawInput);   }
+        else if(streql(commandString, "files"        )) {   files(firstArg); }
+        else if(streql(commandString, "cat"          )) {   cat(rawInput);	}
+        else if(streql(commandString, "execute"      )) {   execute();        }
+        else if(streql(commandString, "switch"       )) {   SWITCHDIR;        }
+        else if(streql(commandString, "writer"       )) {   writer(firstArg);}
+        else if(streql(commandString, "calc"         )) {   calc(firstArg);  }
+        else if(streql(commandString, "clear"        )) {   clearScreen();    }
+        else if(streql(commandString, "test"         )) {   test(firstArg);  }
+        else if(streql(commandString, "newdir"       )) {   MKDIR;            }
+        else if(streql(commandString, "erase"        )) {   RMFILE;           }
+	    else if(streql(commandString, "me"           )) {   me(rawInput);     }
+	    else if(streql(commandString, "search"       )) {   SEARCHFOR;        }
         else                                       {   CMDNOTFOUND;      }
-        list_destroy(&args);
+        if(args.size > 0){
+            list_destroy(&args);
+        }
     }
 }
