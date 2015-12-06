@@ -12,7 +12,7 @@ void printIntro() {
 void launchShell() {
     initialize_calc();
 
-    string rawCommand = "";//Gets user raw command from command line
+    string rawInput = NULL;//Gets user raw command from command line
     list_t arguments = list_init();//Store command arguments
 
     #define TIP print("\nTip: If enter key does not work, it might mean that the input is too long",0x0F);
@@ -21,54 +21,73 @@ void launchShell() {
     #define SWITCHDIR print("\nThe specified directory was not found ", 0x0F);
     #define MKDIR print("\nThis Command is Reserved for when we have a FAT32 or better FileSystem...", 0x3F);
     #define RMFILE print("\nThis Command is Reserved for when we have a FAT32 or better FileSystem...", 0x3F);
-    #define CMDNOTFOUND print("\n", 0x0F); print(rawCommand, 0x0F); print(": Command Not Found ", 0x0F);
-    #define SEARCHFOR string searchTerm = (string) kmalloc(bufSize * sizeof(char)); print("\nDictionary File Name>  ", 0x0F); readStr(bufStr, bufSize); print("\nSearch Term>  ", 0x0A); readStr(searchTerm, bufSize); if (findInDictionary(bufStr,searchTerm)) { print("\nWe found the word!",0x0F); }
+    #define CMDNOTFOUND print("\n", 0x0F); print(rawInput, 0x0F); print(": Command Not Found ", 0x0F);
+    #define SEARCHFOR string searchTerm = (string) kmalloc(BUFSIZE * sizeof(char)); print("\nDictionary File Name>  ", 0x0F); readStr(rawInput, BUFSIZE); print("\nSearch Term>  ", 0x0A); readStr(searchTerm, BUFSIZE); if (findInDictionary(rawInput,searchTerm)) { print("\nWe found the word!",0x0F); }
 
     while (true) {
         print("\nQ-Kernel>  ", 0x08);
         typingCmd = true;
         newCmd = true;
-        readStr(rawCommand, BUFSIZE);
+        rawInput = NULL;
+        arguments = list_init();
+        readStr(rawInput, BUFSIZE);
         typingCmd = false;
+        newCmd = true;
 		newline();
+        
+        if (streql(rawInput, "\n"))        {   HELP;             }
 
-        if (strlen(rawCommand) == 0)        {   HELP;             }
+        printint(strlen(rawInput), 0x0F);
+        println("hello",0x0F);
+        string hello = "";
+        readStr(hello, 0);
 
         bool wordStarted = false;
-        string tempArgument = "";
-        for(uint8 i = 0; i < strlen(rawCommand); i++){
+        string tempArg = NULL;
+        for(uint8 i = 0; i < strlen(rawInput); i++){
 			printint(i, 0x0F);
-            if(isspace(rawCommand[i]) || i+1 == strlen(rawCommand)){
-                if(i+1 == strlen(rawCommand)){
+            newline();
+			print(rawInput, 0x0F);
+            println("|rawInput", 0x0F);
+            string hello = "";
+            readStr(hello, 0);
+            if(isspace(rawInput[i]) || i+1 == strlen(rawInput)){
+                if(i+1 == strlen(rawInput) && !isspace(rawInput[i])){
                     wordStarted = true;
-                    tempArgument += rawCommand[i];
+                    tempArg[strlen(tempArg)] = rawInput[i];
+                    tempArg[strlen(tempArg)] = '\0';
                 }
                 if(wordStarted){
-				    println(tempArgument, 0x0F);
-                    list_add(&arguments, tempArgument);
+				    println(tempArg, 0x0F);
+                    list_add(&arguments, tempArg);
                     wordStarted = false;
-                    tempArgument = "";
+                    tempArg = "";
                 }
             }else{
+			    print(rawInput, 0x0F);
+                println("|rawInput", 0x0F);
                 wordStarted = true;
-                strcat(tempArgument,&rawCommand[i]);
-				//printch((char)rawCommand[i], 0x0F);
+                tempArg[strlen(tempArg)] = rawInput[i];
+                tempArg[strlen(tempArg)] = '\0';
+			    print(rawInput, 0x0F);
+                println("|rawInput", 0x0F);
             }
         }
-        //list_shrink(&arguments);
+        
+        list_shrink(&arguments);
 
 		println(itos(arguments.size,10),0x0F);
         //Testing Only
-        /*for(uint8 i = 0; i < arguments.size; i++){
+        for(uint8 i = 0; i < arguments.size; i++){
             println(list_gets(arguments,i), 0x0F);
-        }*/
+        }
 
         string firstArgument = list_gets(arguments,0);
         if(streql(firstArgument, "help"))         {   BIGHELP;          }
-        else if(streql(firstArgument, "system"))       {   system(rawCommand);  }
-        else if(streql(firstArgument, "skip"))         {   skip(rawCommand);    }
+        else if(streql(firstArgument, "system"))       {   system(rawInput);  }
+        else if(streql(firstArgument, "skip"))         {   skip(rawInput);    }
         else if(streql(firstArgument, "files"))        {   files(list_get(arguments,1));          }
-        else if(streql(firstArgument, "cat"))          {   cat(rawCommand);			 }
+        else if(streql(firstArgument, "cat"))          {   cat(rawInput);			 }
         else if(streql(firstArgument,"execute"))       {   execute();        }
         else if(streql(firstArgument,"switch"))        {   SWITCHDIR;        }
         else if(streql(firstArgument,"writer"))        {   writer(list_get(arguments,1));   }
@@ -77,7 +96,7 @@ void launchShell() {
         else if(streql(firstArgument, "test"))         {   test(list_get(arguments,1));  }
         else if(streql(firstArgument, "newdir"))       {   MKDIR;            }
         else if(streql(firstArgument, "erase"))        {   RMFILE;           }
-	    else if(streql(firstArgument, "me"))           {   me(rawCommand);         }
+	    else if(streql(firstArgument, "me"))           {   me(rawInput);         }
 	    else if(streql(firstArgument, "search"))       {   SEARCHFOR;              }
         else                                           {   CMDNOTFOUND;            }
         newline();
