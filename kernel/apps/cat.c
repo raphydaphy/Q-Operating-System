@@ -75,3 +75,51 @@ bool lookup(fs_node_t* fsnode,string searchTerm)
   }
   return false;
 }
+
+// assumes all lines end with '>'
+// gives the user the line number they want
+string extract(string file,int line)
+{
+    ASSERT(strlen(file) < MAX_FNAME_LEN);
+    extractLine(finddir_fs(fs_root, file),line);
+
+    return "The sheep was happy";
+}
+
+string extractLine(fs_node_t* fsnode,int lineNum)
+{
+    // current letter and line that we are analyzing
+    char curChar;
+    int curLine = 0;
+
+    if ((fsnode->flags & 0x7) == FS_FILE)
+    {
+        const uint64 rbuff = fsnode->length;
+        char buf[rbuff];
+        uint64 sz = read_fs(fsnode, 0, rbuff, (uint8*) buf);
+        uint64 j;
+
+        string curWord = (string) kmalloc(10 * sizeof(char));
+
+        for (j = 0; j < sz; j++)
+        {
+            char curCharString[] = { curChar, '\0' };
+            curChar = buf[j];
+
+            if (streql(curCharString,">"))
+            {
+                if (lineNum == curLine)
+                {
+                    return curWord;
+                }
+                memset(curWord, '\0', 128);
+            }
+            else
+            {
+                strcat(curWord,curCharString);
+            }
+        }
+    }
+    printint(lineNum,0x0D);
+    return "hi";
+}

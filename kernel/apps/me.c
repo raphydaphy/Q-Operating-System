@@ -188,15 +188,14 @@ void me(string args) {
     else if (streql(splitArg(args, 1),""))
     {
         querying = true;
-        char* meArgs;
+        char* meArgs = "";
 
         while (querying)
         {
             newline();
 
-            meArgs = "";
-
-            print("question>  ",0x0F);
+            //meArgs = "";
+            print("me>  ",0x0A);
             readStr(meArgs,128);
 
             print(answer(meArgs,0),0x04);
