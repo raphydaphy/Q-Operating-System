@@ -102,9 +102,10 @@ string strbuilder_delete(strbuilder_t* stb, uint32 l, uint32 h) {
     return msg;
 }
 
-void strbuilder_clear(strbuilder_t* stb) {
+string strbuilder_clear(strbuilder_t* stb) {
     __backupText(stb);
     list_clear(&(stb->ilist));
+    return stb->prevTxt;
 }
 
 void strbuilder_destroy(strbuilder_t* stb) {
@@ -148,3 +149,4 @@ void strbuilder_trim(strbuilder_t* stb) {
     }
     stb->size = stb->ilist.size;
 }
+
