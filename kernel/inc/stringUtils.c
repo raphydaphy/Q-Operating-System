@@ -59,6 +59,16 @@ string strcat(string dest, string src)
     return dest;
 }
 
+string append(string dest, char src)
+{
+    while (*dest != 0) {
+        *dest = *dest;
+        dest++;
+    }
+    *dest = src;
+    return dest;
+}
+
 string strTrim(string str)
 {
     uint16 len = 0;

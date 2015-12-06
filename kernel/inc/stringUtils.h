@@ -16,6 +16,8 @@ string strcpy(string, string);
 
 string strcat(string, string);
 
+string append(string, char);
+
 string strTrim(string);
 
 #define itos2(i) itos(i, 2)
