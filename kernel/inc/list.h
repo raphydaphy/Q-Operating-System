@@ -1,6 +1,7 @@
 #ifndef LIST_H
 #define LIST_H
 
+#include "math.h"
 #include "dynsto.h"
 
 typedef struct {
@@ -80,8 +81,7 @@ char list_getc(list_t, uint32);
 
 element_t list_remove(list_t*, uint32);
 
-#define list_pop(lst) \
-    list_remove(lst, lst->size)
+element_t list_pop(list_t*);
 
 #define list_shift(lst) \
     list_remove(lst, 0)
@@ -99,9 +99,9 @@ element_t list_replacec(list_t*, uint32, char);
 
 void list_shrink(list_t*);
 
-void list_resize(list_t*, uint32);
-
 void list_clear(list_t*);
+
+list_t list_sublist(list_t, uint32, uint32);
 
 uint32 list_indexOf(list_t*, element_t);
 
@@ -110,5 +110,7 @@ bool list_contains(list_t*, element_t);
 void list_flip(list_t*);
 
 void list_destroy(list_t*);
+
+etype list_getType(list_t, uint32);
 
 #endif

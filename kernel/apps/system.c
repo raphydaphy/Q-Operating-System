@@ -32,11 +32,11 @@ void system(string args)
         //You might wanna replace your slack name with your full name (Its in alphabetical order)
         print("\nDevelopers:\n",0x0F);
         print("- barteks2x\n",0x0F);
-        print("- patrickvanduyse\n",0x0F);
-        print("- plankp\n",0x0F);
+        print("- Patrick van Duyse\n",0x0F);
+        print("- Plankp T\n",0x0F);
         print("- raph\n",0x0F);
         print("- Stanislaus Krisna\n",0x0F);//stnkrisna
-        print("- telip007",0x0F);
+        print("- Talip Goeksu",0x0F);
     }
   else
     {

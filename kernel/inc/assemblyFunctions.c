@@ -70,15 +70,14 @@ void shutdown()
 		"ret\n"
 	);*/
 
-	//Untested code below
-	//Error: too many memory references for `mov'
-	/*__asm__ __volatile__(
-		"mov ax, 0x1000\n"
-    "mov ax, ss\n"
-    "mov sp, 0xf000\n"
-    "mov ax, 0x5307\n"
-    "mov bx, 0x0001\n"
-    "mov cx, 0x0003\n"
-    "int 0x15\n"
+	//Tested, returns an unhanded interrupt: 13 with unlimited loop
+        /*__asm__ __volatile__(
+                "mov %ax, 0x1000\n"
+                "mov %ax, %ss\n"
+                "mov %sp, 0xf000\n"
+                "mov %ax, 0x5307\n"
+                "mov %bx, 0x0001\n"
+                "mov %cx, 0x0003\n"
+                "int $0x15\n"
 	);*/
 }
