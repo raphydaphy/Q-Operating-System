@@ -149,18 +149,29 @@ void list_clear(list_t* lst) {
 
 uint32 list_indexOf(list_t* lst, element_t e) {
     for(uint32 i = 0; i < lst->size; i++) {
-        if (cmpElement_t(lst->data[i], e)) {
+        if (eqlElement_t(lst->data[i], e)) {
             return i;
         }
     }
     return lst->size; // This is a OutOfBounds
 }
 
-bool list_contains(list_t* lst, element_t e) {
+inline bool list_contains(list_t* lst, element_t e) {
     return list_indexOf(lst, e) < (lst->size);
+}
+
+void list_flip(list_t* lst) {
+    uint32 len = lst->size;
+    uint32 spi = (uint32) (lst->size / 2);
+    element_t tmp;
+    for (uint32 i = 0; i < spi; i++) {
+        tmp = __vlist_replace(lst, i, lst->data[--len]);
+        __vlist_replace(lst, len, tmp);
+    }
 }
 
 void list_destroy(list_t* lst) {
     kfree(lst->data);
     lst->capt = lst->size = 0;
 }
+

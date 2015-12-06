@@ -25,7 +25,7 @@ list_t parse(string input) {
             spi = strbuilder_indexOf(stb, "]"); // We will find the end ']'
             strbuilder_delete(&stb, spi, stb.size);
             strbuilder_trim(&stb);
-            
+
             spi = strbuilder_indexOf(stb, ","); // We will delete the first ','
             strbuilder_delete(&stb, spi, stb.size);
             strbuilder_trim(&stb);

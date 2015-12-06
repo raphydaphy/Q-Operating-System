@@ -36,6 +36,11 @@ void strbuilder_insertc(strbuilder_t* stb, char c, uint32 index) {
     list_insertc(&(stb->ilist), c, index);
 }
 
+void strbuilder_flip(strbuilder_t* stb) {
+    __backupText(stb);
+    list_flip(&(stb->ilist));
+}
+
 void strbuilder_replaces(strbuilder_t* stb, string str, uint32 l) {
     __backupText(stb);
     do
