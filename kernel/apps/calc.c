@@ -27,6 +27,7 @@ typedef enum {
     LESSER_T = 11,
     GREATER_T = 12,
     EQUALS_T = 13,
+    ASSIGN = 14,
     // Here beyond are special ops
     // that are two chars in length
     NOOP = 0, // Similar to default state
@@ -52,6 +53,7 @@ static inline legalOps getOperator(char charToCheck) {
     case '<': return LESSER_T;
     case '>': return GREATER_T;
     case '=': return EQUALS_T;
+    case ':': return ASSIGN;
     default: return ILLEGAL;
     }
 }
@@ -133,7 +135,7 @@ void calc(string args)
         }
         strbuilder_append(&simStack, calcInput);
         newline();
-        printfloat(calc_parse(simStack), 0x08);
+        printfloat(calc_parse(simStack), 0x0F);
         strbuilder_destroy(&simStack);
     }
 }
@@ -219,8 +221,11 @@ float calc_parse(strbuilder_t txt) {
         mathError(DIV_BY_ZERO); \
     }
 
-static void __assign(float value, bool* lvalid, float* left, float* right, legalOps procop) {
+static void __assign(float value, bool* lvalid, float* left, float* right, legalOps procop, uint8 spot) {
     float val = value;
+    if (val == 0 && spot < 53 && procop != ASSIGN) {
+        val = varList[spot];
+    }
     if (!*lvalid) {
         *left = val;
         *lvalid = true;
@@ -274,6 +279,9 @@ static void __assign(float value, bool* lvalid, float* left, float* right, legal
         case GREAT_EQ:
             *left = *left >= *right;
             break;
+        case ASSIGN:
+            varList[spot] = *left;
+            break;
         default:
             break;
         }
@@ -287,7 +295,10 @@ float evaluate(list_t opStack) {
     for(uint32 i = 0; i < opStack.size; i++) {
         if (list_getType(opStack, i) == STR) {
             string tmp = list_get(opStack, i);
-            __assign(stod(tmp), &lvalid, &left, &right, procop);
+            __assign(stod(tmp), &lvalid, &left, &right, procop, 53);
+        } else if (list_getType(opStack, i) == CHR) {
+            float tmp = ctoi(list_getc(opStack, i)) - 10;
+            __assign(0, &lvalid, &left, &right, procop, tmp);
         } else {
             legalOps test = list_geti(opStack, i);
             if (test == RPAREN) {
@@ -296,11 +307,14 @@ float evaluate(list_t opStack) {
                 nestLvl++;
                 while (nestLvl > 0) {
                     test = list_geti(opStack, ++i);
-                    if (test == RPAREN) nestLvl++;
-                    else if (test == LPAREN) nestLvl--;
+                    if (test == RPAREN) {
+                        nestLvl++;
+                    } else if (test == LPAREN) {
+                        nestLvl--;
+                    }
                 }
                 list_t nopstc = list_sublist(opStack, oldPos + 1, i);
-                __assign(evaluate(nopstc), &lvalid, &left, &right, procop == NOOP ? MUL : procop);
+                __assign(evaluate(nopstc), &lvalid, &left, &right, procop == NOOP ? MUL : procop, 53);
                 list_destroy(&nopstc);
             } else {
                 procop = test;
