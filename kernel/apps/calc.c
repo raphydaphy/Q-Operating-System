@@ -93,13 +93,8 @@ void mathError(mathExcept ID)
 
 void calc(string args)
 {
-<<<<<<< HEAD
-    memset(calcInput, '\0', CALCSIZE);
-    if(streql(args,"-h"))
-=======
     memset(calcInput, 0, CALC_SIZE);
-    if(streql(args," -h"))
->>>>>>> refs/remotes/origin/master
+    if(streql(args,"-h"))
        calcHelp();
     else if(streql(args,"-pi"))
     {
