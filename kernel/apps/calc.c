@@ -28,6 +28,9 @@ typedef enum {
     GREATER_T = 12,
     EQUALS_T = 13,
     ASSIGN = 14,
+    ROUND = 15,
+    FLOOR = 16,
+    CEIL = 17,
     // Here beyond are special ops
     // that are two chars in length
     NOOP = 0, // Similar to default state
@@ -54,6 +57,9 @@ static inline legalOps getOperator(char charToCheck) {
     case '>': return GREATER_T;
     case '=': return EQUALS_T;
     case ':': return ASSIGN;
+    case '$': return ROUND;
+    case '[': return CEIL;
+    case ']': return FLOOR;
     default: return ILLEGAL;
     }
 }
@@ -281,6 +287,15 @@ static void __assign(float value, bool* lvalid, float* left, float* right, legal
             break;
         case ASSIGN:
             varList[spot] = *left;
+            break;
+        case ROUND:
+            *left = round(*left);
+            break;
+        case FLOOR:
+            *left = floor(*left);
+            break;
+        case CEIL:
+            *left = ceil(*left);
             break;
         default:
             break;
