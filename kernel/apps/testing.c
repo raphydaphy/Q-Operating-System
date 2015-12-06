@@ -1,7 +1,7 @@
 #include "testing.h"
 
 void test(string args) {
-    if(streql(args, " -list"))//For testing lists
+    if(streql(args, "-list"))//For testing lists
     {
         newline();
         list_t test_list = list_init();
@@ -43,7 +43,7 @@ void test(string args) {
         printint(test_list.capt, 0x0f);
         list_destroy(&test_list);
     }
-    else if(streql(args," -set"))
+    else if(streql(args,"-set"))
     {
         set_t test_set = set_init();
         for(uint8 i = 0; i < 4; i++) {
@@ -94,7 +94,7 @@ void test(string args) {
         set_destroy(&tmp);
         set_destroy(&test_set);
     }
-    else if(streql(args, " -strb"))
+    else if(streql(args, "-strb"))
     {
         static const string bak = "Hello, world ";
         static const uint32 bln = 13;
@@ -114,7 +114,7 @@ void test(string args) {
         println("\nOutput should be \"dlrow dn2 ,olleH\"", 0x0F);
         println(strbuilder_tostr(test_strb), 0x0F);
     }
-    else if(streql(args," -y"))
+    else if(streql(args,"-y"))
     {
        //getTime() test
        printint(getTime("year"),0x0F);

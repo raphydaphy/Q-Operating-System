@@ -10,7 +10,7 @@ void writerHelp()
 
 void writer(string args)
 {
-	if (streql(args," -h"))
+	if (streql(args,"-h"))
 		writerHelp();
 	else
 	{
