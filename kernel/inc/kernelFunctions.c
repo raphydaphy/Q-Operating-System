@@ -12,8 +12,8 @@ void printIntro() {
 void launchShell() {
     initialize_calc();
 
-    string rawInput = NULL;//Gets user raw command from command line
-    list_t arguments = list_init();//Store command arguments
+    string rawInput;//Gets user raw command from command line
+    list_t arguments;//Store command arguments
 
     #define TIP print("\nTip: If enter key does not work, it might mean that the input is too long",0x0F);
     #define HELP print("\nWorking Commands in Q OS: \nwriter\nclear\nexecute\nhi\nskip\nfiles\ncat\nsystem\ncalc\nme\ntest", 0x0F);
@@ -28,7 +28,7 @@ void launchShell() {
         print("\nQ-Kernel>  ", 0x08);
         typingCmd = true;
         newCmd = true;
-        rawInput = NULL;
+        rawInput = (string) kmalloc(BUFSIZE * sizeof(char));
         arguments = list_init();
         readStr(rawInput, BUFSIZE);
         typingCmd = false;
@@ -39,40 +39,39 @@ void launchShell() {
 
         printint(strlen(rawInput), 0x0F);
         println("hello",0x0F);
-        string hello = "";
-        readStr(hello, 0);
 
         bool wordStarted = false;
-        string tempArg = NULL;
+        string tempArg = (string) kmalloc(BUFSIZE * sizeof(char));
         for(uint8 i = 0; i < strlen(rawInput); i++){
-			printint(i, 0x0F);
-            newline();
-			print(rawInput, 0x0F);
-            println("|rawInput", 0x0F);
             string hello = "";
             readStr(hello, 0);
-            if(isspace(rawInput[i]) || i+1 == strlen(rawInput)){
-                if(i+1 == strlen(rawInput) && !isspace(rawInput[i])){
-                    wordStarted = true;
-                    tempArg[strlen(tempArg)] = rawInput[i];
-                    tempArg[strlen(tempArg)] = '\0';
-                }
+			printint(i, 0x0F);
+            newline();
+            if(isspace(rawInput[i])){
                 if(wordStarted){
 				    println(tempArg, 0x0F);
                     list_add(&arguments, tempArg);
                     wordStarted = false;
-                    tempArg = "";
+                    tempArg = (string) kmalloc(BUFSIZE * sizeof(char));
                 }
             }else{
 			    print(rawInput, 0x0F);
                 println("|rawInput", 0x0F);
+			    print(tempArg, 0x0F);
+                println("|tempArg", 0x0F);
                 wordStarted = true;
-                tempArg[strlen(tempArg)] = rawInput[i];
-                tempArg[strlen(tempArg)] = '\0';
+                char newChar = rawInput[i];
+                tempArg[strlen(tempArg)] = newChar;
 			    print(rawInput, 0x0F);
                 println("|rawInput", 0x0F);
+			    print(tempArg, 0x0F);
+                println("|tempArg", 0x0F);
             }
         }
+        println(tempArg, 0x0F);
+        list_add(&arguments, tempArg);
+        wordStarted = false;
+        tempArg = (string) kmalloc(BUFSIZE * sizeof(char));
         
         list_shrink(&arguments);
 
