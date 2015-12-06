@@ -3,9 +3,13 @@
 #define CALC_SIZE 128
 static char calcInput[CALC_SIZE];
 
+// There are 52 alphabets 
+// But P and E are constants (Pi and Eulers num)
+static float varList[50];
+
 // Must be called before calc is used!
 inline void initialize_calc() {
-    memset(calcInput, 0, CALC_SIZE);
+    memset(varList, 0, 50);
 }
 
 typedef enum {
@@ -80,7 +84,7 @@ void mathError(mathExcept ID)
 
 void calc(string args)
 {
-    initialize_calc();
+    memset(calcInput, 0, CALC_SIZE);
     if(streql(args," -h"))
        calcHelp();
     else if(streql(args," -pi"))
@@ -122,7 +126,10 @@ void calc(string args)
         strbuilder_t simStack = strbuilder_init();
         print("\nUse calc -h for help\n>  ", 0x0F);
         readStr(calcInput, CALC_SIZE);
-        strbuilder_append(&simStack, "0+"); // "Evaluate" related hack!
+        if (strTrim(calcInput)[0] == '(') {
+            // This relates to when brackets is the first term of the expr
+            strbuilder_append(&simStack, "1"); // (3) := 0; 1(3) := 3
+        }
         strbuilder_append(&simStack, calcInput);
         newline();
         printfloat(calc_parse(simStack), 0x08);
@@ -145,7 +152,8 @@ float calc_parse(strbuilder_t txt) {
         } else {
             if(isspace(c)) {
                 prev = NOOP;
-                continue;
+            } else if (isalpha(c)) {
+                list_addc(&opStack, c); // Variables! Yay
             } else {
                 legalOps cop = getOperator(c);
                 if (cop == ILLEGAL) {
@@ -191,7 +199,7 @@ float calc_parse(strbuilder_t txt) {
     for(uint32 i = 0; i < opStack.size; i++) {
         if (list_getType(opStack, i) == INT) {
             if(list_geti(opStack, i) < 0) {
-                // Remove!
+                // Remove extra bits '<<' := '<', '<<'
                 list_remove(&opStack, i - 2);
             }
         }
@@ -266,7 +274,6 @@ static void __assign(float value, bool* lvalid, float* left, float* right, legal
 }
 
 float evaluate(list_t opStack) {
-    // Evaluate
     bool lvalid = false;
     float left = 0, right = 0;
     legalOps procop = NOOP;
@@ -286,7 +293,7 @@ float evaluate(list_t opStack) {
                     else if (test == LPAREN) nestLvl--;
                 }
                 list_t nopstc = list_sublist(opStack, oldPos + 1, i);
-                __assign(evaluate(nopstc), &lvalid, &left, &right, procop);
+                __assign(evaluate(nopstc), &lvalid, &left, &right, procop == NOOP ? MUL : procop);
                 list_destroy(&nopstc);
             } else {
                 procop = test;
