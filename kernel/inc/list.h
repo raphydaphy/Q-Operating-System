@@ -81,8 +81,7 @@ char list_getc(list_t, uint32);
 
 element_t list_remove(list_t*, uint32);
 
-#define list_pop(lst) \
-    list_remove(lst, lst->size)
+element_t list_pop(list_t*);
 
 #define list_shift(lst) \
     list_remove(lst, 0)
