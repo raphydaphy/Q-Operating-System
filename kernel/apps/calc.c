@@ -5,7 +5,8 @@ static char calcInput[CALC_SIZE];
 
 // There are 52 alphabets 
 // But P and E are constants (Pi and Eulers num)
-static float varList[50];
+// Basically, there will be 2 reserved spots
+static float varList[52];
 
 // Must be called before calc is used!
 inline void initialize_calc() {
@@ -153,7 +154,13 @@ float calc_parse(strbuilder_t txt) {
             if(isspace(c)) {
                 prev = NOOP;
             } else if (isalpha(c)) {
-                list_addc(&opStack, c); // Variables! Yay
+                if (c == 'P') {
+                    list_add(&opStack, ftos(PI));
+                } else if (c == 'E') {
+                    list_add(&opStack, ftos(E));
+                } else {
+                    list_addc(&opStack, c); // Variables! Yay
+                }
             } else {
                 legalOps cop = getOperator(c);
                 if (cop == ILLEGAL) {
