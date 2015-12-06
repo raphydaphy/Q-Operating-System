@@ -99,8 +99,6 @@ element_t list_replacec(list_t*, uint32, char);
 
 void list_shrink(list_t*);
 
-void list_resize(list_t*, uint32);
-
 void list_clear(list_t*);
 
 uint32 list_indexOf(list_t*, element_t);
