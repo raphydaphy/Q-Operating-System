@@ -36,7 +36,7 @@ void system(string args)
         print("- plankp\n",0x0F);
         print("- raph\n",0x0F);
         print("- Stanislaus Krisna\n",0x0F);//stnkrisna
-        print("- telip007",0x0F);
+        print("- Talip Göksu",0x0F);
     }
   else
     {
