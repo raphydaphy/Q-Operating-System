@@ -9,7 +9,7 @@ inline void initialize_calc() {
 }
 
 typedef enum {
-    NOOP = 0,
+    NOOP = 0, // Similar to default state
     ADD = 1,
     SUB = 2,
     MUL = 3,
@@ -17,6 +17,9 @@ typedef enum {
     MOD = 5,
     RPAREN = 6,
     LPAREN = 7,
+    BIT_AND = 8,
+    BIT_OR = 9,
+    BIT_XOR = 10,
     ILLEGAL = -1
 } legalOps;
 
@@ -29,6 +32,9 @@ static inline legalOps getOperator(char charToCheck) {
     case '%': return MOD;
     case '(': return RPAREN;
     case ')': return LPAREN;
+    case '&': return BIT_AND;
+    case '|': return BIT_OR;
+    case '^': return BIT_XOR;
     default: return ILLEGAL;
     }
 }
@@ -42,7 +48,6 @@ void calcHelp()
 //Prints an error based on the error ID
 void mathError(mathExcept ID)
 {
-    newline();
     switch (ID) {
     case START_W_OP:
         print("Cannot start with an operator", 0x04);
@@ -50,17 +55,15 @@ void mathError(mathExcept ID)
     case DIV_BY_ZERO:
         print("Cannot divide by 0", 0x04);
         break;
-    case DUPLICATE_OP:
-        print("Cannot have 2 operators side by side", 0x04);
-        break;
     case ILLEGAL_OP:
         print("Illegal operator found", 0x04);
         break;
-    default:
+    case OTHER:
         print("Unknown math exception: ", 0x04);
         printint(ID, 0x04);
         break;
     }
+    newline();
 }
 
 void calc(string args)
@@ -159,6 +162,12 @@ float calc_parse(strbuilder_t txt) {
     return evaluate(opStack);
 }
 
+#define __testDivByZero(right) \
+    if(right == 0) { \
+        mathError(DIV_BY_ZERO); \
+        return left; \
+    } \
+
 #define __assign(v) \
     float val = v; \
     if (!lvalid) { \
@@ -177,10 +186,21 @@ float calc_parse(strbuilder_t txt) {
             left *= right; \
             break; \
         case DIV: \
+            __testDivByZero(right); \
             left /= right; \
             break; \
         case MOD: \
+            __testDivByZero(right); \
             left = ((int) left) % ((int) right); \
+            break; \
+        case BIT_AND: \
+            left = ((int) left) & ((int) right); \
+            break; \
+        case BIT_OR: \
+            left = ((int) left) | ((int) right); \
+            break; \
+        case BIT_XOR: \
+            left = ((int) left) ^ ((int) right); \
             break; \
         default: \
             break; \

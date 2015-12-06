@@ -14,8 +14,8 @@
 typedef enum {
     START_W_OP,
     DIV_BY_ZERO,
-    DUPLICATE_OP,
-    ILLEGAL_OP
+    ILLEGAL_OP,
+    OTHER
 } mathExcept;
 
 // Initializes the variable map! IMPORTANT!
