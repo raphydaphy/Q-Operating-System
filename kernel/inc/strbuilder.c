@@ -15,6 +15,7 @@ static inline void __backupText(strbuilder_t* stb) {
 void strbuilder_appendc(strbuilder_t* stb, char c) {
     __backupText(stb);
     list_addc(&(stb->ilist), c);
+    stb->size++;
 }
 
 void strbuilder_appends(strbuilder_t* stb, string str) {
@@ -22,6 +23,7 @@ void strbuilder_appends(strbuilder_t* stb, string str) {
     do {
         list_addc(&(stb->ilist), *str++);
     } while (*str != 0);
+    stb->size = stb->ilist.size;
 }
 
 void strbuilder_inserts(strbuilder_t* stb, string str, uint32 index) {
@@ -29,10 +31,12 @@ void strbuilder_inserts(strbuilder_t* stb, string str, uint32 index) {
     do {
         list_insertc(&(stb->ilist), *str++, index++);
     } while (*str != 0);
+    stb->size = stb->ilist.size;
 }
 
 void strbuilder_insertc(strbuilder_t* stb, char c, uint32 index) {
     __backupText(stb);
+    stb->size++;
     list_insertc(&(stb->ilist), c, index);
 }
 
@@ -89,6 +93,28 @@ char strbuilder_charAt(strbuilder_t stb, uint32 i) {
     return list_getc(stb.ilist, i);
 }
 
+// "!ABC!" -> (_, 1, 1) := "ABC" ret Void
+void strbuilder_rmOuter(strbuilder_t* stb, uint32 l, uint32 h) {
+    __backupText(stb);
+    if(l < h) {
+        swap(l, h);
+    }
+    uint32 i = 0;
+    for( ; i < l; i++) {
+        list_remove(&(stb->ilist), i);
+    }
+    for(i = 0; i < h; i++) {
+        list_remove(&(stb->ilist), stb->ilist.size - 1);
+    }
+    stb->size = stb->ilist.size;
+}
+
+char strbuilder_rmchar(strbuilder_t* stb, uint32 l) {
+    __backupText(stb);
+    stb->size--;
+    return etoc(list_remove(&(stb->ilist), l));
+}
+
 string strbuilder_delete(strbuilder_t* stb, uint32 l, uint32 h) {
     __backupText(stb);
     uint32 dist = abs(h - l);
@@ -98,6 +124,7 @@ string strbuilder_delete(strbuilder_t* stb, uint32 l, uint32 h) {
     for( ; i < dist; i++) {
         msg[i] = etoc(list_remove(&(stb->ilist), l));
     }
+    stb->size = stb->ilist.size;
     msg[i] = '\0';
     return msg;
 }

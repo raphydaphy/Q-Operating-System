@@ -66,6 +66,10 @@ char strbuilder_charAt(strbuilder_t, uint32);
 
 string strbuilder_delete(strbuilder_t*, uint32, uint32);
 
+char strbuilder_rmchar(strbuilder_t*, uint32);
+
+void strbuilder_rmOuter(strbuilder_t*, uint32, uint32);
+
 string strbuilder_clear(strbuilder_t*);
 
 void strbuilder_destroy(strbuilder_t*);
