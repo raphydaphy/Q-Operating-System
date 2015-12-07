@@ -166,8 +166,13 @@ float calc_parse(strbuilder_t txt) {
                     list_addc(&opStack, c); // Variables! Yay
                 }
             } else if (c == '[') {
-                // [ceil](4.5) := [ ceil ] ( 4.5 )
+                // (4.5)[ceil] := (4.5)[ ceil ]
                 // Note `[`, `]` cannot be part a function name
+                uint32 endFunc = strbuilder_indexOf(txt, "]");
+                list_add(&opStack, strbuilder_substr(txt, i, endFunc));
+                i = endFunc;
+            } else if (c == '{') {
+                // A square function would be like this: {_*_}[square]
                 uint32 endFunc = strbuilder_indexOf(txt, "]");
                 list_add(&opStack, strbuilder_substr(txt, i, endFunc));
                 i = endFunc;
@@ -299,6 +304,15 @@ static void __assign(float value, bool* lvalid, float* left, float* right, legal
     }
 }
 
+static inline string __extractFuncName(strbuilder_t* strb, string rawName) {
+    strbuilder_clear(strb);
+    strbuilder_append(strb, rawName);
+    strbuilder_trim(strb);
+    strbuilder_rmOuter(strb, 1, 1);
+    strbuilder_trim(strb);
+    return strbuilder_tostr(*strb);
+}
+
 float evaluate(list_t opStack) {
     bool lvalid = false;
     float left = 0, right = 0;
@@ -306,12 +320,9 @@ float evaluate(list_t opStack) {
     for(uint32 i = 0; i < opStack.size; i++) {
         if (list_getType(opStack, i) == STR) {
             string tmp = list_get(opStack, i);
+            strbuilder_t funcName = strbuilder_init();
             if (tmp[0] == '[') {
-                strbuilder_t funcName = strbuilder_init();
-                strbuilder_append(&funcName, tmp);
-                strbuilder_rmOuter(&funcName, 1, 1);
-                strbuilder_trim(&funcName);
-                string fname = strbuilder_tostr(funcName);
+                string fname = __extractFuncName(&funcName, tmp);
                 if(streql(fname, "ceil")) {
                     left = ceil(left);
                 } else if(streql(fname, "floor")) {
@@ -319,9 +330,21 @@ float evaluate(list_t opStack) {
                 } else if(streql(fname, "round")) {
                     left = round(left);
                 }
+            } else if (tmp[0] == '{') {
+                strbuilder_append(&funcName, tmp);
+                uint32 endFunc = strbuilder_indexOf(funcName, "}");
+                string fbody = strbuilder_substr(funcName, 1, endFunc);
+                string fname = strbuilder_substr(funcName, endFunc + 1, funcName.size);
+                fname = __extractFuncName(&funcName, fname);
+
+                print(fname, 0x08);
+                print("->", 0x08);
+                print(fbody, 0x08);
+                newline();
             } else {
                 __assign(stod(tmp), &lvalid, &left, &right, procop, 53);
             }
+            strbuilder_destroy(&funcName);
         } else if (list_getType(opStack, i) == CHR) {
             float tmp = ctoi(list_getc(opStack, i)) - 10;
             __assign(0, &lvalid, &left, &right, procop, tmp);
