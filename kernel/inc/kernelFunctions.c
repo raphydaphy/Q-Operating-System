@@ -3,13 +3,15 @@
 
 #define MULTI_ARG_DEBUG false
 
-void printIntro() {
-   	print("================================================================================", 0x3F);
-   	print("                             Welcome to Q OS                                    ", 0x3F);
+void printIntro() 
+{
+    print("================================================================================", 0x3F);
+    print("                             Welcome to Q OS                                    ", 0x3F);
     print("================================================================================", 0x3F);
 }
 
-void launchShell() {
+void launchShell() 
+{
     initialize_calc();
 
     //allocate some memory for command string buffer. 1kB should be enough for now
@@ -107,6 +109,7 @@ void launchShell() {
                         fs = 0;
                         ay++;
                         ax = 0;
+<<<<<<< HEAD
                     }
                 }
                 else if(fs == 0)
@@ -115,6 +118,15 @@ void launchShell() {
                     ax++;
                 }
                 //}
+=======
+                    }
+                    } else if(fs == 0)
+                    {
+                        arguments[ay][ax] = rawCommand[i];
+                        ax++;
+                    }
+                }
+>>>>>>> fc3449723514807d2ed785bee6dbe1625094c672
                 else
                 {
                     break;
@@ -136,8 +148,8 @@ void launchShell() {
         else if(streql(bufStr, "test"))             {   test(arguments[0]);     }
         else if(streql(bufStr, "newdir"))           {   MKDIR;                  }
         else if(streql(bufStr, "erase"))            {   RMFILE;                 }
-	    else if(streql(bufStr, "me"))               {   me(rawCommand);         }
-	    else if(streql(bufStr, "search"))           {   SEARCHFOR;              }
+	else if(streql(bufStr, "me"))               {   me(rawCommand);         }
+	else if(streql(bufStr, "search"))           {   SEARCHFOR;              }
         else                                        {   CMDNOTFOUND;            }
         newline();
     }
