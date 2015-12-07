@@ -16,6 +16,30 @@
 /**
    Size information for a hole/block
 **/
+
+#ifndef ORDERED_ARRAY_STRUCT
+#define ORDERED_ARRAY_STRUCT
+/**
+   This array is insertion sorted - it always remains in a sorted state (between calls).
+   It can store anything that can be cast to a void* -- so a uint32, or any pointer.
+**/
+typedef void* type_t;
+/**
+   A predicate should return nonzero if the first argument is less than the second. Else
+   it should return zero.
+**/
+typedef int8 (*lessthan_predicate_t)(type_t,type_t);
+
+
+typedef struct
+{
+    type_t *array;
+    uint32 size;
+    uint32 max_size;
+    lessthan_predicate_t less_than;
+} ordered_array_t;
+#endif
+
 typedef struct
 {
     uint32 magic;   // Magic number, used for error checking and identification.
@@ -38,6 +62,8 @@ typedef struct
     uint8 supervisor;     // Should extra pages requested by us be mapped as supervisor-only?
     uint8 readonly;       // Should extra pages requested by us be mapped as read-only?
 } heap_t;
+
+
 
 /**
    Create a new heap.
@@ -79,7 +105,7 @@ uint32 kmalloc_a(uint32 sz);
 uint32 kmalloc_p(uint32 sz, uint32 *phys);
 
 /**
-   Allocate a chunk of memory, sz in size. The physical address 
+   Allocate a chunk of memory, sz in size. The physical address
    is returned in phys. It must be page-aligned.
 **/
 uint32 kmalloc_ap(uint32 sz, uint32 *phys);
@@ -95,4 +121,3 @@ uint32 kmalloc(uint32 sz);
 void kfree(void *p);
 
 #endif // KHEAP_H
-

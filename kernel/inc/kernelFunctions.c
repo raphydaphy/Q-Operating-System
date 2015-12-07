@@ -3,13 +3,15 @@
 
 #define MULTI_ARG_DEBUG false
 
-void printIntro() {
-   	print("================================================================================", 0x3F);
-   	print("                             Welcome to Q OS                                    ", 0x3F);
+void printIntro()
+{
+    print("================================================================================", 0x3F);
+    print("                             Welcome to Q OS                                    ", 0x3F);
     print("================================================================================", 0x3F);
 }
 
-void launchShell() {
+void launchShell()
+{
     initialize_calc();
 
     string rawInput;//Gets user raw command from command line
@@ -24,7 +26,8 @@ void launchShell() {
     #define CMDNOTFOUND newline(); print(commandString, 0x0F); print(": Command Not Found ", 0x04);
     #define SEARCHFOR string searchTerm = (string) kmalloc(BUFSIZE * sizeof(char)); print("\nDictionary File Name>  ", 0x0F); readStr(rawInput, BUFSIZE); print("\nSearch Term>  ", 0x0A); readStr(searchTerm, BUFSIZE); if (findInDictionary(rawInput,searchTerm)) { print("\nWe found the word!",0x0F); }
 
-    while (true) {
+    while (true)
+    {
         print("\nQ-Kernel>  ", 0x08);
         typingCmd = true;
         newCmd = true;
