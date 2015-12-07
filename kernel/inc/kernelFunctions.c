@@ -110,12 +110,13 @@ void launchShell()
                         ay++;
                         ax = 0;
                     }
-                    } else if(fs == 0)
-                    {
-                        arguments[ay][ax] = rawCommand[i];
-                        ax++;
-                    }
                 }
+                else if(fs == 0)
+                {
+                    arguments[ay][ax] = rawCommand[i];
+                    ax++;
+                }
+                //}
                 else
                 {
                     break;
