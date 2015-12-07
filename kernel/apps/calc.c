@@ -235,6 +235,7 @@ float calc_parse(strbuilder_t txt) {
 #define __testDivByZero(right) \
     if(right == 0) { \
         mathError(DIV_BY_ZERO); \
+        return; \
     }
 
 static void __assign(float value, bool* lvalid, float* left, float* right, legalOps procop, uint8 spot) {
@@ -334,7 +335,10 @@ float evaluate(list_t opStack) {
                     left = round(left);
                 } else {
                     string rInput = etos(hashmap_getVal(funcList, fname));
-                    if(!streql(rInput, "")) {
+                    if(streql(rInput, "")) {
+                        print("Cannot find macro: ", 0x04);
+                        println(fname, 0x04);
+                    } else {
                         strbuilder_t simStack = strbuilder_init();
                         if (strTrim(rInput)[0] == '(') {
                             // This relates to when brackets is the first term of the expr
@@ -374,11 +378,16 @@ float evaluate(list_t opStack) {
                 uint32 nestLvl = 0;
                 nestLvl++;
                 while (nestLvl > 0) {
-                    test = list_geti(opStack, ++i);
-                    if (test == RPAREN) {
-                        nestLvl++;
-                    } else if (test == LPAREN) {
-                        nestLvl--;
+                    if(opStack.size > i + 1) {
+                        test = list_geti(opStack, ++i);
+                        if (test == RPAREN) {
+                            nestLvl++;
+                        } else if (test == LPAREN) {
+                            nestLvl--;
+                        }
+                    } else {
+                        nestLvl = 0; // Assume the user forgot a bracket
+                        i++;
                     }
                 }
                 list_t nopstc = list_sublist(opStack, oldPos + 1, i);
