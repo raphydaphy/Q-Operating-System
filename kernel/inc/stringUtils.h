@@ -5,6 +5,7 @@
 #include "byteUtils.h"
 #include "charUtils.h"
 #include "intTypeDefs.h"
+#include "kheap.h"
 
 uint16 strlen(string);
 
@@ -31,6 +32,8 @@ string strTrim(string);
 string itos(int, uint8);
 
 string ftos(float);
+
+string get0Arg(string);
 
 string splitArg(string, int);
 

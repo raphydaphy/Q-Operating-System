@@ -64,7 +64,7 @@ page_t *get_page(uint32, int, page_directory_t*);
 /**
    Handler for page faults.
  **/
-void page_fault(registers_t);
+void page_fault(registers_t regs);
 
 void alloc_frame(page_t*, int, int);
 
