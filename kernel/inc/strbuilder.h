@@ -29,7 +29,7 @@ void strbuilder_appends(strbuilder_t*, string);
     strbuilder_append(stb, itos(i))
 
 #define strbuilder_insert(stb, str, i) \
-    strbuilder_insert(stb, str, i)
+    strbuilder_inserts(stb, str, i)
 
 void strbuilder_inserts(strbuilder_t*, string, uint32);
 
