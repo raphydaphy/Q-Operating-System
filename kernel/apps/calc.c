@@ -342,8 +342,6 @@ float evaluate(list_t opStack) {
                         }
                         strbuilder_append(&simStack, rInput);
                         // Must replace `_` with value left
-                        uint32 repi = strbuilder_indexOf(simStack, "_");
-                        strbuilder_inserti(&simStack, left, repi);
                         left = calc_parse(simStack);
                         strbuilder_destroy(&simStack);
                     }
