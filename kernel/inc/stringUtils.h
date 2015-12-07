@@ -5,6 +5,7 @@
 #include "byteUtils.h"
 #include "charUtils.h"
 #include "intTypeDefs.h"
+#include "kheap.h"
 
 uint16 strlen(string);
 
