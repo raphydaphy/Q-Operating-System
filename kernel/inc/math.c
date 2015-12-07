@@ -190,7 +190,9 @@ float cos(int ang)
 
 #define AR_THERSOLD 1024
 long addRange(long l, long h) {
-    if (h < l) swap(&l, &h);
+    if (h < l) {
+        swap(l, h);
+    }
     if ((h - l) >= AR_THERSOLD) return (h * (h + 1) / 2) - ((l - 1) * l / 2);
     long acc = 0;
     while(h >= l) {
@@ -202,12 +204,6 @@ long addRange(long l, long h) {
 
 long subRange(long l, long h) {
     return (addRange(l + 1, h) - l) * -1;
-}
-
-void swap(long* a, long* b) {
-    *a ^= *b;
-    *b ^= *a;
-    *a ^= *b;
 }
 
 long round(double num)
@@ -236,8 +232,6 @@ double abs(double num)
     if (num < 0) return -num;
     return num;
 }
-
-
 
 //CHRONO FUNCTIONS
 uint8 in_byte (uint16 _port)

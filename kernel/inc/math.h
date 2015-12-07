@@ -51,7 +51,10 @@ long addRange(long, long);
 
 long subRange(long, long);
 
-void swap(long*, long*);
+#define swap(a, b) \
+    a ^= b; \
+    b ^= a; \
+    a ^= b
 
 float sin(int ang);
 
