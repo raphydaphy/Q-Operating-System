@@ -12,11 +12,12 @@ string get0Arg(string rawArgs)
     {
         modTmp = tmp + 1;
 
-        printint(tmp,0x03);
-        print(" ",0x03);
+        // For Debug:
+        //printint(tmp,0x03);
+        
         char curArgChar = rawArgs[tmp];
         char curArgCharString[] = { curArgChar, '\0' };
-        
+
         if (streql(curArgCharString," "))
         {
             zeroArgGenOver = true;
