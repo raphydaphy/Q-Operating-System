@@ -8,9 +8,12 @@ static char calcInput[CALC_SIZE];
 // Basically, there will be 2 reserved spots
 static float varList[52];
 
+static hashmap_t funcList;
+
 // Must be called before calc is used!
 inline void initialize_calc() {
     memset(varList, 0, 50);
+    funcList = hashmap_init();
 }
 
 typedef enum {
@@ -329,6 +332,19 @@ float evaluate(list_t opStack) {
                     left = floor(left);
                 } else if(streql(fname, "round")) {
                     left = round(left);
+                } else {
+                    string rInput = etos(hashmap_getVal(funcList, fname));
+                    if(!streql(rInput, "")) {
+                        strbuilder_t simStack = strbuilder_init();
+                        // Must replace `_` with value left
+                        if (strTrim(rInput)[0] == '(') {
+                            // This relates to when brackets is the first term of the expr
+                            strbuilder_append(&simStack, "1"); // (3) := 0; 1(3) := 3
+                        }
+                        strbuilder_append(&simStack, rInput);
+                        left = calc_parse(simStack);
+                        strbuilder_destroy(&simStack);
+                    }
                 }
             } else if (tmp[0] == '{') {
                 strbuilder_append(&funcName, tmp);
@@ -341,6 +357,8 @@ float evaluate(list_t opStack) {
                 print("->", 0x08);
                 print(fbody, 0x08);
                 newline();
+
+                hashmap_add(&funcList, fname, makeStrElement(fbody));
             } else {
                 __assign(stod(tmp), &lvalid, &left, &right, procop, 53);
             }

@@ -3,6 +3,7 @@
 
 #include "../inc/math.h"
 #include "../inc/list.h"
+#include "../inc/hashmap.h"
 #include "../inc/kbDetect.h"
 #include "../inc/byteUtils.h"
 #include "../inc/charUtils.h"
