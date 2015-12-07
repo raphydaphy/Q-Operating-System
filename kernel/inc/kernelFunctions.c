@@ -23,10 +23,16 @@ void launchShell() {
 
     //prepare variable
     for(int i = 0; i < bufSize; ++i)
+    {
         bufStr[i] = 0;
+    }
     for(int y = 0; y < bufSize; ++y)
+    {
         for(int x = 0; x < bufSize; ++x)
+        {
             arguments[y][x] = 0;
+        }
+    }
 
     #define TIP print("\nTip: If enter key does not work, it might mean that the input is too long",0x0F);
     #define HELP print("\nWorking Commands in Q OS: \nwriter\nclear\nexecute\nhi\nskip\nfiles\ncat\nsystem\ncalc\nme\ntest", 0x0F);
@@ -38,7 +44,8 @@ void launchShell() {
     #define SEARCHFOR string searchTerm = (string) kmalloc(bufSize * sizeof(char)); print("\nDictionary File Name>  ", 0x0F); readStr(bufStr, bufSize); print("\nSearch Term>  ", 0x0A); readStr(searchTerm, bufSize); if (findInDictionary(bufStr,searchTerm)) { print("\nWe found the word!",0x0F); }
     #define CMDNOTFOUND print("\n", 0x0F); print(bufStr, 0x0F); print(": Command Not Found ", 0x0F);
 
-    while (true) {
+    while (true)
+    {
         print("\nQ-Kernel>  ", 0x08);
         typingCmd = true;
         newCmd = true;
@@ -46,44 +53,71 @@ void launchShell() {
         typingCmd = false;
 
     	for(int i = 0; i < bufSize; ++i)
+        {
     	    bufStr[i] = 0;
+        }
     	for(int y = 0; y < bufSize; ++y)
+        {
             for(int x = 0; x < bufSize; ++x)
+            {
                 arguments[y][x] = 0;
+            }
+        }
     	fs = 1;
         ay = -1;
         ax = 0;
-        if(MULTI_ARG_DEBUG == true) {
+        if(MULTI_ARG_DEBUG == true)
+        {
             //Sanitize raw input. Move first word to bufStr and move the rest of the word to arguments
-            for(int i = 0; i < bufSize; ++i) {
-                if(rawCommand[i] != 0 || rawCommand[i] != 10) {
+            for(int i = 0; i < bufSize; ++i)
+            {
+                if(rawCommand[i] != 0 || rawCommand[i] != 10)
+                {
                     if(fs == 1)
+                    {
                         bufStr[i] = rawCommand[i];
+                    }
                     else if(fs == 0)
+                    {
                         arguments[ay][ax] = rawCommand[i];
+                    }
 
-                    if(i < bufSize && rawCommand[i+1] == 32) {
+                    if(i < bufSize && rawCommand[i+1] == 32)
+                    {
           		        fs = 0;
           		        ay++;
           		    }
     	        }
                 else break;
     	    }
-        } else {
+        }
+        else
+        {
             //Sanitize raw input. Move first word to bufStr and move the rest of the word to arguments
-            for(int i = 0; i < bufSize; ++i) {
-                if(rawCommand[i] != 0 || rawCommand[i] != 10) {
+            for(int i = 0; i < bufSize; ++i)
+            {
+                if(rawCommand[i] != 0 || rawCommand[i] != 10)
+                {
                     if(fs == 1)
+                    {
                         bufStr[i] = rawCommand[i];
-                    if(i < bufSize && rawCommand[i+1] == 32) {
+                    }
+                    if(i < bufSize && rawCommand[i+1] == 32)
+                    {
                         fs = 0;
                         ay++;
                         ax = 0;
-                    } else if(fs == 0) {
+                    }
+                    } else if(fs == 0)
+                    {
                         arguments[ay][ax] = rawCommand[i];
                         ax++;
                     }
-                } else break;
+                }
+                else
+                {
+                    break;
+                }
             }
         }
 
