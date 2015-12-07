@@ -336,12 +336,14 @@ float evaluate(list_t opStack) {
                     string rInput = etos(hashmap_getVal(funcList, fname));
                     if(!streql(rInput, "")) {
                         strbuilder_t simStack = strbuilder_init();
-                        // Must replace `_` with value left
                         if (strTrim(rInput)[0] == '(') {
                             // This relates to when brackets is the first term of the expr
                             strbuilder_append(&simStack, "1"); // (3) := 0; 1(3) := 3
                         }
                         strbuilder_append(&simStack, rInput);
+                        // Must replace `_` with value left
+                        uint32 repi = strbuilder_indexOf(simStack, "_");
+                        strbuilder_inserti(&simStack, left, repi);
                         left = calc_parse(simStack);
                         strbuilder_destroy(&simStack);
                     }
