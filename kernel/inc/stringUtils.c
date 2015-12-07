@@ -147,6 +147,45 @@ string ftos(float f) {
     return p;
 }
 
+string get0Arg(string rawArgs)
+{
+    bool zeroArgGenOver = false;
+    string curArg = (string) kmalloc(10 * sizeof(char));
+    string zeroArg = rawArgs;
+
+    uint16 tmp = 0;
+    uint16 modTmp = (tmp + 1);
+    while (!zeroArgGenOver && modTmp < arrLength(rawArgs))
+    {
+        modTmp = tmp + 1;
+
+        // For Debug:
+        //printint(tmp,0x03);
+
+        char curArgChar = rawArgs[tmp];
+        char curArgCharString[] = { curArgChar, '\0' };
+
+        if (streql(curArgCharString," "))
+        {
+            zeroArgGenOver = true;
+            memset(curArg, '\0', 128);
+            zeroArg = curArg;
+            kfree(curArg);
+            return zeroArg;
+        }
+        else
+        {
+            print(curArgCharString,0x0F);
+            strcat(curArg,curArgCharString);
+        }
+
+        tmp++;
+    }
+
+    kfree(curArg);
+    return zeroArg;
+}
+
 static int convValidate;
 
 int stoi(string s)

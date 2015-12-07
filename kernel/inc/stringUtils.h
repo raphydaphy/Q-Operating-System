@@ -30,6 +30,8 @@ string itos(int, uint8);
 
 string ftos(float);
 
+string get0Arg(string);
+
 string splitArg(string, int);
 
 int stoi(string);
