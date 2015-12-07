@@ -29,8 +29,6 @@ typedef enum {
     EQUALS_T = 13,
     ASSIGN = 14,
     ROUND = 15,
-    FLOOR = 16,
-    CEIL = 17,
     // Here beyond are special ops
     // that are two chars in length
     NOOP = 0, // Similar to default state
@@ -58,8 +56,6 @@ static inline legalOps getOperator(char charToCheck) {
     case '=': return EQUALS_T;
     case ':': return ASSIGN;
     case '$': return ROUND;
-    case '[': return CEIL;
-    case ']': return FLOOR;
     default: return ILLEGAL;
     }
 }
@@ -169,6 +165,12 @@ float calc_parse(strbuilder_t txt) {
                 } else {
                     list_addc(&opStack, c); // Variables! Yay
                 }
+            } else if (c == '[') {
+                // [ceil](4.5) := [ ceil ] ( 4.5 )
+                // Note `[`, `]` cannot be part a function name
+                uint32 endFunc = strbuilder_indexOf(txt, "]");
+                list_add(&opStack, strbuilder_substr(txt, i, endFunc));
+                i = endFunc;
             } else {
                 legalOps cop = getOperator(c);
                 if (cop == ILLEGAL) {
@@ -291,12 +293,6 @@ static void __assign(float value, bool* lvalid, float* left, float* right, legal
         case ROUND:
             *left = round(*left);
             break;
-        case FLOOR:
-            *left = floor(*left);
-            break;
-        case CEIL:
-            *left = ceil(*left);
-            break;
         default:
             break;
         }
@@ -310,7 +306,22 @@ float evaluate(list_t opStack) {
     for(uint32 i = 0; i < opStack.size; i++) {
         if (list_getType(opStack, i) == STR) {
             string tmp = list_get(opStack, i);
-            __assign(stod(tmp), &lvalid, &left, &right, procop, 53);
+            if (tmp[0] == '[') {
+                strbuilder_t funcName = strbuilder_init();
+                strbuilder_append(&funcName, tmp);
+                strbuilder_rmOuter(&funcName, 1, 1);
+                strbuilder_trim(&funcName);
+                string fname = strbuilder_tostr(funcName);
+                if(streql(fname, "ceil")) {
+                    left = ceil(left);
+                } else if(streql(fname, "floor")) {
+                    left = floor(left);
+                } else if(streql(fname, "round")) {
+                    left = round(left);
+                }
+            } else {
+                __assign(stod(tmp), &lvalid, &left, &right, procop, 53);
+            }
         } else if (list_getType(opStack, i) == CHR) {
             float tmp = ctoi(list_getc(opStack, i)) - 10;
             __assign(0, &lvalid, &left, &right, procop, tmp);
