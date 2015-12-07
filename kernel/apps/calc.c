@@ -342,7 +342,8 @@ float evaluate(list_t opStack) {
                         }
                         strbuilder_append(&simStack, rInput);
                         // Must replace `_` with value left
-                        left = calc_parse(simStack);
+                        println(strbuilder_tostr(simStack), 0x04);
+                        __assign(calc_parse(simStack), &lvalid, &left, &right, procop, 53);
                         strbuilder_destroy(&simStack);
                     }
                 }
