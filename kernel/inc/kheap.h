@@ -16,6 +16,30 @@
 /**
    Size information for a hole/block
 **/
+
+#ifndef ORDERED_ARRAY_STRUCT
+#define ORDERED_ARRAY_STRUCT
+/**
+   This array is insertion sorted - it always remains in a sorted state (between calls).
+   It can store anything that can be cast to a void* -- so a uint32, or any pointer.
+**/
+typedef void* type_t;
+/**
+   A predicate should return nonzero if the first argument is less than the second. Else
+   it should return zero.
+**/
+typedef int8 (*lessthan_predicate_t)(type_t,type_t);
+
+
+typedef struct
+{
+    type_t *array;
+    uint32 size;
+    uint32 max_size;
+    lessthan_predicate_t less_than;
+} ordered_array_t;
+#endif
+
 typedef struct
 {
     uint32 magic;   // Magic number, used for error checking and identification.
@@ -39,16 +63,7 @@ typedef struct
     uint8 readonly;       // Should extra pages requested by us be mapped as read-only?
 } heap_t;
 
-#ifndef ORDERED_ARRAY_STRUCT
-#define ORDERED_ARRAY_STRUCT
-typedef struct
-{
-    type_t *array;
-    uint32 size;
-    uint32 max_size;
-    lessthan_predicate_t less_than;
-} ordered_array_t;
-#endif
+
 
 /**
    Create a new heap.

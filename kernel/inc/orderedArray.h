@@ -9,6 +9,9 @@
 #include "byteUtils.h"
 #include "intTypeDefs.h"
 
+
+#ifndef ORDERED_ARRAY_STRUCT
+#define ORDERED_ARRAY_STRUCT
 /**
    This array is insertion sorted - it always remains in a sorted state (between calls).
    It can store anything that can be cast to a void* -- so a uint32, or any pointer.
@@ -20,8 +23,7 @@ typedef void* type_t;
 **/
 typedef int8 (*lessthan_predicate_t)(type_t,type_t);
 
-#ifndef ORDERED_ARRAY_STRUCT
-#define ORDERED_ARRAY_STRUCT
+
 typedef struct
 {
     type_t *array;
