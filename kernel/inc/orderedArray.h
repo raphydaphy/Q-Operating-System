@@ -15,10 +15,13 @@
 **/
 typedef void* type_t;
 /**
-   A predicate should return nonzero if the first argument is less than the second. Else 
+   A predicate should return nonzero if the first argument is less than the second. Else
    it should return zero.
 **/
 typedef int8 (*lessthan_predicate_t)(type_t,type_t);
+
+#ifndef ORDERED_ARRAY_STRUCT
+#define ORDERED_ARRAY_STRUCT
 typedef struct
 {
     type_t *array;
@@ -26,6 +29,7 @@ typedef struct
     uint32 max_size;
     lessthan_predicate_t less_than;
 } ordered_array_t;
+#endif
 
 #include "kheap.h" /* This line MUST go after ordered_array_t typedef*/
 
@@ -61,4 +65,3 @@ type_t lookup_ordered_array(uint32, ordered_array_t*);
 void remove_ordered_array(uint32, ordered_array_t*);
 
 #endif // ORDERED_ARRAY_H
-

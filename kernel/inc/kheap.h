@@ -39,6 +39,17 @@ typedef struct
     uint8 readonly;       // Should extra pages requested by us be mapped as read-only?
 } heap_t;
 
+#ifndef ORDERED_ARRAY_STRUCT
+#define ORDERED_ARRAY_STRUCT
+typedef struct
+{
+    type_t *array;
+    uint32 size;
+    uint32 max_size;
+    lessthan_predicate_t less_than;
+} ordered_array_t;
+#endif
+
 /**
    Create a new heap.
 **/
@@ -79,7 +90,7 @@ uint32 kmalloc_a(uint32 sz);
 uint32 kmalloc_p(uint32 sz, uint32 *phys);
 
 /**
-   Allocate a chunk of memory, sz in size. The physical address 
+   Allocate a chunk of memory, sz in size. The physical address
    is returned in phys. It must be page-aligned.
 **/
 uint32 kmalloc_ap(uint32 sz, uint32 *phys);
@@ -95,4 +106,3 @@ uint32 kmalloc(uint32 sz);
 void kfree(void *p);
 
 #endif // KHEAP_H
-
