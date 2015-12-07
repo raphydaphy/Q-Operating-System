@@ -205,6 +205,7 @@ void readStr(string buffstr, uint32 bufSize)
             case 30:
                 if (ctrl) {
                     moveCursorX(-cursorX + deleteStopX);
+                    i = 0;
                     handled = true;
                 }
                 break;
@@ -234,6 +235,7 @@ void readStr(string buffstr, uint32 bufSize)
             case 48:
                 if (ctrl) {
                     moveCursorX(-1);
+                    i--;
                     handled = true;
                 }
                 break;
@@ -261,9 +263,11 @@ void readStr(string buffstr, uint32 bufSize)
                 break;
             case 75:				//Left Arrow
                 moveCursorX(-1);
+                i--;
                 break;
             case 77:				//Right Arrow
                 moveCursorX(1);
+                i++;
                 break;
             case 80:				//Down Arrow
                 if (writing) {
