@@ -7,6 +7,6 @@
 #include "../inc/screenUtils.h"
 #include "../inc/stringUtils.h"
 
-void test(string);
+void test(list_t);
 
 #endif
