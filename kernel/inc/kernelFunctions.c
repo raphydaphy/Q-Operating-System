@@ -38,17 +38,23 @@ void launchShell()
 
         bool wordStarted = false;
         string tempArg = (string) kmalloc(BUFSIZE * sizeof(char));
-        for(uint8 i = 0; i < strlen(rawInput); i++){
-            if(isspace(rawInput[i])){
-                if(wordStarted){
+        for(uint8 i = 0; i < strlen(rawInput); i++)
+        {
+            if(isspace(rawInput[i]))
+            {
+                if(wordStarted)
+                {
                     list_add(&args, tempArg);
                     wordStarted = false;
                     tempArg = (string) kmalloc(BUFSIZE * sizeof(char));
                 }
-            }else{
+            }
+            else
+            {
                 wordStarted = true;
                 append(tempArg,rawInput[i]);
-                if(i+1 == strlen(rawInput)){
+                if(i+1 == strlen(rawInput))
+                {
                     list_add(&args, tempArg);
                     wordStarted = false;
                     tempArg = (string) kmalloc(BUFSIZE * sizeof(char));
@@ -56,12 +62,14 @@ void launchShell()
             }
         }
         string commandString = (string) kmalloc(BUFSIZE * sizeof(char));
-        if(args.size > 0){
+        if(args.size > 0)
+        {
             commandString = list_gets(args,0);
         }
         list_remove(&args,0);
         string firstArg = (string) kmalloc(BUFSIZE * sizeof(char));
-        if(args.size > 0){
+        if(args.size > 0)
+        {
             firstArg = list_gets(args,0);
         }
         list_shrink(&args);
@@ -82,7 +90,8 @@ void launchShell()
 	    else if(streql(commandString, "me"           )) {   me(rawInput);     }
 	    else if(streql(commandString, "search"       )) {   SEARCHFOR;        }
         else                                            {   CMDNOTFOUND;      }
-        if(args.size > 0){
+        if(args.size > 0)
+        {
             list_destroy(&args);
         }
     }
