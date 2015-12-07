@@ -3,14 +3,14 @@
 
 #define MULTI_ARG_DEBUG false
 
-void printIntro() 
+void printIntro()
 {
     print("================================================================================", 0x3F);
     print("                             Welcome to Q OS                                    ", 0x3F);
     print("================================================================================", 0x3F);
 }
 
-void launchShell() 
+void launchShell()
 {
     initialize_calc();
 
@@ -109,16 +109,6 @@ void launchShell()
                         fs = 0;
                         ay++;
                         ax = 0;
-<<<<<<< HEAD
-                    }
-                }
-                else if(fs == 0)
-                {
-                    arguments[ay][ax] = rawCommand[i];
-                    ax++;
-                }
-                //}
-=======
                     }
                     } else if(fs == 0)
                     {
@@ -126,7 +116,6 @@ void launchShell()
                         ax++;
                     }
                 }
->>>>>>> fc3449723514807d2ed785bee6dbe1625094c672
                 else
                 {
                     break;
