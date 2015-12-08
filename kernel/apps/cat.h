@@ -14,7 +14,7 @@ void catTheFile(fs_node_t*);
 bool lookup(fs_node_t*,string);
 bool findInDictionary(string,string);
 
-string extractLine(fs_node_t*,int);
+string extractLine(fs_node_t*,string);
 string extract(string,int);
 
 #endif

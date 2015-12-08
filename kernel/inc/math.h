@@ -3,6 +3,7 @@
 
 #include "charUtils.h"
 #include "screenUtils.h"
+#include "assemblyFunctions.h" // Here is where the inportb and outportb is
 
 // We;; obviously fifty digits of PI isn't accurate enough..
 #ifndef PI
