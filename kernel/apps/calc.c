@@ -63,8 +63,10 @@ static inline legalOps getOperator(char charToCheck) {
 
 void calcHelp()
 {
-    print("\nCalculator help: ", 0x0F);
-    print("\n[HELP TEXT HERE]", 0x0F);
+    print("\nCalculator help:", 0x0F);
+    print("\ncalc [OPTIONS] | <expr>", 0x0F);
+    print("\nOPTIONS:", 0x0F);
+    print("\n\t-h, -pi, -e", 0x0F);
 }
 
 //Prints an error based on the error ID
@@ -110,22 +112,6 @@ void calc(string args)
         readStr(calcInput, CALC_SIZE);
         newline();
     	printfloat(powerOfTen(stoi(calcInput)), 0x0F);
-    }
-    else if(streql(splitArg(args, 1),"-sin"))
-    {
-        newline();
-        print("Angle in gradiant>  ",0x08);
-        readStr(calcInput, CALC_SIZE);
-        newline();
-    	printfloat(sin(stoi(calcInput)), 0x0F);
-    }
-    else if(streql(splitArg(args, 1),"-cos"))
-    {
-        newline();
-        print("Angle in gradiant>  ",0x08);
-        readStr(calcInput, CALC_SIZE);
-        newline();
-    	printfloat(cos(stoi(calcInput)), 0x0F);
     }
     else
     {
