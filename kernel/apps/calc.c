@@ -3,9 +3,7 @@
 #define CALC_SIZE 128
 static char calcInput[CALC_SIZE];
 
-// There are 52 alphabets 
-// But P and E are constants (Pi and Eulers num)
-// Basically, there will be 2 reserved spots
+// There are 52 alphabets
 static float varList[52];
 
 static hashmap_t funcList;
@@ -161,13 +159,7 @@ float calc_parse(strbuilder_t txt) {
             if(isspace(c)) {
                 prev = NOOP;
             } else if (isalpha(c)) {
-                if (c == 'P') {
-                    list_add(&opStack, ftos(PI));
-                } else if (c == 'E') {
-                    list_add(&opStack, ftos(E));
-                } else {
-                    list_addc(&opStack, c); // Variables! Yay
-                }
+                list_addc(&opStack, c); // Variables! Yay
             } else if (c == '[') {
                 // (4.5)[ceil] := (4.5)[ ceil ]
                 // Note `[`, `]` cannot be part a function name
@@ -333,6 +325,27 @@ float evaluate(list_t opStack) {
                     left = floor(left);
                 } else if(streql(fname, "round")) {
                     left = round(left);
+                } else if(streql(fname, "Pi")) {
+                    // Type casting twice because Pi is way Out of range
+                    // If we use (float)PI, we loose accuracy
+                    __assign(stod(ftos(PI)), &lvalid, &left, &right, procop, 53);
+                } else if(streql(fname, "e")) {
+                    // Same as [Pi]
+                    __assign(stod(ftos(E)), &lvalid, &left, &right, procop, 53);
+                } else if(streql(fname, "sin")) {
+                    left = sin(left);
+                } else if(streql(fname, "cos")) {
+                    left = cos(left);
+                } else if(streql(fname, "sec")) {
+                    left = 1.0 / cos(left);
+                } else if(streql(fname, "csc")) {
+                    left = 1.0 / sin(left);
+                } else if(streql(fname, "tan")) {
+                    left = sin(left) / cos(left);
+                } else if(streql(fname, "sqrt")) {
+                    left = sqrt(left);
+                } else if(streql(fname, "cbrt")) {
+                    left = cbrt(left);
                 } else {
                     string rInput = etos(hashmap_getVal(funcList, fname));
                     if(streql(rInput, "")) {

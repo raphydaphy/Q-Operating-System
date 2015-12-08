@@ -1,4 +1,5 @@
 #include "stringUtils.h"
+#include "kheap.h" // THIS LINE MUST BE HERE!!!
 
 uint16 strlen(string ch)
 {
