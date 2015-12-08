@@ -10,6 +10,7 @@
 #include "inc/kbDetect.h"
 #include "inc/descriptorTables.h"
 #include "inc/assemblyFunctions.h"
+#include "inc/consoleUI.h"
 #include "inc/math.h"
 #include "inc/list.h"
 
@@ -49,6 +50,10 @@ for (uint32 i = 0; i < l.size; i++) {
     println(list_get(l, i), 0x0F);
 }
 list_destroy(&l);
+
+// This line make the screen red
+//paintScreen(0x44);
+
 launchShell();
 
 	return 0;
