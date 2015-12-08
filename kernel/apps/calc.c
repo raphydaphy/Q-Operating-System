@@ -93,17 +93,17 @@ void calc(string args)
     memset(calcInput, 0, CALC_SIZE);
     if(streql(args," -h"))
        calcHelp();
-    else if(streql(args," -pi"))
+    else if(streql(splitArg(args, 1),"-pi"))
     {
         newline();
         print(PI_S, 0x08);
     }
-    else if(streql(args," -e"))
+    else if(streql(splitArg(args, 1),"-e"))
     {
         newline();
         print(E_S, 0x08);
     }
-    else if(streql(args," -pow"))
+    else if(streql(splitArg(args, 1),"-pow"))
     {
         newline();
         print("Number>  ",0x08);
@@ -111,7 +111,7 @@ void calc(string args)
         newline();
     	printfloat(powerOfTen(stoi(calcInput)), 0x0F);
     }
-    else if(streql(args," -sin"))
+    else if(streql(splitArg(args, 1),"-sin"))
     {
         newline();
         print("Angle in gradiant>  ",0x08);
@@ -119,7 +119,7 @@ void calc(string args)
         newline();
     	printfloat(sin(stoi(calcInput)), 0x0F);
     }
-    else if(streql(args," -cos"))
+    else if(streql(splitArg(args, 1),"-cos"))
     {
         newline();
         print("Angle in gradiant>  ",0x08);
@@ -130,16 +130,40 @@ void calc(string args)
     else
     {
         strbuilder_t simStack = strbuilder_init();
-        print("\nUse calc -h for help\n>  ", 0x0F);
-        readStr(calcInput, CALC_SIZE);
-        if (strTrim(calcInput)[0] == '(') {
-            // This relates to when brackets is the first term of the expr
-            strbuilder_append(&simStack, "1"); // (3) := 0; 1(3) := 3
+        if (streql(splitArg(args, 1),"") || streql(splitArg(args, 1)," "))
+        {
+            calcHelp();
         }
-        strbuilder_append(&simStack, calcInput);
-        newline();
-        printfloat(calc_parse(simStack), 0x0F);
-        strbuilder_destroy(&simStack);
+        else
+        {
+            bool complete = false;
+            int cpyCount = 1;
+
+            strcpy(calcInput,splitArg(args, 1));
+
+            while (!complete)
+            {
+                cpyCount++;
+                if (streql(splitArg(args, cpyCount),"") || streql(splitArg(args, cpyCount)," "))
+                {
+                    complete = true;
+                }
+                else
+                {
+                    strcat(calcInput,splitArg(args, cpyCount));
+                }
+            }
+
+            if (strTrim(calcInput)[0] == '(') {
+                // This relates to when brackets is the first term of the expr
+                strbuilder_append(&simStack, "1"); // (3) := 0; 1(3) := 3
+            }
+            strbuilder_append(&simStack, calcInput);
+            newline();
+            printfloat(calc_parse(simStack), 0x0F);
+            strbuilder_destroy(&simStack);
+        }
+
     }
 }
 
@@ -413,4 +437,3 @@ float evaluate(list_t opStack) {
     }
     return left;
 }
-
