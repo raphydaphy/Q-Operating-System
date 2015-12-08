@@ -63,8 +63,10 @@ static inline legalOps getOperator(char charToCheck) {
 
 void calcHelp()
 {
-    print("\nCalculator help: ", 0x0F);
-    print("\n[HELP TEXT HERE]", 0x0F);
+    print("\nCalculator help:", 0x0F);
+    print("\ncalc [OPTIONS] | <expr>", 0x0F);
+    print("\nOPTIONS:", 0x0F);
+    print("\n\t-h, -pi, -e", 0x0F);
 }
 
 //Prints an error based on the error ID
@@ -111,35 +113,42 @@ void calc(string args)
         newline();
     	printfloat(powerOfTen(stoi(calcInput)), 0x0F);
     }
-    else if(streql(args,"-sin"))
-    {
-        newline();
-        print("Angle in gradiant>  ",0x08);
-        readStr(calcInput, CALC_SIZE);
-        newline();
-    	printfloat(sin(stoi(calcInput)), 0x0F);
-    }
-    else if(streql(args,"-cos"))
-    {
-        newline();
-        print("Angle in gradiant>  ",0x08);
-        readStr(calcInput, CALC_SIZE);
-        newline();
-    	printfloat(cos(stoi(calcInput)), 0x0F);
-    }
     else
     {
         strbuilder_t simStack = strbuilder_init();
-        print("\nUse calc -h for help\n>  ", 0x0F);
-        readStr(calcInput, CALC_SIZE);
-        if (strTrim(calcInput)[0] == '(') {
-            // This relates to when brackets is the first term of the expr
-            strbuilder_append(&simStack, "1"); // (3) := 0; 1(3) := 3
+        if (streql(splitArg(args, 1),"") || streql(splitArg(args, 1)," "))
+        {
+            calcHelp();
         }
-        strbuilder_append(&simStack, calcInput);
-        newline();
-        printfloat(calc_parse(simStack), 0x0F);
-        strbuilder_destroy(&simStack);
+        else
+        {
+            bool complete = false;
+            int cpyCount = 1;
+
+            strcpy(calcInput,splitArg(args, 1));
+
+            while (!complete)
+            {
+                cpyCount++;
+                if (streql(splitArg(args, cpyCount),"") || streql(splitArg(args, cpyCount)," "))
+                {
+                    complete = true;
+                }
+                else
+                {
+                    strcat(calcInput,splitArg(args, cpyCount));
+                }
+            }
+
+            if (strTrim(calcInput)[0] == '(') {
+                // This relates to when brackets is the first term of the expr
+                strbuilder_append(&simStack, "1"); // (3) := 0; 1(3) := 3
+            }
+            strbuilder_append(&simStack, calcInput);
+            newline();
+            printfloat(calc_parse(simStack), 0x0F);
+            strbuilder_destroy(&simStack);
+        }
     }
 }
 
@@ -413,4 +422,3 @@ float evaluate(list_t opStack) {
     }
     return left;
 }
-
