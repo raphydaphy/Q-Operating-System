@@ -1,0 +1,17 @@
+/*
+	Big Picture by Pixelarity
+	pixelarity.com @pixelarity
+	License: pixelarity.com/license
+*/
+
+/* Loader */
+
+	body:before, body:after {
+		display: none !important;
+	}
+
+/* Poptrox */
+
+	.poptrox-popup .loader {
+		display: none !important;
+	}
