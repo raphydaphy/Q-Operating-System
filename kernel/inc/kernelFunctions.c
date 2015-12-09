@@ -55,7 +55,7 @@ void launchShell()
 
     while (true)
     {
-        print("\nQ-Kernel>  ", 0x88);
+        print("\nQ-Kernel>  ", 0x87);
         typingCmd = true;
         newCmd = true;
         readStr(rawCommand, bufSize);

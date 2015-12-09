@@ -37,6 +37,8 @@ void clearScreen()
     cursorX = 0;
     cursorY = 0;
     updateCursor();
+
+    paintScreen(0x88);
 }
 
 void scrollUp(uint8 lineNumber)
@@ -49,6 +51,9 @@ void scrollUp(uint8 lineNumber)
     }
     clearLine(sh-1-lineNumber,sh-1);
     cursorY -= lineNumber;
+
+    paintScreen(0x88);
+
     updateCursor();
 }
 

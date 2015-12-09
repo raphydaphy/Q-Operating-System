@@ -5,6 +5,7 @@
 //include dependent files for screen.c
 #include "assemblyFunctions.h"
 #include "stringUtils.h"
+#include "consoleUI.h"
 
 //define variables for kernel.c
 bool writing;
