@@ -234,8 +234,18 @@ void readStr(string buffstr, uint32 bufSize)
                 break;
             case 48:
                 if (ctrl) {
-                    moveCursorX(-1);
-                    i--;
+                if (deleteStopX > 0)
+                {
+                 if ((cursorX == deleteStopX) && (cursorY == startCmdY))
+                 {
+                 continue;
+                 }
+                 else
+                  {
+                  moveCursorX(-1);
+                  i--;
+                  }
+                }
                     handled = true;
                 }
                 break;
@@ -262,8 +272,18 @@ void readStr(string buffstr, uint32 bufSize)
                 }
                 break;
             case 75:				//Left Arrow
-                moveCursorX(-1);
-                i--;
+                if (deleteStopX > 0)
+                {
+                 if ((cursorX == deleteStopX) && (cursorY == startCmdY))
+                 {
+                 continue;
+                 }
+                 else
+                  {
+                  moveCursorX(-1);
+                  i--;
+                  }
+                }
                 break;
             case 77:				//Right Arrow
                 moveCursorX(1);
