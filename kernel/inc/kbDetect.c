@@ -29,7 +29,7 @@ const char charsCapsLock[256] =    {
 };
 
 uint8 backspaceOne(uint8 i, string buffstr, uint32 bufSize) {
-    kprintch('\b', 0x0F, false);
+    kprintch('\b', white, false);
     i--;
     char old = buffstr[i];
     if(old == '\t') {
@@ -37,7 +37,7 @@ uint8 backspaceOne(uint8 i, string buffstr, uint32 bufSize) {
         delCount = delCount == 0? 4 : delCount;
         while(delCount--) {
             buffstr[i] = 0;
-            kprintch('\b', 0x0F, false);
+            kprintch('\b', white, false);
             i--;
         }
         i++;
@@ -51,7 +51,7 @@ uint8 backspaceOne(uint8 i, string buffstr, uint32 bufSize) {
 uint8 backspaceMul(uint8 i, string buffstr, uint32 bufSize) {
     char old; // This is a place holder
     do {
-        kprintch('\b', 0x0F, false);
+        kprintch('\b', white, false);
         i--;
         old = buffstr[i];
         buffstr[i] = 0;
@@ -63,10 +63,10 @@ uint8 backspaceMul(uint8 i, string buffstr, uint32 bufSize) {
 }
 
 uint8 pushCtrlChar(uint8 i, string buffstr, char caps, uint32 bufSize) {
-    kprintch('^', 0x0F, false);
+    kprintch('^', white, false);
     buffstr[i] = '^';
     i++;
-    kprintch(caps, 0x0F, false);
+    kprintch(caps, white, false);
     buffstr[i] = caps;
     if(++i >= bufSize) {
         buffOverflow = true;
@@ -93,7 +93,7 @@ uint32 charKeyPressed(string buffstr, uint8 ch, uint32 i, uint32 bufSize) {
         return pushCtrlChar(i, buffstr, chars[ch], bufSize);
     }
     buffstr[i] = toPrint;
-    kprintch(toPrint, 0x0F, false);
+    kprintch(toPrint, white, false);
     if(++i >= bufSize) {
         buffOverflow = true;
     }
@@ -127,7 +127,7 @@ void readStr(string buffstr, uint32 bufSize)
 	        updateCursor();
 	        writing = false;
 	        progexit = false;
-	        print("Q-Kernel>  ", 0x08);
+	        print("Q-Kernel>  ", dark_grey);
 	    }
 
 
@@ -193,7 +193,7 @@ void readStr(string buffstr, uint32 bufSize)
             case 28:				//This is the enter key, we need to add more functionality to it with Writer and other commands
                 if (writing)
                 {
-                    printch('\n',0x0F);
+                    printch('\n',white);
                     buffstr[i] = '\n';
                     i++;
                 }
@@ -294,12 +294,12 @@ void readStr(string buffstr, uint32 bufSize)
 
 void kbHelp()
 {
-    print("\nKeybindings in Q OS:", 0x0F);
-    print("\n\tCtrl-b -> left", 0x0F);
-    print("\n\tCtrl-f -> right", 0x0F);
-    print("\n\tCtrl-a -> home", 0x0F);
-    print("\n\tCtrl-p -> up", 0x0F);
-    print("\n\tCtrl-n -> down", 0x0F);
-    print("\n\tCtrl-z -> quit", 0x0F);
-    println("\n\tCtrl-l -> clear", 0x0F);
+    print("\nKeybindings in Q OS:", white);
+    print("\n\tCtrl-b -> left", white);
+    print("\n\tCtrl-f -> right", white);
+    print("\n\tCtrl-a -> home", white);
+    print("\n\tCtrl-p -> up", white);
+    print("\n\tCtrl-n -> down", white);
+    print("\n\tCtrl-z -> quit", white);
+    println("\n\tCtrl-l -> clear", white);
 }

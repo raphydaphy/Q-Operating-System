@@ -23,25 +23,25 @@ void me(string args) {
         if (streql(splitArg(args, 1), "test") && !hasSetup)
         {
             hasSetup = true;
-            print("\nYou have skipped the Me setup process.",0x06);
+            print("\nYou have skipped the Me setup process.",brown);
         }
         else if (!hasSetup)
         {
-            print("\nWelcome to Me.",0x03);
-            print("\nMe is the worlds first truly rubbish personal assistant.",0x03);
-            print("\nTo use me, simply ask it a question.",0x03);
-            print("\nFor example, type 'me what is the time?'",0x03);
-            print("\nTo start using Me, please enter some basic information below when prompted.",0x03);
+            print("\nWelcome to Me.",grey);
+            print("\nMe is the worlds first truly rubbish personal assistant.",grey);
+            print("\nTo use me, simply ask it a question.",grey);
+            print("\nFor example, type 'me what is the time?'",grey);
+            print("\nTo start using Me, please enter some basic information below when prompted.",grey);
             newline();
 
             newline();
-            print("What is your name: ",0x0B);
+            print("What is your name: ",cyan);
             readStr(name,128);
 
             while (!birthYearValid)
             {
                 newline();
-                print("What year were you born in: ",0x0B);
+                print("What year were you born in: ",cyan);
                 readStr(birthYear,5);
                 birthYearInt = stoi(birthYear);
 
@@ -49,12 +49,12 @@ void me(string args) {
                 if (birthYearInt < 2016 && birthYearInt > 1900)
                 {
                     birthYearValid = true;
-                    print(" Good",0x02);
+                    print(" Good",light_green);
                 }
 
                 if (!birthYearValid)
                 {
-                    print(" Invalid",0x0C);
+                    print(" Invalid",bright_red);
                 }
             }
 
@@ -62,38 +62,38 @@ void me(string args) {
             while (!birthDateValid)
             {
                 newline();
-                print("What day of the month were you born in: ",0x0B);
+                print("What day of the month were you born in: ",cyan);
                 readStr(birthDate,3);
                 birthDateInt = stoi(birthDate);
 
                 if (birthDateInt < 32)
                 {
                     birthDateValid = true;
-                    print(" Good",0x02);
+                    print(" Good",light_green);
                 }
 
                 if (!birthDateValid)
                 {
-                    print(" Invalid",0x0C);
+                    print(" Invalid",bright_red);
                 }
             }
 
             while (!birthMonthValid)
             {
                 newline();
-                print("What month were you born in: ",0x0B);
+                print("What month were you born in: ",cyan);
                 readStr(birthMonth,128);
                 birthMonth = toUpper(birthMonth);
 
                 if (findInDictionary("me/setup/month.text",birthMonth))
                 {
                     birthMonthValid = true;
-                    print(" Good",0x02);
+                    print(" Good",light_green);
                 }
 
                 if (!birthMonthValid)
                 {
-                    print(" Invalid",0x0C);
+                    print(" Invalid",bright_red);
                 }
             }
 
@@ -101,19 +101,19 @@ void me(string args) {
             {
 
                 newline();
-                print("What continent do you live in: ",0x0B);
+                print("What continent do you live in: ",cyan);
                 readStr(continent,128);
                 continent = toUpper(continent);
 
                 if (findInDictionary("me/setup/continent.text",continent))
                 {
                     continentValid = true;
-                    print(" Good",0x02);
+                    print(" Good",light_green);
                 }
 
                 if (!continentValid)
                 {
-                    print(" Invalid",0x0C);
+                    print(" Invalid",bright_red);
                 }
             }
 
@@ -121,68 +121,68 @@ void me(string args) {
             while (!countryValid)
             {
                 newline();
-                print("What country do you live in: ",0x0B);
+                print("What country do you live in: ",cyan);
                 readStr(country,128);
                 country = toUpper(country);
 
                 if (findInDictionary("me/setup/country.text",country))
                 {
                     countryValid = true;
-                    print(" Good",0x02);
+                    print(" Good",light_green);
                 }
 
                 if (!countryValid)
                 {
-                    print(" Invalid",0x0C);
+                    print(" Invalid",bright_red);
                 }
             }
 
             while (!stateValid)
             {
                 newline();
-                print("What state/province do you currently live in: ",0x0B);
+                print("What state/province do you currently live in: ",cyan);
                 readStr(state,128);
                 state = toUpper(state);
 
                 if (findInDictionary("me/setup/state.text",state))
                 {
                     stateValid = true;
-                    print(" Good",0x02);
+                    print(" Good",light_green);
                 }
 
                 if (!stateValid)
                 {
-                    print(" Invalid",0x0C);
+                    print(" Invalid",bright_red);
                 }
             }
 
             newline();
-            print("What city do you live in: ",0x0B);
+            print("What city do you live in: ",cyan);
             readStr(city,128);
 
             while (!zipValid)
             {
                 newline();
-                print("What is the zip/post code in your area: ",0x0B);
+                print("What is the zip/post code in your area: ",cyan);
                 readStr(zip, 17);
                 zipInt = htoi(zip);
                 if (zipInt > 0)
                 {
                     zipValid = true;
-                    print(" Good",0x02);
+                    print(" Good",light_green);
                 }
             }
 
             newline();
             hasSetup = "true";
-            print("Me is now ready to use!",0x03);
+            print("Me is now ready to use!",grey);
 
             newline();
-            print("When Me dosen't know information, it can ask you for help.",0x03);
+            print("When Me dosen't know information, it can ask you for help.",grey);
         }
         else
         {
-            print("\nYou have already completed the setup process for Me!",0x05);
+            print("\nYou have already completed the setup process for Me!",purple);
         }
     }
     else if (streql(splitArg(args, 1),""))
@@ -195,10 +195,10 @@ void me(string args) {
             newline();
 
             //meArgs = "";
-            print("me>  ",0x0A);
+            print("me>  ",green);
             readStr(meArgs,128);
 
-            print(answer(meArgs,0),0x04);
+            print(answer(meArgs,0),red);
         }
     }
     else

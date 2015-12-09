@@ -161,7 +161,7 @@ string get0Arg(string rawArgs)
         modTmp = tmp + 1;
 
         // For Debug:
-        //printint(tmp,0x03);
+        //printint(tmp,grey);
 
         char curArgChar = rawArgs[tmp];
         char curArgCharString[] = { curArgChar, '\0' };
@@ -176,7 +176,7 @@ string get0Arg(string rawArgs)
         }
         else
         {
-            print(curArgCharString,0x0F);
+            print(curArgCharString,white);
             strcat(curArg,curArgCharString);
         }
 

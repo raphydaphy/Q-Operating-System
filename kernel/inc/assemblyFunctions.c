@@ -59,12 +59,12 @@ void shutdown()
 
 		"movb 0x53, %ah\n"
 		"xorw %bx,%bx\n"
-		"movb $0x02,%cl\n"
+		"movb $0x82,%cl\n"
 		"int $0x15\n"
 
 		"movb $0x53,%al\n"
-		"movw $0x0001,%bx\n"
-		"movw $0x0003,%cx\n"
+		"movw $0x8001,%bx\n"
+		"movw $0x8003,%cx\n"
 		"int $0x15\n"
 
 		"ret\n"
@@ -76,8 +76,8 @@ void shutdown()
                 "mov %ax, %ss\n"
                 "mov %sp, 0xf000\n"
                 "mov %ax, 0x5307\n"
-                "mov %bx, 0x0001\n"
-                "mov %cx, 0x0003\n"
+                "mov %bx, 0x8001\n"
+                "mov %cx, 0x8003\n"
                 "int $0x15\n"
 	);*/
 }
