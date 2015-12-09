@@ -18,22 +18,24 @@
 #define desc_foreground 0x34
 
 // all the colors that can be used in a print statement using default background color
-#define black 0x90
-#define blue 0x91
-#define light_green 0x92
-#define grey 0x93
-#define red 0x94
-#define purple 0x95
-#define brown 0x96
-#define light_grey 0x97
-#define dark_grey 0x98
-#define light_blue 0x99
-#define green 0x9A
-#define cyan 0x9B
-#define bright_red 0x9C
-#define magenta 0x9D
-#define yellow 0x9E
-#define white 0x9F
+typedef enum {
+    black = 0x90,
+    blue = 0x91,
+    light_green = 0x92,
+    grey = 0x93,
+    red = 0x94,
+    purple = 0x95,
+    brown = 0x96,
+    light_grey = 0x97,
+    dark_grey = 0x98,
+    light_blue = 0x99,
+    green = 0x9A,
+    cyan = 0x9B,
+    bright_red = 0x9C,
+    magenta = 0x9D,
+    yellow = 0x9E,
+    white = 0x9F
+} colors;
 
 //define variables for kernel.c
 bool writing;
