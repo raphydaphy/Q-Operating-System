@@ -136,12 +136,12 @@ void launchShell()
         else if(streql(bufStr, "help"))             {   BIGHELP;                }
         else if(streql(bufStr, "system"))           {   system(rawCommand);     }
         else if(streql(bufStr, "skip"))             {   skip(rawCommand);       }
-        else if(streql(bufStr, "files"))            {   files(arguments[0]);    }
+        else if(streql(bufStr, "files"))            {   files(rawCommand);      }
         else if(streql(bufStr, "cat"))              {   cat(rawCommand);        }
         else if(streql(bufStr,"execute"))           {   execute();              }
         else if(streql(bufStr,"switch"))            {   SWITCHDIR;              }
         else if(streql(bufStr,"writer"))            {   writer(arguments[0]);   }
-        else if(streql(bufStr, "calc"))             {   calc(rawCommand);     }
+        else if(streql(bufStr, "calc"))             {   calc(rawCommand);       }
         else if(streql(bufStr, "clear"))            {   clearScreen();          }
         else if(streql(bufStr, "test"))             {   test(arguments[0]);     }
         else if(streql(bufStr, "newdir"))           {   MKDIR;                  }
