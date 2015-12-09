@@ -63,6 +63,7 @@ void newLineCheck()
     if(cursorY >= (uint8)(sh - 1))
     {
         scrollUp(1);
+        paintScreen(0x88);
     }
 }
 
