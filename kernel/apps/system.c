@@ -28,7 +28,7 @@ void system(string args)
     }
   else if (streql(splitArg(args, 1),"about"))
     {
-        print("\n Q Operating System \nVersion: 0.0.5 Alpha\n", 0xCF);
+        print("\n Q Operating System \nVersion: 0.06 Alpha\n", 0xCF);
         //You might wanna replace your slack name with your full name (Its in alphabetical order)
         print("\nDevelopers:\n",0x0F);
         print("- barteks2x\n",0x0F);

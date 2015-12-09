@@ -10,7 +10,7 @@ void printIntro()
     // Made the intro beautiful
     drawFrame(0x38, 0, 0, 80, 4);
     printAt("                            Welcome to Q OS                                   \r\n", 0x39, 1, 1);
-    printAt("                      You are using version 0.0.5                             ",0x34,1,2);
+    printAt("                      You are using version 0.06                              ",0x34,1,2);
 
     newline();
     newline();
