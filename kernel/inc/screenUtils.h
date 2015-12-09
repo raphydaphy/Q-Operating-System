@@ -6,6 +6,7 @@
 #include "assemblyFunctions.h"
 #include "stringUtils.h"
 #include "consoleUI.h"
+#include "intUtils.h"
 
 // the screen color in 0xXX and 0xX form with the X being replaced by color in hex notation
 #define screen_color 0x99
@@ -36,6 +37,8 @@ typedef enum {
     yellow = 0x9E,
     white = 0x9F
 } colors;
+
+//int happyWhite = intcat(intcat(0x,screen_color),F);
 
 //define variables for kernel.c
 bool writing;
