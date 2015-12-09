@@ -63,11 +63,11 @@ void newLineCheck()
 
 void kprintch(char c, int b, bool incDelStop)
 {
-    string vidmem = (string) 0xb8000;     
+    string vidmem = (string) 0xb8000;
     switch(c)
     {
     case (0x08): // Backspace
-        if(cursorX > 0) 
+        if(cursorX > 0)
         {
             cursorX--;
             if (incDelStop) deleteStopX--;

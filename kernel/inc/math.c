@@ -2,7 +2,7 @@
 
 //CHRONO VARIABLES
 //Time functions from http://wiki.osdev.org/CMOS
-int century_register = 0x00;                                // Set by ACPI table parsing code if possible
+int century_register = 0x80;                                // Set by ACPI table parsing code if possible
 
 #define CURRENT_YEAR 2015
 unsigned char second;
@@ -108,11 +108,11 @@ int factorial(int num) {
 
 float sin(int ang)
 {
-  
-    // convert gradiant in to radiant 
-    
+
+    // convert gradiant in to radiant
+
     float angrad = PI / 180 * ang;
-    
+
     int angf3 = factorial(3);
     int angf5 = factorial(5);
     int angf7 = factorial(7);
@@ -120,7 +120,7 @@ float sin(int ang)
     int angf11 = factorial(11);
     int angf13 = factorial(13);
     int angf15 = factorial(15);
-    
+
     float ang3 = angrad * angrad * angrad;
     float ang5 = ang3 * angrad * angrad;
     float ang7 = ang5 * angrad * angrad;
@@ -128,7 +128,7 @@ float sin(int ang)
     float ang11 = ang9 * angrad * angrad;
     float ang13 = ang11 * angrad * angrad;
     float ang15 = ang13 * angrad * angrad;
-    
+
     float ang33 = ang3 / angf3;
     float ang55 = ang5 / angf5;
     float ang77 = ang7 / angf7;
@@ -136,11 +136,11 @@ float sin(int ang)
     float ang111 = ang11 / angf11;
     float ang133 = ang13 / angf13;
     float ang155 = ang15 / angf15;
-    
+
     // taylor series
-    
+
     float sin = angrad - ang33 + ang55 - ang77 + ang99 - ang111 + ang133 - ang155;
-   
+
     return sin;
 }
 
@@ -150,11 +150,11 @@ float sin(int ang)
 
 float cos(int ang)
 {
-  
-    // convert gradiant in to radiant 
-    
+
+    // convert gradiant in to radiant
+
     float angrad = PI / 180 * ang;
-    
+
     int angf2 = factorial(2);
     int angf4 = factorial(4);
     int angf6 = factorial(6);
@@ -162,7 +162,7 @@ float cos(int ang)
     int angf10 = factorial(10);
     int angf12 = factorial(12);
     int angf14 = factorial(14);
-    
+
     float ang2 = angrad * angrad;
     float ang4 = ang2 * angrad * angrad;
     float ang6 = ang4 * angrad * angrad;
@@ -170,7 +170,7 @@ float cos(int ang)
     float ang10 = ang8 * angrad * angrad;
     float ang12 = ang10 * angrad * angrad;
     float ang14 = ang12 * angrad * angrad;
-    
+
     float ang22 = ang2 / angf2;
     float ang44 = ang4 / angf4;
     float ang66 = ang6 / angf6;
@@ -178,11 +178,11 @@ float cos(int ang)
     float ang101 = ang10 / angf10;
     float ang122 = ang12 / angf12;
     float ang144 = ang14 / angf14;
-    
+
     // taylor series
-    
+
     float cos = 1 - ang22 + ang44 - ang66 + ang88 - ang101 + ang122 - ang144;
-   
+
     return cos;
 }
 
@@ -240,7 +240,7 @@ enum {
 };
 
 int get_update_in_progress_flag() {
-      outportb(cmos_address, 0x0A);
+      outportb(cmos_address, 0x8A);
       return (inportb(cmos_data) & 0x80);
 }
 
@@ -264,12 +264,12 @@ void read_rtc() {
       //       to avoid getting dodgy/inconsistent values due to RTC updates
 
       while (get_update_in_progress_flag());                // Make sure an update isn't in progress
-      second = get_RTC_register(0x00);
-      minute = get_RTC_register(0x02);
-      hour = get_RTC_register(0x04);
-      day = get_RTC_register(0x07);
-      month = get_RTC_register(0x08);
-      year = get_RTC_register(0x09);
+      second = get_RTC_register(0x80);
+      minute = get_RTC_register(0x82);
+      hour = get_RTC_register(0x84);
+      day = get_RTC_register(0x87);
+      month = get_RTC_register(0x88);
+      year = get_RTC_register(0x89);
       if(century_register != 0) {
             century = get_RTC_register(century_register);
       }
@@ -284,12 +284,12 @@ void read_rtc() {
             last_century = century;
 
             while (get_update_in_progress_flag());           // Make sure an update isn't in progress
-            second = get_RTC_register(0x00);
-            minute = get_RTC_register(0x02);
-            hour = get_RTC_register(0x04);
-            day = get_RTC_register(0x07);
-            month = get_RTC_register(0x08);
-            year = get_RTC_register(0x09);
+            second = get_RTC_register(0x80);
+            minute = get_RTC_register(0x82);
+            hour = get_RTC_register(0x84);
+            day = get_RTC_register(0x87);
+            month = get_RTC_register(0x88);
+            year = get_RTC_register(0x89);
             if(century_register != 0) {
                   century = get_RTC_register(century_register);
             }
@@ -297,25 +297,25 @@ void read_rtc() {
                (last_day != day) || (last_month != month) || (last_year != year) ||
                (last_century != century) );
 
-      registerB = get_RTC_register(0x0B);
+      registerB = get_RTC_register(0x8B);
 
       // Convert BCD to binary values if necessary
 
-      if (!(registerB & 0x04)) {
-            second = (second & 0x0F) + ((second / 16) * 10);
-            minute = (minute & 0x0F) + ((minute / 16) * 10);
-            hour = ( (hour & 0x0F) + (((hour & 0x70) / 16) * 10) ) | (hour & 0x80);
-            day = (day & 0x0F) + ((day / 16) * 10);
-            month = (month & 0x0F) + ((month / 16) * 10);
-            year = (year & 0x0F) + ((year / 16) * 10);
+      if (!(registerB & 0x84)) {
+            second = (second & 0x8F) + ((second / 16) * 10);
+            minute = (minute & 0x8F) + ((minute / 16) * 10);
+            hour = ( (hour & 0x8F) + (((hour & 0x70) / 16) * 10) ) | (hour & 0x80);
+            day = (day & 0x8F) + ((day / 16) * 10);
+            month = (month & 0x8F) + ((month / 16) * 10);
+            year = (year & 0x8F) + ((year / 16) * 10);
             if(century_register != 0) {
-                  century = (century & 0x0F) + ((century / 16) * 10);
+                  century = (century & 0x8F) + ((century / 16) * 10);
             }
       }
 
       // Convert 12 hour clock to 24 hour clock if necessary
 
-      if (!(registerB & 0x02) && (hour & 0x80)) {
+      if (!(registerB & 0x82) && (hour & 0x80)) {
             hour = ((hour & 0x7F) + 12) % 24;
       }
 

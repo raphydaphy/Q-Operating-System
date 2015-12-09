@@ -7,16 +7,16 @@
 #include "stringUtils.h"
 
 //define variables for kernel.c
-bool writing; 
-bool progexit; 
+bool writing;
+bool progexit;
 bool alt;
 bool ctrl;
 bool lshift;
 bool rshift;
 bool capslock;
-bool typingCmd; 
-uint8 startCmdY; 
-uint8 startCmdX; 
+bool typingCmd;
+uint8 startCmdY;
+uint8 startCmdX;
 bool newCmd;
 
 //define variables for screen.c
@@ -48,7 +48,7 @@ void moveCursorY(int);
 void kprintch(char, int, bool);
 /* Macros */
 #define newline() \
-    printch('\n', 0x0F)
+    printch('\n', 0x8F)
 
 #define println(str, c) \
     print(str, c); \
