@@ -63,10 +63,10 @@ static inline legalOps getOperator(char charToCheck) {
 
 void calcHelp()
 {
-    print("\nCalculator help:", 0x0F);
-    print("\ncalc [OPTIONS] | <expr>", 0x0F);
-    print("\nOPTIONS:", 0x0F);
-    print("\n\t-h, -pi, -e", 0x0F);
+    print("\nCalculator help:", white);
+    print("\ncalc [OPTIONS] | <expr>", white);
+    print("\nOPTIONS:", white);
+    print("\n\t-h", white);
 }
 
 //Prints an error based on the error ID
@@ -74,17 +74,17 @@ void mathError(mathExcept ID)
 {
     switch (ID) {
     case START_W_OP:
-        print("Cannot start with an operator", 0x04);
+        print("Cannot start with an operator", red);
         break;
     case DIV_BY_ZERO:
-        print("Cannot divide by 0", 0x04);
+        print("Cannot divide by 0", red);
         break;
     case ILLEGAL_OP:
-        print("Illegal operator found", 0x04);
+        print("Illegal operator found", red);
         break;
     case OTHER:
-        print("Unknown math exception: ", 0x04);
-        printint(ID, 0x04);
+        print("Unknown math exception: ", red);
+        printint(ID, red);
         break;
     }
     newline();
@@ -92,64 +92,47 @@ void mathError(mathExcept ID)
 
 void calc(string args)
 {
-    memset(calcInput, 0, CALC_SIZE);
-    if(streql(args," -h"))
+    if(streql(splitArg(args, 1), "") || streql(splitArg(args, 1), "-h")) {
        calcHelp();
-    else if(streql(splitArg(args, 1),"-pi"))
-    {
-        newline();
-        print(PI_S, 0x08);
     }
-    else if(streql(splitArg(args, 1),"-e"))
+    else if(streql(splitArg(args, 1), "-pow"))
     {
         newline();
-        print(E_S, 0x08);
-    }
-    else if(streql(splitArg(args, 1),"-pow"))
-    {
-        newline();
-        print("Number>  ",0x08);
+        print("Number>  ",dark_grey);
         readStr(calcInput, CALC_SIZE);
         newline();
-    	printfloat(powerOfTen(stoi(calcInput)), 0x0F);
+    	printfloat(powerOfTen(stoi(calcInput)), white);
     }
     else
     {
+        memset(calcInput, 0, CALC_SIZE);
         strbuilder_t simStack = strbuilder_init();
-        if (streql(splitArg(args, 1),"") || streql(splitArg(args, 1)," "))
-        {
-            calcHelp();
-        }
-        else
-        {
-            bool complete = false;
-            int cpyCount = 1;
+        bool complete = false;
+        int cpyCount = 1;
 
-            strcpy(calcInput,splitArg(args, 1));
+        strcpy(calcInput,splitArg(args, 1));
 
-            while (!complete)
+        while (!complete)
+        {
+            cpyCount++;
+            if (streql(splitArg(args, cpyCount),"") || streql(splitArg(args, cpyCount)," "))
             {
-                cpyCount++;
-                if (streql(splitArg(args, cpyCount),"") || streql(splitArg(args, cpyCount)," "))
-                {
-                    complete = true;
-                }
-                else
-                {
-                    strcat(calcInput,splitArg(args, cpyCount));
-                }
+                complete = true;
             }
-
-            if (strTrim(calcInput)[0] == '(') {
-                // This relates to when brackets is the first term of the expr
-                strbuilder_append(&simStack, "1"); // (3) := 0; 1(3) := 3
+            else
+            {
+                strcat(calcInput,splitArg(args, cpyCount));
             }
-            strbuilder_append(&simStack, calcInput);
-            newline();
-            printfloat(calc_parse(simStack), 0x0F);
-            strbuilder_destroy(&simStack);
         }
 
+        if (strTrim(calcInput)[0] == '(') {
+            // This relates to when brackets is the first term of the expr
+            strbuilder_append(&simStack, "1"); // (3) := 0; 1(3) := 3
+        }
+        strbuilder_append(&simStack, calcInput);
+        newline();
+        printfloat(calc_parse(simStack), white);
+        strbuilder_destroy(&simStack);
     }
 }
 
@@ -359,8 +342,8 @@ float evaluate(list_t opStack) {
                 } else {
                     string rInput = etos(hashmap_getVal(funcList, fname));
                     if(streql(rInput, "")) {
-                        print("Cannot find macro: ", 0x04);
-                        println(fname, 0x04);
+                        print("Cannot find macro: ", red);
+                        println(fname, red);
                     } else {
                         strbuilder_t simStack = strbuilder_init();
                         if (strTrim(rInput)[0] == '(') {
@@ -369,7 +352,7 @@ float evaluate(list_t opStack) {
                         }
                         strbuilder_append(&simStack, rInput);
                         // Must replace `_` with value left
-                        println(strbuilder_tostr(simStack), 0x04);
+                        println(strbuilder_tostr(simStack), red);
                         __assign(calc_parse(simStack), &lvalid, &left, &right, procop, 53);
                         strbuilder_destroy(&simStack);
                     }
@@ -381,9 +364,9 @@ float evaluate(list_t opStack) {
                 string fname = strbuilder_substr(funcName, endFunc + 1, funcName.size);
                 fname = __extractFuncName(&funcName, fname);
 
-                print(fname, 0x08);
-                print("->", 0x08);
-                print(fbody, 0x08);
+                print(fname, dark_grey);
+                print("->", dark_grey);
+                print(fbody, dark_grey);
                 newline();
 
                 hashmap_add(&funcList, fname, makeStrElement(fbody));

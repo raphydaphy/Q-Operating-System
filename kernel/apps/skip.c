@@ -62,7 +62,7 @@ int evalString(string math)
             if (curOpp == 'Z')
             {
                 // the number has been entered before any operation signs
-                printint(ctoi(math[tmp]),0x0D);
+                printint(ctoi(math[tmp]),magenta);
             }
             else if (bracketLevel == 0)
             {
@@ -106,7 +106,7 @@ int evalString(string math)
             lastNum[2] = bracketLevel;
         }
 
-        printch(math[tmp],0x0A);
+        printch(math[tmp],green);
 
         tmp++;
     }
@@ -114,12 +114,12 @@ int evalString(string math)
 
     if (bracketLevel < 0)
     {
-        print("\nToo Many Closing Brackets ')' in Algorithm",0x04);
+        print("\nToo Many Closing Brackets ')' in Algorithm",red);
         return 0;
     }
     else if (bracketLevel > 0)
     {
-        print("\nToo Many Opening Brackets '(' in Algorithm",0x04);
+        print("\nToo Many Opening Brackets '(' in Algorithm",red);
         return 0;
     }
 
@@ -141,23 +141,23 @@ int graphFunction(int xVal)
 void skip(string args) {
     newline();
 
-    printint(evalString(mathFunction),0x0A);
+    printint(evalString(mathFunction),green);
 
     newline();
 
     int x = stoi(splitArg(args,1));
     int y;
 
-    print("\nFunction: ",0x0C);
-    print(FUNCTIONSTR,0x0A);
+    print("\nFunction: ",bright_red);
+    print(FUNCTIONSTR,green);
 
     while (x < (stoi(splitArg(args,1)) * (-1) + 1))
     {
         y = graphFunction(x);
-        print("\nCurrent X: ",0x04);
-        printint(x,0x03);
-        print(" Current Y: ",0x04);
-        printint(y,0x03);
+        print("\nCurrent X: ",red);
+        printint(x,grey);
+        print(" Current Y: ",red);
+        printint(y,grey);
         x++;
     }
 }

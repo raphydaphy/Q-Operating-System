@@ -10,12 +10,12 @@ bool newCmd = 0;
 uint32 cursorX = 0, cursorY = 0, deleteStopX = 0;
 const uint8 sw = 80,sh = 26,sd = 2;
 
-void clearLine(uint8 from, uint8 to)
+void clearLine(uint8 from, uint8 to,int toColor)
 {
-    string vidmem=(string)0xb8000;
+    unsigned char* vidmem=(unsigned char*)0xb8000;
     for(uint16 i = sw * from * sd; i < (sw * to * sd); i++)
     {
-        vidmem[i] = 0x0;
+        vidmem[i] = toColor;
     }
 }
 
@@ -29,26 +29,33 @@ void updateCursor()
     outportb(0x3D5, temp >> 8);                                                 // ASM to send the high byte across the bus
     outportb(0x3D4, 15);                                                        // Another CRT Control Register to Select Send Low byte
     outportb(0x3D5, temp);                                                      // Use ASM outportb function again to send the Low byte of the cursor location
+
 }
+
 
 void clearScreen()
 {
-    clearLine(0, sh - 1);
+    clearLine(0, sh - 1,screen_color);
     cursorX = 0;
     cursorY = 0;
     updateCursor();
+
+    //paintScreen(screen_color);
 }
 
 void scrollUp(uint8 lineNumber)
 {
     string vidmem = (string) 0xb8000;
-    clearLine(0, lineNumber - 1);
+    clearLine(0, lineNumber - 1,screen_color);
     for (uint16 i = 0; i<sw * (sh - 1) * 2; i++)
     {
         vidmem[i] = vidmem[i+sw*2*lineNumber];
     }
-    clearLine(sh-1-lineNumber,sh-1);
+    clearLine(sh-1-lineNumber,sh-1,screen_color);
     cursorY -= lineNumber;
+
+    //paintScreen(screen_color);
+
     updateCursor();
 }
 
@@ -57,20 +64,26 @@ void newLineCheck()
 {
     if(cursorY >= (uint8)(sh - 1))
     {
+        //paintScreen(screen_color);
         scrollUp(1);
     }
+
+    //paintScreen(screen_color);
 }
 
 void kprintch(char c, int b, bool incDelStop)
 {
-    string vidmem = (string) 0xb8000;     
+    string vidmem = (string) 0xb8000;
     switch(c)
     {
     case (0x08): // Backspace
-        if(cursorX > 0) 
+        if(cursorX > 0)
         {
             cursorX--;
-            if (incDelStop) deleteStopX--;
+            if (incDelStop)
+            {
+                deleteStopX--;
+            }
             vidmem[(cursorY * sw + cursorX)*sd] = 0x00;
         }
         break;
