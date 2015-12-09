@@ -66,7 +66,7 @@ void calcHelp()
     print("\nCalculator help:", white);
     print("\ncalc [OPTIONS] | <expr>", white);
     print("\nOPTIONS:", white);
-    print("\n\t-h, -pi, -e", white);
+    print("\n\t-h", white);
 }
 
 //Prints an error based on the error ID
@@ -93,19 +93,10 @@ void mathError(mathExcept ID)
 void calc(string args)
 {
     memset(calcInput, 0, CALC_SIZE);
-    if(streql(args," -h"))
+    if(streql(splitArg(args, 1), "") || streql(splitArg(args, 1), "-h")) {
        calcHelp();
-    else if(streql(splitArg(args, 1),"-pi"))
-    {
-        newline();
-        print(PI_S, dark_grey);
     }
-    else if(streql(splitArg(args, 1),"-e"))
-    {
-        newline();
-        print(E_S, dark_grey);
-    }
-    else if(streql(splitArg(args, 1),"-pow"))
+    else if(streql(splitArg(args, 1), "-pow"))
     {
         newline();
         print("Number>  ",dark_grey);
@@ -116,40 +107,32 @@ void calc(string args)
     else
     {
         strbuilder_t simStack = strbuilder_init();
-        if (streql(splitArg(args, 1),"") || streql(splitArg(args, 1)," "))
-        {
-            calcHelp();
-        }
-        else
-        {
-            bool complete = false;
-            int cpyCount = 1;
+        bool complete = false;
+        int cpyCount = 1;
 
-            strcpy(calcInput,splitArg(args, 1));
+        strcpy(calcInput,splitArg(args, 1));
 
-            while (!complete)
+        while (!complete)
+        {
+            cpyCount++;
+            if (streql(splitArg(args, cpyCount),"") || streql(splitArg(args, cpyCount)," "))
             {
-                cpyCount++;
-                if (streql(splitArg(args, cpyCount),"") || streql(splitArg(args, cpyCount)," "))
-                {
-                    complete = true;
-                }
-                else
-                {
-                    strcat(calcInput,splitArg(args, cpyCount));
-                }
+                complete = true;
             }
-
-            if (strTrim(calcInput)[0] == '(') {
-                // This relates to when brackets is the first term of the expr
-                strbuilder_append(&simStack, "1"); // (3) := 0; 1(3) := 3
+            else
+            {
+                strcat(calcInput,splitArg(args, cpyCount));
             }
-            strbuilder_append(&simStack, calcInput);
-            newline();
-            printfloat(calc_parse(simStack), white);
-            strbuilder_destroy(&simStack);
         }
 
+        if (strTrim(calcInput)[0] == '(') {
+            // This relates to when brackets is the first term of the expr
+            strbuilder_append(&simStack, "1"); // (3) := 0; 1(3) := 3
+        }
+        strbuilder_append(&simStack, calcInput);
+        newline();
+        printfloat(calc_parse(simStack), white);
+        strbuilder_destroy(&simStack);
     }
 }
 
