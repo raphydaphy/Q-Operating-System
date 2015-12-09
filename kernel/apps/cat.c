@@ -19,7 +19,7 @@ void catTheFile(fs_node_t* fsnode)
         uint32 sz = read_fs(fsnode, 0, rbuff, (uint8*) buf);
         uint32 j;
         for (j = 0; j < sz; j++)
-            printch(buf[j], 0x0F);
+            printch(buf[j], white);
         newline();
     }
 }
@@ -80,7 +80,7 @@ bool lookup(fs_node_t* fsnode,string searchTerm)
 // gives the user the line number they want
 string extract(string file,int line)
 {
-    printint(line,0x00);
+    printint(line,black);
     ASSERT(strlen(file) < MAX_FNAME_LEN);
     return extractLine(finddir_fs(fs_root, file),">");
 }
@@ -101,7 +101,7 @@ string extractLine(fs_node_t* fsnode,string searchTerm)
 
     string curWord = (string) kmalloc(10 * sizeof(char));
 
-    print("\nReady for Processing!",0x0A);
+    print("\nReady for Processing!",green);
 
     for (j = 0; j < sz; j++)
     {
@@ -109,7 +109,7 @@ string extractLine(fs_node_t* fsnode,string searchTerm)
         char curCharString[] = { curChar, '\0' };
         curChar = buf[j];
 
-        printch(curChar,0x0D);
+        printch(curChar,magenta);
 
         if (streql(curCharString," "))
         {

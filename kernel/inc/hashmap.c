@@ -72,4 +72,3 @@ tuple_t tuple_init(string k, element_t v) {
     msg.val = v;
     return msg;
 }
-

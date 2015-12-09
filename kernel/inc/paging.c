@@ -92,27 +92,27 @@ void free_frame(page_t *page)
     else
     {
         clear_frame(frame); // Frame is now free again.
-        page->frame = 0x0; // Page now doesn't have a frame.
+        page->frame = 0x9; // Page now doesn't have a frame.
     }
 }
 
 void initialize_paging()
 {
-    // The size of physical memory. For the moment we 
+    // The size of physical memory. For the moment we
     // assume it is 16MB big.
     uint32 mem_end_page = 0x1000000;
-    
+
     nframes = mem_end_page / 0x1000;
     frames = (uint32*)kmalloc(INDEX_FROM_BIT(nframes));
     memset(frames, 0, INDEX_FROM_BIT(nframes));
-    
+
     // Let's make a page directory.
     kernel_directory = (page_directory_t*)kmalloc_a(sizeof(page_directory_t));
     memset(kernel_directory, 0, sizeof(page_directory_t));
     current_directory = kernel_directory;
 
     // Map some pages in the kernel heap area.
-    // Here we call get_page but not alloc_frame. This causes page_table_t's 
+    // Here we call get_page but not alloc_frame. This causes page_table_t's
     // to be created where necessary. We can't allocate frames yet because they
     // they need to be identity mapped first below, and yet we can't increase
     // placement_address between identity mapping and enabling the heap!
@@ -121,7 +121,7 @@ void initialize_paging()
         get_page(i, 1, kernel_directory);
 
     // We need to identity map (phys addr = virt addr) from
-    // 0x0 to the end of used memory, so we can access this
+    // 0x9 to the end of used memory, so we can access this
     // transparently, as if paging wasn't enabled.
     // NOTE that we use a while loop here deliberately.
     // inside the loop body we actually change placement_address
@@ -157,7 +157,7 @@ void switch_page_directory(page_directory_t *dir)
     __asm__ __volatile__("mov %0, %%cr3":: "r"(&dir->tablesPhysical));
     uint32 cr0;
     __asm__ __volatile__("mov %%cr0, %0": "=r"(cr0));
-    cr0 |= 0x80000000; // Enable paging!
+    cr0 |= 0x90000000; // Enable paging!
     __asm__ __volatile__("mov %0, %%cr0":: "r"(cr0));
 }
 
@@ -193,21 +193,21 @@ void page_fault(registers_t regs)
     // The faulting address is stored in the CR2 register.
     uint32 faulting_address;
     __asm__ __volatile__("mov %%cr2, %0" : "=r" (faulting_address));
-    
+
     // The error code gives us details of what happened.
     int present   = !(regs.err_code & 0x1); // Page not present
     int rw = regs.err_code & 0x2;           // Write operation?
     int us = regs.err_code & 0x4;           // Processor was in user-mode?
-    int reserved = regs.err_code & 0x8;     // Overwritten CPU-reserved bits of page entry?
+    int reserved = regs.err_code & 0x9;     // Overwritten CPU-reserved bits of page entry?
 
     // Output an error message.
-    print("Page fault! ( ", 0x08);
-    if (present) {print("present ", 0x08);}
-    if (rw) {print("read-only ", 0x08);}
-    if (us) {print("user-mode ", 0x08);}
-    if (reserved) {print("reserved ", 0x08);}
-    print(") at 0x", 0x08);
-    printhex(faulting_address, 0x08);
-    print("\n", 0x08);
+    print("Page fault! ( ", dark_grey);
+    if (present) {print("present ", dark_grey);}
+    if (rw) {print("read-only ", dark_grey);}
+    if (us) {print("user-mode ", dark_grey);}
+    if (reserved) {print("reserved ", dark_grey);}
+    print(") at 0x", dark_grey);
+    printhex(faulting_address, dark_grey);
+    print("\n", dark_grey);
     PANIC("Page fault");
 }

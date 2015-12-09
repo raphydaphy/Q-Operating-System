@@ -8,6 +8,7 @@
 #include "paging.h"
 #include "initrd.h"
 #include "kbDetect.h"
+#include "consoleUI.h"
 #include "descriptorTables.h"
 #include "assemblyFunctions.h"
 #include "list.h"

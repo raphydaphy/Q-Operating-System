@@ -5,8 +5,8 @@ void files(string args)
     newline();
     if (streql(args,"-h"))
     {
-      print ("Showing Help for files:", 0x03);
-      print ("\nThe 'files' command will show you the files and folders in your current working directory.",0x03);
+      print ("Showing Help for files:", grey);
+      print ("\nThe 'files' command will show you the files and folders in your current working directory.",grey);
     }
     else if (streql(args, ""))
     {
@@ -19,14 +19,14 @@ void files(string args)
 
             if ((fsnode->flags & 0x7) == FS_DIRECTORY)
             {
-                print("dir \t", 0x0F);
-                print(node->name, 0x0F);
-                printch('/', 0x0F);
+                print("dir \t", white);
+                print(node->name, white);
+                printch('/', white);
             }
             else
             {
-                print("file\t", 0x0F);
-                print(node->name, 0x0F);
+                print("file\t", white);
+                print(node->name, white);
             }
             newline();
             i++;
