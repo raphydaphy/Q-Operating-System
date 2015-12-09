@@ -18,7 +18,7 @@ void clearLine(uint8 from, uint8 to)
         vidmem[i] = 0x0;
     }
 
-    //paintScreen(0x88);
+    //paintScreen(0x98);
 }
 
 void updateCursor()
@@ -40,7 +40,7 @@ void clearScreen()
     cursorY = 0;
     updateCursor();
 
-    //paintScreen(0x88);
+    //paintScreen(0x98);
 }
 
 void scrollUp(uint8 lineNumber)
@@ -54,7 +54,7 @@ void scrollUp(uint8 lineNumber)
     clearLine(sh-1-lineNumber,sh-1);
     cursorY -= lineNumber;
 
-    //paintScreen(0x88);
+    //paintScreen(0x98);
 
     updateCursor();
 }
@@ -65,7 +65,7 @@ void newLineCheck()
     if(cursorY >= (uint8)(sh - 1))
     {
         scrollUp(1);
-        //paintScreen(0x88);
+        //paintScreen(0x98);
     }
 }
 

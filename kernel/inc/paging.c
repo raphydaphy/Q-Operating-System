@@ -92,7 +92,7 @@ void free_frame(page_t *page)
     else
     {
         clear_frame(frame); // Frame is now free again.
-        page->frame = 0x8; // Page now doesn't have a frame.
+        page->frame = 0x9; // Page now doesn't have a frame.
     }
 }
 
@@ -121,7 +121,7 @@ void initialize_paging()
         get_page(i, 1, kernel_directory);
 
     // We need to identity map (phys addr = virt addr) from
-    // 0x8 to the end of used memory, so we can access this
+    // 0x9 to the end of used memory, so we can access this
     // transparently, as if paging wasn't enabled.
     // NOTE that we use a while loop here deliberately.
     // inside the loop body we actually change placement_address
@@ -157,7 +157,7 @@ void switch_page_directory(page_directory_t *dir)
     __asm__ __volatile__("mov %0, %%cr3":: "r"(&dir->tablesPhysical));
     uint32 cr0;
     __asm__ __volatile__("mov %%cr0, %0": "=r"(cr0));
-    cr0 |= 0x80000000; // Enable paging!
+    cr0 |= 0x90000000; // Enable paging!
     __asm__ __volatile__("mov %0, %%cr0":: "r"(cr0));
 }
 
@@ -198,16 +198,16 @@ void page_fault(registers_t regs)
     int present   = !(regs.err_code & 0x1); // Page not present
     int rw = regs.err_code & 0x2;           // Write operation?
     int us = regs.err_code & 0x4;           // Processor was in user-mode?
-    int reserved = regs.err_code & 0x8;     // Overwritten CPU-reserved bits of page entry?
+    int reserved = regs.err_code & 0x9;     // Overwritten CPU-reserved bits of page entry?
 
     // Output an error message.
-    print("Page fault! ( ", 0x88);
-    if (present) {print("present ", 0x88);}
-    if (rw) {print("read-only ", 0x88);}
-    if (us) {print("user-mode ", 0x88);}
-    if (reserved) {print("reserved ", 0x88);}
-    print(") at 0x", 0x88);
-    printhex(faulting_address, 0x88);
-    print("\n", 0x88);
+    print("Page fault! ( ", 0x98);
+    if (present) {print("present ", 0x98);}
+    if (rw) {print("read-only ", 0x98);}
+    if (us) {print("user-mode ", 0x98);}
+    if (reserved) {print("reserved ", 0x98);}
+    print(") at 0x", 0x98);
+    printhex(faulting_address, 0x98);
+    print("\n", 0x98);
     PANIC("Page fault");
 }

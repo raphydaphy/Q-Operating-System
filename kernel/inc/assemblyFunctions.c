@@ -26,8 +26,8 @@ void halt()
 
 void reboot()
 {
-    uint8 rebootTemp = 0x82;
-    while (rebootTemp & 0x82)
+    uint8 rebootTemp = 0x02;
+    while (rebootTemp & 0x02)
         rebootTemp = inportb(0x64);
     outportb(0x64, 0xFE);
     halt();

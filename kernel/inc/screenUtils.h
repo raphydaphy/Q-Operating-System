@@ -49,7 +49,7 @@ void moveCursorY(int);
 void kprintch(char, int, bool);
 /* Macros */
 #define newline() \
-    printch('\n', 0x8F)
+    printch('\n', 0x9F)
 
 #define println(str, c) \
     print(str, c); \

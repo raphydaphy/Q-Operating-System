@@ -5,7 +5,8 @@
 
 void printIntro()
 {
-    paintScreen(0x88);
+    // Some good colors for background: 66, 88, 99, CC, EE
+    paintScreen(0x99);
 
     // Made the intro beautiful
     drawFrame(0x38, 0, 0, 80, 4);
@@ -43,19 +44,19 @@ void launchShell()
         }
     }
 
-    #define TIP print("\nTip: If enter key does not work, it might mean that the input is too long",0x8F);
-    #define HELP print("\nWorking Commands in Q OS: \nwriter\nclear\nexecute\nhi\nskip\nfiles\ncat\nsystem\ncalc\nme\ntest", 0x8F);
+    #define TIP print("\nTip: If enter key does not work, it might mean that the input is too long",0x9F);
+    #define HELP print("\nWorking Commands in Q OS: \nwriter\nclear\nexecute\nhi\nskip\nfiles\ncat\nsystem\ncalc\nme\ntest", 0x9F);
     #define BIGHELP kbHelp(); TIP; HELP;
-    #define SWITCHDIR print("\nThe specified directory was not found ", 0x8F);
+    #define SWITCHDIR print("\nThe specified directory was not found ", 0x9F);
     #define BIGCLEAR clearScreen(); printIntro();
     #define MKDIR print("\nThis Command is Reserved for when we have a FAT32 or better FileSystem...", 0x3F);
     #define RMFILE print("\nThis Command is Reserved for when we have a FAT32 or better FileSystem...", 0x3F);
-    #define SEARCHFOR string searchTerm = (string) kmalloc(bufSize * sizeof(char)); print("\nDictionary File Name>  ", 0x8F); readStr(bufStr, bufSize); print("\nSearch Term>  ", 0x8A); readStr(searchTerm, bufSize); if (findInDictionary(bufStr,searchTerm)) { print("\nWe found the word!",0x8F); }
-    #define CMDNOTFOUND print("\n", 0x8F); print(bufStr, 0x8F); print(": Command Not Found ", 0x8F);
+    #define SEARCHFOR string searchTerm = (string) kmalloc(bufSize * sizeof(char)); print("\nDictionary File Name>  ", 0x9F); readStr(bufStr, bufSize); print("\nSearch Term>  ", 0x9A); readStr(searchTerm, bufSize); if (findInDictionary(bufStr,searchTerm)) { print("\nWe found the word!",0x9F); }
+    #define CMDNOTFOUND print("\n", 0x9F); print(bufStr, 0x9F); print(": Command Not Found ", 0x9F);
 
     while (true)
     {
-        print("\nQ-Kernel>  ", 0x87);
+        print("\nQ-Kernel>  ", 0x97);
         typingCmd = true;
         newCmd = true;
         readStr(rawCommand, bufSize);
@@ -145,8 +146,8 @@ void launchShell()
         else if(streql(bufStr, "test"))             {   test(arguments[0]);     }
         else if(streql(bufStr, "newdir"))           {   MKDIR;                  }
         else if(streql(bufStr, "erase"))            {   RMFILE;                 }
-	else if(streql(bufStr, "me"))               {   me(rawCommand);         }
-	else if(streql(bufStr, "search"))           {   SEARCHFOR;              }
+    	else if(streql(bufStr, "me"))               {   me(rawCommand);         }
+    	else if(streql(bufStr, "search"))           {   SEARCHFOR;              }
         else                                        {   CMDNOTFOUND;            }
         newline();
     }

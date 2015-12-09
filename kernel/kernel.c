@@ -38,23 +38,23 @@ int kmain(struct multiboot* mboot_ptr)
 
 	printIntro();
 
-	println(PRO_TIP, 0x8F);
+	println(PRO_TIP, 0x9F);
 	kbHelp();
 
 list_t l = parse("{ intrusion2, entrance,@ (entrance by force or without permission or welcome) }");
 for (uint32 i = 0; i < l.size; i++) {
-    println(list_get(l, i), 0x8F);
+    println(list_get(l, i), 0x9F);
 }
 l = parse("{ [ attainment, verb.social:attain,+ ] accomplishment,@ (the act of achieving an aim; \"the attainment of independence\") }");
 for (uint32 i = 0; i < l.size; i++) {
-    println(list_get(l, i), 0x8F);
+    println(list_get(l, i), 0x9F);
 }
 list_destroy(&l);
 
 // This line make the screen red
 //paintScreen(0x44);
-//printAt("Hello\r\nHello", 0x88, 4, 4);
-//drawFrame(0x88, 4, 4, 8, 8);
+//printAt("Hello\r\nHello", 0x98, 4, 4);
+//drawFrame(0x98, 4, 4, 8, 8);
 launchShell();
 
 	return 0;

@@ -8,9 +8,9 @@ uint32 tick = 0;
 static void timer_callback()
 {
     tick++;
-    print("Tick: ", 0x8F);
-    printint(tick, 0x8F);
-    printch('\n', 0x8F);
+    print("Tick: ", 0x9F);
+    printint(tick, 0x9F);
+    printch('\n', 0x9F);
 }
 
 void init_timer(uint32 frequency)
