@@ -7,6 +7,25 @@
 #include "stringUtils.h"
 #include "consoleUI.h"
 
+#define screen_color 0x99
+
+#define black 0x90
+#define blue 0x91
+#define light_green 0x92
+#define grey 0x93
+#define red 0x94
+#define purple 0x95
+#define brown 0x96
+#define light_grey 0x97
+#define dark_grey 0x98
+#define light_blue 0x99
+#define green 0x9A
+#define cyan 0x9B
+#define bright_red 0x9C
+#define magenta 0x9D
+#define yellow 0x9E
+#define white 0x9F
+
 //define variables for kernel.c
 bool writing;
 bool progexit;
