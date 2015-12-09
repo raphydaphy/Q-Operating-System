@@ -143,7 +143,7 @@ void launchShell()
         else if(streql(bufStr,"writer"))            {   writer(arguments[0]);   }
         else if(streql(bufStr, "calc"))             {   calc(rawCommand);       }
         else if(streql(bufStr, "clear"))            {   clearScreen();          }
-        else if(streql(bufStr, "test"))             {   test(arguments[0]);     }
+        else if(streql(bufStr, "test"))             {   test(rawCommand);       }
         else if(streql(bufStr, "newdir"))           {   MKDIR;                  }
         else if(streql(bufStr, "erase"))            {   RMFILE;                 }
     	else if(streql(bufStr, "me"))               {   me(rawCommand);         }
