@@ -1,7 +1,11 @@
 #include "testing.h"
 
 void test(string args) {
-    if(streql(args, " -list"))//For testing lists
+    args = splitArg(args, 1);
+    if(streql(args, "") || streql(args, "-h")) {
+        println("\nThis file is in charge of testing the data types embedded in Q-OS. Um... I won't tell you any parameters of this one... Sorry =D", black);
+    }
+    else if(streql(args, "-list"))//For testing lists
     {
         newline();
         list_t test_list = list_init();
@@ -43,7 +47,7 @@ void test(string args) {
         printint(test_list.capt, white);
         list_destroy(&test_list);
     }
-    else if(streql(args," -set"))
+    else if(streql(args,"-set"))
     {
         set_t test_set = set_init();
         for(uint8 i = 0; i < 4; i++) {
@@ -94,7 +98,7 @@ void test(string args) {
         set_destroy(&tmp);
         set_destroy(&test_set);
     }
-    else if(streql(args, " -strb"))
+    else if(streql(args, "-strb"))
     {
         static const string bak = "Hello, world ";
         static const uint32 bln = 13;
@@ -114,7 +118,7 @@ void test(string args) {
         println("\nOutput should be \"dlrow dn2 ,olleH\"", white);
         println(strbuilder_tostr(test_strb), white);
     }
-    else if(streql(args," -y"))
+    else if(streql(args,"-y"))
     {
        //getTime() test
        printint(getTime("year"),white);
