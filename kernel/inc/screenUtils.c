@@ -52,7 +52,7 @@ void scrollUp(uint8 lineNumber)
     clearLine(sh-1-lineNumber,sh-1);
     cursorY -= lineNumber;
 
-    paintScreen(0x88);
+    //paintScreen(0x88);
 
     updateCursor();
 }
