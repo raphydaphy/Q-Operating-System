@@ -20,7 +20,10 @@ bool querying = false;
 void me(string args) {
     if (!hasSetup)
     {
-        if (streql(splitArg(args, 1), "test") && !hasSetup)
+        if (streql(splitArg(args, 1), "help")) {
+            print("\nMe is here to help you... Believe me...", brown);
+        }
+        else if (streql(splitArg(args, 1), "test") && !hasSetup)
         {
             hasSetup = true;
             print("\nYou have skipped the Me setup process.",brown);
