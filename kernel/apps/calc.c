@@ -92,7 +92,6 @@ void mathError(mathExcept ID)
 
 void calc(string args)
 {
-    memset(calcInput, 0, CALC_SIZE);
     if(streql(splitArg(args, 1), "") || streql(splitArg(args, 1), "-h")) {
        calcHelp();
     }
@@ -106,6 +105,7 @@ void calc(string args)
     }
     else
     {
+        memset(calcInput, 0, CALC_SIZE);
         strbuilder_t simStack = strbuilder_init();
         bool complete = false;
         int cpyCount = 1;
