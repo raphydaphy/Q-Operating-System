@@ -16,10 +16,19 @@ void writer(string args)
 	{
 		// this is called when someone types "writer" on the command line
 
-		clearScreen();
-		print("================================================================================", 0x3F);
-		print("                      Q OS Text Editor Version 0.2                              ", 0x3F);
-		print("================================================================================", 0x3F);
+		// Some good colors for background: 66, 88, 99, CC, EE
+	    paintScreen(0x99);
+
+	    // Made the intro beautiful
+	    drawFrame(0x38, 0, 0, 80, 4);
+	    printAt("                          Q OS Text Editor                                  \r\n", 0x39, 1, 1);
+	    printAt("            A Simple Text Editor for Q OS by Raph Hennessy                    ",0x34,1,2);
+
+	    newline();
+	    newline();
+	    newline();
+		newline();
+		
 		writing = true;
 		readStr(writerContents, WRITERSIZE);
 		writing = false;

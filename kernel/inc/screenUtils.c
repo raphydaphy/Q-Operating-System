@@ -64,9 +64,19 @@ void newLineCheck()
 {
     if(cursorY >= (uint8)(sh - 1))
     {
+        //paintScreen(0x98);
         scrollUp(1);
         //paintScreen(0x98);
+
+        /*
+        for(uint16 i = 0; i < (sw * 25 * sd); i += 2)
+        {
+            printch(' ', 0x99);
+        }
+        */
     }
+
+    //paintScreen(0x99);
 }
 
 void kprintch(char c, int b, bool incDelStop)
