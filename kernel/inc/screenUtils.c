@@ -12,13 +12,11 @@ const uint8 sw = 80,sh = 26,sd = 2;
 
 void clearLine(uint8 from, uint8 to)
 {
-    string vidmem=(string)0xb8000;
+    unsigned char* vidmem=(unsigned char*)0xb8000;
     for(uint16 i = sw * from * sd; i < (sw * to * sd); i++)
     {
-        vidmem[i] = 0x9;
+        vidmem[i] = screen_color;
     }
-
-    //paintScreen(screen_color);
 }
 
 void updateCursor()
@@ -82,7 +80,10 @@ void kprintch(char c, int b, bool incDelStop)
         if(cursorX > 0)
         {
             cursorX--;
-            if (incDelStop) deleteStopX--;
+            if (incDelStop)
+            {
+                deleteStopX--;
+            }
             vidmem[(cursorY * sw + cursorX)*sd] = 0x00;
         }
         break;

@@ -7,12 +7,17 @@
 #include "stringUtils.h"
 #include "consoleUI.h"
 
+// the screen color in 0xXX and 0xX form with the X being replaced by color in hex notation
 #define screen_color 0x99
-#define header_background 0x38
 
+// the first line of text and background color of all main app headers (such as writer.c)
+#define header_background 0x38
 #define header_foreground 0x39
+
+// the color of the second line of text in all main app headers (such as printIntro)
 #define desc_foreground 0x34
 
+// all the colors that can be used in a print statement using default background color
 #define black 0x90
 #define blue 0x91
 #define light_green 0x92
