@@ -2,7 +2,10 @@
 
 void test(list_t args) {
     for(uint8 i = 0; i < args.size; i++){
-        if(streql(list_get(args,i), "-list"))//For testing lists
+        if(streql(list_get(args,i), "") || streql(list_get(args,i), "-h")) {
+            println("\nThis file is in charge of testing the data types embedded in Q-OS. Um... I won't tell you any parameters of this one... Sorry =D", black);
+        }
+        else if(streql(list_get(args,i), "-list"))//For testing lists
         {
             newline();
             list_t test_list = list_init();
@@ -117,8 +120,8 @@ void test(list_t args) {
         }
         else if(streql(list_get(args,i), "-y"))
         {
-        //getTime() test
-        printint(getTime("year"),white);
+            //getTime() test
+            printint(getTime("year"),white);
         }
     }
 }

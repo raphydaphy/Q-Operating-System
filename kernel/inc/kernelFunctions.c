@@ -10,8 +10,8 @@ void printIntro()
 
     // Made the intro beautiful
     drawFrame(header_background, 0, 0, 80, 4);
-    printAt("                            Welcome to Q OS                                   \r\n", header_foreground, 1, 1);
-    printAt("                      You are using version 0.06                              ",desc_foreground,1,2);
+    printAt("Welcome to Q OS\r\n", header_foreground, 1, 1);
+    printAt("You are using version 0.06",desc_foreground,1,2);
 
     newline();
     newline();
@@ -85,12 +85,12 @@ void launchShell()
         else if(streql(commandString, "help"         )) {   BIGHELP;                    }
         else if(streql(commandString, "system"       )) {   system(rawInput);           }
         else if(streql(commandString, "skip"         )) {   skip(rawInput);             }
-        else if(streql(commandString, "files"        )) {   files(firstArg);            }
+        else if(streql(commandString, "files"        )) {   files(rawInput);            }
         else if(streql(commandString, "cat"          )) {   cat(rawInput);	            }
         else if(streql(commandString, "execute"      )) {   execute();                  }
         else if(streql(commandString, "switch"       )) {   SWITCHDIR;                  }
         else if(streql(commandString, "writer"       )) {   writer(firstArg);           }
-        else if(streql(commandString, "calc"         )) {   calc(rawInput);           }
+        else if(streql(commandString, "calc"         )) {   calc(rawInput);             }
         else if(streql(commandString, "clear"        )) {   clearScreen();              }
         else if(streql(commandString, "test"         )) {   test(args);                 }
         else if(streql(commandString, "newdir"       )) {   MKDIR;                      }

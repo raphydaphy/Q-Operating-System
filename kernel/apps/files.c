@@ -3,12 +3,12 @@
 void files(string args)
 {
     newline();
-    if (streql(args,"-h"))
+    if (streql(splitArg(args, 1), "-h"))
     {
-      print ("Showing Help for files:", grey);
-      print ("\nThe 'files' command will show you the files and folders in your current working directory.",grey);
+        print ("Showing Help for files:", black);
+        print ("\nThe 'files' command will show you the files and folders in your current working directory.", black);
     }
-    else if (streql(args, ""))
+    else
     {
         // list the contents of
         int i = 0;

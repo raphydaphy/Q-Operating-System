@@ -209,6 +209,13 @@ void readStr(string buffstr, uint32 bufSize)
                     handled = true;
                 }
                 break;
+            case 33:
+                if (ctrl) {
+                    moveCursorX(1);
+                    i++;
+                    handled = true;
+                }
+                break;
             case 38:
                 if (ctrl) {
                     /* Make sure no clear screen during writer session */
@@ -274,15 +281,15 @@ void readStr(string buffstr, uint32 bufSize)
             case 75:				//Left Arrow
                 if (deleteStopX > 0)
                 {
-                 if ((cursorX == deleteStopX) && (cursorY == startCmdY))
-                 {
-                 continue;
-                 }
-                 else
-                  {
-                  moveCursorX(-1);
-                  i--;
-                  }
+                    if ((cursorX == deleteStopX) && (cursorY == startCmdY))
+                    {
+                        continue;
+                    }
+                    else
+                    {
+                        moveCursorX(-1);
+                        i--;
+                    }
                 }
                 break;
             case 77:				//Right Arrow

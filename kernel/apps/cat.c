@@ -3,11 +3,16 @@
 void cat(string args)
 {
     string fileName = splitArg(args, 1);
-
+    if(streql(fileName, "") || streql(fileName, "-h")) {
+        println("\nHelp file for cat:", black);
+        println("cat [OPTION] | <path>", black);
+        println("OPTION:", black);
+        print("\t-h", black);
+        return;
+    }
     ASSERT(strlen(fileName) < MAX_FNAME_LEN);
     catTheFile(finddir_fs(fs_root, fileName));
 }
-
 
 void catTheFile(fs_node_t* fsnode)
 {
@@ -37,43 +42,43 @@ bool findInDictionary(string dictionary,string searchWord)
     }
 }
 
-bool lookup(fs_node_t* fsnode,string searchTerm)
+bool lookup(fs_node_t* fsnode, string searchTerm)
 {
-  searchTerm = toUpper(searchTerm);
+    searchTerm = toUpper(searchTerm);
 
-  // Current letter and word that we are analyzing
-  char curChar;
+    // Current letter and word that we are analyzing
+    char curChar;
 
-  if ((fsnode->flags & 0x7) == FS_FILE)
-  {
-    const uint64 rbuff = fsnode->length;
-    char buf[rbuff];
-    uint64 sz = read_fs(fsnode, 0, rbuff, (uint8*) buf);
-    uint64 j;
-
-    string curWord = (string) kmalloc(10 * sizeof(char));
-
-    for (j = 0; j < sz; j++)
+    if ((fsnode->flags & 0x7) == FS_FILE)
     {
+        const uint64 rbuff = fsnode->length;
+        char buf[rbuff];
+        uint64 sz = read_fs(fsnode, 0, rbuff, (uint8*) buf);
+        uint64 j;
 
-        char curCharString[] = { curChar, '\0' };
-        curChar = buf[j];
+        string curWord = (string) kmalloc(10 * sizeof(char));
 
-        if (streql(curCharString," "))
+        for (j = 0; j < sz; j++)
         {
-            if (streql(curWord,searchTerm))
+
+            char curCharString[] = { curChar, '\0' };
+            curChar = buf[j];
+
+            if (streql(curCharString, " "))
             {
-                return true;
+                if (streql(curWord, searchTerm))
+                {
+                    return true;
+                }
+                memset(curWord, '\0', 128);
             }
-            memset(curWord, '\0', 128);
-        }
-        else
-        {
-            strcat(curWord,curCharString);
+            else
+            {
+                strcat(curWord,curCharString);
+            }
         }
     }
-  }
-  return false;
+    return false;
 }
 
 // assumes all lines end with '>'
@@ -87,43 +92,44 @@ string extract(string file,int line)
 
 string extractLine(fs_node_t* fsnode,string searchTerm)
 {
-  searchTerm = toUpper(searchTerm);
+    searchTerm = toUpper(searchTerm);
 
-  // Current letter and word that we are analyzing
-  char curChar;
+    // Current letter and word that we are analyzing
+    char curChar;
 
-  if ((fsnode->flags & 0x7) == FS_FILE)
-  {
-    const uint64 rbuff = fsnode->length;
-    char buf[rbuff];
-    uint64 sz = read_fs(fsnode, 0, rbuff, (uint8*) buf);
-    uint64 j;
-
-    string curWord = (string) kmalloc(10 * sizeof(char));
-
-    print("\nReady for Processing!",green);
-
-    for (j = 0; j < sz; j++)
+    if ((fsnode->flags & 0x7) == FS_FILE)
     {
+        const uint64 rbuff = fsnode->length;
+        char buf[rbuff];
+        uint64 sz = read_fs(fsnode, 0, rbuff, (uint8*) buf);
+        uint64 j;
 
-        char curCharString[] = { curChar, '\0' };
-        curChar = buf[j];
+        string curWord = (string) kmalloc(10 * sizeof(char));
 
-        printch(curChar,magenta);
+        print("\nReady for Processing!",green);
 
-        if (streql(curCharString," "))
+        for (j = 0; j < sz; j++)
         {
-            if (streql(curWord,searchTerm))
+
+            char curCharString[] = { curChar, '\0' };
+            curChar = buf[j];
+
+            printch(curChar, magenta);
+
+            if (streql(curCharString, " "))
             {
-                return curWord;
+                if (streql(curWord, searchTerm))
+                {
+                    return curWord;
+                }
+                memset(curWord, '\0', 128);
             }
-            memset(curWord, '\0', 128);
-        }
-        else
-        {
-            strcat(curWord,curCharString);
+            else
+            {
+                strcat(curWord, curCharString);
+            }
         }
     }
-  }
-  return "random error occured";
+    return "random error occured";
 }
+
