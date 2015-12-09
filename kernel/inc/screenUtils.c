@@ -30,7 +30,6 @@ void updateCursor()
     outportb(0x3D4, 15);                                                        // Another CRT Control Register to Select Send Low byte
     outportb(0x3D5, temp);                                                      // Use ASM outportb function again to send the Low byte of the cursor location
 
-
 }
 
 

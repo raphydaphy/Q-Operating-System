@@ -72,3 +72,4 @@ void drawFrame(int color, uint16 x, uint16 y, uint16 xlen, uint16 ylen) {
     cursorY = 0;
     updateCursor();
 }
+
