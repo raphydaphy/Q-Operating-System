@@ -7,9 +7,9 @@ void systemHelp(string cmd)
     print("\nThe argument you entered, ",0x4F);
     print(cmd,0x4F);
     print(" was not found.",0x4F);
-	  print("\nShowing help for system:",0x0F);
+	  print("\nShowing help for system:",white);
     newline();
-    print("\nSystem Utility\nCurrently only able to reboot and halt system.\nHard shutdown to power off.\n\nMenu:\n1. [reboot]\n2. [halt]\n3. [shutdown] ", 0x0F);
+    print("\nSystem Utility\nCurrently only able to reboot and halt system.\nHard shutdown to power off.\n\nMenu:\n1. [reboot]\n2. [halt]\n3. [shutdown] ", white);
 }
 
 void system(string args)
@@ -30,13 +30,13 @@ void system(string args)
     {
         print("\n Q Operating System \nVersion: 0.06 Alpha\n", 0xCF);
         //You might wanna replace your slack name with your full name (Its in alphabetical order)
-        print("\nDevelopers:\n",0x0F);
-        print("- barteks2x\n",0x0F);
-        print("- Patrick van Duyse\n",0x0F);
-        print("- Plankp T\n",0x0F);
-        print("- raph\n",0x0F);
-        print("- Stanislaus Krisna\n",0x0F);//stnkrisna
-        print("- Talip Goeksu",0x0F);
+        print("\nDevelopers:\n",white);
+        print("- barteks2x\n",white);
+        print("- Patrick van Duyse\n",white);
+        print("- Plankp T\n",white);
+        print("- raph\n",white);
+        print("- Stanislaus Krisna\n",white);//stnkrisna
+        print("- Talip Goeksu",white);
     }
   else
     {

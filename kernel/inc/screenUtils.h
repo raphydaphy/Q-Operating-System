@@ -8,7 +8,10 @@
 #include "consoleUI.h"
 
 #define screen_color 0x99
-#define header_color 0x34
+#define header_background 0x38
+
+#define header_foreground 0x39
+#define desc_foreground 0x34
 
 #define black 0x90
 #define blue 0x91

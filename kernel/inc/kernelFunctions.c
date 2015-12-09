@@ -9,9 +9,9 @@ void printIntro()
     paintScreen(screen_color);
 
     // Made the intro beautiful
-    drawFrame(0x38, 0, 0, 80, 4);
-    printAt("                            Welcome to Q OS                                   \r\n", header_color, 1, 1);
-    printAt("                      You are using version 0.06                              ",header_color,1,2);
+    drawFrame(header_background, 0, 0, 80, 4);
+    printAt("                            Welcome to Q OS                                   \r\n", header_foreground, 1, 1);
+    printAt("                      You are using version 0.06                              ",desc_foreground,1,2);
 
     newline();
     newline();

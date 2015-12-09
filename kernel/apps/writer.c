@@ -3,9 +3,9 @@
 void writerHelp()
 {
 	newline();
-	print("Showing help for writer:",0x0F);
+	print("Showing help for writer:",white);
 	newline();
-	print("A text buffer that does not store any text entered!",0x0F);
+	print("A text buffer that does not store any text entered!",white);
 }
 
 void writer(string args)
@@ -17,18 +17,18 @@ void writer(string args)
 		// this is called when someone types "writer" on the command line
 
 		// Some good colors for background: 66, 88, 99, CC, EE
-	    paintScreen(0x99);
+	    paintScreen(screen_color);
 
 	    // Made the intro beautiful
-	    drawFrame(0x38, 0, 0, 80, 4);
-	    printAt("                          Q OS Text Editor                                  \r\n", 0x39, 1, 1);
-	    printAt("            A Simple Text Editor for Q OS by Raph Hennessy                    ",0x34,1,2);
+	    drawFrame(header_background, 0, 0, 80, 4);
+	    printAt("                          Q OS Text Editor                                  \r\n", header_foreground, 1, 1);
+	    printAt("            A Simple Text Editor for Q OS by Raph Hennessy                    ",desc_foreground,1,2);
 
 	    newline();
 	    newline();
 	    newline();
 		newline();
-		
+
 		writing = true;
 		readStr(writerContents, WRITERSIZE);
 		writing = false;
