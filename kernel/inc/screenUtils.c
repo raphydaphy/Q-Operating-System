@@ -18,7 +18,7 @@ void clearLine(uint8 from, uint8 to)
         vidmem[i] = 0x0;
     }
 
-    //paintScreen(0x98);
+    //paintScreen(screen_color);
 }
 
 void updateCursor()
@@ -40,7 +40,7 @@ void clearScreen()
     cursorY = 0;
     updateCursor();
 
-    //paintScreen(0x98);
+    //paintScreen(screen_color);
 }
 
 void scrollUp(uint8 lineNumber)
@@ -54,7 +54,7 @@ void scrollUp(uint8 lineNumber)
     clearLine(sh-1-lineNumber,sh-1);
     cursorY -= lineNumber;
 
-    //paintScreen(0x98);
+    //paintScreen(screen_color);
 
     updateCursor();
 }
@@ -64,19 +64,19 @@ void newLineCheck()
 {
     if(cursorY >= (uint8)(sh - 1))
     {
-        //paintScreen(0x98);
+        //paintScreen(screen_color);
         scrollUp(1);
-        //paintScreen(0x98);
+        //paintScreen(screen_color);
 
         /*
         for(uint16 i = 0; i < (sw * 25 * sd); i += 2)
         {
-            printch(' ', 0x99);
+            printch(' ', screen_color);
         }
         */
     }
 
-    //paintScreen(0x99);
+    //paintScreen(screen_color);
 }
 
 void kprintch(char c, int b, bool incDelStop)

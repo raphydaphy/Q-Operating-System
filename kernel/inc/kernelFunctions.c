@@ -6,12 +6,12 @@
 void printIntro()
 {
     // Some good colors for background: 66, 88, 99, CC, EE
-    paintScreen(0x99);
+    paintScreen(screen_color);
 
     // Made the intro beautiful
     drawFrame(0x38, 0, 0, 80, 4);
-    printAt("                            Welcome to Q OS                                   \r\n", 0x39, 1, 1);
-    printAt("                      You are using version 0.06                              ",0x34,1,2);
+    printAt("                            Welcome to Q OS                                   \r\n", header_color, 1, 1);
+    printAt("                      You are using version 0.06                              ",header_color,1,2);
 
     newline();
     newline();
@@ -44,19 +44,19 @@ void launchShell()
         }
     }
 
-    #define TIP print("\nTip: If enter key does not work, it might mean that the input is too long",0x9F);
-    #define HELP print("\nWorking Commands in Q OS: \nwriter\nclear\nexecute\nhi\nskip\nfiles\ncat\nsystem\ncalc\nme\ntest", 0x9F);
+    #define TIP print("\nTip: If enter key does not work, it might mean that the input is too long",white);
+    #define HELP print("\nWorking Commands in Q OS: \nwriter\nclear\nexecute\nhi\nskip\nfiles\ncat\nsystem\ncalc\nme\ntest", white);
     #define BIGHELP kbHelp(); TIP; HELP;
-    #define SWITCHDIR print("\nThe specified directory was not found ", 0x9F);
+    #define SWITCHDIR print("\nThe specified directory was not found ", white);
     #define BIGCLEAR clearScreen(); printIntro();
     #define MKDIR print("\nThis Command is Reserved for when we have a FAT32 or better FileSystem...", 0x3F);
     #define RMFILE print("\nThis Command is Reserved for when we have a FAT32 or better FileSystem...", 0x3F);
-    #define SEARCHFOR string searchTerm = (string) kmalloc(bufSize * sizeof(char)); print("\nDictionary File Name>  ", 0x9F); readStr(bufStr, bufSize); print("\nSearch Term>  ", 0x9A); readStr(searchTerm, bufSize); if (findInDictionary(bufStr,searchTerm)) { print("\nWe found the word!",0x9F); }
-    #define CMDNOTFOUND print("\n", 0x9F); print(bufStr, 0x9F); print(": Command Not Found ", 0x9F);
+    #define SEARCHFOR string searchTerm = (string) kmalloc(bufSize * sizeof(char)); print("\nDictionary File Name>  ", white); readStr(bufStr, bufSize); print("\nSearch Term>  ", green); readStr(searchTerm, bufSize); if (findInDictionary(bufStr,searchTerm)) { print("\nWe found the word!",white); }
+    #define CMDNOTFOUND print("\n", white); print(bufStr, white); print(": Command Not Found ", white);
 
     while (true)
     {
-        print("\nQ-Kernel>  ", 0x97);
+        print("\nQ-Kernel>  ", light_grey);
         typingCmd = true;
         newCmd = true;
         readStr(rawCommand, bufSize);

@@ -8,6 +8,7 @@
 #include "consoleUI.h"
 
 #define screen_color 0x99
+#define header_color 0x34
 
 #define black 0x90
 #define blue 0x91
@@ -68,7 +69,7 @@ void moveCursorY(int);
 void kprintch(char, int, bool);
 /* Macros */
 #define newline() \
-    printch('\n', 0x9F)
+    printch('\n', white)
 
 #define println(str, c) \
     print(str, c); \
