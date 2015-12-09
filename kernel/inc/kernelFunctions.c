@@ -5,9 +5,23 @@
 
 void printIntro()
 {
-    print("================================================================================", 0x3F);
-    print("                             Welcome to Q OS                                    ", 0x3F);
-    print("================================================================================", 0x3F);
+    // Cool Command:
+    // paintScreen(0x44);
+
+    // Made the intro beautiful
+    printAt("                             Welcome to Q OS                                     \r\n", 0x39, 0, 0);
+    printAt("                       You are using version 0.0.5                               ",0x34,0,1);
+
+    // Dont uncomment yet...
+    //drawFrame(0x08, 4, 4, 8, 8);
+
+    // give us space to print stuff in
+    newline();
+
+    // Old Intro
+    //print("================================================================================", 0x3F);
+    //print("                             Welcome to Q OS                                    ", 0x3F);
+    //print("================================================================================", 0x3F);
 }
 
 void launchShell()

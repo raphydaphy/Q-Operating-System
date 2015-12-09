@@ -54,7 +54,7 @@ list_destroy(&l);
 // This line make the screen red
 //paintScreen(0x44);
 //printAt("Hello\r\nHello", 0x08, 4, 4);
-drawFrame(0x08, 4, 4, 8, 8);
+//drawFrame(0x08, 4, 4, 8, 8);
 launchShell();
 
 	return 0;
