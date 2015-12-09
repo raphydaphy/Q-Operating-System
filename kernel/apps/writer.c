@@ -20,9 +20,10 @@ void writer(string args)
 	    paintScreen(screen_color);
 
 	    // Made the intro beautiful
+		clearLine(0,4,header_background);
 	    drawFrame(header_background, 0, 0, 80, 4);
-	    printAt("                          Q OS Text Editor                                  \r\n", header_foreground, 1, 1);
-	    printAt("            A Simple Text Editor for Q OS by Raph Hennessy                    ",desc_foreground,1,2);
+	    printAt("Q OS Text Editor\r\n", header_foreground, 1, 1);
+	    printAt("A Simple Text Editor for Q OS by Raph Hennessy",desc_foreground,1,2);
 
 	    newline();
 	    newline();

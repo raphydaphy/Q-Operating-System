@@ -10,12 +10,12 @@ bool newCmd = 0;
 uint32 cursorX = 0, cursorY = 0, deleteStopX = 0;
 const uint8 sw = 80,sh = 26,sd = 2;
 
-void clearLine(uint8 from, uint8 to)
+void clearLine(uint8 from, uint8 to,int toColor)
 {
     unsigned char* vidmem=(unsigned char*)0xb8000;
     for(uint16 i = sw * from * sd; i < (sw * to * sd); i++)
     {
-        vidmem[i] = screen_color;
+        vidmem[i] = toColor;
     }
 }
 
@@ -33,9 +33,10 @@ void updateCursor()
 
 }
 
+
 void clearScreen()
 {
-    clearLine(0, sh - 1);
+    clearLine(0, sh - 1,screen_color);
     cursorX = 0;
     cursorY = 0;
     updateCursor();
@@ -46,12 +47,12 @@ void clearScreen()
 void scrollUp(uint8 lineNumber)
 {
     string vidmem = (string) 0xb8000;
-    clearLine(0, lineNumber - 1);
+    clearLine(0, lineNumber - 1,screen_color);
     for (uint16 i = 0; i<sw * (sh - 1) * 2; i++)
     {
         vidmem[i] = vidmem[i+sw*2*lineNumber];
     }
-    clearLine(sh-1-lineNumber,sh-1);
+    clearLine(sh-1-lineNumber,sh-1,screen_color);
     cursorY -= lineNumber;
 
     //paintScreen(screen_color);
