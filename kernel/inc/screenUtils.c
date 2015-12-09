@@ -15,7 +15,7 @@ void clearLine(uint8 from, uint8 to)
     string vidmem=(string)0xb8000;
     for(uint16 i = sw * from * sd; i < (sw * to * sd); i++)
     {
-        vidmem[i] = 0x0;
+        vidmem[i] = 0x9;
     }
 
     //paintScreen(screen_color);
@@ -31,6 +31,8 @@ void updateCursor()
     outportb(0x3D5, temp >> 8);                                                 // ASM to send the high byte across the bus
     outportb(0x3D4, 15);                                                        // Another CRT Control Register to Select Send Low byte
     outportb(0x3D5, temp);                                                      // Use ASM outportb function again to send the Low byte of the cursor location
+
+
 }
 
 void clearScreen()
@@ -66,14 +68,6 @@ void newLineCheck()
     {
         //paintScreen(screen_color);
         scrollUp(1);
-        //paintScreen(screen_color);
-
-        /*
-        for(uint16 i = 0; i < (sw * 25 * sd); i += 2)
-        {
-            printch(' ', screen_color);
-        }
-        */
     }
 
     //paintScreen(screen_color);

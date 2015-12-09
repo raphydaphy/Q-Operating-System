@@ -148,6 +148,7 @@ void launchShell()
         else if(streql(bufStr, "erase"))            {   RMFILE;                 }
     	else if(streql(bufStr, "me"))               {   me(rawCommand);         }
     	else if(streql(bufStr, "search"))           {   SEARCHFOR;              }
+        else if(streql(bufStr, "fill"))             { paintScreen(screen_color);}
         else                                        {   CMDNOTFOUND;            }
         newline();
     }
