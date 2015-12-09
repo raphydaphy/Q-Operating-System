@@ -5,16 +5,15 @@
 
 void printIntro()
 {
-    // Cool Command:
-    // paintScreen(0x44);
+    paintScreen(0x88);
 
     // Made the intro beautiful
     drawFrame(0x38, 0, 0, 80, 4);
     printAt("                            Welcome to Q OS                                   \r\n", 0x39, 1, 1);
     printAt("                      You are using version 0.0.5                             ",0x34,1,2);
-    newline();
-    newline();
 
+    newline();
+    newline();
     newline();
 }
 
