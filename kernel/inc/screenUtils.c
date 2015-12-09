@@ -92,8 +92,8 @@ void kprintch(char c, int b, bool incDelStop)
         cursorY++;
         break;
     default:
-        vidmem [((cursorY * sw + cursorX))*sd] = c;
-        vidmem [((cursorY * sw + cursorX))*sd+1] = b;
+        vidmem [(cursorY * sw + cursorX)*sd] = c;
+        vidmem [(cursorY * sw + cursorX)*sd+1] = b;
         cursorX++;
         if (incDelStop) deleteStopX++;
         break;

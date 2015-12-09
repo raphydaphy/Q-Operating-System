@@ -5,4 +5,6 @@
 
 void paintScreen(int);
 
+void printAt(string, int, uint16, uint16);
+
 #endif
