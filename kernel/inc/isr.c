@@ -18,9 +18,9 @@ void isr_handler(registers_t regs)
     }
     else
     {
-        print("unhandled interrupt: ", 0x9F);
-        printint(regs.int_no, 0x9F);
-        printch('\n', 0x9F);
+        print("unhandled interrupt: ", white);
+        printint(regs.int_no, white);
+        printch('\n', white);
     }
 }
 

@@ -22,10 +22,10 @@ string answer(string question, uint8 offset)
             }
             else
             {
-                print(" | ",0x0A);
-                print(toUpper(splitArg(question, tmp)),0x0D);
-                print(" ",0x0D);
-                print(sort(splitArg(question, tmp)),0x0D);
+                print(" | ",green);
+                print(toUpper(splitArg(question, tmp)),magenta);
+                print(" ",magenta);
+                print(sort(splitArg(question, tmp)),magenta);
             }
             tmp++;
         }
