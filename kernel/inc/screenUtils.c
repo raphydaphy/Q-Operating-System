@@ -13,7 +13,7 @@ const uint8 sw = 80,sh = 26,sd = 2;
 void printIntro()
 {
     writing = false;
-    
+
     // Some good colors for background: 66, 88, 99, CC, EE
     drawFrame(header_background, 0, 0, 80, 4);
 
@@ -135,20 +135,25 @@ void kprintch(char c, int b, bool incDelStop)
             cursorX = 1;
             cursorY = 5;
             actualY = 5;
-
         }
         break;
     default:
         vidmem [(cursorY * sw + cursorX)*sd] = c;
         vidmem [(cursorY * sw + cursorX)*sd+1] = b;
         cursorX++;
-        if (incDelStop) deleteStopX++;
+        if (incDelStop)
+        {
+            deleteStopX++;
+        }
         break;
     }
     if(cursorX >= sw)
     {
         cursorX = 0;
-        if (incDelStop) deleteStopX = 0;
+        if (incDelStop)
+        {
+            deleteStopX = 0;
+        }
         cursorY++;
     }
     updateCursor();
