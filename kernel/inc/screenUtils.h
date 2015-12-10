@@ -10,6 +10,7 @@
 
 // the screen color in 0xXX and 0xX form with the X being replaced by color in hex notation
 #define screen_color 0x99
+#define screen_background 0x90
 
 // the first line of text and background color of all main app headers (such as writer.c)
 #define header_background 0x38
