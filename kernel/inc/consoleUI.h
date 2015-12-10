@@ -43,8 +43,6 @@ void messageBox(string);
 
 int8 messageBox_YN(string);
 
-int waitUntilKey_O(int[]);
-
-void waitUntilKey(int);
+int waitUntilKey(int[]);
 
 #endif

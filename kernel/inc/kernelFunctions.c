@@ -31,7 +31,8 @@ void uiDemo()
     newline();
     newline();
     newline();
-    waitUntilKey(0x10);
+    static int qKey[] = {0x10};
+    waitUntilKey(qKey);
     clearScreen();
 }
 

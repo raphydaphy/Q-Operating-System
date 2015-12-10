@@ -117,8 +117,10 @@ void messageBox(string txt) {
     printAt(txt, desc_foreground, 21, 13);
     printAt("[OKAY]", desc_foreground, 37, 17);
 
-    waitUntilKey(0x9C);
-    waitUntilKey(0x1C);
+    static int releaseRET[] = {0x9C, 0};
+    static int pressRET[] = {0x1C, 0};
+    waitUntilKey(releaseRET);
+    waitUntilKey(pressRET);
 
     strcpy(vidmem, oldmem);
 }
@@ -135,7 +137,7 @@ int8 messageBox_YN(string txt) {
     printAt("[CANCEL]", desc_foreground, 50, 17);
 
     static int acceptedKeys[] = {0x15 /*Y*/, 0x31 /*N*/, 0x2E /*C*/, 0}; //END WITH NULL PLZ
-    int val = waitUntilKey_O(acceptedKeys);
+    int val = waitUntilKey(acceptedKeys);
 
     strcpy(vidmem, oldmem);
     switch(val) {
@@ -146,7 +148,7 @@ int8 messageBox_YN(string txt) {
     }
 }
 
-int waitUntilKey_O(int key[]) {
+int waitUntilKey(int key[]) {
     while(true)
     {
         // if a key is presesd
@@ -158,21 +160,6 @@ int waitUntilKey_O(int key[]) {
                 {
                     return key[i];
                 }
-            }
-        }
-    }
-}
-
-void waitUntilKey(int key) {
-    while(true)
-    {
-        // if a key is presesd
-        if(inportb(0x64) & 0x1)
-        {
-            uint8 value = inportb(0x60);
-            if(value == key)
-            {
-                break;
             }
         }
     }
