@@ -25,8 +25,8 @@ void files(string args)
             }
             else
             {
-                print("file\t", white);
-                print(node->name, white);
+                print("file\t", green);
+                print(node->name, magenta);
             }
             newline();
             i++;

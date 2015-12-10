@@ -1,7 +1,5 @@
 #include "skip.h"
 
-
-
 void skip(string args) {
     newline();
 
