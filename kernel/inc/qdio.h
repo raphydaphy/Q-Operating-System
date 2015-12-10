@@ -40,5 +40,6 @@
 #include "../apps/skip.h"
 #include "../apps/me.h"
 #include "../apps/testing.h"
+#include "../apps/setup.h"
 
 #endif

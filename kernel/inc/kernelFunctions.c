@@ -49,7 +49,7 @@ void launchShell()
 
     drawBorder(screen_background, 0, 4, 80, sh - 1);
 
-    messageBox_I("Name:  ");
+    setup();
 
     while (true)
     {
