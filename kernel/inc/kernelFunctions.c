@@ -27,6 +27,7 @@ void uiDemo()
     printAt("Found me...", desc_foreground, 20, 12);
     messageBox("Hit <RET> to quit this and hit <Q> to\n\rleave");
     messageBox_YN("Hit <Y> or <N> or <C> to quit this...");
+    messageBox_I("INPUT::::");
     newline();
     newline();
     newline();

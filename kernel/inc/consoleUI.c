@@ -108,6 +108,12 @@ void drawBorder(int color, uint16 x, uint16 y, uint16 xlen, uint16 ylen) {
     updateCursor();
 }
 
+void paintLine(int color, uint16 x, uint16 y, uint16 xlen) {
+    for( ; x < xlen; x++) {
+        __appendCharAt(' ', color, x, y);
+    }
+}
+
 void messageBox(string txt) {
     string vidmem = (string) 0xb8000;
     char oldmem[strlen(vidmem)];
@@ -136,7 +142,7 @@ int8 messageBox_YN(string txt) {
     printAt("[NO]", desc_foreground, 38, 17);
     printAt("[CANCEL]", desc_foreground, 50, 17);
 
-    static int acceptedKeys[] = {0x15 /*Y*/, 0x31 /*N*/, 0x2E /*C*/, 0}; //END WITH NULL PLZ
+    static int acceptedKeys[] = {0x15 /*Y*/, 0x31 /*N*/, 0x2E /*C*/};
     int val = waitUntilKey(acceptedKeys);
 
     strcpy(vidmem, oldmem);
@@ -146,6 +152,26 @@ int8 messageBox_YN(string txt) {
     case 0x2E: return 0; // Cancel == 0
     default: return -2; // ILLEGAL
     }
+}
+
+string messageBox_I(string txt) {
+    string vidmem = (string) 0xb8000;
+    char oldmem[strlen(vidmem)];
+    strcpy(oldmem, vidmem);
+
+    drawBorder(header_background, 20, 12, 60, 18);
+    printAt(txt, desc_foreground, 21, 13);
+    paintLine(white, 21, 16, 59);
+
+    cursorX = deleteStopX = 21;
+    cursorY = startCmdY = 16;
+    int strLen = 59 - 21;
+    char inputBuf[strLen + 1];
+    readStr(inputBuf, strLen);
+
+    strcpy(vidmem, oldmem);
+    string msg = inputBuf;
+    return msg;
 }
 
 int waitUntilKey(int key[]) {
