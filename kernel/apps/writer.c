@@ -10,8 +10,10 @@ void writerHelp()
 
 void writer(string args)
 {
-	if (streql(args," -h"))
+	if (streql(splitArg(args, 1),"-h"))
+	{
 		writerHelp();
+	}
 	else if (streql(splitArg(args, 1),"new"))
 	{
 		paintScreen(screen_color);
