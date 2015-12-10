@@ -12,6 +12,23 @@ void writerHelp()
 	print("After the first line of text saved your document may be shown unformatted.",yellow);
 }
 
+void writeFile(fs_node_t* fsnode)
+{
+    if ((fsnode->flags & 0x7) == FS_FILE)
+    {
+        const uint32 fsSize = fsnode->length;
+        char buffer[fsSize];
+
+        buffer[0] = 1;
+        buffer[1] = 2;
+
+        write_fs(fsnode, 0, fsSize, (uint8*) buffer);
+    }
+    newline();
+    print("\nNew File: ",green);
+    catTheFile(fsnode);
+})
+
 void writer(string args)
 {
 	if (streql(splitArg(args, 1),"-h"))
