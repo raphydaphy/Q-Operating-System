@@ -5,7 +5,11 @@ void writerHelp()
 	newline();
 	print("Showing help for writer:",magenta);
 	newline();
-	print("Writer is a simple text editor built into Q OS that saves a single document at a time.\nAfter the first lnie of text saved your document may be presented in a strange format.",yellow);
+	print("Writer is a simple text editor built into Q OS\n",yellow);
+	print("Your text will probably be saved when you exit with Control + Z\n",yellow);
+	print("To start a new document simply type 'writer new'\n",yellow);
+	print("To access your last document type 'writer' with no arguments.\n",yellow);
+	print("After the first line of text saved your document may be shown unformatted.",yellow);
 }
 
 void writer(string args)
