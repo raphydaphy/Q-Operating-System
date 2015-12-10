@@ -29,7 +29,28 @@ void launchShell()
     int actualY = 5;
 
     // the last few commands entered
-    char *backlog[20];
+    char *backlog[20] = {
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        ""
+    };
 
     //prepare variable
     for(int i = 0; i < cmdSize; ++i)
@@ -56,8 +77,15 @@ void launchShell()
 
         for(int quickCounter = 5;quickCounter < 24;quickCounter++)
         {
-            printAt("Q-Kernel>  ", light_grey,1,quickCounter);
-            printAt(backlog[quickCounter],white,12,quickCounter);
+            if (streql(backlog[quickCounter],"") || streql(backlog[quickCounter]," "))
+            {
+                break;
+            }
+            else
+            {
+                printAt("Q-Kernel>  ", light_grey,1,quickCounter);
+                printAt(backlog[quickCounter],white,12,quickCounter);
+            }
         }
 
         printAt("Q-Kernel>  ", light_grey, 1, actualY);
