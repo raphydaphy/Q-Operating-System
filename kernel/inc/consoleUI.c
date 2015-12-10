@@ -123,6 +123,46 @@ void messageBox(string txt) {
     strcpy(vidmem, oldmem);
 }
 
+int8 messageBox_YN(string txt) {
+    string vidmem = (string) 0xb8000;
+    char oldmem[strlen(vidmem)];
+    strcpy(oldmem, vidmem);
+
+    drawBorder(header_background, 20, 12, 60, 18);
+    printAt(txt, desc_foreground, 21, 13);
+    printAt("[YES]", desc_foreground, 22, 17);
+    printAt("[NO]", desc_foreground, 38, 17);
+    printAt("[CANCEL]", desc_foreground, 50, 17);
+
+    static int acceptedKeys[] = {0x15 /*Y*/, 0x31 /*N*/, 0x2E /*C*/, 0}; //END WITH NULL PLZ
+    int val = waitUntilKey_O(acceptedKeys);
+
+    strcpy(vidmem, oldmem);
+    switch(val) {
+    case 0x15: return 1; // Yes == 1
+    case 0x31: return -1; // No == -1
+    case 0x2E: return 0; // Cancel == 0
+    default: return -2; // ILLEGAL
+    }
+}
+
+int waitUntilKey_O(int key[]) {
+    while(true)
+    {
+        // if a key is presesd
+        if(inportb(0x64) & 0x1)
+        {
+            uint8 value = inportb(0x60);
+            for(uint16 i = 0; key[i] > 0; i++) {
+                if(value == key[i])
+                {
+                    return key[i];
+                }
+            }
+        }
+    }
+}
+
 void waitUntilKey(int key) {
     while(true)
     {
@@ -137,3 +177,4 @@ void waitUntilKey(int key) {
         }
     }
 }
+
