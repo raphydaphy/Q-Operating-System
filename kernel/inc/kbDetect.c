@@ -28,7 +28,6 @@ const char charsCapsLock[256] =    {
    '\'', '`',  0 ,'\\', 'Z', 'X', 'C', 'V', 'B', 'N',
     'M', ',', '.', '/',  0 , '*',  0 , ' ',  0 ,
 };
-
 uint8 backspaceOne(uint8 i, string buffstr, uint32 bufSize) {
     kprintch('\b', white, false);
     i--;
@@ -79,17 +78,29 @@ uint32 charKeyPressed(string buffstr, uint8 ch, uint32 i, uint32 bufSize) {
     int toPrint = 0xFF;
     bool shiftMask = lshift || rshift;
     /* Shift and Caps on should be lowercase */
-    if(shiftMask && !capslock) {
+    if (asPass)
+    {
+        toPrint = '*';
+    }
+    else if(shiftMask && !capslock)
+    {
         toPrint = charsShift[ch];
-    } else if(capslock && !shiftMask) {
+    }
+    else if(capslock && !shiftMask)
+    {
         toPrint = charsCapsLock[ch];
-    } else {
+    }
+    else
+    {
         toPrint = chars[ch];
     }
-    if(ctrl) {
+    if(ctrl)
+    {
         /* Ctrl key pushes an Uppercase */
         return pushCtrlChar(i, buffstr, charsCapsLock[ch], bufSize);
-    } else if (alt) {
+    }
+    else if (alt)
+    {
         /* Alt key pushes a lowercase */
         return pushCtrlChar(i, buffstr, chars[ch], bufSize);
     }
