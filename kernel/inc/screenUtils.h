@@ -10,6 +10,7 @@
 
 // the screen color in 0xXX and 0xX form with the X being replaced by color in hex notation
 #define screen_color 0x99
+#define screen_background 0x90
 
 // the first line of text and background color of all main app headers (such as writer.c)
 #define header_background 0x38
@@ -42,7 +43,6 @@ typedef enum {
 
 //define variables for kernel.c
 bool writing;
-bool progexit;
 bool alt;
 bool ctrl;
 bool lshift;
@@ -53,11 +53,14 @@ uint8 startCmdY;
 uint8 startCmdX;
 bool newCmd;
 
+int actualY;
+
 //define variables for screen.c
 uint32 cursorX, cursorY, deleteStopX; // Since cursors cannot be negative
 const uint8 sw, sh, sd;
 
 //define functions for screen.c
+void printIntro();
 void clearLine(uint8, uint8, int);
 void updateCursor();
 void clearScreen();

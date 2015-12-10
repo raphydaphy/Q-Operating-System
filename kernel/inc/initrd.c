@@ -1,6 +1,3 @@
-// initrd.c -- Defines the interface for and structures relating to the initial ramdisk.
-//             Written for JamesM's kernel development tutorials.
-
 #include "initrd.h"
 
 initrd_header_t *initrd_header;     // The header.
@@ -9,6 +6,7 @@ fs_node_t *initrd_root;             // Our root directory node.
 fs_node_t *initrd_dev;              // We also add a directory node for /dev, so we can mount devfs later on.
 fs_node_t *root_nodes;              // List of file nodes.
 uint16 nroot_nodes;                 // Number of file nodes.
+fs_node_t writerFile;
 
 struct dirent dirent;
 
@@ -26,6 +24,54 @@ static uint32 initrd_read(fs_node_t *node, uint32 offset, uint32 size, uint8 *bu
     memcpy(buffer, (uint8*) (header.offset+offset), size);
     return size;
 }
+
+static uint32 initrd_write(fs_node_t *node, uint32 offset, uint32 size, uint8 *buffer)
+{
+    initrd_file_header_t header = file_headers[node->inode];
+
+    /*
+    if (offset > header.length)
+    {
+        return 0;
+    }
+    */
+
+    if (offset+size > header.length)
+    {
+        size = header.length-offset;
+    }
+
+
+    //print(file_headers[node->inode],red);
+
+    // file_headers[node->inode] = (uint8) *buffer;
+    printint(buffer[0],blue);
+
+    writerFile.name[0] = 'W';
+    writerFile.name[1] = 'r';
+    writerFile.name[2] = 'i';
+    writerFile.name[3] = 't';
+    writerFile.name[4] = 'e';
+    writerFile.name[5] = 'r';
+
+    writerFile.mask = 0;
+    writerFile.length = size;
+    writerFile.inode = initrd_header->nfiles + 1;
+    writerFile.flags = FS_FILE;
+    writerFile.read = &initrd_read;
+    writerFile.write = 0;
+    writerFile.readdir = 0;
+    writerFile.finddir = 0;
+    writerFile.open = 0;
+    writerFile.close = 0;
+    writerFile.impl = 0;
+
+
+    // memcpy(file_headers[node->inode], (uint8*) (header.offset+offset), size);
+    return size;
+}
+
+
 
 static struct dirent *initrd_readdir(fs_node_t *node, uint32 index)
 {
@@ -117,7 +163,7 @@ fs_node_t *initialize_initrd(uint32 location)
         root_nodes[i].inode = i;
         root_nodes[i].flags = FS_FILE;
         root_nodes[i].read = &initrd_read;
-        root_nodes[i].write = 0;
+        root_nodes[i].write = &initrd_write;
         root_nodes[i].readdir = 0;
         root_nodes[i].finddir = 0;
         root_nodes[i].open = 0;

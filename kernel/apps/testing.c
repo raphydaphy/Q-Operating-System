@@ -106,17 +106,17 @@ void test(string args) {
 
         strbuilder_append(&test_strb, bak);
         strbuilder_append(&test_strb, "Hello, 2nd world");
-        println("\nTesting backup text. Output should 1", white);
-        printint(streql(bak, test_strb.prevTxt), white);
-        println("\nOutput should be \"Hello, world Hello, 2nd world\"", white);
-        println(strbuilder_tostr(test_strb), white);
-        println("\nRemoving greeters from first world", white);
+        println("\nTesting backup text. Output should 1", red);
+        printint(streql(bak, test_strb.prevTxt), green);
+        println("\nOutput should be \"Hello, world Hello, 2nd world\"", red);
+        println(strbuilder_tostr(test_strb), green);
+        println("\nRemoving greeters from first world", red);
         strbuilder_delete(&test_strb, 0, bln);
-        println("\nOutput should be \"Hello, 2nd world\"", white);
-        println(strbuilder_tostr(test_strb), white);
+        println("\nOutput should be \"Hello, 2nd world\"", red);
+        println(strbuilder_tostr(test_strb), green);
         strbuilder_flip(&test_strb);
-        println("\nOutput should be \"dlrow dn2 ,olleH\"", white);
-        println(strbuilder_tostr(test_strb), white);
+        println("\nOutput should be \"dlrow dn2 ,olleH\"", red);
+        println(strbuilder_tostr(test_strb), green);
     }
     else if(streql(args,"-y"))
     {

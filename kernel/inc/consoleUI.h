@@ -48,6 +48,8 @@ int8 messageBox_YN(string);
 
 string messageBox_I(string);
 
+string messageBox_Pass(string);
+
 int waitUntilKey(int[]);
 
 #endif

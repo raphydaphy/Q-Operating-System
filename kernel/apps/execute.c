@@ -3,7 +3,7 @@
 void execute()
 {
 	print("\ntype>  ", white);
-	readStr(executeContents, EXECUTESIZE);
+	readStr(executeContents, EXECUTESIZE, false);
 	//Entering ? will allow for the user to see all of the available execute commands. Once the line gets long, we can put them in groups.
 	if(streql(executeContents,"?")) {
 		//All of the else if statments to follow should have an entry here.
@@ -14,7 +14,7 @@ void execute()
 	else if(streql(executeContents,"repeat"))
 	{
 		print("\nrepeat>  ", white);
-		readStr(executeContents, EXECUTESIZE);
+		readStr(executeContents, EXECUTESIZE, false);
 		writing = 1;
 		while(true)
 		{
@@ -25,7 +25,7 @@ void execute()
 	else if(streql(executeContents,"q"))
 	{
 		print("\nQ-Compiler>  ",white);
-		readStr(executeContents, EXECUTESIZE);
+		readStr(executeContents, EXECUTESIZE, false);
 	}
 	else
 	{

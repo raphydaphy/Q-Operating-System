@@ -3,7 +3,7 @@
 #define curWord toUpper(splitArg(args, tmp))
 
 bool hasSetup = false;
-char zip[18];
+string zip;
 
 bool birthYearValid = false;
 bool birthDateValid = false;
@@ -38,14 +38,12 @@ void me(string args) {
             newline();
 
             newline();
-            print("What is your name: ",cyan);
-            readStr(name,128);
+            name = messageBox_I("What is your name?");
 
             while (!birthYearValid)
             {
                 newline();
-                print("What year were you born in: ",cyan);
-                readStr(birthYear,5);
+                birthYear = messageBox_I("What year were you born in?");
                 birthYearInt = stoi(birthYear);
 
                 // need to make this always the current year + 1
@@ -65,8 +63,7 @@ void me(string args) {
             while (!birthDateValid)
             {
                 newline();
-                print("What day of the month were you born in: ",cyan);
-                readStr(birthDate,3);
+                birthDate = messageBox_I("What day were you born on");
                 birthDateInt = stoi(birthDate);
 
                 if (birthDateInt < 32)
@@ -84,8 +81,7 @@ void me(string args) {
             while (!birthMonthValid)
             {
                 newline();
-                print("What month were you born in: ",cyan);
-                readStr(birthMonth,128);
+                birthMonth = messageBox_I("What month were you born in?");
                 birthMonth = toUpper(birthMonth);
 
                 if (findInDictionary("me/setup/month.text",birthMonth))
@@ -104,8 +100,7 @@ void me(string args) {
             {
 
                 newline();
-                print("What continent do you live in: ",cyan);
-                readStr(continent,128);
+                continent = messageBox_I("What continent do you live in?");
                 continent = toUpper(continent);
 
                 if (findInDictionary("me/setup/continent.text",continent))
@@ -124,8 +119,7 @@ void me(string args) {
             while (!countryValid)
             {
                 newline();
-                print("What country do you live in: ",cyan);
-                readStr(country,128);
+                country = messageBox_I("What country do you live in?");
                 country = toUpper(country);
 
                 if (findInDictionary("me/setup/country.text",country))
@@ -143,8 +137,7 @@ void me(string args) {
             while (!stateValid)
             {
                 newline();
-                print("What state/province do you currently live in: ",cyan);
-                readStr(state,128);
+                state = messageBox_I("What state/province do you live in?");
                 state = toUpper(state);
 
                 if (findInDictionary("me/setup/state.text",state))
@@ -160,14 +153,12 @@ void me(string args) {
             }
 
             newline();
-            print("What city do you live in: ",cyan);
-            readStr(city,128);
+            city = messageBox_I("What city/town do you live in?");
 
             while (!zipValid)
             {
                 newline();
-                print("What is the zip/post code in your area: ",cyan);
-                readStr(zip, 17);
+                zip = messageBox_I("What is your zip/post code?");
                 zipInt = htoi(zip);
                 if (zipInt > 0)
                 {
@@ -199,7 +190,7 @@ void me(string args) {
 
             //meArgs = "";
             print("me>  ",green);
-            readStr(meArgs,128);
+            readStr(meArgs,128,false);
 
             print(answer(meArgs,0),red);
         }

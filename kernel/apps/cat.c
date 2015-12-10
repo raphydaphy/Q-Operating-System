@@ -24,7 +24,9 @@ void catTheFile(fs_node_t* fsnode)
         uint32 sz = read_fs(fsnode, 0, rbuff, (uint8*) buf);
         uint32 j;
         for (j = 0; j < sz; j++)
+        {
             printch(buf[j], white);
+        }
         newline();
     }
 }
@@ -132,4 +134,3 @@ string extractLine(fs_node_t* fsnode,string searchTerm)
     }
     return "random error occured";
 }
-
