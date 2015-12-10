@@ -1,6 +1,7 @@
 #ifndef CONSOLE_UI_H
 #define CONSOLE_UI_H
 
+#include "kbDetect.h"
 #include "screenUtils.h"
 
 // T: Top, B: Bottom, L: Left, R: Right
@@ -35,8 +36,18 @@ void paintScreen(int);
 
 void printAt(string, int, uint16, uint16);
 
+void paintLine(int, uint16, uint16, uint16);
+
 void drawFrame(int, uint16, uint16, uint16, uint16);
 
 void drawBorder(int, uint16, uint16, uint16, uint16);
+
+void messageBox(string);
+
+int8 messageBox_YN(string);
+
+string messageBox_I(string);
+
+int waitUntilKey(int[]);
 
 #endif
