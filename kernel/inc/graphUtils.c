@@ -134,21 +134,21 @@ int stepFunc(int xVal)
     return (int)((xVal^2) + xVal-6);
 }
 
-void evalFunc(stirng mathFunction)
+void evalFunc(string mathFunction)
 {
     printint(evalString(mathFunction),green);
 
     newline();
 
-    int x = stoi(splitArg(args,1));
+    int x = stoi(mathFunction);
     int y;
 
     print("\nFunction: ",bright_red);
     print(FUNCTIONSTR,green);
 
-    while (x < (stoi(splitArg(args,1)) * (-1) + 1))
+    while (x < (stoi(mathFunction) * (-1) + 1))
     {
-        y = graphFunction(x);
+        y = stepFunc(x);
         print("\nCurrent X: ",red);
         printint(x,grey);
         print(" Current Y: ",red);

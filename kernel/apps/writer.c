@@ -27,7 +27,7 @@ void writeFile(fs_node_t* fsnode)
     newline();
     print("\nNew File: ",green);
     catTheFile(fsnode);
-})
+}
 
 void writer(string args)
 {

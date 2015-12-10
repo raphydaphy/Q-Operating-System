@@ -7,5 +7,5 @@ void skip(string args) {
 
     string fileToWrite = splitArg(args, 1);
     ASSERT(strlen(fileToWrite) < MAX_FNAME_LEN);
-    writeToFS(finddir_fs(fs_root, fileToWrite));
+    writeFile(finddir_fs(fs_root, fileToWrite));
 }
