@@ -2,7 +2,7 @@
 #include "screenUtils.h"
 
 //Initialize the variables created in screen.h
-bool writing = 0, progexit = 0, layout = 0, ctrl = 0, typingCmd = 0;
+bool writing = 0, layout = 0, ctrl = 0, typingCmd = 0;
 uint8 startCmdY = 0, startCmdX = 0;
 bool newCmd = 0;
 

@@ -120,17 +120,6 @@ void readStr(string buffstr, uint32 bufSize)
     bool reading = true;
     while(reading)
     {
-    	//exit the writer program when the Ctrl-Z key is pressed
-	    if (progexit && writing)
-	    {
-	        clearScreen();
-	        updateCursor();
-	        writing = false;
-	        progexit = false;
-	        print("Q-Kernel>  ", dark_grey);
-	    }
-
-
 	    if (newCmd && typingCmd)
 	    {
 	        startCmdX = cursorX;
@@ -167,8 +156,8 @@ void readStr(string buffstr, uint32 bufSize)
                 break;
             case 1:         // Esc (Ctrl-z)
                 if (writing) {
-                    progexit = true;
                     reading = false;
+                    clearScreen();
                 } else {
                     i = pushCtrlChar(i, buffstr, 'Z', bufSize);
                 }
@@ -190,7 +179,7 @@ void readStr(string buffstr, uint32 bufSize)
                     }
                 }
                 break;
-            case 28:				//This is the enter key, we need to add more functionality to it with Writer and other commands
+            case 28:				//This is the enter key
                 if (writing)
                 {
                     printch('\n',white);
@@ -233,7 +222,7 @@ void readStr(string buffstr, uint32 bufSize)
             case 44:        // z or Ctrl-Z
                 if (ctrl) {
                     if (writing) {
-                        progexit = true;
+                        clearScreen();
                         reading = false;
                         handled = true;
                     }

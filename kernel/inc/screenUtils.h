@@ -43,7 +43,6 @@ typedef enum {
 
 //define variables for kernel.c
 bool writing;
-bool progexit;
 bool alt;
 bool ctrl;
 bool lshift;
