@@ -3,7 +3,24 @@
 
 #define MULTI_ARG_DEBUG false
 
-
+void uiDemo()
+{
+    printIntro();
+    drawFrame(header_background, 0, 4, 80, sh - 1);
+    printAt("Welcome to the experimental UI of Q-OS", desc_foreground, 1, 5);
+    printAt("Nothing much going on here... Believe me!", desc_foreground, 1, 6);
+    printAt("Found me...", desc_foreground, 20, 12);
+    messageBox("Hit <RET> to quit this and hit <Q> to\n\rleave");
+    messageBox_YN("Hit <Y> or <N> or <C> to quit this...");
+    messageBox_I("INPUT::::");
+    newline();
+    newline();
+    newline();
+    newline();
+    static int qKey[] = {0x10};
+    waitUntilKey(qKey);
+    clearScreen();
+}
 
 void launchShell()
 {
@@ -99,23 +116,22 @@ void launchShell()
 
         if (streql(strTrim(cmdStr), ""))            {   HELP;                   }
         else if(streql(cmdStr, "help"))             {   BIGHELP;                }
-        else if(streql(cmdStr, "system"))           {   system(fullArgs);     }
-        else if(streql(cmdStr, "skip"))             {   skip(fullArgs);       }
-        else if(streql(cmdStr, "files"))            {   files(fullArgs);      }
-        else if(streql(cmdStr, "cat"))              {   cat(fullArgs);        }
+        else if(streql(cmdStr, "system"))           {   system(fullArgs);       }
+        else if(streql(cmdStr, "skip"))             {   skip(fullArgs);         }
+        else if(streql(cmdStr, "files"))            {   files(fullArgs);        }
+        else if(streql(cmdStr, "cat"))              {   cat(fullArgs);          }
         else if(streql(cmdStr,"execute"))           {   execute();              }
         else if(streql(cmdStr,"switch"))            {   SWITCHDIR;              }
-        else if(streql(cmdStr,"writer"))            {   writer(fullArgs);   }
-        else if(streql(cmdStr, "calc"))             {   calc(fullArgs);       }
+        else if(streql(cmdStr,"writer"))            {   writer(fullArgs);       }
+        else if(streql(cmdStr, "calc"))             {   calc(fullArgs);         }
         else if(streql(cmdStr, "clear"))            {   clearScreen();          }
-        else if(streql(cmdStr, "test"))             {   test(fullArgs);       }
+        else if(streql(cmdStr, "test"))             {   test(fullArgs);         }
         else if(streql(cmdStr, "newdir"))           {   MKDIR;                  }
         else if(streql(cmdStr, "erase"))            {   RMFILE;                 }
-    	else if(streql(cmdStr, "me"))               {   me(fullArgs);         }
+    	else if(streql(cmdStr, "me"))               {   me(fullArgs);           }
     	else if(streql(cmdStr, "search"))           {   SEARCHFOR;              }
         else                                        {   CMDNOTFOUND;            }
         newline();
     }
-
-
 }
+

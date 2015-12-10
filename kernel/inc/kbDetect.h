@@ -5,6 +5,7 @@
 #include "screenUtils.h"
 
 void readStr(string, uint32, bool);
+
 void kbHelp();
 
 #endif
