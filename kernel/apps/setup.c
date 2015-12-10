@@ -16,16 +16,16 @@ void setup()
 
     password = messageBox_Pass("Enter a password to protect your\n\raccount");
 
-    messageBox(password);
-
-    if(messageBox_YN("Allow Q OS to record informaiton about\n\ryour computer?"))
+    if(messageBox_YN("Allow Q OS to record information about\n\ryour computer?"))
     {
         allowStatMonitor = true;
     }
-}
 
-/*
-messageBox("Hit <RET> to quit this and hit <Q> to\n\rleave");
-messageBox_YN("Hit <Y> or <N> or <C> to quit this...");
-messageBox_I("INPUT::::");
-*/
+    print("Thanks for doing the setup. Here is your data:\n",yellow);
+
+    print("Username: ",magenta);
+    print(userName,red);
+
+    print("\nPassword: ",magenta);
+    print(password,red);
+}
