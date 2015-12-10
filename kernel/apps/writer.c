@@ -3,9 +3,9 @@
 void writerHelp()
 {
 	newline();
-	print("Showing help for writer:",white);
+	print("Showing help for writer:",magenta);
 	newline();
-	print("A text buffer that does not store any text entered!",white);
+	print("Writer is a simple text editor built into Q OS that saves a single document at a time.\nAfter the first lnie of text saved your document may be presented in a strange format.",yellow);
 }
 
 void writer(string args)
