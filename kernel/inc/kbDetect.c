@@ -76,23 +76,40 @@ uint8 pushCtrlChar(uint8 i, string buffstr, char caps, uint32 bufSize) {
 
 uint32 charKeyPressed(string buffstr, uint8 ch, uint32 i, uint32 bufSize) {
     int toPrint = 0xFF;
+    int pass = 0xFF;
     bool shiftMask = lshift || rshift;
     /* Shift and Caps on should be lowercase */
     if (asPass)
     {
         toPrint = '*';
-    }
-    else if(shiftMask && !capslock)
-    {
-        toPrint = charsShift[ch];
-    }
-    else if(capslock && !shiftMask)
-    {
-        toPrint = charsCapsLock[ch];
+
+        if(shiftMask && !capslock)
+        {
+            pass = charsShift[ch];
+        }
+        else if(capslock && !shiftMask)
+        {
+            pass = charsCapsLock[ch];
+        }
+        else
+        {
+            pass = chars[ch];
+        }
     }
     else
     {
-        toPrint = chars[ch];
+        if(shiftMask && !capslock)
+        {
+            toPrint = charsShift[ch];
+        }
+        else if(capslock && !shiftMask)
+        {
+            toPrint = charsCapsLock[ch];
+        }
+        else
+        {
+            toPrint = chars[ch];
+        }
     }
     if(ctrl)
     {
@@ -104,7 +121,14 @@ uint32 charKeyPressed(string buffstr, uint8 ch, uint32 i, uint32 bufSize) {
         /* Alt key pushes a lowercase */
         return pushCtrlChar(i, buffstr, chars[ch], bufSize);
     }
-    buffstr[i] = toPrint;
+    if (asPass)
+    {
+        buffstr[i] = pass;
+    }
+    else
+    {
+        buffstr[i] = toPrint;
+    }
     kprintch(toPrint, white, false);
     if(++i >= bufSize) {
         buffOverflow = true;
