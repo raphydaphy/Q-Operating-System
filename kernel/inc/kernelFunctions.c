@@ -10,8 +10,8 @@ void printIntro()
 
     // Made the intro beautiful
     drawFrame(header_background, 0, 0, 80, 4);
-    printAt("                            Welcome to Q OS                                   \r\n", header_foreground, 1, 1);
-    printAt("                      You are using version 0.06                              ",desc_foreground,1,2);
+    printAt("Welcome to Q OS\r\n", header_foreground, 1, 1);
+    printAt("You are using version 0.06",desc_foreground,1,2);
 
     newline();
     newline();
