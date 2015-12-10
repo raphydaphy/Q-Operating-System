@@ -108,7 +108,6 @@ void drawBorder(int color, uint16 x, uint16 y, uint16 xlen, uint16 ylen) {
     updateCursor();
 }
 
-
 void paintLine(int color, uint16 x, uint16 y, uint16 xlen) {
     for( ; x < xlen; x++) {
         __appendCharAt(' ', color, x, y);
@@ -212,3 +211,4 @@ int waitUntilKey(int key[]) {
         }
     }
 }
+
