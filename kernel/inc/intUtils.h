@@ -3,6 +3,6 @@
 
 #include "intTypeDefs.h"
 
-unsigned itncat(unsigned,unsigned);
+unsigned intcat(unsigned, unsigned);
 
 #endif
