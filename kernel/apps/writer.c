@@ -32,6 +32,7 @@ void writer(string args)
 		updateCursor();
 
 		writing = true;
+		printAt(writerContents,white,5,1)
 		readStr(writerContents, WRITERSIZE);
 		writing = false;
 	}
