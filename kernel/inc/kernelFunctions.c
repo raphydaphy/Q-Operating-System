@@ -18,10 +18,26 @@ void printIntro()
     newline();
 }
 
+void uiDemo()
+{
+    printIntro();
+    drawFrame(header_background, 0, 4, 80, sh - 1);
+    printAt("Welcome to the experimental UI of Q-OS", desc_foreground, 2, 5);
+    printAt("Nothing much going on here... Believe me!", desc_foreground, 2, 6);
+    while(true) {
+        if(inportb(0x64) & 0x1) {
+            uint8 value = inportb(0x60);
+            if(value == 0x10) { // Q
+                break;
+            }
+        }
+    }
+    clearScreen();
+}
+
 void launchShell()
 {
     initialize_calc();
-
     //allocate some memory for command string buffer. 1kB should be enough for now
     const int bufSize = 128;
     char bufStr[bufSize];//Store sanitized user command (no arguments)
@@ -149,6 +165,7 @@ void launchShell()
     	else if(streql(bufStr, "me"))               {   me(rawCommand);         }
     	else if(streql(bufStr, "search"))           {   SEARCHFOR;              }
         else if(streql(bufStr, "fill"))             { paintScreen(screen_color);}
+        else if(streql(bufStr, "xpr"))              {    uiDemo();              }
         else                                        {   CMDNOTFOUND;            }
         newline();
     }
