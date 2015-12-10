@@ -73,3 +73,38 @@ void drawFrame(int color, uint16 x, uint16 y, uint16 xlen, uint16 ylen) {
     updateCursor();
 }
 
+void drawBorder(int color, uint16 x, uint16 y, uint16 xlen, uint16 ylen) {
+    const uint16 oldY = y;
+    const uint16 oldX = x;
+    for( ; y < ylen; y++) {
+        for(x = oldX; x < xlen; x++) {
+            if (y == oldY) {
+                if(x == oldX) {
+                    __appendCharAt((char) T_L_D, color, x, y);
+                } else if (x == xlen - 1) {
+                    __appendCharAt((char) T_R_D, color, x, y);
+                } else {
+                    __appendCharAt((char) H_D, color, x, y);
+                }
+            } else if (y == ylen - 1) {
+                if(x == oldX) {
+                    __appendCharAt((char) B_L_D, color, x, y);
+                } else if (x == xlen - 1) {
+                    __appendCharAt((char) B_R_D, color, x, y);
+                } else {
+                    __appendCharAt((char) H_D, color, x, y);
+                }
+            } else {
+                if(x > oldX && x < xlen - 1) {
+                    __appendCharAt(' ', color, x, y);
+                } else {
+                    __appendCharAt((char) V_D, color, x, y);
+                }
+            }
+        }
+    }
+    cursorX = 0;
+    cursorY = 0;
+    updateCursor();
+}
+
