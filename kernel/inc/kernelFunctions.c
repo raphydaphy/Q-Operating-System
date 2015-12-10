@@ -3,21 +3,6 @@
 
 #define MULTI_ARG_DEBUG false
 
-void printIntro()
-{
-    // Some good colors for background: 66, 88, 99, CC, EE
-    paintScreen(screen_color);
-
-    // Made the intro beautiful
-    drawFrame(header_background, 0, 0, 80, 4);
-    printAt("Welcome to Q OS\r\n", header_foreground, 1, 1);
-    printAt("You are using version 0.06",desc_foreground,1,2);
-
-    newline();
-    newline();
-    newline();
-}
-
 void uiDemo()
 {
     printIntro();
@@ -39,27 +24,31 @@ void uiDemo()
 
 void launchShell()
 {
+    // Setup all Q Kernel Stuff
     initialize_calc();
-    //allocate some memory for command string buffer. 1kB should be enough for now
-    const int bufSize = 128;
-    char bufStr[bufSize];//Store sanitized user command (no arguments)
-    char rawCommand[bufSize];//Gets user raw command from command line
-    char arguments[bufSize/2][bufSize/2];//Store command arguments
-    int fs = 1;//First space (first word means actual command)
-    int ay = -1;//Y location for arguments
-    int ax = 0;//X location for argumetns
+
+    //allocate some memory for command string cmdfer. 1kB should be enough for now
+    const int cmdSize = 128;
+
+    //Store sanitized user command (no arguments)
+    char cmdStr[cmdSize];
+
+    //Gets user raw command from command line
+    char fullArgs[cmdSize];
+
+    //First space (first word means actual command)
+    int fs = 1;
+
+    //Y location for arguments
+    int ay = -1;
+
+    // the Y locaiton to print cmd line text
+    actualY = 4;
 
     //prepare variable
-    for(int i = 0; i < bufSize; ++i)
+    for(int i = 0; i < cmdSize; ++i)
     {
-        bufStr[i] = 0;
-    }
-    for(int y = 0; y < bufSize; ++y)
-    {
-        for(int x = 0; x < bufSize; ++x)
-        {
-            arguments[y][x] = 0;
-        }
+        cmdStr[i] = 0;
     }
 
     #define TIP print("\nTip: If enter key does not work, it might mean that the input is too long",white);
@@ -69,106 +58,80 @@ void launchShell()
     #define BIGCLEAR clearScreen(); printIntro();
     #define MKDIR print("\nThis Command is Reserved for when we have a FAT32 or better FileSystem...", 0x3F);
     #define RMFILE print("\nThis Command is Reserved for when we have a FAT32 or better FileSystem...", 0x3F);
-    #define SEARCHFOR string searchTerm = (string) kmalloc(bufSize * sizeof(char)); print("\nDictionary File Name>  ", white); readStr(bufStr, bufSize); print("\nSearch Term>  ", green); readStr(searchTerm, bufSize); if (findInDictionary(bufStr,searchTerm)) { print("\nWe found the word!",white); }
-    #define CMDNOTFOUND print("\n", white); print(bufStr, white); print(": Command Not Found ", white);
+    #define SEARCHFOR string searchTerm = (string) kmalloc(cmdSize * sizeof(char)); print("\nDictionary File Name>  ", white); readStr(cmdStr, cmdSize, false); print("\nSearch Term>  ", green); readStr(searchTerm, cmdSize, false); if (findInDictionary(cmdStr,searchTerm)) { print("\nWe found the word!",white); }
+    #define CMDNOTFOUND print("\n", white); print(cmdStr, white); print(": Command Not Found ", white);
+
+
+    printIntro();
+
+    drawBorder(screen_background, 0, 4, 80, sh - 1);
+
+    setup();
 
     while (true)
     {
-        print("\nQ-Kernel>  ", light_grey);
+        actualY++;
+
+        printAt("Q-Kernel>  ", light_grey, 1, actualY);
+
+        cursorY = actualY;
+        cursorX = 12;
+        updateCursor();
+
         typingCmd = true;
         newCmd = true;
-        readStr(rawCommand, bufSize);
+
+        readStr(fullArgs, cmdSize, false);
+
         typingCmd = false;
 
-    	for(int i = 0; i < bufSize; ++i)
+        for(int i = 0; i < cmdSize; ++i)
         {
-    	    bufStr[i] = 0;
+            cmdStr[i] = 0;
         }
-    	for(int y = 0; y < bufSize; ++y)
-        {
-            for(int x = 0; x < bufSize; ++x)
-            {
-                arguments[y][x] = 0;
-            }
-        }
-    	fs = 1;
+
+        fs = 1;
         ay = -1;
-        ax = 0;
-        if(MULTI_ARG_DEBUG == true)
-        {
-            //Sanitize raw input. Move first word to bufStr and move the rest of the word to arguments
-            for(int i = 0; i < bufSize; ++i)
-            {
-                if(rawCommand[i] != 0 || rawCommand[i] != 10)
-                {
-                    if(fs == 1)
-                    {
-                        bufStr[i] = rawCommand[i];
-                    }
-                    else if(fs == 0)
-                    {
-                        arguments[ay][ax] = rawCommand[i];
-                    }
 
-                    if(i < bufSize && rawCommand[i+1] == 32)
-                    {
-          		        fs = 0;
-          		        ay++;
-          		    }
-    	        }
-                else break;
-    	    }
-        }
-        else
+        //Sanitize raw input. Move first word to cmdStr
+        for(int i = 0; i < cmdSize; ++i)
         {
-            //Sanitize raw input. Move first word to bufStr and move the rest of the word to arguments
-            for(int i = 0; i < bufSize; ++i)
+            if(fullArgs[i] != 0 || fullArgs[i] != 10)
             {
-                if(rawCommand[i] != 0 || rawCommand[i] != 10)
+                if(fs == 1)
                 {
-                    if(fs == 1)
-                    {
-                        bufStr[i] = rawCommand[i];
-                    }
-                    if(i < bufSize && rawCommand[i+1] == 32)
-                    {
-                        fs = 0;
-                        ay++;
-                        ax = 0;
-                    }
+                    cmdStr[i] = fullArgs[i];
                 }
-                else if(fs == 0)
+                if(i < cmdSize && fullArgs[i+1] == 32)
                 {
-                    arguments[ay][ax] = rawCommand[i];
-                    ax++;
+                    fs = 0;
+                    ay++;
                 }
-                //}
-                else
-                {
-                    break;
-                }
+            }
+            else
+            {
+                break;
             }
         }
 
-        if (streql(strTrim(bufStr), ""))            {   HELP;                   }
-        else if(streql(bufStr, "help"))             {   BIGHELP;                }
-        else if(streql(bufStr, "system"))           {   system(rawCommand);     }
-        else if(streql(bufStr, "skip"))             {   skip(rawCommand);       }
-        else if(streql(bufStr, "files"))            {   files(rawCommand);      }
-        else if(streql(bufStr, "cat"))              {   cat(rawCommand);        }
-        else if(streql(bufStr,"execute"))           {   execute();              }
-        else if(streql(bufStr,"switch"))            {   SWITCHDIR;              }
-        else if(streql(bufStr,"writer"))            {   writer(arguments[0]);   }
-        else if(streql(bufStr, "calc"))             {   calc(rawCommand);       }
-        else if(streql(bufStr, "clear"))            {   clearScreen();          }
-        else if(streql(bufStr, "test"))             {   test(rawCommand);       }
-        else if(streql(bufStr, "newdir"))           {   MKDIR;                  }
-        else if(streql(bufStr, "erase"))            {   RMFILE;                 }
-    	else if(streql(bufStr, "me"))               {   me(rawCommand);         }
-    	else if(streql(bufStr, "search"))           {   SEARCHFOR;              }
-        else if(streql(bufStr, "fill"))             { paintScreen(screen_color);}
-        else if(streql(bufStr, "xpr"))              {    uiDemo();              }
+        if (streql(strTrim(cmdStr), ""))            {   HELP;                   }
+        else if(streql(cmdStr, "help"))             {   BIGHELP;                }
+        else if(streql(cmdStr, "system"))           {   system(fullArgs);       }
+        else if(streql(cmdStr, "skip"))             {   skip(fullArgs);         }
+        else if(streql(cmdStr, "files"))            {   files(fullArgs);        }
+        else if(streql(cmdStr, "cat"))              {   cat(fullArgs);          }
+        else if(streql(cmdStr,"execute"))           {   execute();              }
+        else if(streql(cmdStr,"switch"))            {   SWITCHDIR;              }
+        else if(streql(cmdStr,"writer"))            {   writer(fullArgs);       }
+        else if(streql(cmdStr, "calc"))             {   calc(fullArgs);         }
+        else if(streql(cmdStr, "clear"))            {   clearScreen();          }
+        else if(streql(cmdStr, "test"))             {   test(fullArgs);         }
+        else if(streql(cmdStr, "newdir"))           {   MKDIR;                  }
+        else if(streql(cmdStr, "erase"))            {   RMFILE;                 }
+    	else if(streql(cmdStr, "me"))               {   me(fullArgs);           }
+    	else if(streql(cmdStr, "search"))           {   SEARCHFOR;              }
         else                                        {   CMDNOTFOUND;            }
         newline();
     }
 }
+

@@ -9,6 +9,7 @@
 #include "byteUtils.h"
 #include "stringUtils.h"
 #include "intTypeDefs.h"
+#include "screenUtils.h"
 
 typedef struct
 {

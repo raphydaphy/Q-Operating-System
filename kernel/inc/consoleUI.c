@@ -167,7 +167,28 @@ string messageBox_I(string txt) {
     cursorY = startCmdY = 16;
     int strLen = 59 - 21;
     char inputBuf[strLen + 1];
-    readStr(inputBuf, strLen);
+    readStr(inputBuf, strLen, false);
+
+    strcpy(vidmem, oldmem);
+    string msg = inputBuf;
+    return msg;
+}
+
+
+string messageBox_Pass(string txt) {
+    string vidmem = (string) 0xb8000;
+    char oldmem[strlen(vidmem)];
+    strcpy(oldmem, vidmem);
+
+    drawBorder(header_background, 20, 12, 60, 18);
+    printAt(txt, desc_foreground, 21, 13);
+    paintLine(white, 21, 16, 59);
+
+    cursorX = deleteStopX = 21;
+    cursorY = startCmdY = 16;
+    int strLen = 59 - 21;
+    char inputBuf[strLen + 1];
+    readStr(inputBuf, strLen, true);
 
     strcpy(vidmem, oldmem);
     string msg = inputBuf;

@@ -2,13 +2,24 @@
 #include "screenUtils.h"
 
 //Initialize the variables created in screen.h
-bool writing = 0, progexit = 0, layout = 0, ctrl = 0, typingCmd = 0;
+bool writing = 0, layout = 0, ctrl = 0, typingCmd = 0;
 uint8 startCmdY = 0, startCmdX = 0;
 bool newCmd = 0;
 
 //Setup variables needed for this file
 uint32 cursorX = 0, cursorY = 0, deleteStopX = 0;
 const uint8 sw = 80,sh = 26,sd = 2;
+
+void printIntro()
+{
+    writing = false;
+
+    // Some good colors for background: 66, 88, 99, CC, EE
+    drawFrame(header_background, 0, 0, 80, 4);
+
+    printAt("Welcome to Q OS\r\n", header_foreground, 1, 1);
+    printAt("You are using version 0.06",desc_foreground,1,2);
+}
 
 void clearLine(uint8 from, uint8 to,int toColor)
 {
@@ -40,7 +51,10 @@ void clearScreen()
     cursorY = 0;
     updateCursor();
 
-    //paintScreen(screen_color);
+    printIntro();
+
+    drawBorder(screen_background, 0, 4, 80, sh - 1);
+    actualY = 3;
 }
 
 void scrollUp(uint8 lineNumber)
@@ -53,8 +67,11 @@ void scrollUp(uint8 lineNumber)
     }
     clearLine(sh-1-lineNumber,sh-1,screen_color);
     cursorY -= lineNumber;
+    cursorX = 1;
 
-    //paintScreen(screen_color);
+    printIntro();
+    drawBorder(screen_background, 0, 4, 80, sh - 1);
+
 
     updateCursor();
 }
@@ -62,7 +79,7 @@ void scrollUp(uint8 lineNumber)
 
 void newLineCheck()
 {
-    if(cursorY >= (uint8)(sh - 1))
+    if(cursorY >= (uint8)(sh - 2))
     {
         //paintScreen(screen_color);
         scrollUp(1);
@@ -77,7 +94,7 @@ void kprintch(char c, int b, bool incDelStop)
     switch(c)
     {
     case (0x08): // Backspace
-        if(cursorX > 0)
+        if(cursorX > 1)
         {
             cursorX--;
             if (incDelStop)
@@ -97,24 +114,46 @@ void kprintch(char c, int b, bool incDelStop)
     }
     case ('\r'):
         cursorX = 0;
-        if (incDelStop) deleteStopX = 0;
+        if (incDelStop)
+        {
+            deleteStopX = 0;
+        }
         break;
     case ('\n'):
-        cursorX = 0;
-        if (incDelStop) deleteStopX = 0;
+        cursorX = 1;
+        if (incDelStop)
+        {
+            deleteStopX = 0;
+        }
         cursorY++;
+        actualY++;
+
+        if (actualY >= 24)
+        {
+            clearScreen();
+
+            cursorX = 1;
+            cursorY = 5;
+            actualY = 5;
+        }
         break;
     default:
         vidmem [(cursorY * sw + cursorX)*sd] = c;
         vidmem [(cursorY * sw + cursorX)*sd+1] = b;
         cursorX++;
-        if (incDelStop) deleteStopX++;
+        if (incDelStop)
+        {
+            deleteStopX++;
+        }
         break;
     }
     if(cursorX >= sw)
     {
         cursorX = 0;
-        if (incDelStop) deleteStopX = 0;
+        if (incDelStop)
+        {
+            deleteStopX = 0;
+        }
         cursorY++;
     }
     updateCursor();

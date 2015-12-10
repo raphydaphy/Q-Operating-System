@@ -28,15 +28,15 @@ void system(string args)
     }
     else if (streql(args, "about"))
     {
-        print("\n Q Operating System\nVersion: 0.06 Alpha\n", 0xCF);
+        print("\nYou are using the Q Operating System\nYour Version: 0.06 Alpha\n", brown);
         //You might wanna replace your slack name with your full name (Its in alphabetical order)
-        println("\nDevelopers:", white);
-        println("- barteks2x", white);
-        println("- Patrick van Duyse", white);
-        println("- Plankp T", white);
-        println("- raph", white);
-        println("- Stanislaus Krisna", white);//stnkrisna
-        print("- Talip Goeksu", white);
+        println("\nDevelopers:", yellow);
+        println("- barteks2x", cyan);
+        println("- Patrick van Duyse", cyan);
+        println("- Plankp T", light_green);// light green for a main contributer
+        println("- Raph Hennessy", purple);// purple for owner :)
+        println("- Stanislaus Krisna", light_green);//stnkrisna (main contributer)
+        print("- Talip Goeksu", cyan);
     }
     else
     {

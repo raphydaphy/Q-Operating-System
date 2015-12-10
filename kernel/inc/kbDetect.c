@@ -1,6 +1,7 @@
 #include "kbDetect.h"
 
 bool buffOverflow = false;
+bool asPass = false;
 
 const int BUFSIZE = 256;
 const char chars[256] =    {
@@ -27,7 +28,6 @@ const char charsCapsLock[256] =    {
    '\'', '`',  0 ,'\\', 'Z', 'X', 'C', 'V', 'B', 'N',
     'M', ',', '.', '/',  0 , '*',  0 , ' ',  0 ,
 };
-
 uint8 backspaceOne(uint8 i, string buffstr, uint32 bufSize) {
     kprintch('\b', white, false);
     i--;
@@ -78,17 +78,29 @@ uint32 charKeyPressed(string buffstr, uint8 ch, uint32 i, uint32 bufSize) {
     int toPrint = 0xFF;
     bool shiftMask = lshift || rshift;
     /* Shift and Caps on should be lowercase */
-    if(shiftMask && !capslock) {
+    if (asPass)
+    {
+        toPrint = '*';
+    }
+    else if(shiftMask && !capslock)
+    {
         toPrint = charsShift[ch];
-    } else if(capslock && !shiftMask) {
+    }
+    else if(capslock && !shiftMask)
+    {
         toPrint = charsCapsLock[ch];
-    } else {
+    }
+    else
+    {
         toPrint = chars[ch];
     }
-    if(ctrl) {
+    if(ctrl)
+    {
         /* Ctrl key pushes an Uppercase */
         return pushCtrlChar(i, buffstr, charsCapsLock[ch], bufSize);
-    } else if (alt) {
+    }
+    else if (alt)
+    {
         /* Alt key pushes a lowercase */
         return pushCtrlChar(i, buffstr, chars[ch], bufSize);
     }
@@ -114,23 +126,15 @@ void moveUp()
     updateCursor();
 }
 
-void readStr(string buffstr, uint32 bufSize)
+void readStr(string buffstr, uint32 bufSize, bool isPassword)
 {
     uint32 i = 0;
     bool reading = true;
+
+    asPass = isPassword;
+
     while(reading)
     {
-    	//exit the writer program when the Ctrl-Z key is pressed
-	    if (progexit && writing)
-	    {
-	        clearScreen();
-	        updateCursor();
-	        writing = false;
-	        progexit = false;
-	        print("Q-Kernel>  ", dark_grey);
-	    }
-
-
 	    if (newCmd && typingCmd)
 	    {
 	        startCmdX = cursorX;
@@ -167,9 +171,11 @@ void readStr(string buffstr, uint32 bufSize)
                 break;
             case 1:         // Esc (Ctrl-z)
                 if (writing) {
-                    progexit = true;
                     reading = false;
-                } else {
+                    clearScreen();
+                }
+                else
+                {
                     i = pushCtrlChar(i, buffstr, 'Z', bufSize);
                 }
                 break;
@@ -190,7 +196,7 @@ void readStr(string buffstr, uint32 bufSize)
                     }
                 }
                 break;
-            case 28:				//This is the enter key, we need to add more functionality to it with Writer and other commands
+            case 28:				//This is the enter key
                 if (writing)
                 {
                     printch('\n',white);
@@ -233,7 +239,7 @@ void readStr(string buffstr, uint32 bufSize)
             case 44:        // z or Ctrl-Z
                 if (ctrl) {
                     if (writing) {
-                        progexit = true;
+                        clearScreen();
                         reading = false;
                         handled = true;
                     }
@@ -316,6 +322,7 @@ void readStr(string buffstr, uint32 bufSize)
             }
         }
     }
+    asPass = false;
     buffstr[i] = 0;
 }
 
