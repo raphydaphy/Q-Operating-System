@@ -22,13 +22,14 @@ void writer(string args)
 	    // Made the intro beautiful
 		clearLine(0,4,header_background);
 	    drawFrame(header_background, 0, 0, 80, 4);
-	    printAt("Q OS Text Editor\r\n", header_foreground, 1, 1);
-	    printAt("A Simple Text Editor for Q OS by Raph Hennessy",desc_foreground,1,2);
+		printAt("Q OS Text Editor\r\n", header_foreground, 1, 1);
+	    printAt("Simple, Single Document Text Editor built for Q OS by Raph Hennessy",desc_foreground,1,2);
 
-	    newline();
-	    newline();
-	    newline();
-		newline();
+		drawBorder(screen_background, 0, 4, 80, sh - 1);
+
+		cursorY = 5;
+		cursorX = 1;
+		updateCursor();
 
 		writing = true;
 		readStr(writerContents, WRITERSIZE);
