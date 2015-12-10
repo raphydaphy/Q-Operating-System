@@ -117,7 +117,7 @@ fs_node_t *initialize_initrd(uint32 location)
         root_nodes[i].inode = i;
         root_nodes[i].flags = FS_FILE;
         root_nodes[i].read = &initrd_read;
-        root_nodes[i].write = 0;
+        root_nodes[i].write = &initrd_read;
         root_nodes[i].readdir = 0;
         root_nodes[i].finddir = 0;
         root_nodes[i].open = 0;

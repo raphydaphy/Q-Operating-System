@@ -18,11 +18,18 @@ void writeFile(fs_node_t* fsnode)
     {
         const uint32 fsSize = fsnode->length;
         char buffer[fsSize];
-
+		const uint32 offset = 0;
         buffer[0] = 1;
-        buffer[1] = 2;
+        buffer[1] = 3;
 
-        write_fs(fsnode, 0, fsSize, (uint8*) buffer);
+		print("\nWrite Operation Returned Value: ",bright_red);
+        printint(write_fs(fsnode, offset, fsSize, (uint8*) buffer),red);
+
+		print("\n\nWrite Operation Modified Data: \n",bright_red);
+		for(uint8 counter = offset;counter<fsSize;counter++)
+		{
+			printch(buffer[counter],yellow);
+		}
     }
     newline();
     print("\nNew File: ",green);
