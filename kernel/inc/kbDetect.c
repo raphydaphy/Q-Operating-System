@@ -1,6 +1,7 @@
 #include "kbDetect.h"
 
 bool buffOverflow = false;
+bool asPass = false;
 
 const int BUFSIZE = 256;
 const char chars[256] =    {
@@ -114,10 +115,13 @@ void moveUp()
     updateCursor();
 }
 
-void readStr(string buffstr, uint32 bufSize)
+void readStr(string buffstr, uint32 bufSize, bool isPassword)
 {
     uint32 i = 0;
     bool reading = true;
+
+    asPass = isPassword;
+
     while(reading)
     {
 	    if (newCmd && typingCmd)
@@ -158,7 +162,9 @@ void readStr(string buffstr, uint32 bufSize)
                 if (writing) {
                     reading = false;
                     clearScreen();
-                } else {
+                }
+                else
+                {
                     i = pushCtrlChar(i, buffstr, 'Z', bufSize);
                 }
                 break;
@@ -305,6 +311,7 @@ void readStr(string buffstr, uint32 bufSize)
             }
         }
     }
+    asPass = false;
     buffstr[i] = 0;
 }
 

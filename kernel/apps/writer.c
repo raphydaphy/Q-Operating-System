@@ -57,7 +57,7 @@ void writer(string args)
 		updateCursor();
 
 		writing = true;
-		readStr(writerContents, WRITERSIZE);
+		readStr(writerContents, WRITERSIZE,false);
 		writing = false;
 	}
 	else
@@ -76,7 +76,7 @@ void writer(string args)
 
 		writing = true;
 		printAt(writerContents,white,1,5);
-		readStr(writerContents, WRITERSIZE);
+		readStr(writerContents, WRITERSIZE,false);
 		writing = false;
 	}
 }

@@ -1,15 +1,8 @@
 #ifndef ME_H
 #define ME_H
 
-// Q Libraries
-#include "../inc/kheap.h"
-#include "../inc/kbDetect.h"
-#include "../inc/intTypeDefs.h"
-#include "../inc/stringUtils.h"
-#include "../inc/screenUtils.h"
-
-// Q System Tools
-#include "cat.h"
+// Q Studio
+#include "../inc/qdio.h"
 
 // Me Libraries
 #include "me/sort.h"

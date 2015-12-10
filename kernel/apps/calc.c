@@ -99,7 +99,7 @@ void calc(string args)
     {
         newline();
         print("Number>  ",dark_grey);
-        readStr(calcInput, CALC_SIZE);
+        readStr(calcInput, CALC_SIZE,false);
         newline();
     	printfloat(powerOfTen(stoi(calcInput)), white);
     }
