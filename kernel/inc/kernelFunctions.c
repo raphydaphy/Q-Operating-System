@@ -24,6 +24,7 @@ void uiDemo()
     drawFrame(header_background, 0, 4, 80, sh - 1);
     printAt("Welcome to the experimental UI of Q-OS", desc_foreground, 1, 5);
     printAt("Nothing much going on here... Believe me!", desc_foreground, 1, 6);
+    drawBorder(header_background, 4, 8, 25, 15);
     newline();
     newline();
     newline();
