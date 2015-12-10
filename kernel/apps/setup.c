@@ -22,8 +22,6 @@ void setup()
     {
         allowStatMonitor = true;
     }
-
-
 }
 
 /*
