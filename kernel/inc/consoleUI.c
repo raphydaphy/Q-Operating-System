@@ -108,3 +108,32 @@ void drawBorder(int color, uint16 x, uint16 y, uint16 xlen, uint16 ylen) {
     updateCursor();
 }
 
+void messageBox(string txt) {
+    string vidmem = (string) 0xb8000;
+    char oldmem[strlen(vidmem)];
+    strcpy(oldmem, vidmem);
+
+    drawBorder(header_background, 20, 12, 60, 18);
+    printAt(txt, desc_foreground, 21, 13);
+    printAt("[OKAY]", desc_foreground, 37, 17);
+
+    waitUntilKey(0x9C);
+    waitUntilKey(0x1C);
+
+    strcpy(vidmem, oldmem);
+}
+
+void waitUntilKey(int key) {
+    while(true)
+    {
+        // if a key is presesd
+        if(inportb(0x64) & 0x1)
+        {
+            uint8 value = inportb(0x60);
+            if(value == key)
+            {
+                break;
+            }
+        }
+    }
+}

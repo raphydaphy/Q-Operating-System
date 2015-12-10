@@ -39,4 +39,8 @@ void drawFrame(int, uint16, uint16, uint16, uint16);
 
 void drawBorder(int, uint16, uint16, uint16, uint16);
 
+void messageBox(string);
+
+void waitUntilKey(int);
+
 #endif

@@ -24,27 +24,13 @@ void uiDemo()
     drawFrame(header_background, 0, 4, 80, sh - 1);
     printAt("Welcome to the experimental UI of Q-OS", desc_foreground, 1, 5);
     printAt("Nothing much going on here... Believe me!", desc_foreground, 1, 6);
-    drawBorder(header_background, 4, 8, 25, 15);
+    printAt("Found me...", desc_foreground, 20, 12);
+    messageBox("Hit <RET> to quit this and hit <q> to\n\rleave");
     newline();
     newline();
     newline();
     newline();
-
-    // loop indefiantely
-    // or until Q is pressed
-    while(true)
-    {
-        // if a key is presesd
-        if(inportb(0x64) & 0x1)
-        {
-            uint8 value = inportb(0x60);
-            if(value == 0x10)
-            {
-                // If the Q key is pressed
-                break;
-            }
-        }
-    }
+    waitUntilKey(0x10);
     clearScreen();
 }
 
