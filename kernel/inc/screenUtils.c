@@ -51,7 +51,10 @@ void clearScreen()
     cursorY = 0;
     updateCursor();
 
-    //paintScreen(screen_color);
+    printIntro();
+
+    drawBorder(screen_background, 0, 4, 80, sh - 1);
+    actualY = 3;
 }
 
 void scrollUp(uint8 lineNumber)
@@ -128,9 +131,6 @@ void kprintch(char c, int b, bool incDelStop)
         if (actualY >= 24)
         {
             clearScreen();
-            printIntro();
-
-            drawBorder(screen_background, 0, 4, 80, sh - 1);
 
             cursorX = 1;
             cursorY = 5;
