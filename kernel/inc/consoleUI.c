@@ -123,8 +123,8 @@ void messageBox(string txt) {
     printAt(txt, desc_foreground, 21, 13);
     printAt("[OKAY]", desc_foreground, 37, 17);
 
-    static int releaseRET[] = {0x9C, 0};
-    static int pressRET[] = {0x1C, 0};
+    static int releaseRET[] = {0x9C};
+    static int pressRET[] = {0x1C};
     waitUntilKey(releaseRET);
     waitUntilKey(pressRET);
 
