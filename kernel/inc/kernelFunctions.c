@@ -25,7 +25,8 @@ void uiDemo()
     printAt("Welcome to the experimental UI of Q-OS", desc_foreground, 1, 5);
     printAt("Nothing much going on here... Believe me!", desc_foreground, 1, 6);
     printAt("Found me...", desc_foreground, 20, 12);
-    messageBox("Hit <RET> to quit this and hit <q> to\n\rleave");
+    messageBox("Hit <RET> to quit this and hit <Q> to\n\rleave");
+    messageBox_YN("Hit <Y> or <N> or <C> to quit this...");
     newline();
     newline();
     newline();

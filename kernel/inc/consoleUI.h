@@ -41,6 +41,10 @@ void drawBorder(int, uint16, uint16, uint16, uint16);
 
 void messageBox(string);
 
+int8 messageBox_YN(string);
+
+int waitUntilKey_O(int[]);
+
 void waitUntilKey(int);
 
 #endif
