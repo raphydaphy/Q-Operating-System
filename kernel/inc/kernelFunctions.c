@@ -53,24 +53,6 @@ void launchShell()
     {
         actualY++;
 
-        if (actualY >= 24)
-        {
-            actualY = 5;
-            scrollUp(1);
-
-        }
-
-        /*
-        for(int quickCounter = 5;quickCounter < 24;quickCounter++)
-        {
-            if (!streql(backlog[quickCounter]," "))
-            {
-                printAt("Q-Kernel>  ", light_grey,1,quickCounter);
-                printAt(backlog[quickCounter],white,12,quickCounter);
-            }
-        }
-        */
-
         printAt("Q-Kernel>  ", light_grey, 1, actualY);
 
         cursorY = actualY;

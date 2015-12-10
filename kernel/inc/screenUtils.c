@@ -111,13 +111,26 @@ void kprintch(char c, int b, bool incDelStop)
     }
     case ('\r'):
         cursorX = 0;
-        if (incDelStop) deleteStopX = 0;
+        if (incDelStop)
+        {
+            deleteStopX = 0;
+        }
         break;
     case ('\n'):
         cursorX = 1;
-        if (incDelStop) deleteStopX = 0;
+        if (incDelStop)
+        {
+            deleteStopX = 0;
+        }
         cursorY++;
         actualY++;
+
+        if (actualY >= 24)
+        {
+            actualY = 5;
+            scrollUp(1);
+
+        }
         break;
     default:
         vidmem [(cursorY * sw + cursorX)*sd] = c;
