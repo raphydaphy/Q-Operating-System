@@ -28,6 +28,9 @@ void launchShell()
     // the Y locaiton to print cmd line text
     int actualY = 5;
 
+    // the last few commands entered
+    char *backlog[20];
+
     //prepare variable
     for(int i = 0; i < cmdSize; ++i)
     {
@@ -50,7 +53,13 @@ void launchShell()
         printIntro();
 
         drawBorder(screen_background, 0, 4, 80, sh - 1);
-        //drawFrame(screen_background, 0, 4, 80, sh - 1);
+
+        for(int quickCounter = 5;quickCounter < 24;quickCounter++)
+        {
+            printAt("Q-Kernel>  ", light_grey,1,quickCounter);
+            printAt(backlog[quickCounter],white,12,quickCounter);
+        }
+
         printAt("Q-Kernel>  ", light_grey, 1, actualY);
 
         cursorY = actualY;
@@ -63,6 +72,8 @@ void launchShell()
         readStr(fullArgs, cmdSize);
 
         typingCmd = false;
+
+        backlog[actualY - 5] = fullArgs;
 
         for(int i = 0; i < cmdSize; ++i)
         {
