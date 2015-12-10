@@ -20,31 +20,79 @@ void printIntro()
 
 void uiDemo()
 {
-    printIntro();
-    drawFrame(header_background, 0, 4, 80, sh - 1);
-    printAt("Welcome to the experimental UI of Q-OS", desc_foreground, 1, 5);
-    printAt("Nothing much going on here... Believe me!", desc_foreground, 1, 6);
-    newline();
-    newline();
-    newline();
-    newline();
+    // Setup all Q Kernel Stuff
+    // Mostly the same as the start of launchSehll
+    initialize_calc();
+    //allocate some memory for command string buffer. 1kB should be enough for now
+    const int cmdSize = 128;
+    char cmdStr[cmdSize];//Store sanitized user command (no arguments)
+    char fullArgs[cmdSize];//Gets user raw command from command line
+    int fs = 1;//First space (first word means actual command)
+    int ay = -1;//Y location for arguments
 
-    // loop indefiantely
-    // or until Q is pressed
-    while(true)
+    //prepare variable
+    for(int i = 0; i < cmdSize; ++i)
     {
-        // if a key is presesd
-        if(inportb(0x64) & 0x1)
+        cmdStr[i] = 0;
+    }
+
+
+    printIntro();
+
+    drawFrame(screen_color, 0, 4, 80, sh - 1);
+    printAt("Q-Kernel>  ", light_grey, 1, 5);
+
+    cursorY = 5;
+    cursorX = 13;
+    updateCursor();
+
+    bool demo = true;
+
+    while (demo)
+    {
+        typingCmd = true;
+        newCmd = true;
+
+        readStr(fullArgs, cmdSize);
+
+        typingCmd = false;
+
+        for(int i = 0; i < cmdSize; ++i)
         {
-            uint8 value = inportb(0x60);
-            if(value == 0x10)
+            cmdStr[i] = 0;
+        }
+
+        fs = 1;
+        ay = -1;
+
+        //Sanitize raw input. Move first word to cmdStr
+        for(int i = 0; i < cmdSize; ++i)
+        {
+            if(fullArgs[i] != 0 || fullArgs[i] != 10)
             {
-                // If the Q key is pressed
+                if(fs == 1)
+                {
+                    cmdStr[i] = fullArgs[i];
+                }
+                if(i < cmdSize && fullArgs[i+1] == 32)
+                {
+                    fs = 0;
+                    ay++;
+                }
+            }
+            else
+            {
                 break;
             }
         }
+
+        if (streql(cmdStr,"exit"))
+        {
+            demo = false;
+            clearScreen();
+        }
     }
-    clearScreen();
+
 }
 
 void launchShell()
