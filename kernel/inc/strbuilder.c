@@ -97,7 +97,7 @@ char strbuilder_charAt(strbuilder_t stb, uint32 i) {
 void strbuilder_rmOuter(strbuilder_t* stb, uint32 l, uint32 h) {
     __backupText(stb);
     if(l < h) {
-        swap(l, h);
+        swapui(&l, &h);
     }
     uint32 i = 0;
     for( ; i < l; i++) {
