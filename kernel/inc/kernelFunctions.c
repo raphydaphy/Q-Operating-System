@@ -22,12 +22,24 @@ void uiDemo()
 {
     printIntro();
     drawFrame(header_background, 0, 4, 80, sh - 1);
-    printAt("Welcome to the experimental UI of Q-OS", desc_foreground, 2, 5);
-    printAt("Nothing much going on here... Believe me!", desc_foreground, 2, 6);
-    while(true) {
-        if(inportb(0x64) & 0x1) {
+    printAt("Welcome to the experimental UI of Q-OS", desc_foreground, 1, 5);
+    printAt("Nothing much going on here... Believe me!", desc_foreground, 1, 6);
+    newline();
+    newline();
+    newline();
+    newline();
+
+    // loop indefiantely
+    // or until Q is pressed
+    while(true)
+    {
+        // if a key is presesd
+        if(inportb(0x64) & 0x1)
+        {
             uint8 value = inportb(0x60);
-            if(value == 0x10) { // Q
+            if(value == 0x10)
+            {
+                // If the Q key is pressed
                 break;
             }
         }
