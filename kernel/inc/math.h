@@ -1,6 +1,7 @@
 #ifndef MATH_H
 #define MATH_H
 
+#include "intUtils.h"
 #include "charUtils.h"
 #include "screenUtils.h"
 #include "assemblyFunctions.h" // Here is where the inportb and outportb is
@@ -51,11 +52,6 @@ int factorial(int);
 long addRange(long, long);
 
 long subRange(long, long);
-
-#define swap(a, b) \
-    a ^= b; \
-    b ^= a; \
-    a ^= b
 
 float sin(int ang);
 
