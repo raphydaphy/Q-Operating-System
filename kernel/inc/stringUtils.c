@@ -276,7 +276,14 @@ string splitArg(string args, int argc) {// argc is the argument the program need
 		if(args[i] == 32) {
 	    	argLoc += 1;
 		}
-		if(argLoc == argc) {
+		if(argc == 0) {
+		    while(args[i + j] != 32 && args[i + j] != 0) {
+				fargs[j] = args[i + j];
+				j++;
+			}
+	    	break;
+		}
+		else if(argLoc == argc) {
 		    while(args[i+j+1] != 32 && args[i+j+1] != 0) {
 				fargs[j] = args[i+j+1];
 				j++;
