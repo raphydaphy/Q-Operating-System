@@ -241,18 +241,18 @@ void readStr(string buffstr, uint32 bufSize)
                 break;
             case 48:
                 if (ctrl) {
-                if (deleteStopX > 0)
-                {
-                 if ((cursorX == deleteStopX) && (cursorY == startCmdY))
-                 {
-                 continue;
-                 }
-                 else
-                  {
-                  moveCursorX(-1);
-                  i--;
-                  }
-                }
+                    if (deleteStopX > 0)
+                    {
+                        if ((cursorX == deleteStopX) && (cursorY == startCmdY))
+                        {
+                            continue;
+                        }
+                        else
+                        {
+                            moveCursorX(-1);
+                            i--;
+                        }
+                    }
                     handled = true;
                 }
                 break;
