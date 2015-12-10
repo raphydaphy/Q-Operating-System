@@ -19,10 +19,6 @@ void printIntro()
     drawFrame(header_background, 0, 0, 80, 4);
     printAt("Welcome to Q OS\r\n", header_foreground, 1, 1);
     printAt("You are using version 0.06",desc_foreground,1,2);
-
-    newline();
-    newline();
-    newline();
 }
 
 void clearLine(uint8 from, uint8 to,int toColor)
@@ -68,6 +64,7 @@ void scrollUp(uint8 lineNumber)
     }
     clearLine(sh-1-lineNumber,sh-1,screen_color);
     cursorY -= lineNumber;
+    cursorX = 1;
 
     printIntro();
     drawBorder(screen_background, 0, 4, 80, sh - 1);
@@ -94,7 +91,7 @@ void kprintch(char c, int b, bool incDelStop)
     switch(c)
     {
     case (0x08): // Backspace
-        if(cursorX > 0)
+        if(cursorX > 1)
         {
             cursorX--;
             if (incDelStop)
@@ -117,7 +114,7 @@ void kprintch(char c, int b, bool incDelStop)
         if (incDelStop) deleteStopX = 0;
         break;
     case ('\n'):
-        cursorX = 0;
+        cursorX = 1;
         if (incDelStop) deleteStopX = 0;
         cursorY++;
         break;

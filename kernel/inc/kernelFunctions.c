@@ -26,31 +26,7 @@ void launchShell()
     int ay = -1;
 
     // the Y locaiton to print cmd line text
-    int actualY = 5;
-
-    // the last few commands entered
-    char *backlog[20] = {
-        "",
-        "",
-        "",
-        "",
-        "",
-        "",
-        "",
-        "",
-        "",
-        "",
-        "",
-        "",
-        "",
-        "",
-        "",
-        "",
-        "",
-        "",
-        "",
-        ""
-    };
+    actualY = 4;
 
     //prepare variable
     for(int i = 0; i < cmdSize; ++i)
@@ -68,25 +44,32 @@ void launchShell()
     #define SEARCHFOR string searchTerm = (string) kmalloc(cmdSize * sizeof(char)); print("\nDictionary File Name>  ", white); readStr(cmdStr, cmdSize); print("\nSearch Term>  ", green); readStr(searchTerm, cmdSize); if (findInDictionary(cmdStr,searchTerm)) { print("\nWe found the word!",white); }
     #define CMDNOTFOUND print("\n", white); print(cmdStr, white); print(": Command Not Found ", white);
 
+
+    printIntro();
+
+    drawBorder(screen_background, 0, 4, 80, sh - 1);
+
     while (true)
     {
         actualY++;
-        printIntro();
 
-        drawBorder(screen_background, 0, 4, 80, sh - 1);
+        if (actualY >= 24)
+        {
+            actualY = 5;
+            scrollUp(1);
 
+        }
+
+        /*
         for(int quickCounter = 5;quickCounter < 24;quickCounter++)
         {
-            if (streql(backlog[quickCounter],"") || streql(backlog[quickCounter]," "))
-            {
-                break;
-            }
-            else
+            if (!streql(backlog[quickCounter]," "))
             {
                 printAt("Q-Kernel>  ", light_grey,1,quickCounter);
                 printAt(backlog[quickCounter],white,12,quickCounter);
             }
         }
+        */
 
         printAt("Q-Kernel>  ", light_grey, 1, actualY);
 
@@ -100,8 +83,6 @@ void launchShell()
         readStr(fullArgs, cmdSize);
 
         typingCmd = false;
-
-        backlog[actualY - 5] = fullArgs;
 
         for(int i = 0; i < cmdSize; ++i)
         {

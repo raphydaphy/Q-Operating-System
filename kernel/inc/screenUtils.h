@@ -54,6 +54,8 @@ uint8 startCmdY;
 uint8 startCmdX;
 bool newCmd;
 
+int actualY;
+
 //define variables for screen.c
 uint32 cursorX, cursorY, deleteStopX; // Since cursors cannot be negative
 const uint8 sw, sh, sd;
