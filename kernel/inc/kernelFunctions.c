@@ -1,5 +1,4 @@
 #include "kernelFunctions.h"
-#include "math.h"
 
 #define MULTI_ARG_DEBUG false
 

@@ -10,7 +10,6 @@ void files(string args)
     }
     else if (streql(splitArg(args, 1), "me/") || streql(splitArg(args, 1), "me"))
     {
-
         // list the contents of
         int i = 0;
         struct dirent *node = 0;
@@ -52,7 +51,6 @@ void files(string args)
                 print("dir \t", green);
                 print(node->name, magenta);
                 printch('/', magenta);
-
 
                 newline();
             }
