@@ -3,20 +3,7 @@
 
 #define MULTI_ARG_DEBUG false
 
-void printIntro()
-{
-    // Some good colors for background: 66, 88, 99, CC, EE
-    paintScreen(screen_color);
 
-    // Made the intro beautiful
-    drawFrame(header_background, 0, 0, 80, 4);
-    printAt("Welcome to Q OS\r\n", header_foreground, 1, 1);
-    printAt("You are using version 0.06",desc_foreground,1,2);
-
-    newline();
-    newline();
-    newline();
-}
 
 void launchShell()
 {
@@ -38,6 +25,9 @@ void launchShell()
     //Y location for arguments
     int ay = -1;
 
+    // the Y locaiton to print cmd line text
+    int actualY = 5;
+
     //prepare variable
     for(int i = 0; i < cmdSize; ++i)
     {
@@ -56,14 +46,15 @@ void launchShell()
 
     while (true)
     {
+        actualY++;
         printIntro();
 
         drawBorder(screen_background, 0, 4, 80, sh - 1);
         //drawFrame(screen_background, 0, 4, 80, sh - 1);
-        printAt("Q-Kernel>  ", light_grey, 1, 5);
+        printAt("Q-Kernel>  ", light_grey, 1, actualY);
 
-        cursorY = 5;
-        cursorX = 13;
+        cursorY = actualY;
+        cursorX = 12;
         updateCursor();
 
         typingCmd = true;

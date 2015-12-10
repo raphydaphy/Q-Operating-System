@@ -10,6 +10,21 @@ bool newCmd = 0;
 uint32 cursorX = 0, cursorY = 0, deleteStopX = 0;
 const uint8 sw = 80,sh = 26,sd = 2;
 
+void printIntro()
+{
+    // Some good colors for background: 66, 88, 99, CC, EE
+    //paintScreen(screen_color);
+
+    // Made the intro beautiful
+    drawFrame(header_background, 0, 0, 80, 4);
+    printAt("Welcome to Q OS\r\n", header_foreground, 1, 1);
+    printAt("You are using version 0.06",desc_foreground,1,2);
+
+    newline();
+    newline();
+    newline();
+}
+
 void clearLine(uint8 from, uint8 to,int toColor)
 {
     unsigned char* vidmem=(unsigned char*)0xb8000;
@@ -54,7 +69,9 @@ void scrollUp(uint8 lineNumber)
     clearLine(sh-1-lineNumber,sh-1,screen_color);
     cursorY -= lineNumber;
 
-    //paintScreen(screen_color);
+    printIntro();
+    drawBorder(screen_background, 0, 4, 80, sh - 1);
+
 
     updateCursor();
 }
@@ -62,7 +79,7 @@ void scrollUp(uint8 lineNumber)
 
 void newLineCheck()
 {
-    if(cursorY >= (uint8)(sh - 1))
+    if(cursorY >= (uint8)(sh - 2))
     {
         //paintScreen(screen_color);
         scrollUp(1);

@@ -59,6 +59,7 @@ uint32 cursorX, cursorY, deleteStopX; // Since cursors cannot be negative
 const uint8 sw, sh, sd;
 
 //define functions for screen.c
+void printIntro();
 void clearLine(uint8, uint8, int);
 void updateCursor();
 void clearScreen();
