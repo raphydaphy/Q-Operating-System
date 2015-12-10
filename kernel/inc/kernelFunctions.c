@@ -58,7 +58,8 @@ void launchShell()
     {
         printIntro();
 
-        drawFrame(screen_background, 0, 4, 80, sh - 1);
+        drawBorder(screen_background, 0, 4, 80, sh - 1);
+        //drawFrame(screen_background, 0, 4, 80, sh - 1);
         printAt("Q-Kernel>  ", light_grey, 1, 5);
 
         cursorY = 5;

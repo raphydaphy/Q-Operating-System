@@ -24,9 +24,9 @@ typedef enum {
     T_L_D = 0xC9,
     H_T_D = 0xCA,
     H_B_D = 0xCB,
-    V_R_B = 0xCC,
-    H_B = 0xCD,
-    X_B = 0xCE,
+    V_R_D = 0xCC,
+    H_D = 0xCD,
+    X_D = 0xCE,
     B_R_S = 0xD9,
     T_L_S = 0xDA
 } box_chars;
@@ -36,5 +36,7 @@ void paintScreen(int);
 void printAt(string, int, uint16, uint16);
 
 void drawFrame(int, uint16, uint16, uint16, uint16);
+
+void drawBorder(int, uint16, uint16, uint16, uint16);
 
 #endif
