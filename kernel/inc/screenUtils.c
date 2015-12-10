@@ -12,11 +12,11 @@ const uint8 sw = 80,sh = 26,sd = 2;
 
 void printIntro()
 {
+    writing = false;
+    
     // Some good colors for background: 66, 88, 99, CC, EE
-    //paintScreen(screen_color);
-
-    // Made the intro beautiful
     drawFrame(header_background, 0, 0, 80, 4);
+
     printAt("Welcome to Q OS\r\n", header_foreground, 1, 1);
     printAt("You are using version 0.06",desc_foreground,1,2);
 }
