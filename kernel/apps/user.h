@@ -1,8 +1,7 @@
 #ifndef USER_H
 #define USER_H
 
-#include "../inc/stringUtils.h"
-#include "../inc/consoleUI.h"
+#include "../inc/qdio.h"
 
 bool allowStatMonitor;
 string userName;
