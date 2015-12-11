@@ -55,8 +55,8 @@ void launchShell()
 
             printAt("Q-Kernel>  ", light_grey, 1, actualY);
 
-            cursorY = actualY;
-            cursorX = 12;
+            cursorY = startCmdY = actualY;
+            cursorX = deleteStopX = 12;
             updateCursor();
 
             typingCmd = true;
