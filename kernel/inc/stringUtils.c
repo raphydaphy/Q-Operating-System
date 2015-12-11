@@ -325,3 +325,10 @@ string toLower(string s) {
     }
     return s;
 }
+
+int strHash(string s) {
+    int tmp = stoc(s) * 10;
+    tmp &= (tmp ^ 7) >> 4;
+    return tmp;
+}
+

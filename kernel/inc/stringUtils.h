@@ -48,4 +48,6 @@ string toUpper(string);
 
 string toLower(string);
 
+int strHash(string);
+
 #endif
