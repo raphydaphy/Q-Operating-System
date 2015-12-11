@@ -33,7 +33,7 @@ void me(string args) {
             clearLine(0,26,0x88);
 
             drawFrame(header_background, 20, 8, 60, 11);
-            printAt("Me Setup Process", green, 21, 9);
+            printAt("Me Setup Process", 0x3D, 21, 9);
 
             messageBox("\nWelcome to Me. To start using Me,\n\rpress <RET> to setup Me.");
             newline();
@@ -41,7 +41,7 @@ void me(string args) {
             clearLine(0,26,0x88);
 
             drawFrame(header_background, 20, 8, 60, 11);
-            printAt("Me Setup Process", green, 21, 9);
+            printAt("Me Setup Process", 0x3D, 21, 9);
 
             newline();
             name = messageBox_I("What is your name?");
@@ -49,7 +49,7 @@ void me(string args) {
             clearLine(0,26,0x88);
 
             drawFrame(header_background, 20, 8, 60, 11);
-            printAt("Me Setup Process", green, 21, 9);
+            printAt("Me Setup Process", 0x3D, 21, 9);
 
             while (!birthYearValid)
             {
@@ -74,7 +74,7 @@ void me(string args) {
             clearLine(0,26,0x88);
 
             drawFrame(header_background, 20, 8, 60, 11);
-            printAt("Me Setup Process", green, 21, 9);
+            printAt("Me Setup Process", 0x3D, 21, 9);
 
             while (!birthDateValid)
             {
@@ -99,7 +99,7 @@ void me(string args) {
             clearLine(0,26,0x88);
 
             drawFrame(header_background, 20, 8, 60, 11);
-            printAt("Me Setup Process", green, 21, 9);
+            printAt("Me Setup Process", 0x3D, 21, 9);
 
             while (!birthMonthValid)
             {
@@ -124,7 +124,7 @@ void me(string args) {
             clearLine(0,26,0x88);
 
             drawFrame(header_background, 20, 8, 60, 11);
-            printAt("Me Setup Process", green, 21, 9);
+            printAt("Me Setup Process", 0x3D, 21, 9);
 
             while (!continentValid)
             {
@@ -150,7 +150,7 @@ void me(string args) {
             clearLine(0,26,0x88);
 
             drawFrame(header_background, 20, 8, 60, 11);
-            printAt("Me Setup Process", green, 21, 9);
+            printAt("Me Setup Process", 0x3D, 21, 9);
 
             while (!countryValid)
             {
@@ -175,7 +175,7 @@ void me(string args) {
             clearLine(0,26,0x88);
 
             drawFrame(header_background, 20, 8, 60, 11);
-            printAt("Me Setup Process", green, 21, 9);
+            printAt("Me Setup Process", 0x3D, 21, 9);
 
             while (!stateValid)
             {
@@ -200,7 +200,7 @@ void me(string args) {
             clearLine(0,26,0x88);
 
             drawFrame(header_background, 20, 8, 60, 11);
-            printAt("Me Setup Process", green, 21, 9);
+            printAt("Me Setup Process", 0x3D, 21, 9);
 
             newline();
             city = messageBox_I("What city/town do you live in?");
@@ -208,7 +208,7 @@ void me(string args) {
             clearLine(0,26,0x88);
 
             drawFrame(header_background, 20, 8, 60, 11);
-            printAt("Me Setup Process", green, 21, 9);
+            printAt("Me Setup Process", 0x3D, 21, 9);
 
             while (!zipValid)
             {
@@ -231,14 +231,16 @@ void me(string args) {
             clearLine(0,26,0x88);
 
             drawFrame(header_background, 20, 8, 60, 11);
-            printAt("Me Setup Process", green, 21, 9);
+            printAt("Me Setup Process", 0x3D, 21, 9);
 
             hasSetup = "true";
-            messageBox("Me is now ready to use! Type 'me' on the command line to begin.");
+            messageBox("Me is now ready to use! Type 'me' on\n\rthe command line to begin.");
 
             printIntro();
-
             drawBorder(screen_background, 0, 4, 80, sh - 1);
+
+            actualY = 5;
+            printAt("Q-Kernel>  ", light_grey, 1, actualY);
         }
         else
         {
