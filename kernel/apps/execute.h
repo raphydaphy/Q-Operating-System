@@ -5,6 +5,8 @@
 #include "../inc/screenUtils.h"
 #include "../inc/kbDetect.h"
 
+#include "calc.h"
+
 #ifndef EXECUTESIZE
 #define EXECUTESIZE 1024
 #endif
