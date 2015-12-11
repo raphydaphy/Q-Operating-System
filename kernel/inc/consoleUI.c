@@ -1,4 +1,5 @@
 #include "consoleUI.h"
+#include "kheap.h" // Do not move this line in the .h file
 
 void paintScreen(int color) {
     for(uint16 i = 0; i < (sw * 25 * sd); i += 2)
@@ -154,7 +155,7 @@ int8 messageBox_YN(string txt) {
     }
 }
 
-string messageBox_I(string txt) {
+static inline string __vMessageBoxIn(string txt, bool isPasswd) {
     string vidmem = (string) 0xb8000;
     char oldmem[strlen(vidmem)];
     strcpy(oldmem, vidmem);
@@ -166,31 +167,20 @@ string messageBox_I(string txt) {
     cursorX = deleteStopX = 21;
     cursorY = startCmdY = 16;
     int strLen = 59 - 21;
-    string inputBuf = "";
-    readStr(inputBuf, strLen, false);
+    string inputBuf = (string) kmalloc(strLen * sizeof(char));
+    readStr(inputBuf, strLen, isPasswd);
 
     strcpy(vidmem, oldmem);
     return inputBuf;
 }
 
+string messageBox_I(string txt) {
+    return __vMessageBoxIn(txt, false);
+}
+
 
 string messageBox_Pass(string txt) {
-    string vidmem = (string) 0xb8000;
-    char oldmem[strlen(vidmem)];
-    strcpy(oldmem, vidmem);
-
-    drawBorder(header_background, 20, 12, 60, 18);
-    printAt(txt, desc_foreground, 21, 13);
-    paintLine(white, 21, 16, 59);
-
-    cursorX = deleteStopX = 21;
-    cursorY = startCmdY = 16;
-    int strLen = 59 - 21;
-    string inputBuf = "";
-    readStr(inputBuf, strLen, true);
-
-    strcpy(vidmem, oldmem);
-    return inputBuf;
+    return __vMessageBoxIn(txt, true);
 }
 
 int waitUntilKey(int key[]) {
