@@ -31,6 +31,7 @@
 #include "graphUtils.h"
 
 // Q Applications
+#include "../apps/user.h"
 #include "../apps/execute.h"
 #include "../apps/calc.h"
 #include "../apps/writer.h"
