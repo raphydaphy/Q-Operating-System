@@ -17,6 +17,7 @@ typedef enum
     START_W_OP,
     DIV_BY_ZERO,
     ILLEGAL_OP,
+    INVAID_MACRO,
     OTHER
 } mathExcept;
 

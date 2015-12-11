@@ -87,6 +87,9 @@ void mathError(mathExcept ID)
     case ILLEGAL_OP:
         print("Illegal operator found", red);
         break;
+    case INVAID_MACRO:
+        print("Macro expression not closed", red);
+        break;
     case OTHER:
         print("Unknown math exception: ", red);
         printint(ID, red);
@@ -174,14 +177,24 @@ float calc_parse(strbuilder_t txt)
                 // (4.5)[ceil] := (4.5)[ ceil ]
                 // Note `[`, `]` cannot be part a function name
                 uint32 endFunc = strbuilder_indexOf(txt, "]");
-                list_add(&opStack, strbuilder_substr(txt, i, endFunc));
+                string s = strbuilder_substr(txt, i, endFunc);
+                if(s[strlen(s) - 1] != ']') {
+                    mathError(INVAID_MACRO);
+                    return 0;
+                }
+                list_add(&opStack, s);
                 i = endFunc;
             }
             else if (c == '{')
             {
                 // A square function would be like this: {_*_}[square]
                 uint32 endFunc = strbuilder_indexOf(txt, "]");
-                list_add(&opStack, strbuilder_substr(txt, i, endFunc));
+                string s = strbuilder_substr(txt, i, endFunc);
+                if(s[strlen(s) - 1] != ']') {
+                    mathError(INVAID_MACRO);
+                    return 0;
+                }
+                list_add(&opStack, s);
                 i = endFunc;
             }
             else
