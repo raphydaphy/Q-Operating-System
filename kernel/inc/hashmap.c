@@ -28,8 +28,11 @@ static void __set_resize(hashmap_t* set, uint32 amount) {
 }
 
 static uint32 __vhashmap_indexOf(hashmap_t rl, string k) {
+    int cmpHash = strHash(k);
+    tuple_t tmp;
     for(uint32 i = 0; i < rl.size; i++) {
-        if(streql(k, rl.data[i].key)) {
+        tmp = rl.data[i];
+        if((cmpHash == tmp.hash) && streql(k, tmp.key)) {
             return i;
         }
     }
@@ -70,5 +73,6 @@ tuple_t tuple_init(string k, element_t v) {
     tuple_t msg;
     msg.key = k;
     msg.val = v;
+    msg.hash = strHash(k);
     return msg;
 }

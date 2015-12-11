@@ -4,6 +4,9 @@
 #include "dynsto.h"
 
 typedef struct {
+    // Cmp hash first. If hash eq, then check key
+    // if hash ne, key must be diff
+    int hash;
     string key;
     element_t val;
 } tuple_t;
