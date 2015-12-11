@@ -166,12 +166,11 @@ string messageBox_I(string txt) {
     cursorX = deleteStopX = 21;
     cursorY = startCmdY = 16;
     int strLen = 59 - 21;
-    char inputBuf[strLen + 1];
+    string inputBuf = "";
     readStr(inputBuf, strLen, false);
 
     strcpy(vidmem, oldmem);
-    string msg = inputBuf;
-    return msg;
+    return inputBuf;
 }
 
 
@@ -187,12 +186,11 @@ string messageBox_Pass(string txt) {
     cursorX = deleteStopX = 21;
     cursorY = startCmdY = 16;
     int strLen = 59 - 21;
-    char inputBuf[strLen + 1];
+    string inputBuf = "";
     readStr(inputBuf, strLen, true);
 
     strcpy(vidmem, oldmem);
-    string msg = inputBuf;
-    return msg;
+    return inputBuf;
 }
 
 int waitUntilKey(int key[]) {
@@ -211,4 +209,3 @@ int waitUntilKey(int key[]) {
         }
     }
 }
-
