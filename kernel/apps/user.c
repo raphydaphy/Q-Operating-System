@@ -11,7 +11,6 @@ void logout()
     while(!loggedIn)
     {
         login();
-
     }
 }
 
