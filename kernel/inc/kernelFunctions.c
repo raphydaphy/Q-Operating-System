@@ -2,25 +2,6 @@
 
 #define MULTI_ARG_DEBUG false
 
-void uiDemo()
-{
-    printIntro();
-    drawFrame(header_background, 0, 4, 80, sh - 1);
-    printAt("Welcome to the experimental UI of Q-OS", desc_foreground, 1, 5);
-    printAt("Nothing much going on here... Believe me!", desc_foreground, 1, 6);
-    printAt("Found me...", desc_foreground, 20, 12);
-    messageBox("Hit <RET> to quit this and hit <Q> to\n\rleave");
-    messageBox_YN("Hit <Y> or <N> or <C> to quit this...");
-    messageBox_I("INPUT::::");
-    newline();
-    newline();
-    newline();
-    newline();
-    static int qKey[] = {0x10};
-    waitUntilKey(qKey);
-    clearScreen();
-}
-
 void launchShell()
 {
     // Setup all Q Kernel Stuff
@@ -59,7 +40,7 @@ void launchShell()
     #define RMFILE print("\nThis Command is Reserved for when we have a FAT32 or better FileSystem...", 0x3F);
     #define SEARCHFOR string searchTerm = (string) kmalloc(cmdSize * sizeof(char)); print("\nDictionary File Name>  ", white); readStr(cmdStr, cmdSize, false); print("\nSearch Term>  ", green); readStr(searchTerm, cmdSize, false); if (findInDictionary(cmdStr,searchTerm)) { print("\nWe found the word!",white); }
     #define CMDNOTFOUND print("\n", white); print(cmdStr, white); print(": Command Not Found ", white);
-
+    #define WHOAMI_CMD newline(); print(userName, white);
 
     printIntro();
 
@@ -116,6 +97,7 @@ void launchShell()
             }
 
             if (streql(strTrim(cmdStr), ""))            {   HELP;                   }
+            else if(streql(cmdStr, "whoami"))           {   WHOAMI_CMD;             }
             else if(streql(cmdStr, "help"))             {   BIGHELP;                }
             else if(streql(cmdStr, "system"))           {   system(fullArgs);       }
             else if(streql(cmdStr, "skip"))             {   skip(fullArgs);         }
