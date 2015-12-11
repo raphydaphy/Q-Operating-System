@@ -2,6 +2,12 @@
 
 void setup()
 {
+    clearLine(0,26,0x44);
+
+    drawFrame(header_background, 20, 8, 60, 11);
+    printAt("Q OS Setup Process", desc_foreground, 21, 9);
+    paintLine(white, 21, 16, 59);
+
     messageBox("Welcome to Q OS. Press <RET> to begin\n\rthe setup process.");
 
     pcName = messageBox_I("Enter a name to assign to this\n\rcomputer.");
