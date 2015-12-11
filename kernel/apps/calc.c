@@ -87,6 +87,9 @@ void mathError(mathExcept ID)
     case ILLEGAL_OP:
         print("Illegal operator found", red);
         break;
+    case INVAID_MACRO:
+        print("Macro expression not closed", red);
+        break;
     case OTHER:
         print("Unknown math exception: ", red);
         printint(ID, red);
@@ -108,6 +111,18 @@ void calc(string args)
         readStr(calcInput, CALC_SIZE,false);
         newline();
     	printfloat(powerOfTen(stoi(calcInput)), white);
+    }
+    else if(streql(splitArg(args, 1), "-mcr"))
+    {
+        //TODO: Add the predefined functions in here too
+        newline();
+        tuple_t tmp;
+        for(uint32 i = 0; i < funcList.size; i++) {
+            tmp = funcList.data[i];
+            print(tmp.key, black);
+            print("->", black);
+            println(etos(tmp.val), black);
+        }
     }
     else
     {
@@ -174,14 +189,24 @@ float calc_parse(strbuilder_t txt)
                 // (4.5)[ceil] := (4.5)[ ceil ]
                 // Note `[`, `]` cannot be part a function name
                 uint32 endFunc = strbuilder_indexOf(txt, "]");
-                list_add(&opStack, strbuilder_substr(txt, i, endFunc));
+                string s = strbuilder_substr(txt, i, endFunc);
+                if(s[strlen(s) - 1] != ']') {
+                    mathError(INVAID_MACRO);
+                    return 0;
+                }
+                list_add(&opStack, s);
                 i = endFunc;
             }
             else if (c == '{')
             {
                 // A square function would be like this: {_*_}[square]
                 uint32 endFunc = strbuilder_indexOf(txt, "]");
-                list_add(&opStack, strbuilder_substr(txt, i, endFunc));
+                string s = strbuilder_substr(txt, i, endFunc);
+                if(s[strlen(s) - 1] != ']') {
+                    mathError(INVAID_MACRO);
+                    return 0;
+                }
+                list_add(&opStack, s);
                 i = endFunc;
             }
             else
@@ -423,8 +448,7 @@ float evaluate(list_t opStack)
                             strbuilder_append(&simStack, "1"); // (3) := 0; 1(3) := 3
                         }
                         strbuilder_append(&simStack, rInput);
-                        // Must replace `_` with value left
-                        println(strbuilder_tostr(simStack), red);
+                        // TODO:Must replace `_` with value left
                         __assign(calc_parse(simStack), &lvalid, &left, &right, procop, 53);
                         strbuilder_destroy(&simStack);
                     }
