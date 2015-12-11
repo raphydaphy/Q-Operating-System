@@ -15,4 +15,5 @@ void setup()
     }
 
     loggedIn = false;
+    logout();
 }

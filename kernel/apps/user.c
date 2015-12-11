@@ -5,6 +5,13 @@ bool loggedIn = false;
 void logout()
 {
     loggedIn = false;
+
+    clearLine(0,26,0x44);
+
+    while(!loggedIn)
+    {
+        login();
+    }
 }
 
 void login()
@@ -23,4 +30,8 @@ void login()
             loggedIn = true;
         }
     }
+
+    printIntro();
+    drawBorder(screen_background, 0, 4, 80, sh - 1);
+
 }
