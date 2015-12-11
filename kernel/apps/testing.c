@@ -126,6 +126,14 @@ void test(string args)
         strbuilder_flip(&test_strb);
         println("\nOutput should be \"dlrow dn2 ,olleH\"", red);
         println(strbuilder_tostr(test_strb), green);
+        list_t tmp = strbuilder_split(test_strb, " ");
+        println("\nOutput should be last str split by spaces", red);
+        for(uint8 i = 0; i < tmp.size; i++)
+        {
+            println(list_get(tmp, i), white);
+        }
+        list_destroy(&tmp);
+        strbuilder_destroy(&test_strb);
     }
     else if(streql(args,"-y"))
     {
