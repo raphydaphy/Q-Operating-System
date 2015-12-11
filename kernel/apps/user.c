@@ -11,10 +11,12 @@ void login()
 {
     while (!loggedIn)
     {
-        string buffPassword = msgBox_Pass("Enter your password to unlock your account.");
+        string buffPassword = "";
+        buffPassword = messageBox_Pass("Enter your password to unlock your\n\raccount.");
+
         if(!streql(buffPassword,password))
         {
-            msgBox("Invalid Password!");
+            messageBox("Invalid Password!");
         }
         else
         {
