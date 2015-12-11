@@ -9,12 +9,14 @@ static float varList[52];
 static hashmap_t funcList;
 
 // Must be called before calc is used!
-inline void initialize_calc() {
+inline void initialize_calc()
+{
     memset(varList, 0, 50);
     funcList = hashmap_init();
 }
 
-typedef enum {
+typedef enum
+{
     ADD = 1,
     SUB = 2,
     MUL = 3,
@@ -40,8 +42,10 @@ typedef enum {
     GREAT_EQ = -5 // >=
 } legalOps;
 
-static inline legalOps getOperator(char charToCheck) {
-    switch(charToCheck) {
+static inline legalOps getOperator(char charToCheck)
+{
+    switch(charToCheck)
+    {
     case '+': return ADD;
     case '-': return SUB;
     case '*': return MUL;
@@ -72,7 +76,8 @@ void calcHelp()
 //Prints an error based on the error ID
 void mathError(mathExcept ID)
 {
-    switch (ID) {
+    switch (ID)
+    {
     case START_W_OP:
         print("Cannot start with an operator", red);
         break;
@@ -92,7 +97,8 @@ void mathError(mathExcept ID)
 
 void calc(string args)
 {
-    if(streql(splitArg(args, 1), "") || streql(splitArg(args, 1), "-h")) {
+    if(streql(splitArg(args, 1), "") || streql(splitArg(args, 1), "-h"))
+    {
        calcHelp();
     }
     else if(streql(splitArg(args, 1), "-pow"))
@@ -125,7 +131,8 @@ void calc(string args)
             }
         }
 
-        if (strTrim(calcInput)[0] == '(') {
+        if (strTrim(calcInput)[0] == '(')
+        {
             // This relates to when brackets is the first term of the expr
             strbuilder_append(&simStack, "1"); // (3) := 0; 1(3) := 3
         }
@@ -136,63 +143,86 @@ void calc(string args)
     }
 }
 
-float calc_parse(strbuilder_t txt) {
+float calc_parse(strbuilder_t txt)
+{
     strbuilder_trim(&txt);
     char c = 0;
     list_t opStack = list_init();
     strbuilder_t buffer = strbuilder_init();
     legalOps prev = NOOP; // This used to check for <<, <=, and such
-    for(uint32 i = 0; i < txt.size; i++) {
+    for(uint32 i = 0; i < txt.size; i++)
+    {
         c = strbuilder_charAt(txt, i);
         // Tokenize!
-        if(isnum(c) || c == '.') {
+        if(isnum(c) || c == '.')
+        {
             prev = NOOP;
             strbuilder_appendc(&buffer, c);
-        } else {
-            if(isspace(c)) {
+        }
+        else
+        {
+            if(isspace(c))
+            {
                 prev = NOOP;
-            } else if (isalpha(c)) {
+            }
+            else if (isalpha(c))
+            {
                 list_addc(&opStack, c); // Variables! Yay
-            } else if (c == '[') {
+            }
+            else if (c == '[')
+            {
                 // (4.5)[ceil] := (4.5)[ ceil ]
                 // Note `[`, `]` cannot be part a function name
                 uint32 endFunc = strbuilder_indexOf(txt, "]");
                 list_add(&opStack, strbuilder_substr(txt, i, endFunc));
                 i = endFunc;
-            } else if (c == '{') {
+            }
+            else if (c == '{')
+            {
                 // A square function would be like this: {_*_}[square]
                 uint32 endFunc = strbuilder_indexOf(txt, "]");
                 list_add(&opStack, strbuilder_substr(txt, i, endFunc));
                 i = endFunc;
-            } else {
+            }
+            else
+            {
                 legalOps cop = getOperator(c);
-                if (cop == ILLEGAL) {
+                if (cop == ILLEGAL)
+                {
                     mathError(ILLEGAL_OP);
                     return 0;
                 }
-                if (prev == LESSER_T) {
-                    if (cop == LESSER_T) {
+                if (prev == LESSER_T)
+                {
+                    if (cop == LESSER_T)
+                    {
                         cop = SHIFT_L;
                     }
-                    if (cop == EQUALS_T) {
+                    if (cop == EQUALS_T)
+                    {
                         cop = LESS_EQ;
                     }
                 }
-                if (prev == GREATER_T) {
-                    if (cop == GREATER_T) {
+                if (prev == GREATER_T)
+                {
+                    if (cop == GREATER_T)
+                    {
                         cop = SHIFT_R;
                     }
-                    if (cop == EQUALS_T) {
+                    if (cop == EQUALS_T)
+                    {
                         cop = GREAT_EQ;
                     }
                 }
                 // Push number in stack
-                if (strbuilder_head(buffer) == '.') {
+                if (strbuilder_head(buffer) == '.')
+                {
                     string tail = strbuilder_clear(&buffer);
                     strbuilder_appendc(&buffer, '0');
                     strbuilder_append(&buffer, tail);
                 }
-                if (strbuilder_tail(buffer) == '.') {
+                if (strbuilder_tail(buffer) == '.')
+                {
                     strbuilder_appendc(&buffer, '0');
                 }
                 list_add(&opStack, strbuilder_tostr(buffer));
@@ -206,9 +236,12 @@ float calc_parse(strbuilder_t txt) {
     // Add the last couple numbers
     list_add(&opStack, strbuilder_tostr(buffer));
     strbuilder_destroy(&buffer);
-    for(uint32 i = 0; i < opStack.size; i++) {
-        if (list_getType(opStack, i) == INT) {
-            if(list_geti(opStack, i) < 0) {
+    for(uint32 i = 0; i < opStack.size; i++)
+    {
+        if (list_getType(opStack, i) == INT)
+        {
+            if(list_geti(opStack, i) < 0)
+            {
                 // Remove extra bits '<<' := '<', '<<'
                 list_remove(&opStack, i - 2);
             }
@@ -218,22 +251,27 @@ float calc_parse(strbuilder_t txt) {
 }
 
 #define __testDivByZero(right) \
-    if(right == 0) { \
+    if(right == 0) \
+    { \
         mathError(DIV_BY_ZERO); \
         return; \
     }
 
 static void __assign(float value, bool* lvalid, float* left, float* right, legalOps procop, uint8 spot) {
     float val = value;
-    if (val == 0 && spot < 53 && procop != ASSIGN) {
+    if (val == 0 && spot < 53 && procop != ASSIGN)
+    {
         val = varList[spot];
     }
     if (!*lvalid) {
         *left = val;
         *lvalid = true;
-    } else {
+    }
+    else
+    {
         *right = val;
-        switch(procop) {
+        switch(procop)
+        {
         case ADD:
             *left += *right;
             break;
@@ -293,7 +331,8 @@ static void __assign(float value, bool* lvalid, float* left, float* right, legal
     }
 }
 
-static inline string __extractFuncName(strbuilder_t* strb, string rawName) {
+static inline string __extractFuncName(strbuilder_t* strb, string rawName)
+{
     strbuilder_clear(strb);
     strbuilder_append(strb, rawName);
     strbuilder_trim(strb);
@@ -302,51 +341,84 @@ static inline string __extractFuncName(strbuilder_t* strb, string rawName) {
     return strbuilder_tostr(*strb);
 }
 
-float evaluate(list_t opStack) {
+float evaluate(list_t opStack)
+{
     bool lvalid = false;
     float left = 0, right = 0;
     legalOps procop = NOOP;
-    for(uint32 i = 0; i < opStack.size; i++) {
-        if (list_getType(opStack, i) == STR) {
+    for(uint32 i = 0; i < opStack.size; i++)
+    {
+        if (list_getType(opStack, i) == STR)
+        {
             string tmp = list_get(opStack, i);
             strbuilder_t funcName = strbuilder_init();
-            if (tmp[0] == '[') {
+            if (tmp[0] == '[')
+            {
                 string fname = __extractFuncName(&funcName, tmp);
-                if(streql(fname, "ceil")) {
+                if(streql(fname, "ceil"))
+                {
                     left = ceil(left);
-                } else if(streql(fname, "floor")) {
+                }
+                else if(streql(fname, "floor"))
+                {
                     left = floor(left);
-                } else if(streql(fname, "round")) {
+                }
+                else if(streql(fname, "round"))
+                {
                     left = round(left);
-                } else if(streql(fname, "Pi")) {
+                }
+                else if(streql(fname, "Pi"))
+                {
                     // Type casting twice because Pi is way Out of range
                     // If we use (float)PI, we loose accuracy
                     __assign(stod(ftos(PI)), &lvalid, &left, &right, procop, 53);
-                } else if(streql(fname, "e")) {
+                }
+                else if(streql(fname, "e"))
+                {
                     // Same as [Pi]
                     __assign(stod(ftos(E)), &lvalid, &left, &right, procop, 53);
-                } else if(streql(fname, "sin")) {
+                }
+                else if(streql(fname, "sin"))
+                {
                     left = sin(left);
-                } else if(streql(fname, "cos")) {
+                }
+                else if(streql(fname, "cos"))
+                {
                     left = cos(left);
-                } else if(streql(fname, "sec")) {
+                }
+                else if(streql(fname, "sec"))
+                {
                     left = 1.0 / cos(left);
-                } else if(streql(fname, "csc")) {
+                }
+                else if(streql(fname, "csc"))
+                {
                     left = 1.0 / sin(left);
-                } else if(streql(fname, "tan")) {
+                }
+                else if(streql(fname, "tan"))
+                {
                     left = sin(left) / cos(left);
-                } else if(streql(fname, "sqrt")) {
+                }
+                else if(streql(fname, "sqrt"))
+                {
                     left = sqrt(left);
-                } else if(streql(fname, "cbrt")) {
+                }
+                else if(streql(fname, "cbrt"))
+                {
                     left = cbrt(left);
-                } else {
+                }
+                else
+                {
                     string rInput = etos(hashmap_getVal(funcList, fname));
-                    if(streql(rInput, "")) {
+                    if(streql(rInput, ""))
+                    {
                         print("Cannot find macro: ", red);
                         println(fname, red);
-                    } else {
+                    }
+                    else
+                    {
                         strbuilder_t simStack = strbuilder_init();
-                        if (strTrim(rInput)[0] == '(') {
+                        if (strTrim(rInput)[0] == '(')
+                        {
                             // This relates to when brackets is the first term of the expr
                             strbuilder_append(&simStack, "1"); // (3) := 0; 1(3) := 3
                         }
@@ -357,7 +429,8 @@ float evaluate(list_t opStack) {
                         strbuilder_destroy(&simStack);
                     }
                 }
-            } else if (tmp[0] == '{') {
+            } else if (tmp[0] == '{')
+            {
                 strbuilder_append(&funcName, tmp);
                 uint32 endFunc = strbuilder_indexOf(funcName, "}");
                 string fbody = strbuilder_substr(funcName, 1, endFunc);
@@ -370,28 +443,42 @@ float evaluate(list_t opStack) {
                 newline();
 
                 hashmap_add(&funcList, fname, makeStrElement(fbody));
-            } else {
+            }
+            else
+            {
                 __assign(stod(tmp), &lvalid, &left, &right, procop, 53);
             }
             strbuilder_destroy(&funcName);
-        } else if (list_getType(opStack, i) == CHR) {
+        }
+        else if (list_getType(opStack, i) == CHR)
+        {
             float tmp = ctoi(list_getc(opStack, i)) - 10;
             __assign(0, &lvalid, &left, &right, procop, tmp);
-        } else {
+        }
+        else
+        {
             legalOps test = list_geti(opStack, i);
-            if (test == RPAREN) {
+            if (test == RPAREN)
+            {
                 uint32 oldPos = i;
                 uint32 nestLvl = 0;
                 nestLvl++;
-                while (nestLvl > 0) {
-                    if(opStack.size > i + 1) {
+                while (nestLvl > 0)
+                {
+                    if(opStack.size > i + 1)
+                    {
                         test = list_geti(opStack, ++i);
-                        if (test == RPAREN) {
+                        if (test == RPAREN)
+                        {
                             nestLvl++;
-                        } else if (test == LPAREN) {
+                        }
+                        else if (test == LPAREN)
+                        {
                             nestLvl--;
                         }
-                    } else {
+                    }
+                    else
+                    {
                         nestLvl = 0; // Assume the user forgot a bracket
                         i++;
                     }
@@ -399,7 +486,9 @@ float evaluate(list_t opStack) {
                 list_t nopstc = list_sublist(opStack, oldPos + 1, i);
                 __assign(evaluate(nopstc), &lvalid, &left, &right, procop == NOOP ? MUL : procop, 53);
                 list_destroy(&nopstc);
-            } else {
+            }
+            else
+            {
                 procop = test;
             }
         }

@@ -2,14 +2,16 @@
 
 static uint32 spi = 0;
 
-list_t parse(string input) {
+list_t parse(string input)
+{
     // { intrusion2, entrance,@ (entrance by force or without permission or welcome) }
     // { [ attainment, verb.social:attain,+ ] accomplishment,@ (the act of achieving an aim; "the attainment of independence") }
     list_t msg = list_init();
     strbuilder_t stb = strbuilder_init();
     strbuilder_appends(&stb, input);
     strbuilder_trim(&stb);
-    if (strbuilder_head(stb) == '{' && strbuilder_tail(stb) == '}') {
+    if (strbuilder_head(stb) == '{' && strbuilder_tail(stb) == '}')
+    {
         strbuilder_delete(&stb, 0, 1);
         strbuilder_delete(&stb, stb.size - 1, stb.size);
         strbuilder_trim(&stb);
@@ -31,7 +33,8 @@ list_t parse(string input) {
             strbuilder_trim(&stb);
         }
         spi = strbuilder_indexOf(stb, ","); // We will delete the first ','
-        if (spi < stb.size) {
+        if (spi < stb.size)
+        {
             strbuilder_delete(&stb, spi, spi + 1);
             string s = strbuilder_delete(&stb, spi + 1, stb.size);
             list_adds(&msg, strTrim(s));
