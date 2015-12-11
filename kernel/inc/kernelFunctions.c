@@ -101,7 +101,7 @@ void launchShell()
             else if(streql(cmdStr, "skip"))             {   skip(fullArgs);         }
             else if(streql(cmdStr, "files"))            {   files(fullArgs);        }
             else if(streql(cmdStr, "cat"))              {   cat(fullArgs);          }
-            else if(streql(cmdStr,"execute"))           {   execute();              }
+            else if(streql(cmdStr,"execute"))           {   execute(fullArgs);      }
             else if(streql(cmdStr,"switch"))            {   SWITCHDIR;              }
             else if(streql(cmdStr,"writer"))            {   writer(fullArgs);       }
             else if(streql(cmdStr, "calc"))             {   calc(fullArgs);         }
