@@ -17,4 +17,6 @@ void reboot();
 
 void shutdown();
 
+extern void asm_powoff();
+
 #endif
