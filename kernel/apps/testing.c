@@ -1,9 +1,13 @@
 #include "testing.h"
 
-void test(string args) {
+void test(string args)
+{
     args = splitArg(args, 1);
-    if(streql(args, "") || streql(args, "-h")) {
-        println("\nThis file is in charge of testing the data types embedded in Q-OS. Um... I won't tell you any parameters of this one... Sorry =D", black);
+    if(streql(args, "") || streql(args, "-h"))
+    {
+        print("\nThis file is in charge of testing the data types embedded in Q-OS.",black);
+        print("\nAccepted Arguments:\n-list\tTests the list.c file\n-set \ttests the set.c file", black);
+        print("\n-strb\ttests the strbuilder.c file\n-y   \tshould return the current year...",black);
     }
     else if(streql(args, "-list"))//For testing lists
     {
@@ -11,7 +15,8 @@ void test(string args) {
         list_t test_list = list_init();
         test_list.autoShrink = true;
 
-        for(uint8 i = 0; i < 4; i++) {
+        for(uint8 i = 0; i < 4; i++)
+        {
             list_add(&test_list, "1");
             list_add(&test_list, "2");
             list_add(&test_list, "3");
@@ -35,14 +40,17 @@ void test(string args) {
         printint(test_list.capt, white);
 
         element_t t;
-        for(uint8 i = 0; i < 64; i++) {
+        for(uint8 i = 0; i < 64; i++)
+        {
             t = list_shift(&test_list);
         }
         println("\nLast item deleted should be \"16\"", white);
         println(t.udata.strdata, white);
         println("\nDeleting all but element \"Pointless\"", white);
         for(uint8 i = 0; i < test_list.size; i++)
+        {
             println(list_get(test_list, i), white);
+        }
         println("Done resizing up", white);
         printint(test_list.capt, white);
         list_destroy(&test_list);
@@ -50,7 +58,8 @@ void test(string args) {
     else if(streql(args,"-set"))
     {
         set_t test_set = set_init();
-        for(uint8 i = 0; i < 4; i++) {
+        for(uint8 i = 0; i < 4; i++)
+        {
             set_add(&test_set, "0");
             set_add(&test_set, "1");
             set_add(&test_set, "2");

@@ -2,9 +2,13 @@
 
 #define curWord toUpper(splitArg(args, tmp))
 
+// has the user finished the 'me' setup process?
 bool hasSetup = false;
+
+// the users ZIP/Post Code
 string zip;
 
+// variables to determine if the entered values are valid based on the Me database
 bool birthYearValid = false;
 bool birthDateValid = false;
 bool birthMonthValid = false;
@@ -15,50 +19,77 @@ bool stateValid = false;
 bool cityValid = false;
 bool zipValid = false;
 
+// Are you currently in the 'me' Command Line interface?
 bool querying = false;
 
-void me(string args) {
+// this is shown at the top of every unanswered question during 'me' setup
+void meHeader()
+{
+    clearLine(0,26,0x88);
+
+    drawFrame(header_background, 20, 8, 60, 11);
+    printAt("Me Setup Process", 0x3D, 21, 9);
+}
+
+// we show this is a correct answer is given during the 'me' setup
+void goodAnswer()
+{
+    drawFrame(header_background, 20, 8, 60, 11);
+    printAt("Good", 0x32, 21, 9);
+}
+
+// this is shown when someone enters an invalid answer during the 'me' setup
+void badAnswer()
+{
+    drawFrame(header_background, 20, 8, 60, 11);
+    printAt("Invalid", 0x34, 21, 9);
+}
+
+void me(string args)
+{
     if (!hasSetup)
     {
-        if (streql(splitArg(args, 1), "help")) {
+        if (streql(splitArg(args, 1), "-h"))
+        {
+            // a super legit help section brought to you by @plankp
             print("\nMe is here to help you... Believe me...", brown);
         }
         else if (streql(splitArg(args, 1), "test") && !hasSetup)
         {
             hasSetup = true;
-            print("\nYou have skipped the Me setup process.",brown);
+            messageBox("\nYou have skipped the Me setup process.");
         }
         else if (!hasSetup)
         {
-            print("\nWelcome to Me.",grey);
-            print("\nMe is the worlds first truly rubbish personal assistant.",grey);
-            print("\nTo use me, simply ask it a question.",grey);
-            print("\nFor example, type 'me what is the time?'",grey);
-            print("\nTo start using Me, please enter some basic information below when prompted.",grey);
-            newline();
+            meHeader();
 
-            newline();
+            messageBox("\nWelcome to Me. To start using Me,\n\rpress <RET> to setup Me.");
+
+            meHeader();
+
             name = messageBox_I("What is your name?");
+
+            meHeader();
 
             while (!birthYearValid)
             {
-                newline();
                 birthYear = messageBox_I("What year were you born in?");
                 birthYearInt = stoi(birthYear);
 
                 // need to make this always the current year + 1
-                if (birthYearInt < 2016 && birthYearInt > 1900)
+                if (birthYearInt < getTime("year") && birthYearInt > 1900)
                 {
                     birthYearValid = true;
-                    print(" Good",light_green);
+                    goodAnswer();
                 }
 
                 if (!birthYearValid)
                 {
-                    print(" Invalid",bright_red);
+                    badAnswer();
                 }
             }
 
+            meHeader();
 
             while (!birthDateValid)
             {
@@ -69,14 +100,16 @@ void me(string args) {
                 if (birthDateInt < 32)
                 {
                     birthDateValid = true;
-                    print(" Good",light_green);
+                    goodAnswer();
                 }
 
                 if (!birthDateValid)
                 {
-                    print(" Invalid",bright_red);
+                    badAnswer();
                 }
             }
+
+            meHeader();
 
             while (!birthMonthValid)
             {
@@ -87,14 +120,16 @@ void me(string args) {
                 if (findInDictionary("me/setup/month.text",birthMonth))
                 {
                     birthMonthValid = true;
-                    print(" Good",light_green);
+                    goodAnswer();
                 }
 
                 if (!birthMonthValid)
                 {
-                    print(" Invalid",bright_red);
+                    badAnswer();
                 }
             }
+
+            meHeader();
 
             while (!continentValid)
             {
@@ -106,15 +141,16 @@ void me(string args) {
                 if (findInDictionary("me/setup/continent.text",continent))
                 {
                     continentValid = true;
-                    print(" Good",light_green);
+                    goodAnswer();
                 }
 
                 if (!continentValid)
                 {
-                    print(" Invalid",bright_red);
+                    badAnswer();
                 }
             }
 
+            meHeader();
 
             while (!countryValid)
             {
@@ -125,14 +161,16 @@ void me(string args) {
                 if (findInDictionary("me/setup/country.text",country))
                 {
                     countryValid = true;
-                    print(" Good",light_green);
+                    goodAnswer();
                 }
 
                 if (!countryValid)
                 {
-                    print(" Invalid",bright_red);
+                    badAnswer();
                 }
             }
+
+            meHeader();
 
             while (!stateValid)
             {
@@ -143,17 +181,24 @@ void me(string args) {
                 if (findInDictionary("me/setup/state.text",state))
                 {
                     stateValid = true;
-                    print(" Good",light_green);
+                    goodAnswer();
                 }
 
                 if (!stateValid)
                 {
-                    print(" Invalid",bright_red);
+                    badAnswer();
                 }
             }
 
+            meHeader();
+
             newline();
             city = messageBox_I("What city/town do you live in?");
+
+            clearLine(0,26,0x88);
+
+            drawFrame(header_background, 20, 8, 60, 11);
+            printAt("Me Setup Process", 0x3D, 21, 9);
 
             while (!zipValid)
             {
@@ -163,16 +208,24 @@ void me(string args) {
                 if (zipInt > 0)
                 {
                     zipValid = true;
-                    print(" Good",light_green);
+                    goodAnswer();
+                }
+                else
+                {
+                    badAnswer();
                 }
             }
 
-            newline();
-            hasSetup = "true";
-            print("Me is now ready to use!",grey);
+            meHeader();
 
-            newline();
-            print("When Me dosen't know information, it can ask you for help.",grey);
+            hasSetup = "true";
+            messageBox("Me is now ready to use! Type 'me' on\n\rthe command line to begin.");
+
+            printIntro();
+            drawBorder(screen_background, 0, 4, 80, sh - 1);
+
+            actualY = 5;
+            printAt("Q-Kernel>  ", light_grey, 1, actualY);
         }
         else
         {

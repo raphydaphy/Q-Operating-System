@@ -3,6 +3,7 @@
 void files(string args)
 {
     newline();
+
     if (streql(splitArg(args, 1), "-h"))
     {
         print ("Showing Help for files:", black);
@@ -10,18 +11,12 @@ void files(string args)
     }
     else if (streql(splitArg(args, 1), "me/") || streql(splitArg(args, 1), "me"))
     {
-        // list the contents of
+        // list the contents of the 'me' directory
         int i = 0;
         struct dirent *node = 0;
         while ((node = readdir_fs(fs_root, i)) != 0)
         {
-            fs_node_t *fsnode = finddir_fs(fs_root, node->name);
-
-            if ((fsnode->flags & 0x7) == FS_DIRECTORY)
-            {
-                // the selected file is a directory
-            }
-            else if (node->name[0] == 'm' && node->name[1] == 'e')
+            if (node->name[0] == 'm' && node->name[1] == 'e')
             {
                 // this is probably a file required for `me` so we will show it
                 print("file\t",green);
@@ -37,15 +32,17 @@ void files(string args)
         int i = 0;
         struct dirent *node = 0;
 
-        // display the `me` directory as a proof-of-concept
+        // display the `me` directory even thoughh it dosen't exist
         print("dir \t",green);
         print("me/",magenta);
         newline();
 
         while ((node = readdir_fs(fs_root, i)) != 0)
         {
+            // create a variable to store the selected file
             fs_node_t *fsnode = finddir_fs(fs_root, node->name);
 
+            // if the file is a directory
             if ((fsnode->flags & 0x7) == FS_DIRECTORY)
             {
                 print("dir \t", green);
@@ -56,11 +53,8 @@ void files(string args)
             }
             else
             {
-                if (node->name[0] == 'm' && node->name[1] == 'e')
-                {
-                    // this is probably a file required for `me` so we will hide it
-                }
-                else
+                // If the file does not begin with 'me'
+                if (node->name[0] != 'm' && node->name[1] != 'e')
                 {
                     print("file\t", green);
                     print(node->name, magenta);
