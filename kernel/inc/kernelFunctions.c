@@ -40,7 +40,6 @@ void launchShell()
     #define RMFILE print("\nThis Command is Reserved for when we have a FAT32 or better FileSystem...", 0x3F);
     #define SEARCHFOR string searchTerm = (string) kmalloc(cmdSize * sizeof(char)); print("\nDictionary File Name>  ", white); readStr(cmdStr, cmdSize, false); print("\nSearch Term>  ", green); readStr(searchTerm, cmdSize, false); if (findInDictionary(cmdStr,searchTerm)) { print("\nWe found the word!",white); }
     #define CMDNOTFOUND print("\n", white); print(cmdStr, white); print(": Command Not Found ", white);
-    #define WHOAMI_CMD newline(); print(userName, white);
 
     printIntro();
 
@@ -97,7 +96,6 @@ void launchShell()
             }
 
             if (streql(strTrim(cmdStr), ""))            {   HELP;                   }
-            else if(streql(cmdStr, "whoami"))           {   WHOAMI_CMD;             }
             else if(streql(cmdStr, "help"))             {   BIGHELP;                }
             else if(streql(cmdStr, "system"))           {   system(fullArgs);       }
             else if(streql(cmdStr, "skip"))             {   skip(fullArgs);         }

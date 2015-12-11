@@ -33,6 +33,10 @@ void system(string args)
     else if (streql(args, "about"))
     {
         print("\nYou are using the Q Operating System\nYour Version: 0.06 Alpha\n", brown);
+        
+        print("Logged in as: ",green);
+        print(userName, white);
+
         //You might wanna replace your slack name with your full name (Its in alphabetical order)
         println("\nDevelopers:", yellow);
         println("- barteks2x", cyan);
