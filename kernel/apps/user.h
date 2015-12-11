@@ -3,10 +3,13 @@
 
 #include "../inc/qdio.h"
 
-bool allowStatMonitor;
+bool useQDC;
+
 string userName;
 string pcName;
+
 string password;
+string email;
 
 bool loggedIn;
 
