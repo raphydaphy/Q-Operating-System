@@ -26,6 +26,10 @@ void system(string args)
     {
         halt();
     }
+    else if (streql(args, "logout"))
+    {
+        logout();
+    }
     else if (streql(args, "about"))
     {
         print("\nYou are using the Q Operating System\nYour Version: 0.06 Alpha\n", brown);

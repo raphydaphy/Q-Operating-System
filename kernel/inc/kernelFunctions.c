@@ -69,68 +69,75 @@ void launchShell()
 
     while (true)
     {
-        actualY++;
-
-        printAt("Q-Kernel>  ", light_grey, 1, actualY);
-
-        cursorY = actualY;
-        cursorX = 12;
-        updateCursor();
-
-        typingCmd = true;
-        newCmd = true;
-
-        readStr(fullArgs, cmdSize, false);
-
-        typingCmd = false;
-
-        for(int i = 0; i < cmdSize; ++i)
+        if (loggedIn)
         {
-            cmdStr[i] = 0;
-        }
+            actualY++;
 
-        fs = 1;
-        ay = -1;
+            printAt("Q-Kernel>  ", light_grey, 1, actualY);
 
-        //Sanitize raw input. Move first word to cmdStr
-        for(int i = 0; i < cmdSize; ++i)
-        {
-            if(fullArgs[i] != 0 || fullArgs[i] != 10)
+            cursorY = actualY;
+            cursorX = 12;
+            updateCursor();
+
+            typingCmd = true;
+            newCmd = true;
+
+            readStr(fullArgs, cmdSize, false);
+
+            typingCmd = false;
+
+            for(int i = 0; i < cmdSize; ++i)
             {
-                if(fs == 1)
+                cmdStr[i] = 0;
+            }
+
+            fs = 1;
+            ay = -1;
+
+            //Sanitize raw input. Move first word to cmdStr
+            for(int i = 0; i < cmdSize; ++i)
+            {
+                if(fullArgs[i] != 0 || fullArgs[i] != 10)
                 {
-                    cmdStr[i] = fullArgs[i];
+                    if(fs == 1)
+                    {
+                        cmdStr[i] = fullArgs[i];
+                    }
+                    if(i < cmdSize && fullArgs[i+1] == 32)
+                    {
+                        fs = 0;
+                        ay++;
+                    }
                 }
-                if(i < cmdSize && fullArgs[i+1] == 32)
+                else
                 {
-                    fs = 0;
-                    ay++;
+                    break;
                 }
             }
-            else
-            {
-                break;
-            }
+
+            if (streql(strTrim(cmdStr), ""))            {   HELP;                   }
+            else if(streql(cmdStr, "help"))             {   BIGHELP;                }
+            else if(streql(cmdStr, "system"))           {   system(fullArgs);       }
+            else if(streql(cmdStr, "skip"))             {   skip(fullArgs);         }
+            else if(streql(cmdStr, "files"))            {   files(fullArgs);        }
+            else if(streql(cmdStr, "cat"))              {   cat(fullArgs);          }
+            else if(streql(cmdStr,"execute"))           {   execute();              }
+            else if(streql(cmdStr,"switch"))            {   SWITCHDIR;              }
+            else if(streql(cmdStr,"writer"))            {   writer(fullArgs);       }
+            else if(streql(cmdStr, "calc"))             {   calc(fullArgs);         }
+            else if(streql(cmdStr, "clear"))            {   clearScreen();          }
+            else if(streql(cmdStr, "test"))             {   test(fullArgs);         }
+            else if(streql(cmdStr, "newdir"))           {   MKDIR;                  }
+            else if(streql(cmdStr, "erase"))            {   RMFILE;                 }
+        	else if(streql(cmdStr, "me"))               {   me(fullArgs);           }
+        	else if(streql(cmdStr, "search"))           {   SEARCHFOR;              }
+            else                                        {   CMDNOTFOUND;            }
+            newline();
+        }
+        else
+        {
+            login();
         }
 
-        if (streql(strTrim(cmdStr), ""))            {   HELP;                   }
-        else if(streql(cmdStr, "help"))             {   BIGHELP;                }
-        else if(streql(cmdStr, "system"))           {   system(fullArgs);       }
-        else if(streql(cmdStr, "skip"))             {   skip(fullArgs);         }
-        else if(streql(cmdStr, "files"))            {   files(fullArgs);        }
-        else if(streql(cmdStr, "cat"))              {   cat(fullArgs);          }
-        else if(streql(cmdStr,"execute"))           {   execute();              }
-        else if(streql(cmdStr,"switch"))            {   SWITCHDIR;              }
-        else if(streql(cmdStr,"writer"))            {   writer(fullArgs);       }
-        else if(streql(cmdStr, "calc"))             {   calc(fullArgs);         }
-        else if(streql(cmdStr, "clear"))            {   clearScreen();          }
-        else if(streql(cmdStr, "test"))             {   test(fullArgs);         }
-        else if(streql(cmdStr, "newdir"))           {   MKDIR;                  }
-        else if(streql(cmdStr, "erase"))            {   RMFILE;                 }
-    	else if(streql(cmdStr, "me"))               {   me(fullArgs);           }
-    	else if(streql(cmdStr, "search"))           {   SEARCHFOR;              }
-        else                                        {   CMDNOTFOUND;            }
-        newline();
     }
 }
-

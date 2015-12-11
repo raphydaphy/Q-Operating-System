@@ -1,12 +1,5 @@
 #include "setup.h"
 
-// obviously this is not currnetly externally accessable data
-// we can change this later when the data is more important to other apps
-bool allowStatMonitor;
-string userName;
-string pcName;
-string password;
-
 void setup()
 {
     messageBox("Welcome to Q OS. Press <RET> to begin\n\rthe setup process.");
@@ -21,11 +14,5 @@ void setup()
         allowStatMonitor = true;
     }
 
-    print("Thanks for doing the setup. Here is your data:\n",yellow);
-
-    print("Username: ",magenta);
-    print(userName,red);
-
-    print("\nPassword: ",magenta);
-    print(password,red);
+    loggedIn = false;
 }
