@@ -2,9 +2,13 @@
 
 #define curWord toUpper(splitArg(args, tmp))
 
+// has the user finished the 'me' setup process?
 bool hasSetup = false;
+
+// the users ZIP/Post Code
 string zip;
 
+// variables to determine if the entered values are valid based on the Me database
 bool birthYearValid = false;
 bool birthDateValid = false;
 bool birthMonthValid = false;
@@ -15,66 +19,77 @@ bool stateValid = false;
 bool cityValid = false;
 bool zipValid = false;
 
+// Are you currently in the 'me' Command Line interface?
 bool querying = false;
 
-void me(string args) {
+// this is shown at the top of every unanswered question during 'me' setup
+void meHeader()
+{
+    clearLine(0,26,0x88);
+
+    drawFrame(header_background, 20, 8, 60, 11);
+    printAt("Me Setup Process", 0x3D, 21, 9);
+}
+
+// we show this is a correct answer is given during the 'me' setup
+void goodAnswer()
+{
+    drawFrame(header_background, 20, 8, 60, 11);
+    printAt("Good", 0x32, 21, 9);
+}
+
+// this is shown when someone enters an invalid answer during the 'me' setup
+void badAnswer()
+{
+    drawFrame(header_background, 20, 8, 60, 11);
+    printAt("Invalid", 0x34, 21, 9);
+}
+
+void me(string args)
+{
     if (!hasSetup)
     {
-        if (streql(splitArg(args, 1), "help")) {
+        if (streql(splitArg(args, 1), "-h"))
+        {
+            // a super legit help section brought to you by @plankp
             print("\nMe is here to help you... Believe me...", brown);
         }
         else if (streql(splitArg(args, 1), "test") && !hasSetup)
         {
             hasSetup = true;
-            print("\nYou have skipped the Me setup process.",brown);
+            messageBox("\nYou have skipped the Me setup process.");
         }
         else if (!hasSetup)
         {
-            clearLine(0,26,0x88);
-
-            drawFrame(header_background, 20, 8, 60, 11);
-            printAt("Me Setup Process", 0x3D, 21, 9);
+            meHeader();
 
             messageBox("\nWelcome to Me. To start using Me,\n\rpress <RET> to setup Me.");
-            newline();
 
-            clearLine(0,26,0x88);
+            meHeader();
 
-            drawFrame(header_background, 20, 8, 60, 11);
-            printAt("Me Setup Process", 0x3D, 21, 9);
-
-            newline();
             name = messageBox_I("What is your name?");
 
-            clearLine(0,26,0x88);
-
-            drawFrame(header_background, 20, 8, 60, 11);
-            printAt("Me Setup Process", 0x3D, 21, 9);
+            meHeader();
 
             while (!birthYearValid)
             {
-                newline();
                 birthYear = messageBox_I("What year were you born in?");
                 birthYearInt = stoi(birthYear);
 
                 // need to make this always the current year + 1
-                if (birthYearInt < 2016 && birthYearInt > 1900)
+                if (birthYearInt < getTime("year") && birthYearInt > 1900)
                 {
                     birthYearValid = true;
-                    print(" Good",light_green);
+                    goodAnswer();
                 }
 
                 if (!birthYearValid)
                 {
-                    drawFrame(header_background, 20, 8, 60, 11);
-                    printAt("Invalid", 0x34, 21, 9);
+                    badAnswer();
                 }
             }
 
-            clearLine(0,26,0x88);
-
-            drawFrame(header_background, 20, 8, 60, 11);
-            printAt("Me Setup Process", 0x3D, 21, 9);
+            meHeader();
 
             while (!birthDateValid)
             {
@@ -85,21 +100,16 @@ void me(string args) {
                 if (birthDateInt < 32)
                 {
                     birthDateValid = true;
-                    drawFrame(header_background, 20, 8, 60, 11);
-                    printAt("Good", 0x32, 21, 9);
+                    goodAnswer();
                 }
 
                 if (!birthDateValid)
                 {
-                    drawFrame(header_background, 20, 8, 60, 11);
-                    printAt("Invalid", 0x34, 21, 9);
+                    badAnswer();
                 }
             }
 
-            clearLine(0,26,0x88);
-
-            drawFrame(header_background, 20, 8, 60, 11);
-            printAt("Me Setup Process", 0x3D, 21, 9);
+            meHeader();
 
             while (!birthMonthValid)
             {
@@ -110,21 +120,16 @@ void me(string args) {
                 if (findInDictionary("me/setup/month.text",birthMonth))
                 {
                     birthMonthValid = true;
-                    drawFrame(header_background, 20, 8, 60, 11);
-                    printAt("Good", 0x32, 21, 9);
+                    goodAnswer();
                 }
 
                 if (!birthMonthValid)
                 {
-                    drawFrame(header_background, 20, 8, 60, 11);
-                    printAt("Invalid", 0x34, 21, 9);
+                    badAnswer();
                 }
             }
 
-            clearLine(0,26,0x88);
-
-            drawFrame(header_background, 20, 8, 60, 11);
-            printAt("Me Setup Process", 0x3D, 21, 9);
+            meHeader();
 
             while (!continentValid)
             {
@@ -136,21 +141,16 @@ void me(string args) {
                 if (findInDictionary("me/setup/continent.text",continent))
                 {
                     continentValid = true;
-                    drawFrame(header_background, 20, 8, 60, 11);
-                    printAt("Good", 0x32, 21, 9);
+                    goodAnswer();
                 }
 
                 if (!continentValid)
                 {
-                    drawFrame(header_background, 20, 8, 60, 11);
-                    printAt("Invalid", 0x34, 21, 9);
+                    badAnswer();
                 }
             }
 
-            clearLine(0,26,0x88);
-
-            drawFrame(header_background, 20, 8, 60, 11);
-            printAt("Me Setup Process", 0x3D, 21, 9);
+            meHeader();
 
             while (!countryValid)
             {
@@ -161,21 +161,16 @@ void me(string args) {
                 if (findInDictionary("me/setup/country.text",country))
                 {
                     countryValid = true;
-                    drawFrame(header_background, 20, 8, 60, 11);
-                    printAt("Good", 0x32, 21, 9);
+                    goodAnswer();
                 }
 
                 if (!countryValid)
                 {
-                    drawFrame(header_background, 20, 8, 60, 11);
-                    printAt("Invalid", 0x34, 21, 9);
+                    badAnswer();
                 }
             }
 
-            clearLine(0,26,0x88);
-
-            drawFrame(header_background, 20, 8, 60, 11);
-            printAt("Me Setup Process", 0x3D, 21, 9);
+            meHeader();
 
             while (!stateValid)
             {
@@ -186,21 +181,16 @@ void me(string args) {
                 if (findInDictionary("me/setup/state.text",state))
                 {
                     stateValid = true;
-                    drawFrame(header_background, 20, 8, 60, 11);
-                    printAt("Good", 0x32, 21, 9);
+                    goodAnswer();
                 }
 
                 if (!stateValid)
                 {
-                    drawFrame(header_background, 20, 8, 60, 11);
-                    printAt("Invalid", 0x34, 21, 9);
+                    badAnswer();
                 }
             }
 
-            clearLine(0,26,0x88);
-
-            drawFrame(header_background, 20, 8, 60, 11);
-            printAt("Me Setup Process", 0x3D, 21, 9);
+            meHeader();
 
             newline();
             city = messageBox_I("What city/town do you live in?");
@@ -218,20 +208,15 @@ void me(string args) {
                 if (zipInt > 0)
                 {
                     zipValid = true;
-                    drawFrame(header_background, 20, 8, 60, 11);
-                    printAt("Good", 0x32, 21, 9);
+                    goodAnswer();
                 }
                 else
                 {
-                    drawFrame(header_background, 20, 8, 60, 11);
-                    printAt("Invalid", 0x34, 21, 9);
+                    badAnswer();
                 }
             }
 
-            clearLine(0,26,0x88);
-
-            drawFrame(header_background, 20, 8, 60, 11);
-            printAt("Me Setup Process", 0x3D, 21, 9);
+            meHeader();
 
             hasSetup = "true";
             messageBox("Me is now ready to use! Type 'me' on\n\rthe command line to begin.");
