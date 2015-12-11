@@ -8,6 +8,9 @@ void logout()
 
     clearLine(0,26,0x44);
 
+    drawFrame(header_background, 20, 8, 60, 11);
+    printAt("Locked", desc_foreground, 21, 9);
+
     while(!loggedIn)
     {
         login();
