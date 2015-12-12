@@ -20,7 +20,7 @@ void isr_handler(registers_t regs)
     {
         print("unhandled interrupt: ", white);
         printint(regs.int_no, white);
-        printch('\n', white);
+        newline();
     }
 }
 
