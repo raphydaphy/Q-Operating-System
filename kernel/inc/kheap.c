@@ -1,4 +1,3 @@
-
 #include "kheap.h"
 
 extern uint32 end;
@@ -160,10 +159,10 @@ heap_t *create_heap(uint32 start, uint32 end_addr, uint32 max, uint8 supervisor,
     // All our assumptions are made on startAddress and endAddress being page-aligned.
     ASSERT(start%0x1000 == 0);
     ASSERT(end_addr%0x1000 == 0);
-
+    
     // Initialise the index.
     heap->index = place_ordered_array( (void*)start, HEAP_INDEX_SIZE, &header_t_less_than);
-
+    
     // Shift the start address forward to resemble where we can start putting data.
     start += sizeof(type_t)*HEAP_INDEX_SIZE;
 
@@ -185,7 +184,7 @@ heap_t *create_heap(uint32 start, uint32 end_addr, uint32 max, uint8 supervisor,
     hole->size = end_addr-start;
     hole->magic = HEAP_MAGIC;
     hole->is_hole = 1;
-    insert_ordered_array((void*)hole, &heap->index);
+    insert_ordered_array((void*)hole, &heap->index);     
 
     return heap;
 }
@@ -211,7 +210,7 @@ void *alloc(uint32 size, uint8 page_align, heap_t *heap)
         // Find the endmost header. (Not endmost in size, but in location).
         iterator = 0;
         // Vars to hold the index of, and value of, the endmost header found so far.
-        int64 idx = -1; uint32 value = 0x9;
+        int64 idx = -1; uint32 value = 0x0;
         while (iterator < (int64) heap->index.size)
         {
             uint32 tmp = (uint32)lookup_ordered_array(iterator, &heap->index);
@@ -308,7 +307,7 @@ void *alloc(uint32 size, uint8 page_align, heap_t *heap)
         // Put the new hole in the index;
         insert_ordered_array((void*)hole_header, &heap->index);
     }
-
+    
     // ...And we're done!
     return (void *)((uint32)block_header+sizeof(header_t));
 }
@@ -400,3 +399,4 @@ void free(void *p, heap_t *heap)
         insert_ordered_array((void*)header, &heap->index);
 
 }
+
