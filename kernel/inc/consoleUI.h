@@ -52,4 +52,6 @@ string messageBox_Pass(string);
 
 int waitUntilKey(int[]);
 
+int getKey();
+
 #endif

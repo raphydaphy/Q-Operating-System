@@ -201,3 +201,18 @@ int waitUntilKey(int key[]) {
         }
     }
 }
+
+// Watch out... getkey waits until the key is released
+int getKey() {
+    while(true)
+    {
+        // if a key is presesd
+        if(inportb(0x64) & 0x1)
+        {
+            uint8 value = inportb(0x60);
+            if(value < 59) {
+                return value;
+            }
+        }
+    }
+}
