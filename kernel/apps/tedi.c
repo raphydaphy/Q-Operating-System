@@ -75,7 +75,8 @@ string tedi_session()
             switch(k)
             {
             case 0x01:
-                inCmdMode = true;
+                // Reset all states!
+                inCmdMode = true, shiftDown = false, capslDown = false;
                 break;
             case 0x2A:
             case 0x36:
