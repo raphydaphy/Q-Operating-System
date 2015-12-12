@@ -8,6 +8,11 @@ const char kbLowerChars[256];
 
 const char kbShiftChars[256];
 
+const char kbCapslchars[256];
+
+// Both shift and capslock
+const char kbSCModchars[256];
+
 void readStr(string, uint32, bool);
 
 void kbHelp();
