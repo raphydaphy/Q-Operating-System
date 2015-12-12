@@ -18,9 +18,11 @@ void setup()
     password = messageBox_Pass("Enter a password to protect your\n\raccount");
 
     // this is mostly just a proof of concpet nad does nothing except ask a question for now
-    if(messageBox_YN("Allow Q OS to record information about\n\ryour computer?"))
+    if(messageBox_YN("Do you want to use the Q Data Cloud\n\rservice?") == 1)
     {
-        allowStatMonitor = true;
+        useQDC= true;
+
+        email = messageBox_I("Enter your email to be used with the\n\rQ Data Cloud.");
     }
 
     // require the user to login with their new account
