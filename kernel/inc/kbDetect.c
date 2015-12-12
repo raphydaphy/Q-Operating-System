@@ -21,7 +21,7 @@ const char kbShiftChars[256] =    {
    '\"', '~',  0 , '|', 'Z', 'X', 'C', 'V', 'B', 'N',
     'M', '<', '>', '?',  0 , '*',  0 , ' ',  0 ,
 };
-const char charsCapsLock[256] =    {
+const char kbCapslchars[256] =    {
      0 ,  0 , '1', '2', '3', '4', '5', '6', '7', '8',
     '9', '0', '-', '=',  0 ,'\t', 'Q', 'W', 'E', 'R',
     'T', 'Y', 'U', 'I', 'O', 'P', '[', ']',  0 ,  0 ,
@@ -90,7 +90,7 @@ uint32 charKeyPressed(string buffstr, uint8 ch, uint32 i, uint32 bufSize) {
         }
         else if(capslock && !shiftMask)
         {
-            pass = charsCapsLock[ch];
+            pass = kbCapslchars[ch];
         }
         else
         {
@@ -105,7 +105,7 @@ uint32 charKeyPressed(string buffstr, uint8 ch, uint32 i, uint32 bufSize) {
         }
         else if(capslock && !shiftMask)
         {
-            toPrint = charsCapsLock[ch];
+            toPrint = kbCapslchars[ch];
         }
         else
         {
@@ -115,7 +115,7 @@ uint32 charKeyPressed(string buffstr, uint8 ch, uint32 i, uint32 bufSize) {
     if(ctrl)
     {
         /* Ctrl key pushes an Uppercase */
-        return pushCtrlChar(i, buffstr, charsCapsLock[ch], bufSize);
+        return pushCtrlChar(i, buffstr, kbCapslchars[ch], bufSize);
     }
     else if (alt)
     {

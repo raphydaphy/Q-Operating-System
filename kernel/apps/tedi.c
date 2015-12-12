@@ -38,7 +38,7 @@ string tedi_session()
     strcpy(oldmem, vidmem);
     paintScreen(blue);
 
-    bool inCmdMode = true, shiftDown = false;
+    bool inCmdMode = true, shiftDown = false, capslDown = false;
     uint16 curX = 0, curY = 0;
     uint32 index = 0;
     static int cmdKeys[] = {0x10 /*Q*/, 0x17 /*I*/, 0x18 /*O*/};
@@ -85,6 +85,9 @@ string tedi_session()
             case 0xB6:
                 shiftDown = false;
                 break;
+            case 0x3A:
+                capslDown = !capslDown;
+                break;
             case 0x1C:
                 appendln(&data, &curX, &curY, &index);
                 break;
@@ -118,9 +121,13 @@ string tedi_session()
             default:
                 if(k < 59 && k > 0)
                 {
-                    if(shiftDown)
+                    if(shiftDown && !capslDown)
                     {
                         charInput = kbShiftChars[k];
+                    }
+                    else if(capslDown && !shiftDown)
+                    {
+                        charInput = kbCapslchars[k];
                     }
                     else
                     {
