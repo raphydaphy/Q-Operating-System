@@ -21,6 +21,7 @@ const char kbShiftChars[256] =    {
    '\"', '~',  0 , '|', 'Z', 'X', 'C', 'V', 'B', 'N',
     'M', '<', '>', '?',  0 , '*',  0 , ' ',  0 ,
 };
+
 const char kbCapslchars[256] =    {
      0 ,  0 , '1', '2', '3', '4', '5', '6', '7', '8',
     '9', '0', '-', '=',  0 ,'\t', 'Q', 'W', 'E', 'R',
@@ -29,6 +30,16 @@ const char kbCapslchars[256] =    {
    '\'', '`',  0 ,'\\', 'Z', 'X', 'C', 'V', 'B', 'N',
     'M', ',', '.', '/',  0 , '*',  0 , ' ',  0 ,
 };
+
+const char kbSCModchars[256] =    {
+     0 ,  0 , '!', '@', '#', '$', '%', '^', '&', '*',
+    '(', ')', '_', '+',  0 ,'\t', 'q', 'w', 'e', 'r',
+    't', 'y', 'u', 'i', 'o', 'p', '{', '}',  0 ,  0 ,
+    'a', 's', 'd', 'f', 'g', 'h', 'j', 'k', 'l', ':',
+   '\"', '~',  0 , '|', 'z', 'x', 'c', 'v', 'b', 'n',
+    'm', '<', '>', '?',  0 , '*',  0 , ' ',  0 ,
+};
+
 uint8 backspaceOne(uint8 i, string buffstr, uint32 bufSize) {
     kprintch('\b', white, false);
     i--;
@@ -92,6 +103,10 @@ uint32 charKeyPressed(string buffstr, uint8 ch, uint32 i, uint32 bufSize) {
         {
             pass = kbCapslchars[ch];
         }
+        else if(shiftDown && capslDown)
+        {
+            pass = kbSCModchars[ch];
+        }
         else
         {
             pass = kbLowerChars[ch];
@@ -106,6 +121,10 @@ uint32 charKeyPressed(string buffstr, uint8 ch, uint32 i, uint32 bufSize) {
         else if(capslock && !shiftMask)
         {
             toPrint = kbCapslchars[ch];
+        }
+        else if(shiftDown && capslDown)
+        {
+            toPrint = kbSCModchars[ch];
         }
         else
         {

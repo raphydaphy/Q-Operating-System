@@ -129,6 +129,10 @@ string tedi_session()
                     {
                         charInput = kbCapslchars[k];
                     }
+                    else if(shiftDown && capslDown)
+                    {
+                        charInput = kbSCModchars[k];
+                    }
                     else
                     {
                         charInput = kbLowerChars[k];
