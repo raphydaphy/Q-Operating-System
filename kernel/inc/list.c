@@ -34,11 +34,11 @@ static inline void __vlist_add(list_t* lst, element_t e, uint32 index) {
     if (index > lst->size) {
         return; // Cannot insert out of the list!
     }
-    if (lst->size == lst->capt) {
+    if (lst->size + 1 >= lst->capt) {
         __vlist_resize(lst, lst->size + GROWTH_FACTOR);
     }
-    for (uint32 i = lst->size - 1; i > index; i++) {
-        lst->data[i + 1] = lst->data[i];
+    for (uint32 i = lst->size; i > index; i--) {
+        lst->data[i] = lst->data[i - 1];
     }
     lst->data[index] = e;
     lst->size++;

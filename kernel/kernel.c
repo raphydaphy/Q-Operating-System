@@ -37,7 +37,6 @@ int kmain(struct multiboot* mboot_ptr)
 	fs_root = initialize_initrd(initrd_location);
 
 	printIntro();
-
     launchShell();
 
 	return 0;

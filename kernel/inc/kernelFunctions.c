@@ -105,6 +105,7 @@ void launchShell()
             else if(streql(cmdStr,"switch"))            {   SWITCHDIR;              }
             else if(streql(cmdStr,"writer"))            {   writer(fullArgs);       }
             else if(streql(cmdStr, "calc"))             {   calc(fullArgs);         }
+            else if(streql(cmdStr, "tedi"))             {   tedi_session();         }
             else if(streql(cmdStr, "clear"))            {   clearScreen();          }
             else if(streql(cmdStr, "test"))             {   test(fullArgs);         }
             else if(streql(cmdStr, "newdir"))           {   MKDIR;                  }

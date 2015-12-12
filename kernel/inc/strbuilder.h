@@ -84,4 +84,6 @@ uint32 strbuilder_indexOf(strbuilder_t, string);
 
 uint32 strbuilder_indexFrom(strbuilder_t, string, uint32);
 
+list_t strbuilder_split(strbuilder_t, string);
+
 #endif

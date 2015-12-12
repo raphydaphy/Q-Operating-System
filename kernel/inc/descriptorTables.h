@@ -3,6 +3,7 @@
 
 #include "assemblyFunctions.h"
 #include "byteUtils.h"
+#include "isr.h"
 
 // Initialization function is publicly accessible.
 void init_descriptor_tables();

@@ -2,9 +2,11 @@
 #include "kheap.h" // Do not move this line in the .h file
 
 void paintScreen(int color) {
-    for(uint16 i = 0; i < (sw * 25 * sd); i += 2)
+    string vidmem = (string) 0xb8000;
+    for(uint16 i = 0; i < (sw * 25 * sd); i++)
     {
-        printch(' ', color);
+        vidmem [i] = ' ';
+        vidmem [++i] = color;
     }
     cursorX = 0;
     cursorY = 0;
@@ -15,6 +17,20 @@ static inline void __appendCharAt(char c, int b, uint16 x, uint16 y) {
     string vidmem = (string) 0xb8000;
     vidmem [(y * sw + x) * sd] = c;
     vidmem [(y * sw + x) * sd + 1] = b;
+}
+
+void printCharAt(char ch, int color, uint16 x, uint16 y) {
+    switch(ch) {
+    case '\r':
+    case '\n':
+        break; // Pointless chars
+    case '\b':
+        __appendCharAt(' ', color, --x, y);
+        break;
+    default:
+        __appendCharAt(ch, color, x, y);
+        break;
+    }
 }
 
 void printAt(string str, int color, uint16 x, uint16 y) {
@@ -196,6 +212,29 @@ int waitUntilKey(int key[]) {
                     return key[i];
                 }
             }
+        }
+    }
+}
+
+// Watch out... getkey waits until the key is released
+int getKey() {
+    while(true)
+    {
+        // if a key is presesd
+        uint8 value = getAnyKey();
+        if(value < 59) {
+            return value;
+        }
+    }
+}
+
+int getAnyKey() {
+    while(true)
+    {
+        // if a key is presesd
+        if(inportb(0x64) & 0x1)
+        {
+            return inportb(0x60);
         }
     }
 }

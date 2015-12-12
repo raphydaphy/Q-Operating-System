@@ -35,6 +35,9 @@ void reboot()
 
 void shutdown()
 {
+    // Ok... Suposingly this only reboots the os...
+    asm_powoff();
+    
 /* OLD SHUTDOWN SEQUENCE. does not work on some VM
     __asm__ __volatile__ ("cli");
 		while(true) {
@@ -80,4 +83,5 @@ void shutdown()
                 "mov %cx, 0x8003\n"
                 "int $0x15\n"
 	);*/
+
 }

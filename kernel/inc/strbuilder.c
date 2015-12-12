@@ -144,6 +144,19 @@ inline bool strbuilder_contains(strbuilder_t stb, string str) {
     return strbuilder_indexOf(stb, str) < stb.size;
 }
 
+list_t strbuilder_split(strbuilder_t stb, string str) {
+    list_t splitRst = list_init();
+    uint32 oldi = 0;
+    uint32 i = 0;
+    while(i < stb.size)
+    {
+        i = strbuilder_indexFrom(stb, str, i);
+        list_add(&splitRst, strbuilder_substr(stb, oldi, i));
+        oldi = ++i;
+    }
+    return splitRst;
+}
+
 static inline uint32 __strb_indexOf(strbuilder_t stb, string str, uint32 sindex) {
     if (sindex >= stb.size) {
         return stb.size; // Obviously cannot find outside of str
