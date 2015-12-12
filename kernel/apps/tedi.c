@@ -37,11 +37,11 @@ string tedi_session()
     char oldmem[strlen(vidmem)];
     strcpy(oldmem, vidmem);
     paintScreen(blue);
-
-    bool inCmdMode = true, shiftDown = false, capslDown = false;
+    // Checking user's capslock state
+    bool inCmdMode = true, shiftDown = false, capslDown = capslock;
     uint16 curX = 0, curY = 0;
     uint32 index = 0;
-    static int cmdKeys[] = {0x10 /*Q*/, 0x17 /*I*/, 0x18 /*O*/};
+    static int cmdKeys[] = {0x10 /*Q*/, 0x17 /*I*/, 0x18 /*O*/, 0x3A /*<CAPS>*/};
     strbuilder_t data = strbuilder_init();
     int k;
     while(true)
@@ -64,6 +64,9 @@ string tedi_session()
             case 0x17:
                 inCmdMode = false;
                 break;
+            case 0x3A:
+                capslDown = !capslDown;
+                break;
             case 0x18:
                 appendln(&data, &curX, &curY, &index);
                 inCmdMode = false;
@@ -75,8 +78,7 @@ string tedi_session()
             switch(k)
             {
             case 0x01:
-                // Reset all states!
-                inCmdMode = true, shiftDown = false, capslDown = false;
+                inCmdMode = true;
                 break;
             case 0x2A:
             case 0x36:
@@ -166,7 +168,12 @@ end: // Sorry for the mom spaghetti code
     // Must be last line (before any prints)
     strcpy(vidmem, oldmem);
     string msg = strbuilder_tostr(data);
+    if(msg == NULL)
+    {
+        msg = "";
+    }
     strbuilder_destroy(&data);
+    capslock = capslDown;
     cursorX = cursorY = 0;
     print(msg, black);
     return msg;
