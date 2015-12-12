@@ -42,5 +42,6 @@
 #include "../apps/me.h"
 #include "../apps/testing.h"
 #include "../apps/setup.h"
+#include "../apps/tedi.h"
 
 #endif
