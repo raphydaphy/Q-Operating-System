@@ -59,10 +59,11 @@ void strbuilder_replacec(strbuilder_t* stb, char c, uint32 l) {
 
 static inline string __vstb_tos(strbuilder_t stb, uint32 l, uint32 h) {
     uint32 strlen = abs(h - l);
-    if (strlen > stb.ilist.size) {
-        return ""; // Do not return NULL!
+    string msg;
+    if (strlen > stb.ilist.size || strlen == 0) {
+        return NULL;
     }
-    string msg = (string) kmalloc((strlen) * sizeof(char));
+    msg = (string) kmalloc((strlen) * sizeof(char));
     l = l < h ? l : h; // Make sure l is actually smaller than h
     uint32 i = 0;
     for( ; i < strlen; i++) {
