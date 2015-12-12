@@ -132,12 +132,19 @@ string tedi_session()
                     }
                     strbuilder_insertc(&data, charInput, index++);
                     // Hahaha... RE-PRINT THE ENTIRE STRB!!!
-                    curX = 0; curY = 0; index = 0;
+                    curX = 0; curY = 0;
+                    uint16 oldX = 0, oldY = 0, indexClone = index;
                     paintLine(blue, 0, curY, sw);
                     for(uint16 loopi = 0; loopi < data.ilist.size; loopi++) {
                         printChar(strbuilder_charAt(data, loopi), &curX, &curY);
-                        index++;
+                        if(curY > oldY)
+                        {
+                            indexClone -= oldX + 1;
+                        }
+                        oldY = curY;
+                        oldX = curX;
                     }
+                    curX = indexClone;
                 }
                 break;
             }
