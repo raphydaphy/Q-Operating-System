@@ -103,7 +103,7 @@ uint32 charKeyPressed(string buffstr, uint8 ch, uint32 i, uint32 bufSize) {
         {
             pass = kbCapslchars[ch];
         }
-        else if(shiftDown && capslDown)
+        else if(shiftMask && capslock)
         {
             pass = kbSCModchars[ch];
         }
@@ -122,7 +122,7 @@ uint32 charKeyPressed(string buffstr, uint8 ch, uint32 i, uint32 bufSize) {
         {
             toPrint = kbCapslchars[ch];
         }
-        else if(shiftDown && capslDown)
+        else if(shiftMask && capslock)
         {
             toPrint = kbSCModchars[ch];
         }
