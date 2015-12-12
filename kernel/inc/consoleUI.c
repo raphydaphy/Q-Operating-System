@@ -2,9 +2,11 @@
 #include "kheap.h" // Do not move this line in the .h file
 
 void paintScreen(int color) {
-    for(uint16 i = 0; i < (sw * 25 * sd); i += 2)
+    string vidmem = (string) 0xb8000;
+    for(uint16 i = 0; i < (sw * 25 * sd); i++)
     {
-        printch(' ', color);
+        vidmem [i] = ' ';
+        vidmem [++i] = color;
     }
     cursorX = 0;
     cursorY = 0;
