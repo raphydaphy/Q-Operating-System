@@ -13,7 +13,7 @@ const char kbLowerChars[256] =    {
     'm', ',', '.', '/',  0 , '*',  0 , ' ',  0 ,
 };
 
-const char charsShift[256] =    {
+const char kbShiftChars[256] =    {
      0 ,  0 , '!', '@', '#', '$', '%', '^', '&', '*',
     '(', ')', '_', '+',  0 ,'\t', 'Q', 'W', 'E', 'R',
     'T', 'Y', 'U', 'I', 'O', 'P', '{', '}',  0 ,  0 ,
@@ -86,7 +86,7 @@ uint32 charKeyPressed(string buffstr, uint8 ch, uint32 i, uint32 bufSize) {
 
         if(shiftMask && !capslock)
         {
-            pass = charsShift[ch];
+            pass = kbShiftChars[ch];
         }
         else if(capslock && !shiftMask)
         {
@@ -101,7 +101,7 @@ uint32 charKeyPressed(string buffstr, uint8 ch, uint32 i, uint32 bufSize) {
     {
         if(shiftMask && !capslock)
         {
-            toPrint = charsShift[ch];
+            toPrint = kbShiftChars[ch];
         }
         else if(capslock && !shiftMask)
         {
