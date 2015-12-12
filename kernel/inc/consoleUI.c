@@ -19,6 +19,20 @@ static inline void __appendCharAt(char c, int b, uint16 x, uint16 y) {
     vidmem [(y * sw + x) * sd + 1] = b;
 }
 
+void printCharAt(char ch, int color, uint16 x, uint16 y) {
+    switch(ch) {
+    case '\r':
+    case '\n':
+        break; // Pointless chars
+    case '\b':
+        __appendCharAt(' ', color, --x, y);
+        break;
+    default:
+        __appendCharAt(ch, color, x, y);
+        break;
+    }
+}
+
 void printAt(string str, int color, uint16 x, uint16 y) {
     const uint8 length = strlen(str);
     const uint16 oldX = x; // This cannot be changed
@@ -207,12 +221,20 @@ int getKey() {
     while(true)
     {
         // if a key is presesd
+        uint8 value = getAnyKey();
+        if(value < 59) {
+            return value;
+        }
+    }
+}
+
+int getAnyKey() {
+    while(true)
+    {
+        // if a key is presesd
         if(inportb(0x64) & 0x1)
         {
-            uint8 value = inportb(0x60);
-            if(value < 59) {
-                return value;
-            }
+            return inportb(0x60);
         }
     }
 }

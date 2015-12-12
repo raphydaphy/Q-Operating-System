@@ -34,6 +34,8 @@ typedef enum {
 
 void paintScreen(int);
 
+void printCharAt(char, int, uint16, uint16);
+
 void printAt(string, int, uint16, uint16);
 
 void paintLine(int, uint16, uint16, uint16);
@@ -53,5 +55,7 @@ string messageBox_Pass(string);
 int waitUntilKey(int[]);
 
 int getKey();
+
+int getAnyKey();
 
 #endif
