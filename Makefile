@@ -74,7 +74,8 @@ qemu: $(ISO)
 .PHONY clean:
 # -f needed to  avoid error when file doesn't exist
 	@rm -rf $(ODIR)
-	@rm $(AOBJECTS)
-	@rm $(COBJECTS)
+	@rm -f $(DEPFILES)
+	@rm -f $(AOBJECTS)
+	@rm -f $(COBJECTS)
 	@rm -f $(IMGDIR)/boot/$(KERNEL)
 	@rm -f $(ISO)
