@@ -111,6 +111,7 @@ void launchShell()
             else if(streql(cmdStr, "newdir"))           {   MKDIR;                  }
             else if(streql(cmdStr, "erase"))            {   RMFILE;                 }
         	else if(streql(cmdStr, "me"))               {   me(fullArgs);           }
+        	else if(streql(cmdStr, "hi"))               {   hi(fullArgs);           }
         	else if(streql(cmdStr, "search"))           {   SEARCHFOR;              }
             else                                        {   CMDNOTFOUND;            }
             newline();
