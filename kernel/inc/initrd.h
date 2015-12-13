@@ -28,4 +28,6 @@ typedef struct
 // and returns a completed filesystem node.
 fs_node_t *initialize_initrd(uint32 location);
 
+fs_node_t* makeDir(string);
+
 #endif

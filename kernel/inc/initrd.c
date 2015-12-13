@@ -46,27 +46,8 @@ static uint32 initrd_write(fs_node_t *node, uint32 offset, uint32 size, uint8 *b
     //print(file_headers[node->inode],red);
 
     // file_headers[node->inode] = (uint8) *buffer;
-    printint(buffer[0],blue);
-
-    writerFile.name[0] = 'W';
-    writerFile.name[1] = 'r';
-    writerFile.name[2] = 'i';
-    writerFile.name[3] = 't';
-    writerFile.name[4] = 'e';
-    writerFile.name[5] = 'r';
-
-    writerFile.mask = 0;
-    writerFile.length = size;
-    writerFile.inode = initrd_header->nfiles + 1;
-    writerFile.flags = FS_FILE;
-    writerFile.read = &initrd_read;
-    writerFile.write = 0;
-    writerFile.readdir = 0;
-    writerFile.finddir = 0;
-    writerFile.open = 0;
-    writerFile.close = 0;
-    writerFile.impl = 0;
-
+    printint(buffer[0], blue);
+    makeFile("Writer", size);
 
     // memcpy(file_headers[node->inode], (uint8*) (header.offset+offset), size);
     return size;
@@ -123,20 +104,38 @@ static fs_node_t *initrd_finddir(fs_node_t *node, char *name)
     return 0;
 }
 
+fs_node_t* makeFile(string name, uint32 size) {
+    fs_node_t* newDoc = (fs_node_t*)kmalloc(sizeof(fs_node_t));
+    strcpy(newDoc->name, name);
+    newDoc->mask = newDoc->uid = newDoc->gid = 0;
+    newDoc->length = size; // Good idea...
+    newDoc->inode = initrd_header->nfiles + 1;
+    newDoc->flags = FS_FILE;
+    newDoc->read = &initrd_read;
+    newDoc->write = &initrd_write;
+    newDoc->readdir = 0;
+    newDoc->finddir = 0;
+    newDoc->open = 0;
+    newDoc->close = 0;
+    newDoc->impl = 0;
+    newDoc->ptr = 0;
+    return newDoc;
+}
+
 fs_node_t* makeDir(string name) {
-    fs_node_t* initrd_dev = (fs_node_t*)kmalloc(sizeof(fs_node_t));
-    strcpy(initrd_dev->name, name);
-    initrd_dev->mask = initrd_dev->uid = initrd_dev->gid = initrd_dev->inode = initrd_dev->length = 0;
-    initrd_dev->flags = FS_DIRECTORY;
-    initrd_dev->read = 0;
-    initrd_dev->write = 0;
-    initrd_dev->open = 0;
-    initrd_dev->close = 0;
-    initrd_dev->readdir = &initrd_readdir;
-    initrd_dev->finddir = &initrd_finddir;
-    initrd_dev->ptr = 0;
-    initrd_dev->impl = 0;
-    return initrd_dev;
+    fs_node_t* newDir = (fs_node_t*)kmalloc(sizeof(fs_node_t));
+    strcpy(newDir->name, name);
+    newDir->mask = newDir->uid = newDir->gid = newDir->inode = newDir->length = 0;
+    newDir->flags = FS_DIRECTORY;
+    newDir->read = 0;
+    newDir->write = 0;
+    newDir->open = 0;
+    newDir->close = 0;
+    newDir->readdir = &initrd_readdir;
+    newDir->finddir = &initrd_finddir;
+    newDir->ptr = 0;
+    newDir->impl = 0;
+    return newDir;
 }
 
 fs_node_t *initialize_initrd(uint32 location)
