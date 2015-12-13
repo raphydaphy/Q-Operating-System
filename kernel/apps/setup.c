@@ -1,5 +1,11 @@
 #include "setup.h"
 
+string pcName = "";
+string userName = "";
+string password = "";
+bool useQDC = false;
+string email = "";
+
 void setup()
 {
     clearLine(0,26,0x66);
