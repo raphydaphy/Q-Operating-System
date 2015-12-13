@@ -53,8 +53,6 @@ static uint32 initrd_write(fs_node_t *node, uint32 offset, uint32 size, uint8 *b
     return size;
 }
 
-
-
 static struct dirent *initrd_readdir(fs_node_t *node, uint32 index)
 {
     if (node == initrd_root)
