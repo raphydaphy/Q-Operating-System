@@ -26,5 +26,12 @@ typedef _Bool bool;
 
 #define UNUSED(x) (void)(x)
 
+typedef unsigned char	BYTE;
+
+typedef unsigned short	WORD;
+typedef unsigned short	WCHAR;
+
+typedef unsigned long	DWORD;
+
 #endif
 
