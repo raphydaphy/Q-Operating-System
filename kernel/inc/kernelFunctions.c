@@ -32,7 +32,7 @@ void launchShell()
     }
 
     #define TIP print("\nTip: If enter key does not work, it might mean that the input is too long",white);
-    #define HELP print("\nWorking Commands in Q OS: \nwriter\nclear\nexecute\nhi\nskip\nfiles\ncat\nsystem\ncalc\nme\ntest", white);
+    #define HELP print("\nWorking Commands in Q OS: \nwriter\nclear\nexecute\nskip\nfiles\ncat\nsystem\ncalc\nme\ntest", white);
     #define BIGHELP kbHelp(); TIP; HELP;
     #define SWITCHDIR print("\nThe specified directory was not found ", white);
     #define BIGCLEAR clearScreen(); printIntro();
