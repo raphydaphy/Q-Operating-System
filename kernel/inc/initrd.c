@@ -4,6 +4,7 @@ initrd_header_t *initrd_header;     // The header.
 initrd_file_header_t *file_headers; // The list of file headers.
 fs_node_t *initrd_root;             // Our root directory node.
 fs_node_t *initrd_dev;              // We also add a directory node for /dev, so we can mount devfs later on.
+fs_node_t *initrd_tmp;              // We also add a directory node for /tmp
 fs_node_t *root_nodes;              // List of file nodes.
 uint16 nroot_nodes;                 // Number of file nodes.
 fs_node_t writerFile;
@@ -75,12 +76,21 @@ static uint32 initrd_write(fs_node_t *node, uint32 offset, uint32 size, uint8 *b
 
 static struct dirent *initrd_readdir(fs_node_t *node, uint32 index)
 {
-    if (node == initrd_root && index == 0)
+    if (node == initrd_root)
     {
-      strcpy(dirent.name, "dev");
-      dirent.name[3] = 0;
-      dirent.ino = 0;
-      return &dirent;
+        switch(index)
+        {
+        case 0:
+            strcpy(dirent.name, "dev");
+            dirent.name[3] = 0;
+            dirent.ino = 0;
+            return &dirent;
+        case 1:
+            strcpy(dirent.name, "tmp");
+            dirent.name[3] = 0;
+            dirent.ino = 1;
+            return &dirent;
+        }
     }
 
     if (index-1 >= nroot_nodes)
@@ -95,15 +105,17 @@ static struct dirent *initrd_readdir(fs_node_t *node, uint32 index)
 
 static fs_node_t *initrd_finddir(fs_node_t *node, char *name)
 {
-    if (node == initrd_root && !strcmp(name, "dev") )
+    if (node == initrd_root)
     {
-        return initrd_dev;
+        if(streql(name, "dev"))
+            return initrd_dev;
+        if(streql(name, "tmp"))
+            return initrd_tmp;
     }
-
     int i;
     for (i = 0; i < nroot_nodes; i++)
     {
-        if (!strcmp(name, root_nodes[i].name))
+        if (streql(name, root_nodes[i].name))
         {
             return &root_nodes[i];
         }
@@ -111,29 +123,9 @@ static fs_node_t *initrd_finddir(fs_node_t *node, char *name)
     return 0;
 }
 
-fs_node_t *initialize_initrd(uint32 location)
-{
-    // Initialise the main and file header pointers and populate the root directory.
-    initrd_header = (initrd_header_t *)location;
-    file_headers = (initrd_file_header_t *) (location+sizeof(initrd_header_t));
-
-    // Initialise the root directory.
-    initrd_root = (fs_node_t*)kmalloc(sizeof(fs_node_t));
-    strcpy(initrd_root->name, "initrd.img");
-    initrd_root->mask = initrd_root->uid = initrd_root->gid = initrd_root->inode = initrd_root->length = 0;
-    initrd_root->flags = FS_DIRECTORY;
-    initrd_root->read = 0;
-    initrd_root->write = 0;
-    initrd_root->open = 0;
-    initrd_root->close = 0;
-    initrd_root->readdir = &initrd_readdir;
-    initrd_root->finddir = &initrd_finddir;
-    initrd_root->ptr = 0;
-    initrd_root->impl = 0;
-
-    // Initialise the /dev directory (required!)
-    initrd_dev = (fs_node_t*)kmalloc(sizeof(fs_node_t));
-    strcpy(initrd_dev->name, "dev");
+fs_node_t* makeDir(string name) {
+    fs_node_t* initrd_dev = (fs_node_t*)kmalloc(sizeof(fs_node_t));
+    strcpy(initrd_dev->name, name);
     initrd_dev->mask = initrd_dev->uid = initrd_dev->gid = initrd_dev->inode = initrd_dev->length = 0;
     initrd_dev->flags = FS_DIRECTORY;
     initrd_dev->read = 0;
@@ -144,6 +136,23 @@ fs_node_t *initialize_initrd(uint32 location)
     initrd_dev->finddir = &initrd_finddir;
     initrd_dev->ptr = 0;
     initrd_dev->impl = 0;
+    return initrd_dev;
+}
+
+fs_node_t *initialize_initrd(uint32 location)
+{
+    // Initialise the main and file header pointers and populate the root directory.
+    initrd_header = (initrd_header_t *)location;
+    file_headers = (initrd_file_header_t *) (location+sizeof(initrd_header_t));
+
+    // Initialise the root directory.
+    initrd_root = makeDir("initrd.img");
+
+    // Initialise the /dev directory (required!)
+    initrd_dev = makeDir("dev");
+    
+    // Initialise the /tmp directory (Just cuz!)
+    initrd_tmp = makeDir("tmp");
 
     root_nodes = (fs_node_t*)kmalloc(sizeof(fs_node_t) * initrd_header->nfiles);
     nroot_nodes = initrd_header->nfiles;
