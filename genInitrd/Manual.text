@@ -15,13 +15,11 @@ skip    -> Does nothing (hence the name)
 files   -> List the files and directories
 cat     -> Prints the file to the console
 system  -> Advance system option
-    Arguments:
     shutdown    -> shutdown system
     reboot      -> reboot system
     halt        -> halt system operation
-hi      -> The computer greets you back
 calc    -> Its a calculator
-    -h          -> show calculator help (needs updating)
+    -h          -> show calculator help
 
 What about keybindings?
 Ctrl-b  -> Cursor to left
@@ -32,4 +30,4 @@ Ctrl-n  -> Cursor move down
 Ctrl-z  -> Quit (for writer)
 Ctrl-l  -> Clears screen
 
-If you spot bugs or need help, feel free to contact raph.hennessy@gmail.com. He the awesome guy who started this project!
+If you spot bugs or need help, feel free to contact raph.hennessy@gmail.com. He is the awesome guy who started this project!

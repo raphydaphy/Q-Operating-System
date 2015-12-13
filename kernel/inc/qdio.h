@@ -43,5 +43,6 @@
 #include "../apps/testing.h"
 #include "../apps/setup.h"
 #include "../apps/tedi.h"
+#include "../apps/hi.h"
 
 #endif
