@@ -17,6 +17,8 @@ typedef struct {
     uint32 size;
 } hashmap_t;
 
+typedef hashmap_t map_t;
+
 hashmap_t hashmap_init();
 
 tuple_t tuple_init(string, element_t);
