@@ -21,7 +21,15 @@ hashmap_t hashmap_init();
 
 tuple_t tuple_init(string, element_t);
 
+tuple_t tuple_initNull();
+
 void hashmap_add(hashmap_t*, string, element_t);
+
+void hashmap_merge(hashmap_t*, hashmap_t);
+
+element_t hashmap_rmFirst(hashmap_t*, string);
+
+element_t* hashmap_rmAll(hashmap_t*, string);
 
 bool hashmap_hasKey(hashmap_t, string);
 
