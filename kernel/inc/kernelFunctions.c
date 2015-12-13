@@ -2,10 +2,15 @@
 
 #define MULTI_ARG_DEBUG false
 
+stackVM_t currentEnv;
+
 void launchShell()
 {
     // Setup all Q Kernel Stuff
     initialize_calc();
+
+    // Setup all StackVM
+    currentEnv = initEnv(64);
 
     //allocate some memory for command string cmdfer. 1kB should be enough for now
     const int cmdSize = 128;
@@ -113,6 +118,15 @@ void launchShell()
         	else if(streql(cmdStr, "me"))               {   me(fullArgs);           }
         	else if(streql(cmdStr, "hi"))               {   hi(fullArgs);           }
         	else if(streql(cmdStr, "search"))           {   SEARCHFOR;              }
+        	else if(streql(cmdStr, "svm"))              {
+        	    int ops[] = {
+        	        pushi, 1,       // Pushes 1
+        	        pushd, 0, 5,    // Pushes 0.5
+        	        swap,           // 1, 0.5 -> 0.5, 1
+        	        EOS             // End of prog
+    	        };
+        	    invokeOp(&currentEnv, ops, false);
+    	    }
             else                                        {   CMDNOTFOUND;            }
             newline();
         }
