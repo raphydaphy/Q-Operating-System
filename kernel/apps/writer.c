@@ -133,17 +133,61 @@ string initWriter()
                 break;
             case 0x48:
                 curY--;
+				if (curX > 79)
+				{
+					curX = 1;
+					curY++;
+				}
+
+				if (curY < 5)
+				{
+					curY = 5;
+					curX = 1;
+				}
                 break;
             case 0x4B:
                 curX--;
                 index--;
+				if (curX > 79)
+				{
+					curX = 1;
+					curY++;
+				}
+
+				if (curY < 5)
+				{
+					curY = 5;
+					curX = 1;
+				}
                 break;
             case 0x4D:
                 curX++;
                 index++;
+				if (curX > 79)
+				{
+					curX = 1;
+					curY++;
+				}
+
+				if (curY < 5)
+				{
+					curY = 5;
+					curX = 1;
+				}
                 break;
             case 0x50:
                 curY++;
+				if (curX > 79)
+				{
+					curX = 1;
+					curY++;
+				}
+
+				if (curY < 5)
+				{
+					curY = 5;
+					curX = 1;
+				}
                 break;
             case 0x0E:
             {
