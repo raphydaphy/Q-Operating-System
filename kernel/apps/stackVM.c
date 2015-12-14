@@ -23,6 +23,7 @@ uint32 invokeOp(stackVM_t* env, int opcodes[], bool debug)
 {
     int opIndex = 0;
     int currentOp = NOP;
+    list_t tryCatchNests = list_init();
     map_t jmpPoints = hashmap_init();
 
     string vidmem = (string) 0xb8000;
@@ -30,6 +31,7 @@ uint32 invokeOp(stackVM_t* env, int opcodes[], bool debug)
     strcpy(oldmem, vidmem);
     drawFrame(blue, 0, 0, sw, sh - 1);
 
+start:
     while(env->status == EXEC_SUCCESS)
     {
         currentOp = opcodes[opIndex++];
@@ -55,13 +57,52 @@ uint32 invokeOp(stackVM_t* env, int opcodes[], bool debug)
             }
             break;
         }
+        case seto:
+        {
+            int param1 = opcodes[opIndex++];
+            int param2 = opcodes[opIndex++];
+            hashmap_add(&jmpPoints, itos10(param1), makeIntElement(opIndex + param2));
+            if(debug)
+            {
+                messageBox("Added jmp point");
+            }
+            break;
+        }
+        case setz:
+        {
+            int param1 = opcodes[opIndex++];
+            int param2 = opcodes[opIndex++];
+            if(param2 < 0)
+            {
+                messageBox("\x01 Setting jump point to negative offset");
+                env->status = ILLEGAL_JOFF;
+            }
+            else
+            {
+                hashmap_add(&jmpPoints, itos10(param1), makeIntElement(param2));
+                if(debug)
+                {
+                    messageBox("Added jmp point");
+                }
+            }
+            break;
+        }
         case jmpl:
         {
             int param1 = opcodes[opIndex++];
-            opIndex = etoi(hashmap_getVal(jmpPoints, itos10(param1)));
-            if(debug)
+            element_t jmpIndex = hashmap_getVal(jmpPoints, itos10(param1));
+            if(jmpIndex.ctype != INT)
             {
-                messageBox("Jumped to jmp point");
+                messageBox("\x01 Destinated jump point has not been set");
+                env->status = ILLEGAL_JOFF;
+            }
+            else
+            {
+                opIndex = etoi(jmpIndex);
+                if(debug)
+                {
+                    messageBox("Jumped to jmp point");
+                }
             }
             break;
         }
@@ -90,6 +131,32 @@ uint32 invokeOp(stackVM_t* env, int opcodes[], bool debug)
             if(debug)
             {
                 messageBox("Jumped to offset");
+            }
+            break;
+        }
+        case tryl:
+        {
+            int param1 = opcodes[opIndex++];
+            list_addi(&tryCatchNests, param1);
+            if(debug)
+            {
+                messageBox("Registered try-catch block");
+            }
+            break;
+        }
+        case tryd:
+        {
+            if(tryCatchNests.size == 0)
+            {
+                messageBox("\x01 Ending try-catch without head");
+            }
+            else
+            {
+                list_remove(&tryCatchNests, tryCatchNests.size - 1);
+                if(debug)
+                {
+                    messageBox("Removed previously defined block");
+                }
             }
             break;
         }
@@ -341,6 +408,25 @@ uint32 invokeOp(stackVM_t* env, int opcodes[], bool debug)
                 break;
             default: break;
             }
+        }
+    }
+
+    if (tryCatchNests.size > 0)
+    {
+        // This means the cycle starts again... more spaghetti
+        int jmpLbl = etoi(list_remove(&(tryCatchNests), tryCatchNests.size - 1));
+        element_t jmpIndex = hashmap_getVal(jmpPoints, itos10(jmpLbl));
+        if(jmpIndex.ctype != INT)
+        {
+            messageBox("\x01 Destinated jump point has not been set");
+            env->status = ILLEGAL_JOFF;
+        }
+        else
+        {
+            opIndex = etoi(jmpIndex);
+            list_addi(&(env->istack), env->status);
+            env->status = EXEC_SUCCESS;
+            goto start;
         }
     }
 

@@ -33,10 +33,14 @@ typedef enum {
     rsubi = 0x17,   // None ; 1, 5 -> 1-...-5
     clrs = 0x18,    // None ; Clears the stack
     flip = 0x19,    // None ; Flips the stack
-    setl = 0x20,    // int  ; Inserts a jump point
+    setl = 0x20,    // int  ; Inserts a jump point on current spot
     jmpl = 0x21,    // int  ; Jumps to a defined jump point
     jmpz = 0x22,    // int  ; Jumps to an offset from zero
     jmpo = 0x23,    // int  ; Jumps to an offset from current spot
+    tryl = 0x24,    // int  ; If error, goto label %1 and error code is pushed on stack as int
+    tryd = 0x25,    // None ; Ends the closest try-catch block
+    seto = 0x26,    // int, int  ; Inserts a jump point to offset from current spot
+    setz = 0x27,    // int, int  ; Inserts a jump point to offset from zero
 } STACKVM_OP;
 
 typedef enum {
