@@ -448,6 +448,38 @@ start:
             }
             break;
         }
+        case inb:
+        {
+            element_t* ntail = &(env->istack.data[env->istack.size - 1]);
+            ntail->udata.intdata = inportb((uint16) ntail->udata.intdata);
+            if(debug)
+            {
+                messageBox("Got result from port");
+            }
+            break;
+        }
+        case outb:
+        {
+            element_t tail = list_remove(&(env->istack), env->istack.size - 1);
+            element_t ntail = list_remove(&(env->istack), env->istack.size - 1);
+            outportb((uint16) tail.udata.intdata, (uint8) ntail.udata.intdata);
+            if(debug)
+            {
+                messageBox("Output byte to port");
+            }
+            break;
+        }
+        case outw:
+        {
+            element_t tail = list_remove(&(env->istack), env->istack.size - 1);
+            element_t ntail = list_remove(&(env->istack), env->istack.size - 1);
+            outportw((uint16) tail.udata.intdata, (uint8) ntail.udata.intdata);
+            if(debug)
+            {
+                messageBox("Output word to port");
+            }
+            break;
+        }
         default:
             messageBox("\x01 Illegal opcode");
             if(debug)

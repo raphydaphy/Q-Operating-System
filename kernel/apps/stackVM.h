@@ -10,8 +10,8 @@ typedef struct {
     uint16 maxsize;
 } stackVM_t;
 
-//TODO: Integrate assembly functions in/outportb to this!
 //TODO: Integrate printing!!!
+//TODO: Add if based jmps
 typedef enum {
     EOS = 0x00,     // End of stream
     NOP = 0x01,     // Nothing
@@ -44,7 +44,10 @@ typedef enum {
     pop = 0x28,     // None ; Pops the last item out (destroyed)
     popc = 0x29,    // int  ; Pops a specific amount of items
     cmpt = 0x30,    // None ; Compares the next 2 items' types. 1 means same, 0 means different
-    cmpv = 0x31     // None ; Compares the next 2 items' value. Types must be same otherwise exception
+    cmpv = 0x31,    // None ; Compares the next 2 items' value. Types must be same otherwise exception
+    inb = 0x32,     // None ; Pops one value as port and pushes val as in value
+    outb = 0x33,    // None ; Pops two values and invokes outportb in asm
+    outw = 0x34     // None ; (See outb)
 } STACKVM_OP;
 
 typedef enum {
