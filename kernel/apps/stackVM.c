@@ -58,6 +58,124 @@ uint32 invokeOp(stackVM_t* env, int opcodes[], bool debug)
             }
             break;
         }
+        case addi:
+        {
+            element_t tail = list_remove(&(env->istack), env->istack.size - 1);
+            element_t* ntail = &(env->istack.data[env->istack.size - 1]);
+            ntail->udata.intdata += etoi(tail);
+            if(debug)
+            {
+                messageBox("i index(last) + index(last - 1)");
+            }
+            break;
+        }
+        case addd:
+        {
+            element_t tail = list_remove(&(env->istack), env->istack.size - 1);
+            element_t* ntail = &(env->istack.data[env->istack.size - 1]);
+            ntail->udata.floatdata += etof(tail);
+            if(debug)
+            {
+                messageBox("f index(last) + index(last - 1)");
+            }
+            break;
+        }
+        case subi:
+        {
+            element_t tail = list_remove(&(env->istack), env->istack.size - 1);
+            element_t* ntail = &(env->istack.data[env->istack.size - 1]);
+            ntail->udata.intdata -= etoi(tail);
+            if(debug)
+            {
+                messageBox("i index(last) - index(last - 1)");
+            }
+            break;
+        }
+        case subd:
+        {
+            element_t tail = list_remove(&(env->istack), env->istack.size - 1);
+            element_t* ntail = &(env->istack.data[env->istack.size - 1]);
+            ntail->udata.floatdata -= etof(tail);
+            if(debug)
+            {
+                messageBox("f index(last) - index(last - 1)");
+            }
+            break;
+        }
+        case muli:
+        {
+            element_t tail = list_remove(&(env->istack), env->istack.size - 1);
+            element_t* ntail = &(env->istack.data[env->istack.size - 1]);
+            ntail->udata.intdata *= etoi(tail);
+            if(debug)
+            {
+                messageBox("i index(last) * index(last - 1)");
+            }
+            break;
+        }
+        case muld:
+        {
+            element_t tail = list_remove(&(env->istack), env->istack.size - 1);
+            element_t* ntail = &(env->istack.data[env->istack.size - 1]);
+            ntail->udata.floatdata *= etof(tail);
+            if(debug)
+            {
+                messageBox("f index(last) * index(last - 1)");
+            }
+            break;
+        }
+        case divi:
+        {
+            element_t tail = list_remove(&(env->istack), env->istack.size - 1);
+            element_t* ntail = &(env->istack.data[env->istack.size - 1]);
+            ntail->udata.intdata /= etoi(tail);
+            if(debug)
+            {
+                messageBox("i index(last) * index(last - 1)");
+            }
+            break;
+        }
+        case divd:
+        {
+            element_t tail = list_remove(&(env->istack), env->istack.size - 1);
+            element_t* ntail = &(env->istack.data[env->istack.size - 1]);
+            ntail->udata.floatdata /= etof(tail);
+            if(debug)
+            {
+                messageBox("f index(last) * index(last - 1)");
+            }
+            break;
+        }
+        case ci_d:
+        {
+            element_t* tail = &(env->istack.data[env->istack.size - 1]);
+            if(tail->ctype == INT)
+            {
+                int f = etoi(*tail);
+                tail->ctype = FLT;
+                if(debug)
+                {
+                    messageBox("Casted Int to Double");
+                }
+                tail->udata.floatdata = (float) f;
+            }
+            break;
+        }
+        case cd_i:
+        {
+            element_t* tail = &(env->istack.data[env->istack.size - 1]);
+            if(tail->ctype == FLT)
+            {
+                float f = etof(*tail);
+                tail->ctype = INT;
+                if(debug)
+                {
+                    messageBox("Casted Double to Int");
+                }
+                tail->udata.intdata = (int) f;
+            }
+            break;
+        }
         case swap:
         {
             element_t tail = env->istack.data[env->istack.size - 1];
@@ -79,11 +197,11 @@ uint32 invokeOp(stackVM_t* env, int opcodes[], bool debug)
             strcpy(vidmem, oldmem);
             return 1; // 1 means unknown operand
         }
+        drawFrame(blue, 0, 0, sw, sh - 1);
         printAt("First Value", black, 2, 4);
         element_t tmp;
         for(uint32 stacki = 0 ; stacki < env->istack.size; stacki++) 
         {
-            paintLine(black, 2, stacki + 5, sw - 1);
             tmp = env->istack.data[stacki];
             switch(tmp.ctype) {
             case INT:

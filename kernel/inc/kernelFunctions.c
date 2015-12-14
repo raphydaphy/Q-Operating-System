@@ -123,6 +123,14 @@ void launchShell()
         	        pushi, 1,       // Pushes 1
         	        pushd, 0, 5,    // Pushes 0.5
         	        swap,           // 1, 0.5 -> 0.5, 1
+        	        ci_d,           // 1 -> 1.0
+        	        addd,           // 0.5 + 1
+        	        pushd, 1, 0,    // Pushes 1.0
+        	        subd,           // 1.5 - 1.0
+        	        pushd, 3, 0,    // Pushes 3.0
+        	        muld,           // 0.5 * 3
+        	        pushd, 3, 0,    // Pushes 3.0
+        	        divd,           // 1.5 / 3.0
         	        EOS             // End of prog
     	        };
         	    invokeOp(&currentEnv, ops, false);
