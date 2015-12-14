@@ -717,7 +717,6 @@ start:
 
     if (tryCatchNests.size > 0)
     {
-        // This means the cycle starts again... more spaghetti
         int jmpLbl = etoi(list_remove(&(tryCatchNests), tryCatchNests.size - 1));
         element_t jmpIndex = hashmap_getVal(jmpPoints, itos10(jmpLbl));
         if(jmpIndex.ctype != INT)
@@ -730,6 +729,7 @@ start:
             opIndex = etoi(jmpIndex);
             list_addi(&(env->istack), env->status);
             env->status = EXEC_SUCCESS;
+            // This means the cycle starts again... more spaghetti
             goto start;
         }
     }
