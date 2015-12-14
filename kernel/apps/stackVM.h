@@ -6,7 +6,8 @@
 typedef struct {
     list_t istack;
     map_t  varmap;
-    uint32 status;
+    uint16 status;
+    uint16 maxsize;
 } stackVM_t;
 
 typedef enum {
@@ -24,7 +25,12 @@ typedef enum {
     muli = 0x11,    // None
     muld = 0x12,    // None
     divi = 0x13,    // None
-    divd = 0x14     // None
+    divd = 0x14,    // None
+    modi = 0x15,    // None; Also modd does not exist!
+    raddi = 0x16,   // None; 1, 5 -> 1+...+5
+    rsubi = 0x17,   // None; 1, 5 -> 1-...-5
+    clrs = 0x18,    // None; Clears the stack
+    flip = 0x19     // None; Flips the stack
 } STACKVM_OP;
 
 typedef enum {

@@ -3,6 +3,7 @@
 stackVM_t initEnv(uint16 stackSize)
 {
     stackVM_t env;
+    env.maxsize = stackSize;
     env.istack = list_init_s(stackSize);
     env.varmap = hashmap_init();
     env.status = EXEC_SUCCESS;
@@ -11,10 +12,9 @@ stackVM_t initEnv(uint16 stackSize)
 
 void cleanEnv(stackVM_t* env)
 {
-    uint16 oldCapt = env->istack.capt;
     list_destroy(&(env->istack));
     hashmap_destroy(&(env->varmap));
-    env->istack = list_init_s(oldCapt);
+    env->istack = list_init_s(env->maxsize);
     env->varmap = hashmap_init();
     env->status = EXEC_SUCCESS;
 }
@@ -43,7 +43,7 @@ uint32 invokeOp(stackVM_t* env, int opcodes[], bool debug)
         case EOS:
             messageBox("Done!!!");
             env->status = EXEC_SUCCESS;
-            break;
+            goto end;
         case pushi:
         {
             int param1 = opcodes[opIndex++];
@@ -169,6 +169,47 @@ uint32 invokeOp(stackVM_t* env, int opcodes[], bool debug)
             }
             break;
         }
+        case modi:
+        {
+            element_t tail = list_remove(&(env->istack), env->istack.size - 1);
+            element_t* ntail = &(env->istack.data[env->istack.size - 1]);
+            int tmp = etoi(tail);
+            if(tmp == 0) {
+                env->status = DIVI_BY_ZERO;
+                messageBox("\x01 Divide by zero");
+            } else {
+                ntail->udata.intdata %= tmp;
+                if(debug)
+                {
+                    messageBox("i index(last) % index(last - 1)");
+                }
+            }
+            break;
+        }
+        case raddi:
+        {
+            element_t tail = list_remove(&(env->istack), env->istack.size - 1);
+            element_t* ntail = &(env->istack.data[env->istack.size - 1]);
+            int left = ntail->udata.intdata;
+            ntail->udata.intdata = addRange(left, etoi(tail));
+            if(debug)
+            {
+                messageBox("i index(last) + ... + index(last - 1)");
+            }
+            break;
+        }
+        case rsubi:
+        {
+            element_t tail = list_remove(&(env->istack), env->istack.size - 1);
+            element_t* ntail = &(env->istack.data[env->istack.size - 1]);
+            int left = ntail->udata.intdata;
+            ntail->udata.intdata = subRange(left, etoi(tail));
+            if(debug)
+            {
+                messageBox("i index(last) - ... - index(last - 1)");
+            }
+            break;
+        }
         case ci_d:
         {
             element_t* tail = &(env->istack.data[env->istack.size - 1]);
@@ -211,6 +252,21 @@ uint32 invokeOp(stackVM_t* env, int opcodes[], bool debug)
             }
             break;
         }
+        case clrs:
+            list_destroy(&(env->istack));
+            env->istack = list_init_s(env->maxsize);
+            if(debug)
+            {
+                messageBox("Stack cleared");
+            }
+            break;
+        case flip:
+            list_flip(&env->istack);
+            if(debug)
+            {
+                messageBox("Stack reversed");
+            }
+            break;
         default:
             messageBox("\x01 Illegal opcode");
             if(debug)
@@ -238,6 +294,8 @@ uint32 invokeOp(stackVM_t* env, int opcodes[], bool debug)
             }
         }
     }
+
+end: // Once again... I am sorry for this spaghetti business
     strcpy(vidmem, oldmem);
     return env->status;
 }
