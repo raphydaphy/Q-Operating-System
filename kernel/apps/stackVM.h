@@ -44,7 +44,7 @@ typedef enum {
     pop = 0x28,     // None ; Pops the last item out (destroyed)
     popc = 0x29,    // int  ; Pops a specific amount of items
     cmpt = 0x30,    // None ; Compares the next 2 items' types. 1 means same, 0 means different
-    cmpv = 0x31,    // None ; Compares the next 2 items' value. Types must be same otherwise exception
+    eqlv = 0x31,    // None ; Compares the next 2 items' value. Types must be same otherwise exception
     inb = 0x32,     // None ; Pops one value as port and pushes val as in value
     outb = 0x33,    // None ; Pops two values and invokes outportb in asm
     outw = 0x34,    // None ; (See outb)
@@ -56,7 +56,11 @@ typedef enum {
     notb = 0x40,    // None ; ~ or ! operator in C
     _hlt = 0x41,    // None ; asm "hlt"
     _cli = 0x42,    // None ; asm "cli"
-    _sti = 0x43    // None ; asm "sti"
+    _sti = 0x43,    // None ; asm "sti"
+    cmpv = 0x44,    // None ; Compares the next 2 items' value. Types must be same otherwise exception
+    ifjl = 0x45,    // int  ; If true (1), Jumps to a defined jump point
+    ifjz = 0x46,    // int  ; If true (1), Jumps to an offset from zero
+    ifjo = 0x47,    // int  ; If true (1), Jumps to an offset from current spot
 } STACKVM_OP;
 
 typedef enum {

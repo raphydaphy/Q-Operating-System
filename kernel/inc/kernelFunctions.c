@@ -144,9 +144,12 @@ void launchShell()
 
                     pushi, 55,
 
-                    cmpv,           // Test to see if result is same
-
-                    setl, 3,        // new label for CPU halt simulation
+                    eqlv,           // Test to see if result is same
+                    
+                    seto, 3, 1,     // new label for CPU halt simulation
+                    notb,           // Flip the value
+                    ifjl, 3,        // (Translated) if (55 != 55) goto label 3
+                    jmpo, 3,        // (Translated) else move out of the way
                     _hlt,           // GG
                     jmpl, 3,        // jmp label 3
         	        EOS             // End of prog

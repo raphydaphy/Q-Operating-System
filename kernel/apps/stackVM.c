@@ -134,6 +134,87 @@ start:
             }
             break;
         }
+        case ifjl:
+        {
+            int param1 = opcodes[opIndex++];
+            element_t tail = list_remove(&(env->istack), env->istack.size - 1);
+            if(tail.udata.intdata)
+            {
+                element_t jmpIndex = hashmap_getVal(jmpPoints, itos10(param1));
+                if(jmpIndex.ctype != INT)
+                {
+                    messageBox("\x01 Destinated jump point has not been set");
+                    env->status = ILLEGAL_JOFF;
+                }
+                else
+                {
+                    opIndex = etoi(jmpIndex);
+                    if(debug)
+                    {
+                        messageBox("Jumped to jmp point after condition");
+                    }
+                }
+            }
+            else
+            {
+                if(debug)
+                {
+                    messageBox("Conditional is false. Ignore jump");
+                }
+            }
+            break;
+        }
+        case ifjz:
+        {
+            int param1 = opcodes[opIndex++];
+            element_t tail = list_remove(&(env->istack), env->istack.size - 1);
+            if(tail.udata.intdata)
+            {
+                if(param1 < 0)
+                {
+                    messageBox("\x01 Jumping to negative offset");
+                    env->status = ILLEGAL_JOFF;
+                }
+                else
+                {
+                    opIndex = param1;
+                    if(debug)
+                    {
+                        messageBox("Jumped to offset after condition");
+                    }
+                }
+            }
+            else
+            {
+                if(debug)
+                {
+                    messageBox("Conditional is false. Ignore jump");
+                }
+            }
+            break;
+        }
+        case ifjo:
+        {
+            int param1 = opcodes[opIndex++];
+            element_t tail = list_remove(&(env->istack), env->istack.size - 1);
+            if(tail.udata.intdata)
+            {
+                opIndex += param1;
+                if(debug)
+                {
+                    messageBox("Jumped to offset after condition");
+                }
+            }
+            else
+            {
+                if(debug)
+                {
+                    messageBox("Conditional is false. Ignore jump");
+                }
+            }
+            break;
+        }
+        
         case tryl:
         {
             int param1 = opcodes[opIndex++];
@@ -502,7 +583,7 @@ start:
             }
             break;
         }
-        case cmpv:
+        case eqlv:
         {
             element_t tail = list_remove(&(env->istack), env->istack.size - 1);
             element_t* ntail = &(env->istack.data[env->istack.size - 1]);
@@ -518,6 +599,33 @@ start:
                 else
                 {
                     messageBox("Val of index(last) index(last - 1) diff");
+                }
+            }
+            break;
+        }
+        case cmpv:
+        {
+            element_t tail = list_remove(&(env->istack), env->istack.size - 1);
+            element_t* ntail = &(env->istack.data[env->istack.size - 1]);
+            rehash(ntail);
+            rehash(&tail);
+            ntail->udata.intdata = cmpElement_t(*ntail, tail);
+            if(debug)
+            {
+                switch(ntail->udata.intdata)
+                {
+                case -1:
+                    messageBox("Val of index(last) < index(last - 1)");
+                    break;
+                case 0:
+                    messageBox("Val of index(last) = index(last - 1)");
+                    break;
+                case 1:
+                    messageBox("Val of index(last) > index(last - 1)");
+                    break;
+                default:
+                    messageBox("\x02 Illegal state... Please contact one of the\r\ndevs for assitance");
+                    break;
                 }
             }
             break;
