@@ -21,6 +21,7 @@ void system(string args)
     {
         if(messageBox_YN("This will indefinately suspend your\n\rcomputer. Are you sure?") == 1)
         {
+            messageBox("Have a good life :)");
             halt();
         }
     }
@@ -42,6 +43,7 @@ void system(string args)
         println("- Plankp T", light_green);// light green for a main contributer
         println("- Raph Hennessy", purple);// purple for owner :)
         println("- Stanislaus Krisna", light_green);//stnkrisna (main contributer)
+        println("- Tedi Bear",brown); // brown for dead
         print("- Talip Goeksu", cyan); // cyan for trusted
     }
     else
