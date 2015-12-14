@@ -383,6 +383,71 @@ start:
                 messageBox("Stack reversed");
             }
             break;
+        case pop:
+            if(env->istack.size > 0)
+            {
+                list_remove(&(env->istack), env->istack.size - 1);
+                if(debug)
+                {
+                    messageBox("Item was pop-d");
+                }
+            }
+            break;
+        case popc:
+        {
+            int param1 = opcodes[opIndex++];
+            while(param1-- > 0)
+            {
+                if(env->istack.size == 0) // Its unsigned
+                {
+                    break;
+                }
+                list_remove(&(env->istack), env->istack.size - 1);
+            }
+            if(debug)
+            {
+                messageBox("Items were pop-d");
+            }
+            break;
+        }
+        case cmpt:
+        {
+            element_t tail = list_remove(&(env->istack), env->istack.size - 1);
+            element_t* ntail = &(env->istack.data[env->istack.size - 1]);
+            ntail->udata.intdata = ntail->ctype == tail.ctype;
+            if(debug)
+            {
+                if(ntail->udata.intdata)
+                {
+                    messageBox("Type of index(last) index(last - 1) same");
+                }
+                else
+                {
+                    messageBox("Type of index(last) index(last - 1) diff");
+                }
+            }
+            break;
+        }
+        case cmpv:
+        {
+            element_t tail = list_remove(&(env->istack), env->istack.size - 1);
+            element_t* ntail = &(env->istack.data[env->istack.size - 1]);
+            rehash(ntail);
+            rehash(&tail);
+            ntail->udata.intdata = eqlElement_t(*ntail, tail);
+            if(debug)
+            {
+                if(ntail->udata.intdata)
+                {
+                    messageBox("Val of index(last) index(last - 1) same");
+                }
+                else
+                {
+                    messageBox("Val of index(last) index(last - 1) diff");
+                }
+            }
+            break;
+        }
         default:
             messageBox("\x01 Illegal opcode");
             if(debug)
