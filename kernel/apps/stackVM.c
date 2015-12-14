@@ -394,19 +394,19 @@ start:
         case putf:
         {
             element_t tail = list_remove(&(env->istack), env->istack.size - 1);
-            printfloat(etof(tail), black);
+            printf("%f", etof(tail));
             break;
         }
         case puti:
         {
             element_t tail = list_remove(&(env->istack), env->istack.size - 1);
-            printint(etoi(tail), black);
+            printf("%d", etoi(tail));
             break;
         }
         case putc:
         {
             element_t tail = list_remove(&(env->istack), env->istack.size - 1);
-            printch((char) etoi(tail), black);
+            printf("%c", etoi(tail));
             break;
         }
         case cmpt:
@@ -475,6 +475,12 @@ start:
             string msg = " ";
             msg[0] = (char) etoi(tail);
             messageBox(msg);
+            break;
+        }
+        case dup:
+        {
+            element_t tail = env->istack.data[env->istack.size - 1];
+            list_adde(&(env->istack), tail);
             break;
         }
         default:
