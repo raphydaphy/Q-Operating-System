@@ -152,6 +152,10 @@ void launchShell()
                     jmpo, 3,        // (Translated) else move out of the way
                     _hlt,           // GG
                     jmpl, 3,        // jmp label 3
+
+                    pushi, 10,      // Pushes 10
+                    defi, 0,        // "0" -> 10
+                    geti, 0,        // Getting value of "0"
         	        EOS             // End of prog
     	        };
         	    invokeOp(&currentEnv, ops, false);

@@ -11,7 +11,6 @@ typedef struct {
 } stackVM_t;
 
 //TODO: Integrate printing!!!
-//TODO: Add if based jmps
 typedef enum {
     EOS = 0x00,     // End of stream
     NOP = 0x01,     // Nothing
@@ -61,6 +60,10 @@ typedef enum {
     ifjl = 0x45,    // int  ; If true (1), Jumps to a defined jump point
     ifjz = 0x46,    // int  ; If true (1), Jumps to an offset from zero
     ifjo = 0x47,    // int  ; If true (1), Jumps to an offset from current spot
+    defi = 0x48,    // int  ; Param1 = %1i
+    deff = 0x49,    // int  ; Param1 = %1f
+    geti = 0x50,    // int  ; Push ivalue linked to Param1 in stack
+    getf = 0x51     // int  ; Push fvalue linked to Param1 in stack
 } STACKVM_OP;
 
 typedef enum {

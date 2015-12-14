@@ -68,22 +68,47 @@ start:
             }
             break;
         }
-        case setz:
+        case defi:
         {
             int param1 = opcodes[opIndex++];
-            int param2 = opcodes[opIndex++];
-            if(param2 < 0)
+            int tail = etoi(list_remove(&(env->istack), env->istack.size - 1));
+            hashmap_add(&(env->varmap), itos10(param1), makeIntElement(tail));
+            if(debug)
             {
-                messageBox("\x01 Setting jump point to negative offset");
-                env->status = ILLEGAL_JOFF;
+                messageBox("i Defined variable");
             }
-            else
+            break;
+        }
+        case deff:
+        {
+            int param1 = opcodes[opIndex++];
+            float tail = etoi(list_remove(&(env->istack), env->istack.size - 1));
+            hashmap_add(&(env->varmap), itos10(param1), makeFloatElement(tail));
+            if(debug)
             {
-                hashmap_add(&jmpPoints, itos10(param1), makeIntElement(param2));
-                if(debug)
-                {
-                    messageBox("Added jmp point");
-                }
+                messageBox("f Defined variable");
+            }
+            break;
+        }
+        case geti:
+        {
+            int param1 = opcodes[opIndex++];
+            int i = etoi(hashmap_getVal(env->varmap, itos10(param1)));
+            list_addi(&(env->istack), i);
+            if(debug)
+            {
+                messageBox("f Pushed variable value");
+            }
+            break;
+        }
+        case getf:
+        {
+            int param1 = opcodes[opIndex++];
+            float f = etof(hashmap_getVal(env->varmap, itos10(param1)));
+            list_addf(&(env->istack), f);
+            if(debug)
+            {
+                messageBox("f Pushed variable value");
             }
             break;
         }
