@@ -29,6 +29,7 @@
 #include "stringUtils.h"
 #include "timer.h"
 #include "graphUtils.h"
+#include "stdarg.h"
 
 // Q Applications
 #include "../apps/user.h"
