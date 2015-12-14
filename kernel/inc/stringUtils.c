@@ -1,6 +1,19 @@
 #include "stringUtils.h"
 #include "kheap.h" // THIS LINE MUST BE HERE!!!
 
+int lastArg(string args)
+{
+	int tmp = 0;
+	while (true)
+	{
+		tmp++;
+		if (streql(splitArg(args, tmp)," "))
+		{
+			return tmp - 1;
+		}
+    }
+}
+
 uint16 strlen(string ch)
 {
     uint16 i = 0;
@@ -331,4 +344,3 @@ int strHash(string s) {
     tmp &= (tmp ^ 7) >> 4;
     return tmp;
 }
-

@@ -32,6 +32,8 @@ string ftos(float);
 
 string get0Arg(string);
 
+int lastArg(string);
+
 string splitArg(string, int);
 
 int stoi(string);
