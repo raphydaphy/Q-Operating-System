@@ -41,6 +41,8 @@ typedef enum {
     tryd = 0x25,    // None ; Ends the closest try-catch block
     seto = 0x26,    // int, int  ; Inserts a jump point to offset from current spot
     setz = 0x27,    // int, int  ; Inserts a jump point to offset from zero
+    pop = 0x28,     // None ; Pops the last item out (destroyed)
+    popc = 0x29,    // int  ; Pops a specific amount of items
 } STACKVM_OP;
 
 typedef enum {

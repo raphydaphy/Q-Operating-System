@@ -383,6 +383,33 @@ start:
                 messageBox("Stack reversed");
             }
             break;
+        case pop:
+            if(env->istack.size > 0)
+            {
+                list_remove(&(env->istack), env->istack.size - 1);
+                if(debug)
+                {
+                    messsageBox("Item was pop-d");
+                }
+            }
+            break;
+        case popc:
+        {
+            int param1 = opcodes[opIndex++];
+            while(param1-- > 0)
+            {
+                if(env->istack.size == 0) // Its unsigned
+                {
+                    break;
+                }
+                list_remove(&(env->istack), env->istack.size - 1);
+            }
+            if(debug)
+            {
+                messsageBox("Items were pop-d");
+            }
+            break;
+        }
         default:
             messageBox("\x01 Illegal opcode");
             if(debug)
