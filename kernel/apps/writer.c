@@ -211,7 +211,8 @@ end: // Sorry for the mom spaghetti code
     }
     strbuilder_destroy(&data);
     capslock = capslDown;
-    cursorX = cursorY = 0;
+    cursorX = 1;
+	cursorY = 5;
     print(msg, black);
     return msg;
 }
