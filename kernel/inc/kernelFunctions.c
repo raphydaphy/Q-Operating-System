@@ -131,9 +131,12 @@ void launchShell()
         	        muld,           // 0.5 * 3
         	        pushd, 3, 0,    // Pushes 3.0
         	        divd,           // 1.5 / 3.0
+        	        pushd, 0, 0,    // Pushes 0.0
+        	        divd,           // 0.5 / 0.0
         	        EOS             // End of prog
     	        };
         	    invokeOp(&currentEnv, ops, false);
+        	    cleanEnv(&currentEnv);
     	    }
             else                                        {   CMDNOTFOUND;            }
             newline();

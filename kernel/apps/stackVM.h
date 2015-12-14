@@ -6,6 +6,7 @@
 typedef struct {
     list_t istack;
     map_t  varmap;
+    uint32 status;
 } stackVM_t;
 
 typedef enum {
@@ -26,9 +27,15 @@ typedef enum {
     divd = 0x14     // None
 } STACKVM_OP;
 
-#define EXEC_SUCCESS 0
+typedef enum {
+    EXEC_SUCCESS = 0,
+    ILLEGAL_OPND = 1,
+    DIVI_BY_ZERO = 2
+} statusCode;
 
 stackVM_t initEnv(uint16);
+
+void cleanEnv(stackVM_t*);
 
 uint32 invokeOp(stackVM_t*, int[], bool);
 
