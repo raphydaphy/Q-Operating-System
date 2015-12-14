@@ -367,6 +367,15 @@ start:
             }
             break;
         }
+        case _hlt:
+            __asm__ __volatile__("hlt");
+            break;
+        case _cli:
+            __asm__ __volatile__("cli");
+            break;
+        case _sti:
+            __asm__ __volatile__("sti");
+            break;
         case raddi:
         {
             element_t tail = list_remove(&(env->istack), env->istack.size - 1);

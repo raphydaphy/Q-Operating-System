@@ -54,6 +54,9 @@ typedef enum {
     orb = 0x38,     // None ; | operator in C
     xorb = 0x39,    // None ; ^ operator in C
     notb = 0x40,    // None ; ~ or ! operator in C
+    _hlt = 0x41,    // None ; asm "hlt"
+    _cli = 0x42,    // None ; asm "cli"
+    _sti = 0x43    // None ; asm "sti"
 } STACKVM_OP;
 
 typedef enum {

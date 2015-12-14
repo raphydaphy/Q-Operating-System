@@ -145,7 +145,10 @@ void launchShell()
                     pushi, 55,
 
                     cmpv,           // Test to see if result is same
-//                  jmpl, 0,        // jmp label 0
+
+                    setl, 3,        // new label for CPU halt simulation
+                    _hlt,           // GG
+                    jmpl, 3,        // jmp label 3
         	        EOS             // End of prog
     	        };
         	    invokeOp(&currentEnv, ops, false);
