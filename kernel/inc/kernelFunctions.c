@@ -153,12 +153,15 @@ void launchShell()
                     _hlt,           // GG
                     jmpl, 3,        // jmp label 3
 
-                    pushi, 10,      // Pushes 10
+                    pushi, 0xA,      // Pushes 10
                     defi, 0,        // "0" -> 10
                     geti, 0,        // Getting value of "0"
+                    putc,
+                    pushi, 0x01,    // Pushes 0x01
+                    putc,
         	        EOS             // End of prog
     	        };
-        	    invokeOp(&currentEnv, ops, false);
+        	    invokeOp(&currentEnv, ops);
         	    cleanEnv(&currentEnv);
     	    }
             else                                        {   CMDNOTFOUND;            }

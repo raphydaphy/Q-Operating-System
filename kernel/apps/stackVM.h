@@ -64,21 +64,23 @@ typedef enum {
     deff = 0x49,    // int  ; Param1 = %1f
     geti = 0x50,    // int  ; Push ivalue linked to Param1 in stack
     getf = 0x51,    // int  ; Push fvalue linked to Param1 in stack
-    putf = 0x52,    // None ; 
-    ca_i = 0x53,
+    putf = 0x52,    // None ; prints %1
+    puti = 0x53,    // None ; prints itos10(%1)
+    putc = 0x54,    // None ; prints (char) %1
 } STACKVM_OP;
 
 typedef enum {
     EXEC_SUCCESS = 0,
     ILLEGAL_OPND = 1,
     DIVI_BY_ZERO = 2,
-    ILLEGAL_JOFF = 3
+    ILLEGAL_JOFF = 3,
+    ILLEGAL_TRYB = 4
 } statusCode;
 
 stackVM_t initEnv(uint16);
 
 void cleanEnv(stackVM_t*);
 
-uint32 invokeOp(stackVM_t*, int[], bool);
+uint32 invokeOp(stackVM_t*, int[]);
 
 #endif
