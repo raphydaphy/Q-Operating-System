@@ -63,7 +63,9 @@ typedef enum {
     defi = 0x48,    // int  ; Param1 = %1i
     deff = 0x49,    // int  ; Param1 = %1f
     geti = 0x50,    // int  ; Push ivalue linked to Param1 in stack
-    getf = 0x51     // int  ; Push fvalue linked to Param1 in stack
+    getf = 0x51,    // int  ; Push fvalue linked to Param1 in stack
+    putf = 0x52,    // None ; 
+    ca_i = 0x53,
 } STACKVM_OP;
 
 typedef enum {
