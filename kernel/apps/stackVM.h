@@ -67,6 +67,10 @@ typedef enum {
     putf = 0x52,    // None ; prints %1
     puti = 0x53,    // None ; prints itos10(%1)
     putc = 0x54,    // None ; prints (char) %1
+    blnk = 0x55,    // None ; Clears screen
+    infbf = 0x56,   // None ; A infomation box
+    infbi = 0x57,   // None ; A infomation box
+    infbc = 0x58,   // None ; A infomation box
 } STACKVM_OP;
 
 typedef enum {

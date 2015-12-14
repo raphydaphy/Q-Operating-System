@@ -454,6 +454,29 @@ start:
             outportw((uint16) tail.udata.intdata, (uint8) ntail.udata.intdata);
             break;
         }
+        case blnk:
+            clearScreen();
+            break;
+        case infbf:
+        {
+            element_t tail = list_remove(&(env->istack), env->istack.size - 1);
+            messageBox(ftos(etof(tail)));
+            break;
+        }
+        case infbi:
+        {
+            element_t tail = list_remove(&(env->istack), env->istack.size - 1);
+            messageBox(itos10(etoi(tail)));
+            break;
+        }
+        case infbc:
+        {
+            element_t tail = list_remove(&(env->istack), env->istack.size - 1);
+            string msg = " ";
+            msg[0] = (char) etoi(tail);
+            messageBox(msg);
+            break;
+        }
         default:
             env->status = ILLEGAL_OPND;
         }

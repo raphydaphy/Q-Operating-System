@@ -119,6 +119,7 @@ void launchShell()
         	else if(streql(cmdStr, "search"))           {   SEARCHFOR;              }
         	else if(streql(cmdStr, "svm"))              {
         	    int ops[] = {
+        	        blnk,           // Clears the terminal
         	        pushi, 1,       // Pushes 1
         	        pushd, 0, 5,    // Pushes 0.5
         	        swap,           // 1, 0.5 -> 0.5, 1
@@ -156,9 +157,8 @@ void launchShell()
                     pushi, 0xA,      // Pushes 10
                     defi, 0,        // "0" -> 10
                     geti, 0,        // Getting value of "0"
-                    putc,
                     pushi, 0x01,    // Pushes 0x01
-                    putc,
+                    infbc,          // Prints in messagebox
         	        EOS             // End of prog
     	        };
         	    invokeOp(&currentEnv, ops);
