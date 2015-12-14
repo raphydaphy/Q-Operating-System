@@ -129,6 +129,17 @@ string initWriter()
                 capslDown = !capslDown;
                 break;
             case 0x1C:
+				if (curX > 79)
+				{
+					curX = 1;
+					curY++;
+				}
+
+				if (curY < 5)
+				{
+					curY = 5;
+					curX = 1;
+				}
                 appendln(&data, &curX, &curY, &index);
                 break;
             case 0x48:
@@ -227,10 +238,11 @@ string initWriter()
                     }
                     strbuilder_insertc(&data, charInput, index++);
                     // Hahaha... RE-PRINT THE ENTIRE STRB!!!
-                    curX = 0; curY = 0;
-                    uint16 oldX = 0, oldY = 0, indexClone = index;
-                    paintLine(blue, 0, curY, sw);
-                    for(uint16 loopi = 0; loopi < data.ilist.size; loopi++) {
+					// turns out to be a bad idea because it glitches :(
+                    curX = 1; curY = 5;
+                    uint16 oldX = 1, oldY = 5, indexClone = index;
+                    paintLine(blue, 1, curY, sw);
+                    for(uint16 loopi = 1; loopi < data.ilist.size; loopi++) {
                         printChar(strbuilder_charAt(data, loopi), &curX, &curY);
                         if(curY > oldY)
                         {
