@@ -305,10 +305,9 @@ void writer(string args)
 	}
 	else
 	{
-		writing = true;
+		//writing = true;
 		writerContents = initWriter();
-		writing = false;
-
+		//writing = false;
 		clearScreen();
 	}
 }
