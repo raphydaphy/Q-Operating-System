@@ -66,6 +66,10 @@ void oldWriter()
 
 string initWriter()
 {
+	string vidmem = (string) 0xb8000;
+    char oldmem[strlen(vidmem)];
+    strcpy(oldmem, vidmem);
+
 	paintScreen(screen_color);
 
 	drawFrame(header_background, 0, 0, 80, 4);
@@ -275,6 +279,7 @@ string initWriter()
     }
 end: // Sorry for the mom spaghetti code
     // Must be last line (before any prints)
+	strcpy(vidmem, oldmem);
     string msg = strbuilder_tostr(data);
     if(msg == NULL)
     {
