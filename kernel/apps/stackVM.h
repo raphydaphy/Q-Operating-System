@@ -47,7 +47,13 @@ typedef enum {
     cmpv = 0x31,    // None ; Compares the next 2 items' value. Types must be same otherwise exception
     inb = 0x32,     // None ; Pops one value as port and pushes val as in value
     outb = 0x33,    // None ; Pops two values and invokes outportb in asm
-    outw = 0x34     // None ; (See outb)
+    outw = 0x34,    // None ; (See outb)
+    sftl = 0x35,    // None ; << operator in C
+    sftr = 0x36,    // None ; >> operator in C
+    andb = 0x37,    // None ; & operator in C
+    orb = 0x38,     // None ; | operator in C
+    xorb = 0x39,    // None ; ^ operator in C
+    notb = 0x40,    // None ; ~ or ! operator in C
 } STACKVM_OP;
 
 typedef enum {

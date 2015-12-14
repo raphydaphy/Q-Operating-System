@@ -302,6 +302,71 @@ start:
             }
             break;
         }
+        case sftl:
+        {
+            element_t tail = list_remove(&(env->istack), env->istack.size - 1);
+            element_t* ntail = &(env->istack.data[env->istack.size - 1]);
+            ntail->udata.intdata <<= etoi(tail);
+            if(debug)
+            {
+                messageBox("i index(last) % index(last - 1)");
+            }
+            break;
+        }
+        case sftr:
+        {
+            element_t tail = list_remove(&(env->istack), env->istack.size - 1);
+            element_t* ntail = &(env->istack.data[env->istack.size - 1]);
+            ntail->udata.intdata >>= etoi(tail);
+            if(debug)
+            {
+                messageBox("i index(last) % index(last - 1)");
+            }
+            break;
+        }
+        case andb:
+        {
+            element_t tail = list_remove(&(env->istack), env->istack.size - 1);
+            element_t* ntail = &(env->istack.data[env->istack.size - 1]);
+            ntail->udata.intdata &= etoi(tail);
+            if(debug)
+            {
+                messageBox("i index(last) % index(last - 1)");
+            }
+            break;
+        }
+        case orb:
+        {
+            element_t tail = list_remove(&(env->istack), env->istack.size - 1);
+            element_t* ntail = &(env->istack.data[env->istack.size - 1]);
+            ntail->udata.intdata |= etoi(tail);
+            if(debug)
+            {
+                messageBox("i index(last) % index(last - 1)");
+            }
+            break;
+        }
+        case xorb:
+        {
+            element_t tail = list_remove(&(env->istack), env->istack.size - 1);
+            element_t* ntail = &(env->istack.data[env->istack.size - 1]);
+            ntail->udata.intdata ^= etoi(tail);
+            if(debug)
+            {
+                messageBox("i index(last) % index(last - 1)");
+            }
+            break;
+        }
+        case notb:
+        {
+            element_t* ntail = &(env->istack.data[env->istack.size - 1]);
+            ntail->udata.intdata = ~ntail->udata.intdata;
+            if(debug)
+            {
+                messageBox("i index(last) % index(last - 1)");
+            }
+            break;
+        }
         case raddi:
         {
             element_t tail = list_remove(&(env->istack), env->istack.size - 1);
