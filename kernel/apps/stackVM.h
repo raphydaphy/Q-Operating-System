@@ -10,6 +10,8 @@ typedef struct {
     uint16 maxsize;
 } stackVM_t;
 
+//TODO: Integrate assembly functions in/outportb to this!
+//TODO: Integrate printing!!!
 typedef enum {
     EOS = 0x00,     // End of stream
     NOP = 0x01,     // Nothing
@@ -26,17 +28,22 @@ typedef enum {
     muld = 0x12,    // None
     divi = 0x13,    // None
     divd = 0x14,    // None
-    modi = 0x15,    // None; Also modd does not exist!
-    raddi = 0x16,   // None; 1, 5 -> 1+...+5
-    rsubi = 0x17,   // None; 1, 5 -> 1-...-5
-    clrs = 0x18,    // None; Clears the stack
-    flip = 0x19     // None; Flips the stack
+    modi = 0x15,    // None ; Also modd does not exist!
+    raddi = 0x16,   // None ; 1, 5 -> 1+...+5
+    rsubi = 0x17,   // None ; 1, 5 -> 1-...-5
+    clrs = 0x18,    // None ; Clears the stack
+    flip = 0x19,    // None ; Flips the stack
+    setl = 0x20,    // int  ; Inserts a jump point
+    jmpl = 0x21,    // int  ; Jumps to a defined jump point
+    jmpz = 0x22,    // int  ; Jumps to an offset from zero
+    jmpo = 0x23,    // int  ; Jumps to an offset from current spot
 } STACKVM_OP;
 
 typedef enum {
     EXEC_SUCCESS = 0,
     ILLEGAL_OPND = 1,
-    DIVI_BY_ZERO = 2
+    DIVI_BY_ZERO = 2,
+    ILLEGAL_JOFF = 3
 } statusCode;
 
 stackVM_t initEnv(uint16);
