@@ -119,6 +119,7 @@ void launchShell()
         	else if(streql(cmdStr, "search"))           {   SEARCHFOR;              }
         	else if(streql(cmdStr, "svm"))              {
         	    int ops[] = {
+        	        blnk,           // Clears the terminal
         	        pushi, 1,       // Pushes 1
         	        pushd, 0, 5,    // Pushes 0.5
         	        swap,           // 1, 0.5 -> 0.5, 1
@@ -144,11 +145,23 @@ void launchShell()
 
                     pushi, 55,
 
-                    cmpv,           // Test to see if result is same
-//                  jmpl, 0,        // jmp label 0
+                    eqlv,           // Test to see if result is same
+                    
+                    seto, 3, 1,     // new label for CPU halt simulation
+                    notb,           // Flip the value
+                    ifjl, 3,        // (Translated) if (55 != 55) goto label 3
+                    jmpo, 3,        // (Translated) else move out of the way
+                    _hlt,           // GG
+                    jmpl, 3,        // jmp label 3
+
+                    pushi, 0xA,      // Pushes 10
+                    defi, 0,        // "0" -> 10
+                    geti, 0,        // Getting value of "0"
+                    pushi, 0x01,    // Pushes 0x01
+                    infbc,          // Prints in messagebox
         	        EOS             // End of prog
     	        };
-        	    invokeOp(&currentEnv, ops, false);
+        	    invokeOp(&currentEnv, ops);
         	    cleanEnv(&currentEnv);
     	    }
             else                                        {   CMDNOTFOUND;            }

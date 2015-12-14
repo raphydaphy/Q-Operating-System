@@ -10,7 +10,6 @@ typedef struct {
     uint16 maxsize;
 } stackVM_t;
 
-//TODO: Integrate assembly functions in/outportb to this!
 //TODO: Integrate printing!!!
 typedef enum {
     EOS = 0x00,     // End of stream
@@ -44,20 +43,48 @@ typedef enum {
     pop = 0x28,     // None ; Pops the last item out (destroyed)
     popc = 0x29,    // int  ; Pops a specific amount of items
     cmpt = 0x30,    // None ; Compares the next 2 items' types. 1 means same, 0 means different
-    cmpv = 0x31     // None ; Compares the next 2 items' value. Types must be same otherwise exception
+    eqlv = 0x31,    // None ; Compares the next 2 items' value. Types must be same otherwise exception
+    inb = 0x32,     // None ; Pops one value as port and pushes val as in value
+    outb = 0x33,    // None ; Pops two values and invokes outportb in asm
+    outw = 0x34,    // None ; (See outb)
+    sftl = 0x35,    // None ; << operator in C
+    sftr = 0x36,    // None ; >> operator in C
+    andb = 0x37,    // None ; & operator in C
+    orb = 0x38,     // None ; | operator in C
+    xorb = 0x39,    // None ; ^ operator in C
+    notb = 0x40,    // None ; ~ or ! operator in C
+    _hlt = 0x41,    // None ; asm "hlt"
+    _cli = 0x42,    // None ; asm "cli"
+    _sti = 0x43,    // None ; asm "sti"
+    cmpv = 0x44,    // None ; Compares the next 2 items' value. Types must be same otherwise exception
+    ifjl = 0x45,    // int  ; If true (1), Jumps to a defined jump point
+    ifjz = 0x46,    // int  ; If true (1), Jumps to an offset from zero
+    ifjo = 0x47,    // int  ; If true (1), Jumps to an offset from current spot
+    defi = 0x48,    // int  ; Param1 = %1i
+    deff = 0x49,    // int  ; Param1 = %1f
+    geti = 0x50,    // int  ; Push ivalue linked to Param1 in stack
+    getf = 0x51,    // int  ; Push fvalue linked to Param1 in stack
+    putf = 0x52,    // None ; prints %1
+    puti = 0x53,    // None ; prints itos10(%1)
+    putc = 0x54,    // None ; prints (char) %1
+    blnk = 0x55,    // None ; Clears screen
+    infbf = 0x56,   // None ; A infomation box
+    infbi = 0x57,   // None ; A infomation box
+    infbc = 0x58,   // None ; A infomation box
 } STACKVM_OP;
 
 typedef enum {
     EXEC_SUCCESS = 0,
     ILLEGAL_OPND = 1,
     DIVI_BY_ZERO = 2,
-    ILLEGAL_JOFF = 3
+    ILLEGAL_JOFF = 3,
+    ILLEGAL_TRYB = 4
 } statusCode;
 
 stackVM_t initEnv(uint16);
 
 void cleanEnv(stackVM_t*);
 
-uint32 invokeOp(stackVM_t*, int[], bool);
+uint32 invokeOp(stackVM_t*, int[]);
 
 #endif

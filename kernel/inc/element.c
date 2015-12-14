@@ -16,16 +16,16 @@ inline bool eqlElement_t(element_t a, element_t b) {
 int8 cmpElement_t(element_t a, element_t b) {
     if (a.hash == b.hash) return 0;
     if (cmpHashType(a, b, STR)) {
-        return a.hash < b.hash ? -1 : 1;
+        return strcmp(a.udata.strdata, b.udata.strdata);
     }
     if (cmpHashType(a, b, INT)) {
-        return a.hash < b.hash ? -1 : 1;
+        return a.udata.intdata < b.udata.intdata ? -1 : 1;
     }
     if (cmpHashType(a, b, FLT)) {
-        return a.hash < b.hash ? -1 : 1;
+        return a.udata.floatdata < b.udata.floatdata ? -1 : 1;
     }
     if (cmpHashType(a, b, CHR)) {
-        return a.hash < b.hash ? -1 : 1;
+        return a.udata.chardata < b.udata.chardata ? -1 : 1;
     }
     return 1; // Otherwise assume a.hash > b.hash
 }
