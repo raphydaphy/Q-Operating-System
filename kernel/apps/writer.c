@@ -80,6 +80,12 @@ string initWriter()
 			curX = 1;
 			curY++;
 		}
+
+		if (curY < 5)
+		{
+			curY = 5;
+			curX = 1;
+		}
         // The trailing spaces clears out junky characters! Keep them
         printAt(inCmdMode ? "CMD     " : "INS     ", black, 2, 24);
         printAt(itos10(curX - 1), black, 6, 24);
@@ -144,8 +150,8 @@ string initWriter()
                 strbuilder_rmchar(&data, index);
                 // Hahaha... RE-PRINT THE ENTIRE STRB!!!
                 // Its all warped strings fault... :(
-                curX = 0; curY = 0;
-                paintLine(blue, 0, curY, sw);
+                curX = 1; curY = 5;
+                paintLine(blue, 1, curY, sw - 1);
                 for(uint16 loopi = 0; loopi < data.ilist.size; loopi++) {
                     printChar(strbuilder_charAt(data, loopi), &curX, &curY);
                 }
