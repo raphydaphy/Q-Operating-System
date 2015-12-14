@@ -17,7 +17,7 @@ void printChar(char printData, uint16* curX, uint16* curY)
         // The bracket thing:
         // *ptr++ increments pointer -> derefernces (shorthand for ptr++; *ptr)
         // (*ptr)++ derefernces pointer -> increments (shorthand for *ptr += 1)
-        (*curY)++; *curX = 0;
+        (*curY)++; *curX = 1;
     }
     else
     {
@@ -54,7 +54,7 @@ string initWriter()
 
 	drawFrame(header_background, 0, 0, 80, 4);
 	printAt("Q OS Text Editor\r\n", header_foreground, 1, 1);
-	printAt("Simple Text Editor built for Q OS by Raph Hennessy & Plankp Teng",desc_foreground,1,2);
+	printAt("Simple Text Editor built for Q OS by Raph Hennessy & Plankp T",desc_foreground,1,2);
 
 	drawBorder(screen_background, 0, 4, 80, sh - 1);
 
@@ -64,7 +64,7 @@ string initWriter()
 
     // Checking user's capslock state
     bool inCmdMode = true, shiftDown = false, capslDown = capslock;
-    uint16 curX = 0, curY = 0;
+    uint16 curX = 1, curY = 5;
     uint32 index = 0;
     static int cmdKeys[] = {0x10 /*Q*/, 0x17 /*I*/, 0x18 /*O*/, 0x3A /*<CAPS>*/};
     strbuilder_t data = strbuilder_init();
@@ -74,11 +74,17 @@ string initWriter()
         cursorX = curX % sw;
         cursorY = curY;
         updateCursor();
+
+		if (curX > 79)
+		{
+			curX = 1;
+			curY++;
+		}
         // The trailing spaces clears out junky characters! Keep them
         printAt(inCmdMode ? "CMD     " : "INS     ", black, 2, 24);
-        printAt(itos10(curX), black, 6, 24);
+        printAt(itos10(curX - 1), black, 6, 24);
         printAt(":     ", black, 9, 24);
-        printAt(itos10(curY), black, 11, 24);
+        printAt(itos10(curY - 5), black, 11, 24);
         if(inCmdMode)
         {
             k = waitUntilKey(cmdKeys);
