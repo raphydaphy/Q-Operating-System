@@ -42,6 +42,7 @@ void system(string args)
         println("- Plankp T", light_green);// light green for a main contributer
         println("- Raph Hennessy", purple);// purple for owner :)
         println("- Stanislaus Krisna", light_green);//stnkrisna (main contributer)
+        println("- Tedi Bear",brown); // brown for dead
         print("- Talip Goeksu", cyan); // cyan for trusted
     }
     else
