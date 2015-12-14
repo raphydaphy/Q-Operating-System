@@ -21,6 +21,7 @@ void system(string args)
     {
         if(messageBox_YN("This will indefinately suspend your\n\rcomputer. Are you sure?") == 1)
         {
+            messageBox("Have a good life :)");
             halt();
         }
     }
