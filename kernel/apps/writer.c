@@ -44,12 +44,28 @@ void writerHelp()
 	print("Press 'i' after opening writer to start editing your document.",yellow);
 }
 
+void oldWriter()
+{
+	paintScreen(screen_color);
+
+	drawFrame(header_background, 0, 0, 80, 4);
+	printAt("Q OS Text Editor\r\n", header_foreground, 1, 1);
+	printAt("Simple Text Editor built for Q OS by Raph Hennessy & Plankp T",desc_foreground,1,2);
+
+	drawBorder(screen_background, 0, 4, 80, sh - 1);
+
+	cursorY = 5;
+	cursorX = 1;
+	updateCursor();
+
+	writing = true;
+	printAt(writerContents,black,1,5);
+	readStr(writerContents,WRITERSIZE,false);
+	writing = false;
+}
+
 string initWriter()
 {
-	string vidmem = (string) 0xb8000;
-    char oldmem[strlen(vidmem)];
-    strcpy(oldmem, vidmem);
-
 	paintScreen(screen_color);
 
 	drawFrame(header_background, 0, 0, 80, 4);
@@ -259,7 +275,6 @@ string initWriter()
     }
 end: // Sorry for the mom spaghetti code
     // Must be last line (before any prints)
-    strcpy(vidmem, oldmem);
     string msg = strbuilder_tostr(data);
     if(msg == NULL)
     {
@@ -279,18 +294,16 @@ void writer(string args)
 	{
 		writerHelp();
 	}
-	else if (streql(splitArg(args, 1),"new"))
+	else if (streql(splitArg(args, 1),"stable"))
+	{
+		oldWriter();
+	}
+	else
 	{
 		writing = true;
 		writerContents = initWriter();
 		writing = false;
-	}
-	else
-	{
-	    initWriter();
 
-		writing = true;
-		printAt(writerContents,white,1,5);
-		writing = false;
+		clearScreen();
 	}
 }
