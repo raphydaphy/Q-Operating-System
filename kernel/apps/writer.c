@@ -86,7 +86,6 @@ string initWriter()
     bool inCmdMode = true, shiftDown = false, capslDown = capslock;
     uint16 curX = 1, curY = 5;
     uint32 index = 0;
-    static int cmdKeys[] = {0x10 /*Q*/, 0x17 /*I*/, 0x18 /*O*/, 0x3A /*<CAPS>*/};
     strbuilder_t data = strbuilder_init();
     int k;
     while(true)
@@ -113,7 +112,7 @@ string initWriter()
         printAt(itos10(curY - 5), black, 11, 24);
         if(inCmdMode)
         {
-            k = waitUntilKey(cmdKeys);
+            k = waitUntilKey(0x10 /*Q*/, 0x17 /*I*/, 0x18 /*O*/, 0x3A /*<CAPS>*/);
             switch(k)
             {
             case 0x10:
