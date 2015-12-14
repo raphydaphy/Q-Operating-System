@@ -140,8 +140,8 @@ void messageBox(string txt) {
     printAt(txt, desc_foreground, 21, 13);
     printAt("[OKAY]", desc_foreground, 37, 17);
 
-    waitUntilKey(0x9C);
-    waitUntilKey(0x1C);
+    waitUntilKey(1, 0x9C);
+    waitUntilKey(1, 0x1C);
 
     strcpy(vidmem, oldmem);
 }
@@ -157,7 +157,7 @@ int8 messageBox_YN(string txt) {
     printAt("[NO]", desc_foreground, 38, 17);
     printAt("[CANCEL]", desc_foreground, 50, 17);
 
-    int val = waitUntilKey(0x15 /*Y*/, 0x31 /*N*/, 0x2E /*C*/);
+    int val = waitUntilKey(3, 0x15 /*Y*/, 0x31 /*N*/, 0x2E /*C*/);
 
     strcpy(vidmem, oldmem);
     switch(val) {
@@ -196,23 +196,18 @@ string messageBox_Pass(string txt) {
     return __vMessageBoxIn(txt, true);
 }
 
-int waitUntilKey(int fkey, ...) {
+int waitUntilKey(const int count, ...) {
     va_list ap;
     int kIndex, ckey;
     uint8 value;
-    va_start(ap, fkey);
+    va_start(ap, count);
     while(true)
     {
         // if a key is presesd
         if(inportb(0x64) & 0x1)
         {
             value = inportb(0x60);
-            if(value == fkey)
-            {
-                va_end(ap);
-                return fkey;
-            }
-            for(kIndex = 0; kIndex < fkey; kIndex++) {
+            for(kIndex = 0; kIndex < count; kIndex++) {
                 ckey = va_arg(ap, int);
                 if(value == ckey)
                 {
@@ -220,6 +215,8 @@ int waitUntilKey(int fkey, ...) {
                     return ckey;
                 }
             }
+            va_end(ap);
+            va_start(ap, count); // Redo...
         }
     }
 }

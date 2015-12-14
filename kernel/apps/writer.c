@@ -112,7 +112,7 @@ string initWriter()
         printAt(itos10(curY - 5), black, 11, 24);
         if(inCmdMode)
         {
-            k = waitUntilKey(0x10 /*Q*/, 0x17 /*I*/, 0x18 /*O*/, 0x3A /*<CAPS>*/);
+            k = waitUntilKey(4, 0x10 /*Q*/, 0x17 /*I*/, 0x18 /*O*/, 0x3A /*<CAPS>*/);
             switch(k)
             {
             case 0x10:

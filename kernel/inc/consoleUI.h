@@ -53,6 +53,7 @@ string messageBox_I(string);
 
 string messageBox_Pass(string);
 
+//waitUntilKey(n, key1, key2, ..., keyn)
 int waitUntilKey(int, ...);
 
 int getKey();
