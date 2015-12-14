@@ -19,6 +19,8 @@ list_t list_init_s(uint32);
 #define list_add(lst, e) \
     list_adds(lst, e)
 
+void list_adde(list_t*, element_t);
+
 void list_adds(list_t*, string);
 
 void list_addi(list_t*, int);

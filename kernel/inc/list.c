@@ -48,6 +48,10 @@ inline element_t list_pop(list_t* lst) {
     return list_remove(lst, lst->size);
 }
 
+inline void list_adde(list_t* lst, element_t e) {
+    __vlist_add(lst, e, lst->size);
+}
+
 inline void list_adds(list_t* lst, string e) {
     __vlist_add(lst, makeStrElement(e), lst->size);
 }

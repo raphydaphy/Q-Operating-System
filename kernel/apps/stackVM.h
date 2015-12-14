@@ -10,7 +10,6 @@ typedef struct {
     uint16 maxsize;
 } stackVM_t;
 
-//TODO: Integrate printing!!!
 typedef enum {
     EOS = 0x00,     // End of stream
     NOP = 0x01,     // Nothing
@@ -71,6 +70,7 @@ typedef enum {
     infbf = 0x56,   // None ; A infomation box
     infbi = 0x57,   // None ; A infomation box
     infbc = 0x58,   // None ; A infomation box
+    dup = 0x59,     // None ; Duplicates last item in stack
 } STACKVM_OP;
 
 typedef enum {
