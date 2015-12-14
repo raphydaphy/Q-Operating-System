@@ -97,7 +97,7 @@ start:
             list_addi(&(env->istack), i);
             if(debug)
             {
-                messageBox("f Pushed variable value");
+                messageBox("i Pushed variable value");
             }
             break;
         }
