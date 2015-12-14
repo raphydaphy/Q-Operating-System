@@ -54,7 +54,7 @@ string initWriter()
 
 	drawFrame(header_background, 0, 0, 80, 4);
 	printAt("Q OS Text Editor\r\n", header_foreground, 1, 1);
-	printAt("Simple, Single Document Text Editor built for Q OS by Raph Hennessy & Plankp Teng",desc_foreground,1,2);
+	printAt("Simple Text Editor built for Q OS by Raph Hennessy & Plankp Teng",desc_foreground,1,2);
 
 	drawBorder(screen_background, 0, 4, 80, sh - 1);
 
