@@ -3,6 +3,7 @@
 stackVM_t initEnv(uint16 stackSize)
 {
     stackVM_t env;
+    env.maxsize = stackSize;
     env.istack = list_init_s(stackSize);
     env.varmap = hashmap_init();
     env.status = EXEC_SUCCESS;
@@ -11,10 +12,9 @@ stackVM_t initEnv(uint16 stackSize)
 
 void cleanEnv(stackVM_t* env)
 {
-    uint16 oldCapt = env->istack.capt;
     list_destroy(&(env->istack));
     hashmap_destroy(&(env->varmap));
-    env->istack = list_init_s(oldCapt);
+    env->istack = list_init_s(env->maxsize);
     env->varmap = hashmap_init();
     env->status = EXEC_SUCCESS;
 }
@@ -252,6 +252,21 @@ uint32 invokeOp(stackVM_t* env, int opcodes[], bool debug)
             }
             break;
         }
+        case clrs:
+            list_destroy(&(env->istack));
+            env->istack = list_init_s(env->maxsize);
+            if(debug)
+            {
+                messageBox("Stack cleared");
+            }
+            break;
+        case flip:
+            list_flip(&env->istack);
+            if(debug)
+            {
+                messageBox("Stack reversed");
+            }
+            break;
         default:
             messageBox("\x01 Illegal opcode");
             if(debug)

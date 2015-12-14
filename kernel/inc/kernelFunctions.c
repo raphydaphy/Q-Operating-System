@@ -135,6 +135,7 @@ void launchShell()
                     pushi, 0,       // Pushes 0
                     pushi, 10,      // Pushes 10
                     raddi,          // 0 +...+10
+//                  clrs,           // Clears stack
         	        EOS             // End of prog
     	        };
         	    invokeOp(&currentEnv, ops, false);
