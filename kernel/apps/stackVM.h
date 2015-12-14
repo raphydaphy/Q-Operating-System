@@ -24,7 +24,10 @@ typedef enum {
     muli = 0x11,    // None
     muld = 0x12,    // None
     divi = 0x13,    // None
-    divd = 0x14     // None
+    divd = 0x14,    // None
+    modi = 0x15,    // None; Also modd does not exist!
+    raddi = 0x16,   // None; 1, 5 -> 1+...+5
+    rsubi = 0x17    // None; 1, 5 -> 1-...-5
 } STACKVM_OP;
 
 typedef enum {

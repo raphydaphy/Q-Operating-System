@@ -130,8 +130,11 @@ void launchShell()
         	        muld,           // 0.5 * 3
         	        pushd, 3, 0,    // Pushes 3.0
         	        divd,           // 1.5 / 3.0
-        	        pushd, 0, 0,    // Pushes 0.0
-        	        divd,           // 0.5 / 0.0
+//        	        pushd, 0, 0,    // Pushes 0.0
+//        	        divd,           // 0.5 / 0.0
+                    pushi, 0,       // Pushes 0
+                    pushi, 10,      // Pushes 10
+                    raddi,          // 0 +...+10
         	        EOS             // End of prog
     	        };
         	    invokeOp(&currentEnv, ops, false);
