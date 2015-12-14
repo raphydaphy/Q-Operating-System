@@ -389,7 +389,7 @@ start:
                 list_remove(&(env->istack), env->istack.size - 1);
                 if(debug)
                 {
-                    messsageBox("Item was pop-d");
+                    messageBox("Item was pop-d");
                 }
             }
             break;
@@ -406,7 +406,45 @@ start:
             }
             if(debug)
             {
-                messsageBox("Items were pop-d");
+                messageBox("Items were pop-d");
+            }
+            break;
+        }
+        case cmpt:
+        {
+            element_t tail = list_remove(&(env->istack), env->istack.size - 1);
+            element_t* ntail = &(env->istack.data[env->istack.size - 1]);
+            ntail->udata.intdata = ntail->ctype == tail.ctype;
+            if(debug)
+            {
+                if(ntail->udata.intdata)
+                {
+                    messageBox("Type of index(last) index(last - 1) same");
+                }
+                else
+                {
+                    messageBox("Type of index(last) index(last - 1) diff");
+                }
+            }
+            break;
+        }
+        case cmpv:
+        {
+            element_t tail = list_remove(&(env->istack), env->istack.size - 1);
+            element_t* ntail = &(env->istack.data[env->istack.size - 1]);
+            rehash(ntail);
+            rehash(&tail);
+            ntail->udata.intdata = eqlElement_t(*ntail, tail);
+            if(debug)
+            {
+                if(ntail->udata.intdata)
+                {
+                    messageBox("Val of index(last) index(last - 1) same");
+                }
+                else
+                {
+                    messageBox("Val of index(last) index(last - 1) diff");
+                }
             }
             break;
         }

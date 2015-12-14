@@ -141,6 +141,10 @@ void launchShell()
                     pushi, 0,       // Pushes 0
                     pushi, 10,      // Pushes 10
                     raddi,          // 0 +...+10
+
+                    pushi, 55,
+
+                    cmpv,           // Test to see if result is same
 //                  jmpl, 0,        // jmp label 0
         	        EOS             // End of prog
     	        };
