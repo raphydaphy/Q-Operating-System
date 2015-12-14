@@ -7,6 +7,7 @@
 #include "stringUtils.h"
 #include "consoleUI.h"
 #include "intUtils.h"
+#include "stdarg.h"
 
 // the screen color in 0xXX and 0xX form with the X being replaced by color in hex notation
 #define screen_color 0x99
@@ -68,6 +69,7 @@ void scrollUp(uint8);
 void newLineCheck();
 void printch(char, int);
 void print(string, int);
+void printf(string, ...);
 
 #define printint(n, bh) \
     print(itos10(n), bh)

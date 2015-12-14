@@ -1,6 +1,7 @@
 #ifndef CONSOLE_UI_H
 #define CONSOLE_UI_H
 
+#include "stdarg.h"
 #include "kbDetect.h"
 #include "screenUtils.h"
 
@@ -52,7 +53,7 @@ string messageBox_I(string);
 
 string messageBox_Pass(string);
 
-int waitUntilKey(int[]);
+int waitUntilKey(int, ...);
 
 int getKey();
 
