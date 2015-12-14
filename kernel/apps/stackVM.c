@@ -23,6 +23,7 @@ uint32 invokeOp(stackVM_t* env, int opcodes[], bool debug)
 {
     int opIndex = 0;
     int currentOp = NOP;
+    map_t jmpPoints = hashmap_init();
 
     string vidmem = (string) 0xb8000;
     char oldmem[strlen(vidmem)];
@@ -44,6 +45,54 @@ uint32 invokeOp(stackVM_t* env, int opcodes[], bool debug)
             messageBox("Done!!!");
             env->status = EXEC_SUCCESS;
             goto end;
+        case setl:
+        {
+            int param1 = opcodes[opIndex++];
+            hashmap_add(&jmpPoints, itos10(param1), makeIntElement(opIndex));
+            if(debug)
+            {
+                messageBox("Added jmp point");
+            }
+            break;
+        }
+        case jmpl:
+        {
+            int param1 = opcodes[opIndex++];
+            opIndex = etoi(hashmap_getVal(jmpPoints, itos10(param1)));
+            if(debug)
+            {
+                messageBox("Jumped to jmp point");
+            }
+            break;
+        }
+        case jmpz:
+        {
+            int param1 = opcodes[opIndex++];
+            if(param1 < 0)
+            {
+                messageBox("\x01 Jumping to negative offset");
+                env->status = ILLEGAL_JOFF;
+            }
+            else
+            {
+                opIndex = param1;
+                if(debug)
+                {
+                    messageBox("Jumped to offset");
+                }
+            }
+            break;
+        }
+        case jmpo:
+        {
+            int param1 = opcodes[opIndex++];
+            opIndex += param1;
+            if(debug)
+            {
+                messageBox("Jumped to offset");
+            }
+            break;
+        }
         case pushi:
         {
             int param1 = opcodes[opIndex++];

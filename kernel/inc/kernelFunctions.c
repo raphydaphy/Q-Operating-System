@@ -132,9 +132,11 @@ void launchShell()
         	        divd,           // 1.5 / 3.0
 //        	        pushd, 0, 0,    // Pushes 0.0
 //        	        divd,           // 0.5 / 0.0
+//                  setl, 0,        // new label 0
                     pushi, 0,       // Pushes 0
                     pushi, 10,      // Pushes 10
                     raddi,          // 0 +...+10
+//                  jmpl, 0,        // jmp label 0
 //                  clrs,           // Clears stack
         	        EOS             // End of prog
     	        };
