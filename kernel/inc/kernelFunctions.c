@@ -131,7 +131,7 @@ void launchShell()
         	        pushd, 3, 0,    // Pushes 3.0
         	        divd,           // 1.5 / 3.0
 
-                    seto, 2, 9,     // new label (for div)
+                    seto, 2, 8,     // new label for div. Jumps to opcode clrs
                     tryl, 2,
                     setl, 0,        // new label 0
                     pushd, 0, 0,    // Pushes 0.0
