@@ -112,6 +112,14 @@ void calc(string args)
         newline();
     	printfloat(powerOfTen(stoi(calcInput)), white);
     }
+      else if(streql(splitArg(args, 1), "-ran"))
+    {
+        newline();
+        print("max Number>  ",dark_grey);
+        readStr(calcInput, CALC_SIZE,false);
+        newline();
+        printint(maxrand(stoi(calcInput)), white);
+    }
     else if(streql(splitArg(args, 1), "-mcr"))
     {
         //TODO: Add the predefined functions in here too
