@@ -191,28 +191,28 @@ float cos(int ang)
 
 int maxrand(int max)
 {
-  // Random seed variable
-  unsigned int *seed = (unsigned int *)getTime("hour")+getTime("minute")+getTime("second");
-  unsigned int next = *seed;
- int result;
+    // Random seed variable
+    unsigned int *seed = (unsigned int *)getTime("hour")+getTime("minute")+getTime("second");
+    unsigned int next = *seed;
+    int result;
 
- next *= 1103515245;
- next += 12345;
- result = (unsigned int) (next / 65536) % 2048;
+    next *= 1103515245;
+    next += 12345;
+    result = (unsigned int) (next / 65536) % 2048;
 
- next *= 1103515245;
- next += 12345;
- result <<= 10;
- result ^= (unsigned int) (next / 65536) % 1024;
+    next *= 1103515245;
+    next += 12345;
+    result <<= 10;
+    result ^= (unsigned int) (next / 65536) % 1024;
 
- next *= 1103515245;
- next += 12345;
- result <<= 10;
- result ^= (unsigned int) (next / 65536) % 1024;
+    next *= 1103515245;
+    next += 12345;
+    result <<= 10;
+    result ^= (unsigned int) (next / 65536) % 1024;
 
- *seed = next;
+    *seed = next;
 
- return result % (max+1);
+    return result % (max + 1);
 }
 
 
