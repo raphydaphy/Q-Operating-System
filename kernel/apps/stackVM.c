@@ -171,6 +171,11 @@ start:
             }
             break;
         }
+        case randf:
+        {
+            list_addf(&(env->istack), (float) rand());
+            break;
+        }
         case waiti:
         {
             element_t tail = list_remove(&(env->istack), env->istack.size - 1);
