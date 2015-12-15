@@ -163,6 +163,7 @@ void launchShell()
                     infbs,
                     pushi, 9712492, // Pushes int (to be encoded)
                     ei_s,           // Encodes ptr addr with base 64
+                    puts,
                     infbs,
         	        EOS             // End of prog
     	        };
