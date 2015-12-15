@@ -191,6 +191,12 @@ start:
             list_addf(&(env->istack), (float) stod(param1));
             break;
         }
+        case pushs:
+        {
+            int param1 = opcodes[opIndex++];
+            list_adds(&(env->istack), (string) param1);
+            break;
+        }
         case addi:
         {
             element_t tail = list_remove(&(env->istack), env->istack.size - 1);
@@ -357,6 +363,39 @@ start:
             }
             break;
         }
+        case cs_i:
+        {
+            element_t* tail = &(env->istack.data[env->istack.size - 1]);
+            if(tail->ctype == STR)
+            {
+                string s = etos(*tail);
+                tail->ctype = INT;
+                tail->udata.intdata = stoc(s);
+            }
+            break;
+        }
+        case ci_s:
+        {
+            element_t* tail = &(env->istack.data[env->istack.size - 1]);
+            if(tail->ctype == INT)
+            {
+                int i = etoi(*tail);
+                tail->ctype = STR;
+                tail->udata.strdata = itos64(i);
+            }
+            break;
+        }
+        case cs_p:
+        {
+            element_t* tail = &(env->istack.data[env->istack.size - 1]);
+            if(tail->ctype == STR)
+            {
+                string s = etos(*tail);
+                tail->ctype = INT;
+                tail->udata.intdata = (int) ((void*) s);
+            }
+            break;
+        }
         case swap:
         {
             element_t tail = env->istack.data[env->istack.size - 1];
@@ -407,6 +446,12 @@ start:
         {
             element_t tail = list_remove(&(env->istack), env->istack.size - 1);
             printf("%c", etoi(tail));
+            break;
+        }
+        case puts:
+        {
+            element_t tail = list_remove(&(env->istack), env->istack.size - 1);
+            printf(etos(tail));
             break;
         }
         case cmpt:
@@ -474,6 +519,13 @@ start:
             element_t tail = list_remove(&(env->istack), env->istack.size - 1);
             string msg = " ";
             msg[0] = (char) etoi(tail);
+            messageBox(msg);
+            break;
+        }
+        case infbs:
+        {
+            element_t tail = list_remove(&(env->istack), env->istack.size - 1);
+            string msg = etos(tail);
             messageBox(msg);
             break;
         }

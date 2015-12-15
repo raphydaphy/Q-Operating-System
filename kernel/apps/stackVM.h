@@ -71,6 +71,12 @@ typedef enum {
     infbi = 0x57,   // None ; A infomation box
     infbc = 0x58,   // None ; A infomation box
     dup = 0x59,     // None ; Duplicates last item in stack
+    pushs = 0x60,   // int  ; Reference to a string (Got you stressed out there)
+    puts = 0x61,    // None ; prints %1
+    infbs = 0x62,   // None ; A infomation box
+    cs_i = 0x63,    // None ; Converts a string to ascii value
+    ci_s = 0x64,    // None ; Converts int to string based on ascii value
+    cs_p = 0x65,    // None ; Converts string to its pointer value
 } STACKVM_OP;
 
 typedef enum {
