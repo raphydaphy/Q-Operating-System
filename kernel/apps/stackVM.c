@@ -519,6 +519,14 @@ start:
             printf(etos(tail));
             break;
         }
+        case thrwi:
+        {
+            int param1 = opcodes[opIndex++];
+            // No error when throw code is invalid
+            param1 = param1 < UNDEF_EXCEPT ? param1 : UNDEF_EXCEPT;
+            env->status = param1;
+            break;
+        }
         case cmpt:
         {
             element_t tail = list_remove(&(env->istack), env->istack.size - 1);

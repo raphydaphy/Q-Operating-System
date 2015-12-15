@@ -80,6 +80,7 @@ typedef enum {
     cf_s = 0x66,    // None ; Converts float to string
     ei_s = 0x67,    // None ; Encodes int to string. Essentially the Base64 algorithm
     ci_p = 0x68,    // None ; Casts pointer address to string
+    thrwi = 0x69,   // Int  ; Throws an exception
 } STACKVM_OP;
 
 typedef enum {
@@ -88,7 +89,8 @@ typedef enum {
     DIVI_BY_ZERO = 2,
     ILLEGAL_JOFF = 3,
     ILLEGAL_TRYB = 4,
-    BAD_CONV_TYP = 5
+    BAD_CONV_TYP = 5,
+    UNDEF_EXCEPT = 6
 } statusCode;
 
 stackVM_t initEnv(uint16);
