@@ -57,6 +57,8 @@ float sin(int ang);
 
 float cos(int ang);
 
+int maxrand(int max);
+
 //Chrono function
 int get_update_in_progress_flag();
 unsigned char get_RTC_register(int);
