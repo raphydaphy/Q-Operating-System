@@ -431,6 +431,21 @@ start:
             }
             break;
         }
+        case ci_p:
+        {
+            element_t* tail = &(env->istack.data[env->istack.size - 1]);
+            if(tail->ctype == INT)
+            {
+                int addr = etoi(*tail);
+                tail->ctype = STR;
+                tail->udata.strdata = (string) addr;
+            }
+            else
+            {
+                env->status = BAD_CONV_TYP;
+            }
+            break;
+        }
         case cs_p:
         {
             element_t* tail = &(env->istack.data[env->istack.size - 1]);

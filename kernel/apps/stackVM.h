@@ -79,6 +79,7 @@ typedef enum {
     cs_p = 0x65,    // None ; Converts string to its pointer value
     cf_s = 0x66,    // None ; Converts float to string
     ei_s = 0x67,    // None ; Encodes int to string. Essentially the Base64 algorithm
+    ci_p = 0x68,    // None ; Casts pointer address to string
 } STACKVM_OP;
 
 typedef enum {
