@@ -75,8 +75,10 @@ typedef enum {
     puts = 0x61,    // None ; prints %1
     infbs = 0x62,   // None ; A infomation box
     cs_i = 0x63,    // None ; Converts a string to ascii value
-    ci_s = 0x64,    // None ; Converts int to string based on ascii value
+    ci_s = 0x64,    // None ; Converts int to string 123 -> "123"
     cs_p = 0x65,    // None ; Converts string to its pointer value
+    cf_s = 0x66,    // None ; Converts float to string
+    ei_s = 0x67,    // None ; Encodes int to string. Essentially the Base64 algorithm
 } STACKVM_OP;
 
 typedef enum {

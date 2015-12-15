@@ -386,7 +386,37 @@ start:
             }
             break;
         }
+        case cf_s:
+        {
+            element_t* tail = &(env->istack.data[env->istack.size - 1]);
+            if(tail->ctype == FLT)
+            {
+                float f = etof(*tail);
+                tail->ctype = STR;
+                tail->udata.strdata = ftos(f);
+            }
+            else
+            {
+                env->status = BAD_CONV_TYP;
+            }
+            break;
+        }
         case ci_s:
+        {
+            element_t* tail = &(env->istack.data[env->istack.size - 1]);
+            if(tail->ctype == INT)
+            {
+                int i = etoi(*tail);
+                tail->ctype = STR;
+                tail->udata.strdata = itos10(i);
+            }
+            else
+            {
+                env->status = BAD_CONV_TYP;
+            }
+            break;
+        }
+        case ei_s:
         {
             element_t* tail = &(env->istack.data[env->istack.size - 1]);
             if(tail->ctype == INT)
