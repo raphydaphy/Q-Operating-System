@@ -118,7 +118,7 @@ void launchShell()
         	else if(streql(cmdStr, "hi"))               {   hi(fullArgs);           }
         	else if(streql(cmdStr, "search"))           {   SEARCHFOR;              }
         	else if(streql(cmdStr, "svm"))              {
-        	    string hworld = ("Hello, world!");
+        	    string hworld = "Hello, world!";
         	    int ops[] = {
         	        blnk,           // Clears the terminal
         	        pushi, 1,       // Pushes 1
@@ -160,10 +160,6 @@ void launchShell()
                     infbc,          // Prints in messagebox
                     pushs, (int)
                         hworld,     // Pushes string reference
-                    infbs,
-                    pushi, 9712492, // Pushes int (to be encoded)
-                    ei_s,           // Encodes ptr addr with base 64
-                    puts,
                     infbs,
         	        EOS             // End of prog
     	        };
