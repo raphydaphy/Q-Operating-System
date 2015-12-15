@@ -161,6 +161,9 @@ void launchShell()
                     pushs, (int)
                         hworld,     // Pushes string reference
                     infbs,
+                    pushf, 3, -1, 5,// Pushes 3.05
+                    infbf,
+
         	        EOS             // End of prog
     	        };
         	    invokeOp(&currentEnv, ops);

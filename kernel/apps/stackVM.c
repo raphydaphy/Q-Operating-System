@@ -184,11 +184,24 @@ start:
         }
         case pushf:
         {
-            string param1 = (string) kmalloc(39 * sizeof(char));
-            strcat(param1, itos10(opcodes[opIndex++]));
-            strcat(param1, ".");
-            strcat(param1, itos10(opcodes[opIndex++]));
-            list_addf(&(env->istack), (float) stod(param1));
+            string conStr = (string) kmalloc(39 * sizeof(char));
+            strcat(conStr, itos10(opcodes[opIndex++]));
+            strcat(conStr, ".");
+            int posOrVal = opcodes[opIndex++];
+            double remVal = 0;
+            if(posOrVal < 0)
+            {
+                remVal = opcodes[opIndex++];
+                while(posOrVal++ < 0)
+                {
+                    remVal *= 0.1;
+                }
+            }
+            else
+            {
+                strcat(conStr, itos10(posOrVal));
+            }
+            list_addf(&(env->istack), (float) (stod(conStr) + remVal));
             break;
         }
         case pushs:

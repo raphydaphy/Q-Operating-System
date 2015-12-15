@@ -14,7 +14,7 @@ typedef enum {
     EOS = 0x00,     // End of stream
     NOP = 0x01,     // Nothing
     pushi = 0x02,   // val
-    pushf = 0x03,   // int, point
+    pushf = 0x03,   // int(dec), int(from tenth) or int(dec), negate int(index), int(from index)
     swap = 0x04,    // None
     addi = 0x05,    // None
     addf = 0x06,    // None
