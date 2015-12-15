@@ -188,11 +188,10 @@ float cos(int ang)
 
 // random number generator
 // added by telip007, based on OS Dev wiki
-
 int maxrand(int max)
 {
     // Random seed variable
-    unsigned int *seed = (unsigned int *)getTime("hour")+getTime("minute")+getTime("second");
+    unsigned int *seed = (unsigned int *)getTime("hour") + getTime("minute") + getTime("second");
     unsigned int next = *seed;
     int result;
 
@@ -213,6 +212,16 @@ int maxrand(int max)
     *seed = next;
 
     return result % (max + 1);
+}
+
+double rand() {
+    double rst = 0;
+    int count = 4;
+    while(count-- > 0)
+    {
+        rst = (rst + maxrand(10)) / 10.0;
+    }
+    return rst > 1 ? 1 : rst;
 }
 
 

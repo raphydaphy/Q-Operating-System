@@ -83,7 +83,8 @@ typedef enum {
     thrwi = 0x69,   // Int  ; Throws an exception
     defs = 0x70,    // Int  ; Param1 = %1s
     gets = 0x71,    // Int  ; Push svalue linked to Param1 in stack
-    waiti = 0x72    // None ; Wait for %1i seconds
+    waiti = 0x72,   // None ; Wait for %1i seconds
+    randf = 0x73    // None ; Pushes a value between 0 and 1
 } STACKVM_OP;
 
 typedef enum {

@@ -441,7 +441,7 @@ float evaluate(list_t opStack)
                 }
                 else if(streql(fname, "rand"))
                 {
-                    __assign(maxrand(10) / 10.0, &lvalid, &left, &right, procop, 53);
+                    __assign(rand(), &lvalid, &left, &right, procop, 53);
                 }
                 else
                 {

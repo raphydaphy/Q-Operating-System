@@ -1,6 +1,7 @@
 #ifndef MATH_H
 #define MATH_H
 
+#include "timer.h"
 #include "intUtils.h"
 #include "charUtils.h"
 #include "screenUtils.h"
@@ -56,6 +57,8 @@ long subRange(long, long);
 float sin(int ang);
 
 float cos(int ang);
+
+double rand();
 
 int maxrand(int max);
 
