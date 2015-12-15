@@ -118,6 +118,7 @@ void launchShell()
         	else if(streql(cmdStr, "hi"))               {   hi(fullArgs);           }
         	else if(streql(cmdStr, "search"))           {   SEARCHFOR;              }
         	else if(streql(cmdStr, "svm"))              {
+        	    string hworld = ("Hello, world!");
         	    int ops[] = {
         	        blnk,           // Clears the terminal
         	        pushi, 1,       // Pushes 1
@@ -154,11 +155,15 @@ void launchShell()
                     _hlt,           // GG
                     jmpl, 3,        // jmp label 3
 
-                    pushi, 0xA,      // Pushes 10
+                    pushi, 0xA,     // Pushes 10
                     defi, 0,        // "0" -> 10
                     geti, 0,        // Getting value of "0"
                     pushi, 0x01,    // Pushes 0x01
                     infbc,          // Prints in messagebox
+                    pushs, (int)
+                        hworld,     // Pushes string reference
+                    dup,
+                    infbs,
         	        EOS             // End of prog
     	        };
         	    invokeOp(&currentEnv, ops);
