@@ -439,6 +439,10 @@ float evaluate(list_t opStack)
                 {
                     left = cbrt(left);
                 }
+                else if(streql(fname, "rand"))
+                {
+                    __assign(maxrand(10) / 10.0, &lvalid, &left, &right, procop, 53);
+                }
                 else
                 {
                     string rInput = etos(hashmap_getVal(funcList, fname));
