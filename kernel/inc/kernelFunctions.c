@@ -160,7 +160,9 @@ void launchShell()
                     infbc,          // Prints in messagebox
                     pushs, (int)
                         hworld,     // Pushes string reference
-                    dup,
+                    infbs,
+                    pushi, 9712492, // Pushes int (to be encoded)
+                    ei_s,           // Encodes ptr addr with base 64
                     infbs,
         	        EOS             // End of prog
     	        };
