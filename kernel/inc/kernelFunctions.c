@@ -160,6 +160,8 @@ void launchShell()
                     infbc,          // Prints in messagebox
                     pushs, (int)
                         hworld,     // Pushes string reference
+                    defs, 5,        // Assign it to map
+                    gets, 5,        // Retrieves the value immediately
                     infbs,
                     pushf, 3, -1, 5,// Pushes 3.05
                     infbf,

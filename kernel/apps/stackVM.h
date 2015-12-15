@@ -81,6 +81,8 @@ typedef enum {
     ei_s = 0x67,    // None ; Encodes int to string. Essentially the Base64 algorithm
     ci_p = 0x68,    // None ; Casts pointer address to string
     thrwi = 0x69,   // Int  ; Throws an exception
+    defs = 0x70,    // Int  ; Param1 = %1s
+    gets = 0x71,    // Int  ; Push svalue linked to Param1 in stack
 } STACKVM_OP;
 
 typedef enum {

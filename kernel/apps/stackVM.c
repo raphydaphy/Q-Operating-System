@@ -64,6 +64,13 @@ start:
             hashmap_add(&(env->varmap), itos10(param1), makeFloatElement(tail));
             break;
         }
+        case defs:
+        {
+            int param1 = opcodes[opIndex++];
+            string tail = etos(list_remove(&(env->istack), env->istack.size - 1));
+            hashmap_add(&(env->varmap), itos10(param1), makeStrElement(tail));
+            break;
+        }
         case geti:
         {
             int param1 = opcodes[opIndex++];
@@ -76,6 +83,13 @@ start:
             int param1 = opcodes[opIndex++];
             float f = etof(hashmap_getVal(env->varmap, itos10(param1)));
             list_addf(&(env->istack), f);
+            break;
+        }
+        case gets:
+        {
+            int param1 = opcodes[opIndex++];
+            string s = etos(hashmap_getVal(env->varmap, itos10(param1)));
+            list_adds(&(env->istack), s);
             break;
         }
         case jmpl:
