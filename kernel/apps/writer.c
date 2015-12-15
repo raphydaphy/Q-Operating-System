@@ -64,6 +64,49 @@ void oldWriter()
 	writing = false;
 }
 
+void cursorBoundsCheck(uint16 *curX, uint16 *curY, uint32 *index) {
+    if (*curX == 0)
+    {
+        (*curX)++;
+        (*index)++;
+    }
+    if (*curX > 79)
+    {
+	    *curX = 1;
+	    (*curY)++;
+    }
+    if (*curY < 5)
+    {
+	    *curY = 5;
+	    *curX = 1;
+    }
+}
+
+static inline void moveCursorLeft(uint16 *curX, uint16 *curY, uint32 *index)
+{
+    (*curX)--;
+    (*index)--;
+    cursorBoundsCheck(curX, curY, index);
+}
+
+static inline void moveCursorRight(uint16 *curX, uint16 *curY, uint32 *index)
+{
+    (*curX)++;
+    (*index)++;
+    cursorBoundsCheck(curX, curY, index);
+}
+
+static inline void printStatus(uint16 curX, uint16 curY, bool inCmdMode)
+{
+    // The trailing spaces clears out junky characters! Keep them
+    printCharAt((char) V_S, black, 1, 24);
+    printAt(inCmdMode ? " CMD     " : " INS     ", dark_grey, 2, 24);
+    printAt(itos10(curX - 1), black, 7, 24);
+    printAt(":     ", black, 10, 24);
+    printAt(itos10(curY - 5), black, 12, 24);
+    printCharAt((char) V_S, black, 16, 24);
+}
+
 string initWriter()
 {
 	string vidmem = (string) 0xb8000;
@@ -94,25 +137,12 @@ string initWriter()
         cursorY = curY;
         updateCursor();
 
-		if (curX > 79)
-		{
-			curX = 1;
-			curY++;
-		}
+        cursorBoundsCheck(&curX, &curY, &index);
+        printStatus(curX, curY, inCmdMode);
 
-		if (curY < 5)
-		{
-			curY = 5;
-			curX = 1;
-		}
-        // The trailing spaces clears out junky characters! Keep them
-        printAt(inCmdMode ? "CMD     " : "INS     ", black, 2, 24);
-        printAt(itos10(curX - 1), black, 6, 24);
-        printAt(":     ", black, 9, 24);
-        printAt(itos10(curY - 5), black, 11, 24);
         if(inCmdMode)
         {
-            k = waitUntilKey(4, 0x10 /*Q*/, 0x17 /*I*/, 0x18 /*O*/, 0x3A /*<CAPS>*/);
+            k = waitUntilKey(6, 0x10 /*Q*/, 0x17 /*I*/, 0x18 /*O*/, 0x3A /*<CAPS>*/, 0x23 /*H*/, 0x26 /*L*/);
             switch(k)
             {
             case 0x10:
@@ -126,6 +156,12 @@ string initWriter()
             case 0x18:
                 appendln(&data, &curX, &curY, &index);
                 inCmdMode = false;
+                break;
+            case 0x23:
+                moveCursorLeft(&curX, &curY, &index);
+                break;
+            case 0x26:
+                moveCursorRight(&curX, &curY, &index);
                 break;
             }
         } else {
@@ -148,76 +184,22 @@ string initWriter()
                 capslDown = !capslDown;
                 break;
             case 0x1C:
-				if (curX > 79)
-				{
-					curX = 1;
-					curY++;
-				}
-
-				if (curY < 5)
-				{
-					curY = 5;
-					curX = 1;
-				}
+				cursorBoundsCheck(&curX, &curY, &index);
                 appendln(&data, &curX, &curY, &index);
                 break;
             case 0x48:
                 curY--;
-				if (curX > 79)
-				{
-					curX = 1;
-					curY++;
-				}
-
-				if (curY < 5)
-				{
-					curY = 5;
-					curX = 1;
-				}
+				cursorBoundsCheck(&curX, &curY, &index);
                 break;
             case 0x4B:
-                curX--;
-                index--;
-				if (curX > 79)
-				{
-					curX = 1;
-					curY++;
-				}
-
-				if (curY < 5)
-				{
-					curY = 5;
-					curX = 1;
-				}
+                moveCursorLeft(&curX, &curY, &index);
                 break;
             case 0x4D:
-                curX++;
-                index++;
-				if (curX > 79)
-				{
-					curX = 1;
-					curY++;
-				}
-
-				if (curY < 5)
-				{
-					curY = 5;
-					curX = 1;
-				}
+                moveCursorRight(&curX, &curY, &index);
                 break;
             case 0x50:
                 curY++;
-				if (curX > 79)
-				{
-					curX = 1;
-					curY++;
-				}
-
-				if (curY < 5)
-				{
-					curY = 5;
-					curX = 1;
-				}
+                cursorBoundsCheck(&curX, &curY, &index);
                 break;
             case 0x0E:
             {
