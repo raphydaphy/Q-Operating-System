@@ -182,7 +182,7 @@ start:
             list_addi(&(env->istack), param1);
             break;
         }
-        case pushd:
+        case pushf:
         {
             string param1 = (string) kmalloc(39 * sizeof(char));
             strcat(param1, itos10(opcodes[opIndex++]));
@@ -204,7 +204,7 @@ start:
             ntail->udata.intdata += etoi(tail);
             break;
         }
-        case addd:
+        case addf:
         {
             element_t tail = list_remove(&(env->istack), env->istack.size - 1);
             element_t* ntail = &(env->istack.data[env->istack.size - 1]);
@@ -218,7 +218,7 @@ start:
             ntail->udata.intdata -= etoi(tail);
             break;
         }
-        case subd:
+        case subf:
         {
             element_t tail = list_remove(&(env->istack), env->istack.size - 1);
             element_t* ntail = &(env->istack.data[env->istack.size - 1]);
@@ -232,7 +232,7 @@ start:
             ntail->udata.intdata *= etoi(tail);
             break;
         }
-        case muld:
+        case mulf:
         {
             element_t tail = list_remove(&(env->istack), env->istack.size - 1);
             element_t* ntail = &(env->istack.data[env->istack.size - 1]);
@@ -251,7 +251,7 @@ start:
             }
             break;
         }
-        case divd:
+        case divf:
         {
             element_t tail = list_remove(&(env->istack), env->istack.size - 1);
             element_t* ntail = &(env->istack.data[env->istack.size - 1]);
@@ -341,7 +341,7 @@ start:
             ntail->udata.intdata = subRange(left, etoi(tail));
             break;
         }
-        case ci_d:
+        case ci_f:
         {
             element_t* tail = &(env->istack.data[env->istack.size - 1]);
             if(tail->ctype == INT)
@@ -350,9 +350,13 @@ start:
                 tail->ctype = FLT;
                 tail->udata.floatdata = (float) f;
             }
+            else
+            {
+                env->status = BAD_CONV_TYP;
+            }
             break;
         }
-        case cd_i:
+        case cf_i:
         {
             element_t* tail = &(env->istack.data[env->istack.size - 1]);
             if(tail->ctype == FLT)
@@ -360,6 +364,10 @@ start:
                 float f = etof(*tail);
                 tail->ctype = INT;
                 tail->udata.intdata = (int) f;
+            }
+            else
+            {
+                env->status = BAD_CONV_TYP;
             }
             break;
         }
@@ -372,6 +380,10 @@ start:
                 tail->ctype = INT;
                 tail->udata.intdata = stoc(s);
             }
+            else
+            {
+                env->status = BAD_CONV_TYP;
+            }
             break;
         }
         case ci_s:
@@ -383,6 +395,10 @@ start:
                 tail->ctype = STR;
                 tail->udata.strdata = itos64(i);
             }
+            else
+            {
+                env->status = BAD_CONV_TYP;
+            }
             break;
         }
         case cs_p:
@@ -393,6 +409,10 @@ start:
                 string s = etos(*tail);
                 tail->ctype = INT;
                 tail->udata.intdata = (int) ((void*) s);
+            }
+            else
+            {
+                env->status = BAD_CONV_TYP;
             }
             break;
         }
