@@ -27,7 +27,7 @@ void printChar(char printData, uint16* curX, uint16* curY)
 
 void appendln(strbuilder_t* data, uint16* curX, uint16* curY, uint32* index)
 {
-    (*curY)++; *curX = 0;
+    (*curY)++; *curX = 1;
     strbuilder_insertc(data, '\n', (*index)++);
 }
 
@@ -112,16 +112,16 @@ static inline void reprintText(uint16* curX, uint16* curY, uint32* index, strbui
     *curX = 1; *curY = 5;
     uint16 oldX = 1, oldY = 5, indexClone = *index;
     paintLine(blue, 1, *curY, sw);
-    for(uint16 loopi = 1; loopi < data.ilist.size; loopi++) {
+    for(uint16 loopi = 0; loopi < data.ilist.size; loopi++) {
         printChar(strbuilder_charAt(data, loopi), curX, curY);
         if(*curY > oldY)
         {
-            indexClone -= oldX + 1;
+            indexClone -= oldX;
         }
         oldY = *curY;
         oldX = *curX;
     }
-    *curX = indexClone;
+    *curX = indexClone + 1;
 }
 
 static inline void insertCharAt(uint16* curX, uint16* curY, uint32* index, strbuilder_t* data, char charInput)
@@ -221,6 +221,7 @@ string initWriter()
                 break;
             case 0x48:
                 curY--;
+                curX = 1;
 				cursorBoundsCheck(&curX, &curY, &index);
                 break;
             case 0x4B:
@@ -231,6 +232,7 @@ string initWriter()
                 break;
             case 0x50:
                 curY++;
+                curX = 1;
                 cursorBoundsCheck(&curX, &curY, &index);
                 break;
             case 0x0E:
