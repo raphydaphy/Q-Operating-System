@@ -165,6 +165,8 @@ void launchShell()
                     infbs,
                     pushf, 3, -1, 5,// Pushes 3.05
                     infbf,
+                    
+                    pushi, 2, waiti,// Pause for 2 seconds
 
         	        EOS             // End of prog
     	        };

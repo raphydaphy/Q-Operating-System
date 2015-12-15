@@ -83,6 +83,7 @@ typedef enum {
     thrwi = 0x69,   // Int  ; Throws an exception
     defs = 0x70,    // Int  ; Param1 = %1s
     gets = 0x71,    // Int  ; Push svalue linked to Param1 in stack
+    waiti = 0x72    // None ; Wait for %1i seconds
 } STACKVM_OP;
 
 typedef enum {
@@ -92,7 +93,8 @@ typedef enum {
     ILLEGAL_JOFF = 3,
     ILLEGAL_TRYB = 4,
     BAD_CONV_TYP = 5,
-    UNDEF_EXCEPT = 6
+    UNDEF_EXCEPT = 6,
+    NEG_WAIT_TME = 7
 } statusCode;
 
 stackVM_t initEnv(uint16);

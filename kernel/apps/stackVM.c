@@ -171,7 +171,20 @@ start:
             }
             break;
         }
-        
+        case waiti:
+        {
+            element_t tail = list_remove(&(env->istack), env->istack.size - 1);
+            int time = etoi(tail);
+            if(time < 0)
+            {
+                env->status = NEG_WAIT_TME;
+            }
+            else
+            {
+                waitSeconds(time);
+            }
+            break;
+        }
         case tryl:
         {
             int param1 = opcodes[opIndex++];
@@ -655,6 +668,35 @@ start:
             env->status = EXEC_SUCCESS;
             // This means the cycle starts again... more spaghetti
             goto start;
+        }
+    }
+    else
+    {
+        // Print the error code to user
+        switch(env->status)
+        {
+        case ILLEGAL_OPND:
+            messageBox("\x01 Error: Illegal Operand  \x01");
+            break;
+        case DIVI_BY_ZERO:
+            messageBox("\x01 Error: Divide By Zero   \x01");
+            break;
+        case ILLEGAL_JOFF:
+            messageBox("\x01 Error: Bad Jump Offset  \x01");
+            break;
+        case ILLEGAL_TRYB:
+            messageBox("\x01 Error: Dangling End Try \x01");
+            break;
+        case BAD_CONV_TYP:
+            messageBox("\x01 Error: Illegal Operand  \x01");
+            break;
+        case NEG_WAIT_TME:
+            messageBox("\x01 Error: Negate Wait Val  \x01");
+            break;
+        case UNDEF_EXCEPT:
+        default:
+            messageBox("\x01 Error: <<UNDEFINED>>    \x01");
+            break;
         }
     }
 
