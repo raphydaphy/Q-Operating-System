@@ -64,6 +64,13 @@ start:
             hashmap_add(&(env->varmap), itos10(param1), makeFloatElement(tail));
             break;
         }
+        case defs:
+        {
+            int param1 = opcodes[opIndex++];
+            string tail = etos(list_remove(&(env->istack), env->istack.size - 1));
+            hashmap_add(&(env->varmap), itos10(param1), makeStrElement(tail));
+            break;
+        }
         case geti:
         {
             int param1 = opcodes[opIndex++];
@@ -76,6 +83,13 @@ start:
             int param1 = opcodes[opIndex++];
             float f = etof(hashmap_getVal(env->varmap, itos10(param1)));
             list_addf(&(env->istack), f);
+            break;
+        }
+        case gets:
+        {
+            int param1 = opcodes[opIndex++];
+            string s = etos(hashmap_getVal(env->varmap, itos10(param1)));
+            list_adds(&(env->istack), s);
             break;
         }
         case jmpl:
@@ -157,7 +171,20 @@ start:
             }
             break;
         }
-        
+        case waiti:
+        {
+            element_t tail = list_remove(&(env->istack), env->istack.size - 1);
+            int time = etoi(tail);
+            if(time < 0)
+            {
+                env->status = NEG_WAIT_TME;
+            }
+            else
+            {
+                waitSeconds(time);
+            }
+            break;
+        }
         case tryl:
         {
             int param1 = opcodes[opIndex++];
@@ -184,11 +211,24 @@ start:
         }
         case pushf:
         {
-            string param1 = (string) kmalloc(39 * sizeof(char));
-            strcat(param1, itos10(opcodes[opIndex++]));
-            strcat(param1, ".");
-            strcat(param1, itos10(opcodes[opIndex++]));
-            list_addf(&(env->istack), (float) stod(param1));
+            string conStr = (string) kmalloc(39 * sizeof(char));
+            strcat(conStr, itos10(opcodes[opIndex++]));
+            strcat(conStr, ".");
+            int posOrVal = opcodes[opIndex++];
+            double remVal = 0;
+            if(posOrVal < 0)
+            {
+                remVal = opcodes[opIndex++];
+                while(posOrVal++ < 0)
+                {
+                    remVal *= 0.1;
+                }
+            }
+            else
+            {
+                strcat(conStr, itos10(posOrVal));
+            }
+            list_addf(&(env->istack), (float) (stod(conStr) + remVal));
             break;
         }
         case pushs:
@@ -628,6 +668,35 @@ start:
             env->status = EXEC_SUCCESS;
             // This means the cycle starts again... more spaghetti
             goto start;
+        }
+    }
+    else
+    {
+        // Print the error code to user
+        switch(env->status)
+        {
+        case ILLEGAL_OPND:
+            messageBox("\x01 Error: Illegal Operand  \x01");
+            break;
+        case DIVI_BY_ZERO:
+            messageBox("\x01 Error: Divide By Zero   \x01");
+            break;
+        case ILLEGAL_JOFF:
+            messageBox("\x01 Error: Bad Jump Offset  \x01");
+            break;
+        case ILLEGAL_TRYB:
+            messageBox("\x01 Error: Dangling End Try \x01");
+            break;
+        case BAD_CONV_TYP:
+            messageBox("\x01 Error: Illegal Operand  \x01");
+            break;
+        case NEG_WAIT_TME:
+            messageBox("\x01 Error: Negate Wait Val  \x01");
+            break;
+        case UNDEF_EXCEPT:
+        default:
+            messageBox("\x01 Error: <<UNDEFINED>>    \x01");
+            break;
         }
     }
 

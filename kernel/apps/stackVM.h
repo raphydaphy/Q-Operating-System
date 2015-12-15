@@ -14,7 +14,7 @@ typedef enum {
     EOS = 0x00,     // End of stream
     NOP = 0x01,     // Nothing
     pushi = 0x02,   // val
-    pushf = 0x03,   // int, point
+    pushf = 0x03,   // int(dec), int(from tenth) or int(dec), negate int(index), int(from index)
     swap = 0x04,    // None
     addi = 0x05,    // None
     addf = 0x06,    // None
@@ -81,6 +81,9 @@ typedef enum {
     ei_s = 0x67,    // None ; Encodes int to string. Essentially the Base64 algorithm
     ci_p = 0x68,    // None ; Casts pointer address to string
     thrwi = 0x69,   // Int  ; Throws an exception
+    defs = 0x70,    // Int  ; Param1 = %1s
+    gets = 0x71,    // Int  ; Push svalue linked to Param1 in stack
+    waiti = 0x72    // None ; Wait for %1i seconds
 } STACKVM_OP;
 
 typedef enum {
@@ -90,7 +93,8 @@ typedef enum {
     ILLEGAL_JOFF = 3,
     ILLEGAL_TRYB = 4,
     BAD_CONV_TYP = 5,
-    UNDEF_EXCEPT = 6
+    UNDEF_EXCEPT = 6,
+    NEG_WAIT_TME = 7
 } statusCode;
 
 stackVM_t initEnv(uint16);

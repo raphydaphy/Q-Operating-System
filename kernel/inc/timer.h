@@ -7,6 +7,10 @@
 #include "isr.h"
 #include "screenUtils.h"
 
-void init_timer(uint32 frequency);
+void init_timer(uint32);
+
+void waitTicks(uint32);
+
+void waitSeconds(uint32);
 
 #endif
