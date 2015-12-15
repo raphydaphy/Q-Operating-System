@@ -30,6 +30,8 @@ int kmain(struct multiboot* mboot_ptr)
     init_descriptor_tables();
     __asm__ __volatile__("sti");
 
+    init_timer(50);
+
     uint32 initrd_location = findInitrd(mboot_ptr);
     initialize_paging();
 
