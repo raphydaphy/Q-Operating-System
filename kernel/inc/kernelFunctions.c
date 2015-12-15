@@ -122,32 +122,30 @@ void launchShell()
         	    int ops[] = {
         	        blnk,           // Clears the terminal
         	        pushi, 1,       // Pushes 1
-        	        pushd, 0, 5,    // Pushes 0.5
+        	        pushf, 0, 5,    // Pushes 0.5
         	        swap,           // 1, 0.5 -> 0.5, 1
-        	        ci_d,           // 1 -> 1.0
-        	        addd,           // 0.5 + 1
-        	        pushd, 1, 0,    // Pushes 1.0
-        	        subd,           // 1.5 - 1.0
-        	        pushd, 3, 0,    // Pushes 3.0
-        	        muld,           // 0.5 * 3
-        	        pushd, 3, 0,    // Pushes 3.0
-        	        divd,           // 1.5 / 3.0
+        	        ci_f,           // 1 -> 1.0
+        	        addf,           // 0.5 + 1
+        	        pushf, 1, 0,    // Pushes 1.0
+        	        subf,           // 1.5 - 1.0
+        	        pushf, 3, 0,    // Pushes 3.0
+        	        mulf,           // 0.5 * 3
+        	        pushf, 3, 0,    // Pushes 3.0
+        	        divf,           // 1.5 / 3.0
 
                     seto, 2, 8,     // new label for div. Jumps to opcode clrs
                     tryl, 2,
                     setl, 0,        // new label 0
-                    pushd, 0, 0,    // Pushes 0.0
-                    divd,           // 0.5 / 0.0
+                    pushf, 0, 0,    // Pushes 0.0
+                    divf,           // 0.5 / 0.0
 
                     clrs,           // Clears stack
                     pushi, 0,       // Pushes 0
                     pushi, 10,      // Pushes 10
                     raddi,          // 0 +...+10
-
                     pushi, 55,
-
                     eqlv,           // Test to see if result is same
-                    
+
                     seto, 3, 1,     // new label for CPU halt simulation
                     notb,           // Flip the value
                     ifjl, 3,        // (Translated) if (55 != 55) goto label 3
