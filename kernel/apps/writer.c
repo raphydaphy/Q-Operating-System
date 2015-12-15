@@ -107,6 +107,35 @@ static inline void printStatus(uint16 curX, uint16 curY, bool inCmdMode)
     printCharAt((char) V_S, black, 16, 24);
 }
 
+static inline void reprintText(uint16* curX, uint16* curY, uint32* index, strbuilder_t data)
+{
+    *curX = 1; *curY = 5;
+    uint16 oldX = 1, oldY = 5, indexClone = *index;
+    paintLine(blue, 1, *curY, sw);
+    for(uint16 loopi = 1; loopi < data.ilist.size; loopi++) {
+        printChar(strbuilder_charAt(data, loopi), curX, curY);
+        if(*curY > oldY)
+        {
+            indexClone -= oldX + 1;
+        }
+        oldY = *curY;
+        oldX = *curX;
+    }
+    *curX = indexClone;
+}
+
+static inline void insertCharAt(uint16* curX, uint16* curY, uint32* index, strbuilder_t* data, char charInput)
+{
+    strbuilder_insertc(data, charInput, (*index)++);
+    reprintText(curX, curY, index, *data);
+}
+
+static inline void deleteCharAt(uint16* curX, uint16* curY, uint32* index, strbuilder_t* data)
+{
+    strbuilder_rmchar(data, --(*index));
+    reprintText(curX, curY, index, *data);
+}
+
 string initWriter()
 {
 	string vidmem = (string) 0xb8000;
@@ -142,7 +171,7 @@ string initWriter()
 
         if(inCmdMode)
         {
-            k = waitUntilKey(6, 0x10 /*Q*/, 0x17 /*I*/, 0x18 /*O*/, 0x3A /*<CAPS>*/, 0x23 /*H*/, 0x26 /*L*/);
+            k = waitUntilKey(7, 0x10 /*Q*/, 0x17 /*I*/, 0x18 /*O*/, 0x3A /*<CAPS>*/, 0x23 /*H*/, 0x26 /*L*/, 0x2D /*X*/);
             switch(k)
             {
             case 0x10:
@@ -162,6 +191,9 @@ string initWriter()
                 break;
             case 0x26:
                 moveCursorRight(&curX, &curY, &index);
+                break;
+            case 0x2D:
+                deleteCharAt(&curX, &curY, &index, &data);
                 break;
             }
         } else {
@@ -202,18 +234,8 @@ string initWriter()
                 cursorBoundsCheck(&curX, &curY, &index);
                 break;
             case 0x0E:
-            {
-                strbuilder_rmchar(&data, index);
-                // Hahaha... RE-PRINT THE ENTIRE STRB!!!
-                // Its all warped strings fault... :(
-                curX = 1; curY = 5;
-                paintLine(blue, 1, curY, sw - 1);
-                for(uint16 loopi = 0; loopi < data.ilist.size; loopi++) {
-                    printChar(strbuilder_charAt(data, loopi), &curX, &curY);
-                }
-                index--;
+                deleteCharAt(&curX, &curY, &index, &data);
                 break;
-            }
             default:
                 if(k < 59 && k > 0)
                 {
@@ -237,22 +259,7 @@ string initWriter()
                     {
                         break;
                     }
-                    strbuilder_insertc(&data, charInput, index++);
-                    // Hahaha... RE-PRINT THE ENTIRE STRB!!!
-					// turns out to be a bad idea because it glitches :(
-                    curX = 1; curY = 5;
-                    uint16 oldX = 1, oldY = 5, indexClone = index;
-                    paintLine(blue, 1, curY, sw);
-                    for(uint16 loopi = 1; loopi < data.ilist.size; loopi++) {
-                        printChar(strbuilder_charAt(data, loopi), &curX, &curY);
-                        if(curY > oldY)
-                        {
-                            indexClone -= oldX + 1;
-                        }
-                        oldY = curY;
-                        oldX = curX;
-                    }
-                    curX = indexClone;
+                    insertCharAt(&curX, &curY, &index, &data, charInput);
                 }
                 break;
             }
