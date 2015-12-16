@@ -29,33 +29,10 @@ Logical Extensions
 For a long time, our files have been appended with what we know as a "File Extension". This is a simple, typically three leter long abbreviation that tells the computer what kind of file it is - for example, .jpg indicates a kind of photo, .mov is a video encoded with Apple's "QuickTime" encoder, .doc is a text document made using the "Microsoft Word" software, and so on.
 
 
-But to an inexperienced computer user, what do all these extensions mean? I surveyed a random selection of around 100 people living in Melbourne, where I live, and less than 20 of them had any clue what the file extensions after a file actually mean. Even worse, less than 10 were able to translate certain extensions into what they meant!
-
-
-Obviously this is not an ideal setup. In Q OS I am going to solve this by creating logical file extensions that are easy to understand even to someone who has only just touched a computer for the first time, and store the actual file type in the old format with three leter extensions only in the metadata of the file. Advanced users will be able to see the origional file extensions, but the file type itself is a completely different structure than in current systems so adapting to my design is a much better option if you plan to use Q OS for any extended period of time.
+But to an inexperienced computer user, what do all these extensions mean? Nothing! In Q OS I am going to solve this by creating logical file extensions that are easy to understand even to someone who has only just touched a computer for the first time, and store the actual file type in the old format with three leter extensions only in the metadata of the file. Advanced users will be able to see the origional file extensions, but the file type itself is a completely different structure than in current systems so adapting to my design is a much better option if you plan to use Q OS for any extended period of time.
 
 
 Some examples of my Logical Extensions are .photo for any photo file no matter if it is a photoshop file, a vector image, a .png image or any other kind of still picture, it will have the .photo extension. .movie is for anything that moves. Animations, .gif's, Films, Movies and more are considered a moving picture format and will be .movie. .code is a powerful new extension for us programmers. Whilst some programmers will be apprehensive to use this at first, it lets programmers and developers define the programming language, version and other metadata at the top of the file and also helps make your folders of code look neater and more beautiful with the same extension for every code file, from binary to html. There are many other Logical Extensions that I will be implementing into Q OS and I belive they will make file managment much easier.
-
-
-Terminal Rethought
-------------------
-
-
-After over a decade of Unix-style terminals, many users will have began to discover the limitations of command line interaction with your computer. In Q OS, I am redesigning the command line interface from the ground up. This begins with over 2000 brand new commands. The most powerful of any of these is arguablely the new <code>do</code> command, however. Here is a brief example of what this powerful command lets you do with the forthcoming Q OS Terminal:
-
-
-`do js for(i=0;i<10;i++) { console.log(i); }`
-
-This is using the all new `do` command to execute javascript inside the terminal. The syntax for the `do` commmand is as follows:
-
-`do language code`
-
-Although the `do` syntax itself is simple to use, what you can create with `do` is incredible. The Terminal now allows you to create and store variables that are stored in memory until you close the window. But that's not even the best part. The `do` command supports a huge number of programming languages. Examine this command:
-
-`do asm add eax, ebx`
-
-Yes, Q OS even supports running Assembly Language code directly in the Terminal. All this power is possible by intergrating multiple language compilers into the Terminal that run when the correct `do` syntax is supplied by the user and generate an output when nessesary.
 
 
 Custom Programming Language
