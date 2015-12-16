@@ -3,6 +3,7 @@
 
 #include "stdarg.h"
 #include "kbDetect.h"
+#include "stringUtils.h"
 #include "screenUtils.h"
 
 // T: Top, B: Bottom, L: Left, R: Right
@@ -45,13 +46,13 @@ void drawFrame(int, uint16, uint16, uint16, uint16);
 
 void drawBorder(int, uint16, uint16, uint16, uint16);
 
-void messageBox(string);
+void messageBox(string, ...);
 
-int8 messageBox_YN(string);
+int8 messageBox_YN(string, ...);
 
-string messageBox_I(string);
+string messageBox_I(string, ...);
 
-string messageBox_Pass(string);
+string messageBox_Pass(string, ...);
 
 //waitUntilKey(n, key1, key2, ..., keyn)
 int waitUntilKey(int, ...);
@@ -59,5 +60,7 @@ int waitUntilKey(int, ...);
 int getKey();
 
 int getAnyKey();
+
+extern string __vstrformat(string, va_list);
 
 #endif

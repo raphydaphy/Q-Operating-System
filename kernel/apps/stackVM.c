@@ -623,28 +623,25 @@ start:
         case infbf:
         {
             element_t tail = list_remove(&(env->istack), env->istack.size - 1);
-            messageBox(ftos(etof(tail)));
+            messageBox("%f", etof(tail));
             break;
         }
         case infbi:
         {
             element_t tail = list_remove(&(env->istack), env->istack.size - 1);
-            messageBox(itos10(etoi(tail)));
+            messageBox("%d", etoi(tail));
             break;
         }
         case infbc:
         {
             element_t tail = list_remove(&(env->istack), env->istack.size - 1);
-            string msg = " ";
-            msg[0] = (char) etoi(tail);
-            messageBox(msg);
+            messageBox("%c", etoi(tail));
             break;
         }
         case infbs:
         {
             element_t tail = list_remove(&(env->istack), env->istack.size - 1);
-            string msg = etos(tail);
-            messageBox(msg);
+            messageBox("%s", etos(tail));
             break;
         }
         case dup:
