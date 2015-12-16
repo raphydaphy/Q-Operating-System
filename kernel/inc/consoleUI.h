@@ -48,11 +48,11 @@ void drawBorder(int, uint16, uint16, uint16, uint16);
 
 void messageBox(string, ...);
 
-int8 messageBox_YN(string);
+int8 messageBox_YN(string, ...);
 
-string messageBox_I(string);
+string messageBox_I(string, ...);
 
-string messageBox_Pass(string);
+string messageBox_Pass(string, ...);
 
 //waitUntilKey(n, key1, key2, ..., keyn)
 int waitUntilKey(int, ...);

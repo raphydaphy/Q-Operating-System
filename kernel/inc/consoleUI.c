@@ -151,13 +151,18 @@ void messageBox(string txt, ...) {
     strcpy(vidmem, oldmem);
 }
 
-int8 messageBox_YN(string txt) {
+int8 messageBox_YN(string txt, ...) {
     string vidmem = (string) 0xb8000;
     char oldmem[strlen(vidmem)];
     strcpy(oldmem, vidmem);
 
+    va_list ap;
+    va_start(ap, txt);
+    string onscreenTxt = __vstrformat(txt, ap);
+    va_end(ap);
+
     drawBorder(header_background, 20, 12, 60, 18);
-    printAt(txt, desc_foreground, 21, 13);
+    printAt(onscreenTxt, desc_foreground, 21, 13);
     printAt("[YES]", desc_foreground, 22, 17);
     printAt("[NO]", desc_foreground, 38, 17);
     printAt("[CANCEL]", desc_foreground, 50, 17);
@@ -192,13 +197,21 @@ static inline string __vMessageBoxIn(string txt, bool isPasswd) {
     return inputBuf;
 }
 
-string messageBox_I(string txt) {
-    return __vMessageBoxIn(txt, false);
+string messageBox_I(string txt, ...) {
+    va_list ap;
+    va_start(ap, txt);
+    string onscreenTxt = __vstrformat(txt, ap);
+    va_end(ap);
+    return __vMessageBoxIn(onscreenTxt, false);
 }
 
 
-string messageBox_Pass(string txt) {
-    return __vMessageBoxIn(txt, true);
+string messageBox_Pass(string txt, ...) {
+    va_list ap;
+    va_start(ap, txt);
+    string onscreenTxt = __vstrformat(txt, ap);
+    va_end(ap);
+    return __vMessageBoxIn(onscreenTxt, true);
 }
 
 int waitUntilKey(const int count, ...) {
