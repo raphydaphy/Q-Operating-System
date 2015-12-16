@@ -52,4 +52,6 @@ string toLower(string);
 
 int strHash(string);
 
+string strformat(string, ...);
+
 #endif

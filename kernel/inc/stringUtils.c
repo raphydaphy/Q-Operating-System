@@ -1,4 +1,5 @@
 #include "stringUtils.h"
+#include "strbuilder.h" // THIS LINE MUST BE HERE!!!
 #include "kheap.h" // THIS LINE MUST BE HERE!!!
 
 int lastArg(string args)
@@ -344,3 +345,60 @@ int strHash(string s) {
     tmp &= (tmp ^ 7) >> 4;
     return tmp;
 }
+
+inline string __vstrformat(string str, va_list ap)
+{
+    strbuilder_t msg = strbuilder_init();
+    char curChar;
+    do {
+        curChar = *str++;
+        if(curChar == '%')
+        {
+            curChar = *str++;
+            switch(curChar)
+            {
+            case '%':
+                strbuilder_appendc(&msg, '%');
+                break;
+            case 'd':
+            case 'i':
+                strbuilder_appendi(&msg, va_arg(ap, int));
+                break;
+            case 'o':
+                strbuilder_append(&msg, itos8(va_arg(ap, int)));
+                break;
+            case 'x':
+                strbuilder_append(&msg, toLower(itos16(va_arg(ap, int))));
+                break;
+            case 'X':
+                strbuilder_append(&msg, toUpper(itos16(va_arg(ap, int))));
+                break;
+            case 'f':
+            case 'F':
+                strbuilder_appendf(&msg, va_arg(ap, double));
+                break;
+            case 'c':
+                strbuilder_appendc(&msg, va_arg(ap, int));
+                break;
+            case 's':
+                strbuilder_append(&msg, va_arg(ap, string));
+                break;
+            }
+        }
+        else
+        {
+            strbuilder_appendc(&msg, curChar);
+        }
+    } while (*str != 0);
+    return strbuilder_tostr(msg);
+}
+
+string strformat(string str, ...)
+{
+    va_list ap;
+    va_start(ap, str);
+    string msg = __vstrformat(str, ap);
+    va_end(ap);
+    return msg;
+}
+
