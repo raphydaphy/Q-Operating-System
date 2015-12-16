@@ -93,5 +93,7 @@ void kprintch(char, int, bool);
     print(str, c); \
     newline()
 
+extern string __vstrformat(string, va_list);
+
 //end the if statment at the start of the file
 #endif

@@ -178,49 +178,10 @@ void print(string ch, int bh)
 void printf(string str, ...)
 {
     va_list ap;
-    char curChar;
     va_start(ap, str);
-    do {
-        curChar = *str++;
-        if(curChar == '%')
-        {
-            curChar = *str++;
-            switch(curChar)
-            {
-            case '%':
-                printch('%', black);
-                break;
-            case 'd':
-            case 'i':
-                printint(va_arg(ap, int), black);
-                break;
-            case 'o':
-                print(itos8(va_arg(ap, int)), black);
-                break;
-            case 'x':
-                print(toLower(itos16(va_arg(ap, int))), black);
-                break;
-            case 'X':
-                print(toUpper(itos16(va_arg(ap, int))), black);
-                break;
-            case 'f':
-            case 'F':
-                printfloat(va_arg(ap, double), black);
-                break;
-            case 'c':
-                printch(va_arg(ap, int), black);
-                break;
-            case 's':
-                print(va_arg(ap, string), black);
-                break;
-            }
-        }
-        else
-        {
-            printch(curChar, black);
-        }
-    } while (*str != 0);
+    string msg = __vstrformat(str, ap);
     va_end(ap);
+    print(msg, black);
 }
 
 void moveCursorX(int x) {
