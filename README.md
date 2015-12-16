@@ -38,26 +38,6 @@ Obviously this is not an ideal setup. In Q OS I am going to solve this by creati
 Some examples of my Logical Extensions are .photo for any photo file no matter if it is a photoshop file, a vector image, a .png image or any other kind of still picture, it will have the .photo extension. .movie is for anything that moves. Animations, .gif's, Films, Movies and more are considered a moving picture format and will be .movie. .code is a powerful new extension for us programmers. Whilst some programmers will be apprehensive to use this at first, it lets programmers and developers define the programming language, version and other metadata at the top of the file and also helps make your folders of code look neater and more beautiful with the same extension for every code file, from binary to html. There are many other Logical Extensions that I will be implementing into Q OS and I belive they will make file managment much easier.
 
 
-Terminal Rethought
-------------------
-
-
-After over a decade of Unix-style terminals, many users will have began to discover the limitations of command line interaction with your computer. In Q OS, I am redesigning the command line interface from the ground up. This begins with over 2000 brand new commands. The most powerful of any of these is arguablely the new <code>do</code> command, however. Here is a brief example of what this powerful command lets you do with the forthcoming Q OS Terminal:
-
-
-`do js for(i=0;i<10;i++) { console.log(i); }`
-
-This is using the all new `do` command to execute javascript inside the terminal. The syntax for the `do` commmand is as follows:
-
-`do language code`
-
-Although the `do` syntax itself is simple to use, what you can create with `do` is incredible. The Terminal now allows you to create and store variables that are stored in memory until you close the window. But that's not even the best part. The `do` command supports a huge number of programming languages. Examine this command:
-
-`do asm add eax, ebx`
-
-Yes, Q OS even supports running Assembly Language code directly in the Terminal. All this power is possible by intergrating multiple language compilers into the Terminal that run when the correct `do` syntax is supplied by the user and generate an output when nessesary.
-
-
 Custom Programming Language
 ---------------------------
 
