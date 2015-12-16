@@ -131,13 +131,18 @@ void paintLine(int color, uint16 x, uint16 y, uint16 xlen) {
     }
 }
 
-void messageBox(string txt) {
+void messageBox(string txt, ...) {
     string vidmem = (string) 0xb8000;
     char oldmem[strlen(vidmem)];
     strcpy(oldmem, vidmem);
 
+    va_list ap;
+    va_start(ap, txt);
+    string onscreenTxt = __vstrformat(txt, ap);
+    va_end(ap);
+
     drawBorder(header_background, 20, 12, 60, 18);
-    printAt(txt, desc_foreground, 21, 13);
+    printAt(onscreenTxt, desc_foreground, 21, 13);
     printAt("[OKAY]", desc_foreground, 37, 17);
 
     waitUntilKey(1, 0x9C);
