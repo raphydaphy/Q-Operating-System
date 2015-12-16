@@ -7,6 +7,7 @@
 #include "inc/error.h"
 #include "inc/paging.h"
 #include "inc/initrd.h"
+#include "inc/keyboard.h"
 #include "inc/kbDetect.h"
 #include "inc/descriptorTables.h"
 #include "inc/assemblyFunctions.h"
@@ -38,8 +39,12 @@ int kmain(struct multiboot* mboot_ptr)
     // Initialize the initial ramdisk, and set it as the filesystem root.
     fs_root = initialize_initrd(initrd_location);
 
+    initialize_keyboard();
+
     printIntro();
-    launchShell();
+    string a = readstr();
+    printf("%s", a);
+//    launchShell();
 
     return 0;
 }
