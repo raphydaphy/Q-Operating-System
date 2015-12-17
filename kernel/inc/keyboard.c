@@ -79,6 +79,10 @@ static inline string __vreadstr(bool stdEcho)
                 if(ch == '\b')
                 {
                     // For some reason, strb.size != strb.ilist.size
+                    if((cursorX == deleteStopX) && (cursorY == startCmdY))
+                    {
+                        continue;
+                    }
                     list_remove(&(strb.ilist), --index);
                     strb.size = strb.ilist.size;
                     continue;
