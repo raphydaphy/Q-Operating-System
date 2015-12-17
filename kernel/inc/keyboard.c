@@ -2,7 +2,7 @@
 #include "strbuilder.h"
 #include "list.h"
 
-uint8 itermVal = 0;
+static uint8 itermVal = 0;
 
 static bool pgetch = false, pgetkc = false, echoOn = true;
 static bool shiftDown = false, capslDown = false, ctrlDown = false;

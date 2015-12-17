@@ -4,8 +4,6 @@
 #include "isr.h"
 #include "screenUtils.h"
 
-uint8 itermVal;
-
 string readpasswd();
 
 string readstr();
