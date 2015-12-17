@@ -235,7 +235,7 @@ void me(string args)
     else if (streql(splitArg(args, 1),""))
     {
         querying = true;
-        char* meArgs = "";
+        string meArgs = NULL;
 
         while (querying)
         {
@@ -243,7 +243,7 @@ void me(string args)
 
             //meArgs = "";
             print("me>  ",green);
-            readStr(meArgs,128,false);
+            meArgs = readstr();
 
             print(answer(meArgs,0),red);
         }

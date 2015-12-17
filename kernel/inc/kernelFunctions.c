@@ -16,10 +16,10 @@ void launchShell()
     const int cmdSize = 128;
 
     //Store sanitized user command (no arguments)
-    char cmdStr[cmdSize];
+    string cmdStr = NULL;
 
     //Gets user raw command from command line
-    char fullArgs[cmdSize];
+    string fullArgs = NULL;
 
     //First space (first word means actual command)
     int fs = 1;
@@ -43,7 +43,7 @@ void launchShell()
     #define BIGCLEAR clearScreen(); printIntro();
     #define MKDIR print("\nThis Command is Reserved for when we have a FAT32 or better FileSystem...", 0x3F);
     #define RMFILE print("\nThis Command is Reserved for when we have a FAT32 or better FileSystem...", 0x3F);
-    #define SEARCHFOR string searchTerm = (string) kmalloc(cmdSize * sizeof(char)); print("\nDictionary File Name>  ", white); readStr(cmdStr, cmdSize, false); print("\nSearch Term>  ", green); readStr(searchTerm, cmdSize, false); if (findInDictionary(cmdStr,searchTerm)) { print("\nWe found the word!",white); }
+    #define SEARCHFOR string searchTerm = NULL; print("\nDictionary File Name>  ", white); cmdStr = readstr(); print("\nSearch Term>  ", green); searchTerm = readstr(); if (findInDictionary(cmdStr,searchTerm)) { print("\nWe found the word!",white); }
     #define CMDNOTFOUND print("\n", white); print(cmdStr, white); print(": Command Not Found ", white);
 
     printIntro();
@@ -67,7 +67,7 @@ void launchShell()
             typingCmd = true;
             newCmd = true;
 
-            readStr(fullArgs, cmdSize, false);
+            fullArgs = readstr();
 
             typingCmd = false;
 

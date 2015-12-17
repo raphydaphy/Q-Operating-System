@@ -1,9 +1,10 @@
 #include "keyboard.h"
+#include "strbuilder.h"
+#include "list.h"
 
-#define KB_BUFF 128
+uint8 itermVal = 0;
 
-static uint8 itermVal = 0;
-static bool pgetch = false, echoOn = true;
+static bool pgetch = false, pgetkc = false, echoOn = true;
 static bool shiftDown = false, capslDown = false, ctrlDown = false;
 
 static inline char __getch()
@@ -86,38 +87,53 @@ char getch()
     return readstr()[0];
 }
 
+uint8 getKeycode()
+{
+    pgetkc = true;
+    while(pgetkc);
+    return itermVal;
+}
+
 static void kb_callback()
 {
     if(inportb(0x64) & 0x1)
     {
         uint8 value = inportb(0x60);
 //        printf("0x%x", value);
-        switch(value)
+        if(pgetkc)
         {
-        case 0x1D:
-            ctrlDown = true;
-            break;
-        case 0x9D:
-            ctrlDown = false;
-            break;
-        case 0x2A:
-        case 0x36:
-            shiftDown = true;
-            break;
-        case 0xAA:
-        case 0xB6:
-            shiftDown = false;
-            break;
-        case 0x3A:
-            capslDown = !capslDown;
-            break;
-        default:
-            if(pgetch)
+            itermVal = value;
+            pgetkc = false;
+        }
+        else
+        {
+            switch(value)
             {
-                itermVal = value;
-                pgetch = false;
+            case 0x1D:
+                ctrlDown = true;
+                break;
+            case 0x9D:
+                ctrlDown = false;
+                break;
+            case 0x2A:
+            case 0x36:
+                shiftDown = true;
+                break;
+            case 0xAA:
+            case 0xB6:
+                shiftDown = false;
+                break;
+            case 0x3A:
+                capslDown = !capslDown;
+                break;
+            default:
+                if(pgetch)
+                {
+                    itermVal = value;
+                    pgetch = false;
+                }
+                break;
             }
-            break;
         }
     }
 }

@@ -1,7 +1,6 @@
 #include "calc.h"
 
-#define CALC_SIZE 128
-static char calcInput[CALC_SIZE];
+static string calcInput = NULL;
 
 // There are 52 alphabets
 static float varList[52];
@@ -108,7 +107,7 @@ void calc(string args)
     {
         newline();
         print("Number>  ",dark_grey);
-        readStr(calcInput, CALC_SIZE,false);
+        calcInput = readstr();
         newline();
     	printfloat(powerOfTen(stoi(calcInput)), white);
     }
@@ -116,7 +115,7 @@ void calc(string args)
     {
         newline();
         print("max Number>  ",dark_grey);
-        readStr(calcInput, CALC_SIZE,false);
+        calcInput = readstr();
         newline();
         printint(maxrand(stoi(calcInput)), white);
     }
@@ -134,7 +133,10 @@ void calc(string args)
     }
     else
     {
-        memset(calcInput, 0, CALC_SIZE);
+        if(calcInput != NULL)
+        {
+            memset(calcInput, 0, strlen(calcInput));
+        }
         strbuilder_t simStack = strbuilder_init();
         bool complete = false;
         int cpyCount = 1;
