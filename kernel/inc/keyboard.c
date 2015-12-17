@@ -60,12 +60,50 @@ static inline string __vreadstr(bool stdEcho)
             case 19424: // Left Arrow
                 cursorX--;
                 index--;
+                updateCursor();
                 continue;
             case 19936: // Right Arrow
                 cursorX++;
                 index++;
+                updateCursor();
+                continue;
+            case 18656: // Up Arrow
+            case 20704: // Down Arrow
+                continue;
+            case 23520: // Windows Key!!!
+                ch = 0x01;
+                kprintch(stdEcho ? ch : '*', black, false);
+                break;
+            case 18400: // Home Key
+                // TODO: Yeah... This is wicked nasty
+                while(true)
+                {
+                    if((cursorY == startCmdY) && (cursorX <= deleteStopX))
+                    {
+                        break;
+                    }
+                    else
+                    {
+                        if(cursorX - 1 == 0)
+                        {
+                            cursorY--;
+                            cursorX = sw;
+                        }
+                        else
+                        {
+                            cursorX--;
+                        }
+                        index--;
+                    }
+                }
+                updateCursor();
                 continue;
             default:
+                if(rch < 0) // This should intercept the release codes
+                {
+                    continue;
+                }
+                printAt(itos10(rch), white, 0, 0);
                 ch = __getchFromKC(rch);
                 if(ch == 0)
                 {
@@ -94,22 +132,22 @@ static inline string __vreadstr(bool stdEcho)
     }
 }
 
-string readstr()
+inline string readstr()
 {
     return __vreadstr(true);
 }
 
-string readpasswd()
+inline string readpasswd()
 {
     return __vreadstr(false);
 }
 
-char getch()
+inline char getch()
 {
     return readstr()[0];
 }
 
-int16 getKeycode()
+inline int16 getKeycode()
 {
     pgetkc = true;
     while(pgetkc);
@@ -131,10 +169,12 @@ static void kb_callback()
             break;
         case 10794:     // R shift down
         case 13878:     // L shift down
+            printAt("Shift DOWN", white, 0, 2);
             shiftDown = true;
             break;
         case -21846:    // R shift up
         case -18762:    // L shift up
+            printAt("Shift UP  ", white, 0, 2);
             shiftDown = false;
             break;
         case 14906:     // Cpslk
