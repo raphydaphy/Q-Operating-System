@@ -7,7 +7,7 @@ static int16 itermVal = 0;
 static bool pgetkc = false, echoOn = true;
 static bool shiftDown = false, capslDown = false, ctrlDown = false;
 
-static char __retCorrespChar(char shift, char std)
+inline char retCorrespChar(char shift, char std)
 {
     if(shiftDown && !capslDown)
     {
@@ -34,7 +34,7 @@ static inline char __getchFromKC(int16 rch)
         if(r > -17990)
         {
             r /= KC_MAGIC_VAL; // Some magical increment value
-            return __retCorrespChar(kbShiftChars[r], kbLowerChars[r]);
+            return retCorrespChar(kbShiftChars[r], kbLowerChars[r]);
         }
         else
         {
@@ -132,7 +132,7 @@ static void kb_callback()
         case -18762:    // L shift up
             shiftDown = false;
             break;
-        case 3855:      // Cpslk
+        case 14906:     // Cpslk
             capslDown = !capslDown;
             break;
         default:
