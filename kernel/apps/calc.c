@@ -99,11 +99,11 @@ void mathError(mathExcept ID)
 
 void calc(string args)
 {
-    if(streql(splitArg(args, 1), "") || streql(splitArg(args, 1), "-h"))
+    if(streql(splitArg(args, 1), "") || streql(splitArg(args, 1), "-H"))
     {
        calcHelp();
     }
-    else if(streql(splitArg(args, 1), "-pow"))
+    else if(streql(splitArg(args, 1), "-POW"))
     {
         newline();
         print("Number>  ",dark_grey);
@@ -111,7 +111,7 @@ void calc(string args)
         newline();
     	printfloat(powerOfTen(stoi(calcInput)), white);
     }
-      else if(streql(splitArg(args, 1), "-ran"))
+      else if(streql(splitArg(args, 1), "-RAN"))
     {
         newline();
         print("max Number>  ",dark_grey);
@@ -119,7 +119,7 @@ void calc(string args)
         newline();
         printint(maxrand(stoi(calcInput)), white);
     }
-    else if(streql(splitArg(args, 1), "-mcr"))
+    else if(streql(splitArg(args, 1), "-MCR"))
     {
         //TODO: Add the predefined functions in here too
         newline();

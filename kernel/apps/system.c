@@ -3,21 +3,21 @@
 void system(string args)
 {
     args = splitArg(args, 1);
-	if (streql(args, "reboot"))
+	if (streql(args, "REBOOT"))
     {
         if(messageBox_YN("Do you really want to reboot your\n\rcomputer?") == 1)
         {
 		    reboot();
         }
     }
-	else if (streql(args, "shutdown"))
+	else if (streql(args, "SHUTDOWN"))
     {
         if(messageBox_YN("Are you sure you want to shutdown\n\ryour computer?") == 1)
         {
             shutdown();
         }
     }
-    else if (streql(args, "halt"))
+    else if (streql(args, "HALT"))
     {
         if(messageBox_YN("This will indefinately suspend your\n\rcomputer. Are you sure?") == 1)
         {
@@ -25,11 +25,11 @@ void system(string args)
             halt();
         }
     }
-    else if (streql(args, "logout"))
+    else if (streql(args, "LOGOUT"))
     {
         logout();
     }
-    else if (streql(args, "about"))
+    else if (streql(args, "ABOUT"))
     {
         print("\nYou are using the Q Operating System\nYour Version: 0.06 Alpha\n", brown);
 
