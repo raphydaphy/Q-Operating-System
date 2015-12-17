@@ -60,7 +60,7 @@ void oldWriter()
 
 	writing = true;
 	printAt(writerContents,black,1,5);
-	readStr(writerContents,WRITERSIZE,false);
+	writerContents = readstr();
 	writing = false;
 }
 
@@ -197,7 +197,7 @@ string initWriter()
                 break;
             }
         } else {
-            k = getAnyKey();
+            k = itermVal;
             char charInput = ' ';
             switch(k)
             {
