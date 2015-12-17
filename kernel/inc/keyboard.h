@@ -6,6 +6,8 @@
 #include "screenUtils.h"
 #include "strbuilder.h"
 
+string readpasswd();
+
 string readstr();
 
 char getch();

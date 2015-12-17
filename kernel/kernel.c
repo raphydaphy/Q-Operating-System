@@ -42,7 +42,8 @@ int kmain(struct multiboot* mboot_ptr)
     initialize_keyboard();
 
     printIntro();
-    string a = readstr();
+    string a = readpasswd();
+    a = a == NULL ? "\n" : a;
     printf("%s", a);
 //    launchShell();
 
