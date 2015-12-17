@@ -71,6 +71,11 @@ static inline string __vreadstr(bool stdEcho)
                 {
                     continue;
                 }
+                if((ch == '\b') && (cursorY == startCmdY) && (cursorX <= deleteStopX))
+                {
+                    continue;
+                }
+
                 kprintch(stdEcho ? ch : '*', black, false);
                 if(ch == '\n')
                 {
@@ -79,10 +84,6 @@ static inline string __vreadstr(bool stdEcho)
                 if(ch == '\b')
                 {
                     // For some reason, strb.size != strb.ilist.size
-                    if((cursorX == deleteStopX) && (cursorY == startCmdY))
-                    {
-                        continue;
-                    }
                     list_remove(&(strb.ilist), --index);
                     strb.size = strb.ilist.size;
                     continue;
