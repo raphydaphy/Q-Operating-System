@@ -55,6 +55,7 @@ static inline string __vreadstr(bool stdEcho)
         rch = getKeycode();
         if(echoOn)
         {
+            printAt(itos10(rch), white, 0, 0);
             switch(rch)
             {
             case 19424: // Left Arrow
@@ -98,12 +99,34 @@ static inline string __vreadstr(bool stdEcho)
                 }
                 updateCursor();
                 continue;
+            case 20448: // End Key
+                while(true)
+                {
+                    if(strbuilder_charAt(strb, index) == 0)
+                    {
+                        break;
+                    }
+                    else
+                    {
+                        if(cursorX + 1 == sw)
+                        {
+                            cursorY++;
+                            cursorX = 0;
+                        }
+                        else
+                        {
+                            cursorX++;
+                        }
+                        index++;
+                    }
+                }
+                updateCursor();
+                continue;
             default:
                 if(rch < 0) // This should intercept the release codes
                 {
                     continue;
                 }
-                printAt(itos10(rch), white, 0, 0);
                 ch = __getchFromKC(rch);
                 if(ch == 0)
                 {
@@ -169,12 +192,10 @@ static void kb_callback()
             break;
         case 10794:     // R shift down
         case 13878:     // L shift down
-            printAt("Shift DOWN", white, 0, 2);
             shiftDown = true;
             break;
         case -21846:    // R shift up
         case -18762:    // L shift up
-            printAt("Shift UP  ", white, 0, 2);
             shiftDown = false;
             break;
         case 14906:     // Cpslk
