@@ -45,5 +45,6 @@
 #include "../apps/setup.h"
 #include "../apps/hi.h"
 #include "../apps/stackVM.h"
+#include "../apps/painter.c"
 
 #endif

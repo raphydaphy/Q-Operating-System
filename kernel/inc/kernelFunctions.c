@@ -117,6 +117,7 @@ void launchShell()
         	else if(streql(cmdStr, "ME"))               {   me(fullArgs);           }
         	else if(streql(cmdStr, "HI"))               {   hi(fullArgs);           }
         	else if(streql(cmdStr, "SEARCH"))           {   SEARCHFOR;              }
+            else if(streql(cmdStr, "PAINTER"))          {   painter(fullArgs);      }
         	else if(streql(cmdStr, "SVM"))              {
         	    string hworld = "Hello, world!";
         	    int ops[] = {
