@@ -32,6 +32,7 @@
 #include "stdarg.h"
 
 // Q Applications
+#include "../apps/painter.h"
 #include "../apps/user.h"
 #include "../apps/execute.h"
 #include "../apps/calc.h"
@@ -45,6 +46,6 @@
 #include "../apps/setup.h"
 #include "../apps/hi.h"
 #include "../apps/stackVM.h"
-#include "../apps/painter.c"
+
 
 #endif
