@@ -232,7 +232,7 @@ int waitUntilKey(const int count, ...) {
             if(val == ckey)
             {
                 va_end(ap);
-                return ckey;
+                return ckey / KC_MAGIC_VAL;
             }
         }
         va_end(ap);

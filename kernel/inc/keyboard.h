@@ -7,6 +7,8 @@
 
 #define KC_MAGIC_VAL 257
 
+char retCorrespChar(char, char);
+
 string readpasswd();
 
 string readstr();
