@@ -67,7 +67,7 @@ void launchShell()
             typingCmd = true;
             newCmd = true;
 
-            fullArgs = readstr();
+            fullArgs = toUpper(readstr());
 
             typingCmd = false;
 
@@ -101,23 +101,23 @@ void launchShell()
             }
 
             if (streql(strTrim(cmdStr), ""))            {   HELP;                   }
-            else if(streql(cmdStr, "help"))             {   BIGHELP;                }
-            else if(streql(cmdStr, "system"))           {   system(fullArgs);       }
-            else if(streql(cmdStr, "skip"))             {   skip(fullArgs);         }
-            else if(streql(cmdStr, "files"))            {   files(fullArgs);        }
-            else if(streql(cmdStr, "cat"))              {   cat(fullArgs);          }
-            else if(streql(cmdStr,"execute"))           {   execute(fullArgs);      }
-            else if(streql(cmdStr,"switch"))            {   SWITCHDIR;              }
-            else if(streql(cmdStr,"writer"))            {   writer(fullArgs);       }
-            else if(streql(cmdStr, "calc"))             {   calc(fullArgs);         }
-            else if(streql(cmdStr, "clear"))            {   clearScreen();          }
-            else if(streql(cmdStr, "test"))             {   test(fullArgs);         }
-            else if(streql(cmdStr, "newdir"))           {   MKDIR;                  }
-            else if(streql(cmdStr, "erase"))            {   RMFILE;                 }
-        	else if(streql(cmdStr, "me"))               {   me(fullArgs);           }
-        	else if(streql(cmdStr, "hi"))               {   hi(fullArgs);           }
-        	else if(streql(cmdStr, "search"))           {   SEARCHFOR;              }
-        	else if(streql(cmdStr, "svm"))              {
+            else if(streql(cmdStr, "HELP"))             {   BIGHELP;                }
+            else if(streql(cmdStr, "SYSTEM"))           {   system(fullArgs);       }
+            else if(streql(cmdStr, "SKIP"))             {   skip(fullArgs);         }
+            else if(streql(cmdStr, "FILES"))            {   files(fullArgs);        }
+            else if(streql(cmdStr, "CAT"))              {   cat(fullArgs);          }
+            else if(streql(cmdStr,"EXECUTE"))           {   execute(fullArgs);      }
+            else if(streql(cmdStr,"SWITCH"))            {   SWITCHDIR;              }
+            else if(streql(cmdStr,"WRITER"))            {   writer(fullArgs);       }
+            else if(streql(cmdStr, "CALC"))             {   calc(fullArgs);         }
+            else if(streql(cmdStr, "CLEAR"))            {   clearScreen();          }
+            else if(streql(cmdStr, "TEST"))             {   test(fullArgs);         }
+            else if(streql(cmdStr, "NEWDIR"))           {   MKDIR;                  }
+            else if(streql(cmdStr, "ERASE"))            {   RMFILE;                 }
+        	else if(streql(cmdStr, "ME"))               {   me(fullArgs);           }
+        	else if(streql(cmdStr, "HI"))               {   hi(fullArgs);           }
+        	else if(streql(cmdStr, "SEARCH"))           {   SEARCHFOR;              }
+        	else if(streql(cmdStr, "SVM"))              {
         	    string hworld = "Hello, world!";
         	    int ops[] = {
         	        blnk,           // Clears the terminal
@@ -165,7 +165,7 @@ void launchShell()
                     infbs,
                     pushf, 3, -1, 5,// Pushes 3.05
                     infbf,
-                    
+
                     pushi, 2, waiti,// Pause for 2 seconds
 
         	        EOS             // End of prog
