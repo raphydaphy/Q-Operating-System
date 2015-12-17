@@ -24,6 +24,56 @@ inline char retCorrespChar(char shift, char std)
     return std;
 }
 
+static inline void __simEndKey(strbuilder_t strb, uint16 *index)
+{
+    while(true)
+    {
+        if(strbuilder_charAt(strb, *index) == 0)
+        {
+            break;
+        }
+        else
+        {
+            if(cursorX + 1 == sw)
+            {
+                cursorY++;
+                cursorX = 0;
+            }
+            else
+            {
+                cursorX++;
+            }
+            (*index)++;
+        }
+    }
+    updateCursor();
+}
+
+static inline void __simHeadKey(uint16 *index)
+{
+    while(true)
+    {
+        if((cursorY == startCmdY) && (cursorX <= deleteStopX))
+        {
+            break;
+        }
+        else
+        {
+            if(cursorX - 1 == 0)
+            {
+                cursorY--;
+                cursorX = sw;
+            }
+            else
+            {
+                cursorX--;
+            }
+            (*index)--;
+        }
+    }
+    updateCursor();
+}
+
 static inline char __getchFromKC(int16 rch)
 {
     int16 r = rch;
@@ -43,6 +93,20 @@ static inline char __getchFromKC(int16 rch)
     }
 }
 
+static inline void __simLeftArrow(uint16 *index)
+{
+    cursorX--;
+    (*index)--;
+    updateCursor();
+}
+
+static inline void __simRightArrow(uint16 *index)
+{
+    cursorX++;
+    (*index)++;
+    updateCursor();
+}
+
 // stdEcho:true  - Prints char
 //        :false - Prints '*'
 static inline string __vreadstr(bool stdEcho)
@@ -55,21 +119,56 @@ static inline string __vreadstr(bool stdEcho)
         rch = getKeycode();
         if(echoOn)
         {
+            printAt(itos10(rch), white, 0, 0);
             switch(rch)
             {
             case 19424: // Left Arrow
-                cursorX--;
-                index--;
+                __simLeftArrow(&index);
                 continue;
             case 19936: // Right Arrow
-                cursorX++;
-                index++;
+                __simRightArrow(&index);
+                continue;
+            case 18656: // Up Arrow
+            case 20704: // Down Arrow
+                continue;
+            case 23520: // Windows Key!!!
+                ch = 0x01;
+                kprintch(stdEcho ? ch : '*', black, false);
+                break;
+            case 18400: // Home Key
+                __simHeadKey(&index);
+                continue;
+            case 20448: // End Key
+                __simEndKey(strb, &index);
                 continue;
             default:
+                if(rch < 0) // This should intercept the release codes
+                {
+                    continue;
+                }
                 ch = __getchFromKC(rch);
                 if(ch == 0)
                 {
                     continue;
+                }
+                if(ctrlDown)
+                {
+                    char ctrlCh = toLowerC(ch);
+                    switch(ctrlCh)
+                    {
+                    case 'a': // Ctrl-a is head
+                        __simHeadKey(&index);
+                        continue;
+                    case 'e': // Ctrl-a is head
+                        __simEndKey(strb, &index);
+                        continue;
+                    case 'b':
+                        __simLeftArrow(&index);
+                        continue;
+                    case 'f':
+                        __simRightArrow(&index);
+                        continue;
+                    }
                 }
                 if((ch == '\b') && (cursorY == startCmdY) && (cursorX <= deleteStopX))
                 {
@@ -94,22 +193,22 @@ static inline string __vreadstr(bool stdEcho)
     }
 }
 
-string readstr()
+inline string readstr()
 {
     return __vreadstr(true);
 }
 
-string readpasswd()
+inline string readpasswd()
 {
     return __vreadstr(false);
 }
 
-char getch()
+inline char getch()
 {
     return readstr()[0];
 }
 
-int16 getKeycode()
+inline int16 getKeycode()
 {
     pgetkc = true;
     while(pgetkc);
