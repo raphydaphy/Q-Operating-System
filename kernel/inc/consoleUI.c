@@ -145,7 +145,6 @@ void messageBox(string txt, ...) {
     printAt(onscreenTxt, desc_foreground, 21, 13);
     printAt("[OKAY]", desc_foreground, 37, 17);
 
-    waitUntilKey(1, 0x9C);
     waitUntilKey(1, 0x1C);
 
     strcpy(vidmem, oldmem);
