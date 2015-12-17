@@ -197,7 +197,7 @@ string initWriter()
                 break;
             }
         } else {
-            k = itermVal;
+            k = getKeycode();
             char charInput = ' ';
             switch(k)
             {
