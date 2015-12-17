@@ -2,7 +2,10 @@
 #define KEYBOARD_H
 
 #include "isr.h"
+#include "charUtils.h"
 #include "screenUtils.h"
+
+#define KC_MAGIC_VAL 257
 
 string readpasswd();
 
@@ -10,7 +13,7 @@ string readstr();
 
 char getch();
 
-uint8 getKeycode();
+int16 getKeycode();
 
 void initialize_keyboard();
 

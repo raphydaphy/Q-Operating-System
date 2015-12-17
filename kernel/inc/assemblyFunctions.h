@@ -7,6 +7,8 @@
 
 uint8 inportb (uint16);
 
+uint16 inportw (uint16);
+
 void outportb (uint16, uint8);
 
 void outportw(uint16, uint16);
