@@ -99,12 +99,13 @@ static inline void moveCursorRight(uint16 *curX, uint16 *curY, uint32 *index)
 static inline void printStatus(uint16 curX, uint16 curY, bool inCmdMode)
 {
     // The trailing spaces clears out junky characters! Keep them
-    printCharAt((char) V_S, black, 1, 24);
+    // Also the 181 and 198 are hybrid boxed drawing chars. Not adding them
+    printCharAt((char) 181, black, 1, 24);
     printAt(inCmdMode ? " CMD     " : " INS     ", dark_grey, 2, 24);
     printAt(itos10(curX - 1), black, 7, 24);
     printAt(":     ", black, 10, 24);
     printAt(itos10(curY - 5), black, 12, 24);
-    printCharAt((char) V_S, black, 16, 24);
+    printCharAt((char) 198, black, 16, 24);
 }
 
 static inline void reprintText(uint16* curX, uint16* curY, uint32* index, strbuilder_t data)
