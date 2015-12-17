@@ -3,13 +3,13 @@
 void test(string args)
 {
     args = splitArg(args, 1);
-    if(streql(args, "") || streql(args, "-h"))
+    if(streql(args, "") || streql(args, "-H"))
     {
         print("\nThis file is in charge of testing the data types embedded in Q-OS.",black);
         print("\nAccepted Arguments:\n-list\tTests the list.c file\n-set \ttests the set.c file", black);
         print("\n-strb\ttests the strbuilder.c file\n-y   \tshould return the current year...",black);
     }
-    else if(streql(args, "-list"))//For testing lists
+    else if(streql(args, "-LIST"))//For testing lists
     {
         newline();
         list_t test_list = list_init();
@@ -55,7 +55,7 @@ void test(string args)
         printint(test_list.capt, white);
         list_destroy(&test_list);
     }
-    else if(streql(args,"-set"))
+    else if(streql(args,"-SET"))
     {
         set_t test_set = set_init();
         for(uint8 i = 0; i < 4; i++)
@@ -107,7 +107,7 @@ void test(string args)
         set_destroy(&tmp);
         set_destroy(&test_set);
     }
-    else if(streql(args, "-strb"))
+    else if(streql(args, "-STRB"))
     {
         static const string bak = "Hello, world ";
         static const uint32 bln = 13;
@@ -135,7 +135,7 @@ void test(string args)
         list_destroy(&tmp);
         strbuilder_destroy(&test_strb);
     }
-    else if(streql(args,"-y"))
+    else if(streql(args,"-Y"))
     {
        //getTime() test
        printint(getTime("year"),white);

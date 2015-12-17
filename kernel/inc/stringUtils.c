@@ -120,15 +120,14 @@ string strTrim(string str)
 
 #define INT_DIGITS 19       /* enough for 64 bit integer */
 
-/*
- * Based off itoa from opensource apple com.
- */
-string itos(int i, uint8 base) {
+string itos(int i, uint8 base)
+{
     /* Room for INT_DIGITS digits, - and '\0' */
     static char buf[INT_DIGITS + 2];
     string p = buf + INT_DIGITS + 1;  /* points to terminating '\0' */
     bool isNeg = false;
-    if (i < 0) {
+    if (i < 0)
+	{
         isNeg = true;
         i = -i;
     }
@@ -401,4 +400,3 @@ string strformat(string str, ...)
     va_end(ap);
     return msg;
 }
-

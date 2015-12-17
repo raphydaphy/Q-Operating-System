@@ -4,12 +4,12 @@ void files(string args)
 {
     newline();
 
-    if (streql(splitArg(args, 1), "-h"))
+    if (streql(splitArg(args, 1), "-H"))
     {
         print ("Showing Help for files:", black);
         print ("\nThe 'files' command will show you the files and folders in your current working directory.", black);
     }
-    else if (streql(splitArg(args, 1), "me/") || streql(splitArg(args, 1), "me"))
+    else if (streql(splitArg(args, 1), "ME/") || streql(splitArg(args, 1), "ME"))
     {
         // list the contents of the 'me' directory
         int i = 0;

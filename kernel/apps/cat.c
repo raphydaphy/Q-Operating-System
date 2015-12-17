@@ -3,7 +3,7 @@
 void cat(string args)
 {
     string fileName = splitArg(args, 1);
-    if(streql(fileName, "") || streql(fileName, "-h"))
+    if(streql(fileName, "") || streql(fileName, "-H"))
     {
         println("\nHelp file for cat:", black);
         println("cat [OPTION] | <path>", black);

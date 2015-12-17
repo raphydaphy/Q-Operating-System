@@ -255,11 +255,11 @@ end: // Sorry for the mom spaghetti code
 
 void writer(string args)
 {
-	if (streql(splitArg(args, 1),"-h"))
+	if (streql(splitArg(args, 1),"-H"))
 	{
 		writerHelp();
 	}
-	else if (streql(splitArg(args, 1),"stable"))
+	else if (streql(splitArg(args, 1),"STABLE"))
 	{
 		oldWriter();
 	}
