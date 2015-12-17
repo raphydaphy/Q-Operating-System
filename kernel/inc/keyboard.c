@@ -24,6 +24,56 @@ inline char retCorrespChar(char shift, char std)
     return std;
 }
 
+static inline void __simEndKey(strbuilder_t strb, uint16 *index)
+{
+    while(true)
+    {
+        if(strbuilder_charAt(strb, *index) == 0)
+        {
+            break;
+        }
+        else
+        {
+            if(cursorX + 1 == sw)
+            {
+                cursorY++;
+                cursorX = 0;
+            }
+            else
+            {
+                cursorX++;
+            }
+            (*index)++;
+        }
+    }
+    updateCursor();
+}
+
+static inline void __simHeadKey(uint16 *index)
+{
+    while(true)
+    {
+        if((cursorY == startCmdY) && (cursorX <= deleteStopX))
+        {
+            break;
+        }
+        else
+        {
+            if(cursorX - 1 == 0)
+            {
+                cursorY--;
+                cursorX = sw;
+            }
+            else
+            {
+                cursorX--;
+            }
+            (*index)--;
+        }
+    }
+    updateCursor();
+}
+
 static inline char __getchFromKC(int16 rch)
 {
     int16 r = rch;
@@ -76,51 +126,10 @@ static inline string __vreadstr(bool stdEcho)
                 kprintch(stdEcho ? ch : '*', black, false);
                 break;
             case 18400: // Home Key
-                // TODO: Yeah... This is wicked nasty
-                while(true)
-                {
-                    if((cursorY == startCmdY) && (cursorX <= deleteStopX))
-                    {
-                        break;
-                    }
-                    else
-                    {
-                        if(cursorX - 1 == 0)
-                        {
-                            cursorY--;
-                            cursorX = sw;
-                        }
-                        else
-                        {
-                            cursorX--;
-                        }
-                        index--;
-                    }
-                }
-                updateCursor();
+                __simHeadKey(&index);
                 continue;
             case 20448: // End Key
-                while(true)
-                {
-                    if(strbuilder_charAt(strb, index) == 0)
-                    {
-                        break;
-                    }
-                    else
-                    {
-                        if(cursorX + 1 == sw)
-                        {
-                            cursorY++;
-                            cursorX = 0;
-                        }
-                        else
-                        {
-                            cursorX++;
-                        }
-                        index++;
-                    }
-                }
-                updateCursor();
+                __simEndKey(strb, &index);
                 continue;
             default:
                 if(rch < 0) // This should intercept the release codes
@@ -131,6 +140,19 @@ static inline string __vreadstr(bool stdEcho)
                 if(ch == 0)
                 {
                     continue;
+                }
+                if(ctrlDown)
+                {
+                    char ctrlCh = toLowerC(ch);
+                    switch(ctrlCh)
+                    {
+                    case 'a': // Ctrl-a is head
+                        __simHeadKey(&index);
+                        continue;
+                    case 'e': // Ctrl-a is head
+                        __simEndKey(strb, &index);
+                        continue;
+                    }
                 }
                 if((ch == '\b') && (cursorY == startCmdY) && (cursorX <= deleteStopX))
                 {
