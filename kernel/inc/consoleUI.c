@@ -228,11 +228,11 @@ int waitUntilKey(const int count, ...) {
     {
         val = getKeycode();
         for(kIndex = 0; kIndex < count; kIndex++) {
-            ckey = va_arg(ap, int);
+            ckey = va_arg(ap, int) * KC_MAGIC_VAL;
             if(val == ckey)
             {
                 va_end(ap);
-                return ckey;
+                return ckey / KC_MAGIC_VAL;
             }
         }
         va_end(ap);

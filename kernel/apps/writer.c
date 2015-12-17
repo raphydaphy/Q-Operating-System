@@ -154,8 +154,7 @@ string initWriter()
 	cursorX = 1;
 	updateCursor();
 
-    // Checking user's capslock state
-    bool inCmdMode = true, shiftDown = false, capslDown = capslock;
+    bool inCmdMode = true;
     uint16 curX = 1, curY = 5;
     uint32 index = 0;
     strbuilder_t data = strbuilder_init();
@@ -179,9 +178,6 @@ string initWriter()
             case 0x17:
                 inCmdMode = false;
                 break;
-            case 0x3A:
-                capslDown = !capslDown;
-                break;
             case 0x18:
                 appendln(&data, &curX, &curY, &index);
                 inCmdMode = false;
@@ -197,23 +193,12 @@ string initWriter()
                 break;
             }
         } else {
-            k = getKeycode();
+            k = getKeycode() / KC_MAGIC_VAL;
             char charInput = ' ';
             switch(k)
             {
             case 0x01:
                 inCmdMode = true;
-                break;
-            case 0x2A:
-            case 0x36:
-                shiftDown = true;
-                break;
-            case 0xAA:
-            case 0xB6:
-                shiftDown = false;
-                break;
-            case 0x3A:
-                capslDown = !capslDown;
                 break;
             case 0x1C:
 				cursorBoundsCheck(&curX, &curY, &index);
@@ -241,22 +226,7 @@ string initWriter()
             default:
                 if(k < 59 && k > 0)
                 {
-                    if(shiftDown && !capslDown)
-                    {
-                        charInput = kbShiftChars[k];
-                    }
-                    else if(capslDown && !shiftDown)
-                    {
-                        charInput = kbCapslchars[k];
-                    }
-                    else if(shiftDown && capslDown)
-                    {
-                        charInput = kbSCModchars[k];
-                    }
-                    else
-                    {
-                        charInput = kbLowerChars[k];
-                    }
+                    charInput = retCorrespChar(kbShiftChars[k], kbLowerChars[k]);
                     if(charInput == 0)
                     {
                         break;
@@ -276,7 +246,6 @@ end: // Sorry for the mom spaghetti code
         msg = "";
     }
     strbuilder_destroy(&data);
-    capslock = capslDown;
     cursorX = 1;
 	cursorY = 5;
     print(msg, black);
