@@ -93,6 +93,20 @@ static inline char __getchFromKC(int16 rch)
     }
 }
 
+static inline void __simLeftArrow(uint16 *index)
+{
+    cursorX--;
+    (*index)--;
+    updateCursor();
+}
+
+static inline void __simRightArrow(uint16 *index)
+{
+    cursorX++;
+    (*index)++;
+    updateCursor();
+}
+
 // stdEcho:true  - Prints char
 //        :false - Prints '*'
 static inline string __vreadstr(bool stdEcho)
@@ -109,14 +123,10 @@ static inline string __vreadstr(bool stdEcho)
             switch(rch)
             {
             case 19424: // Left Arrow
-                cursorX--;
-                index--;
-                updateCursor();
+                __simLeftArrow(&index);
                 continue;
             case 19936: // Right Arrow
-                cursorX++;
-                index++;
-                updateCursor();
+                __simRightArrow(&index);
                 continue;
             case 18656: // Up Arrow
             case 20704: // Down Arrow
@@ -151,6 +161,12 @@ static inline string __vreadstr(bool stdEcho)
                         continue;
                     case 'e': // Ctrl-a is head
                         __simEndKey(strb, &index);
+                        continue;
+                    case 'b':
+                        __simLeftArrow(&index);
+                        continue;
+                    case 'f':
+                        __simRightArrow(&index);
                         continue;
                     }
                 }

@@ -24,8 +24,10 @@ void kbHelp()
     print("\n\tCtrl-b -> left", white);
     print("\n\tCtrl-f -> right", white);
     print("\n\tCtrl-a -> home", white);
+    print("\n\tCtrl-e -> end", white);
+    /*
     print("\n\tCtrl-p -> up", white);
     print("\n\tCtrl-n -> down", white);
     print("\n\tCtrl-z -> quit", white);
-    println("\n\tCtrl-l -> clear", white);
+    println("\n\tCtrl-l -> clear", white); */
 }
