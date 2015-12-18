@@ -253,4 +253,3 @@ void initialize_keyboard()
 {
     register_interrupt_handler(IRQ1, &kb_callback);
 }
-
