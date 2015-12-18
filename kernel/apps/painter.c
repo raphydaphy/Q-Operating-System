@@ -96,6 +96,8 @@ int painter(string args)
                     break;
                 case -82:
                     // X Released
+                    printAt(" ",screen_color,paintX,paintY);
+                    
                     drawFrame(header_background, 0, 0, 80, 4);
                     printAt("What X Posiiton do you want to move the pen to?\r\n", header_foreground, 1, 1);
 
@@ -109,6 +111,8 @@ int painter(string args)
                     break;
                 case -106:
                     // Y Pressed
+                    printAt(" ",screen_color,paintX,paintY);
+
                     drawFrame(header_background, 0, 0, 80, 4);
                     printAt("What Y Posiiton do you want to move the pen to?\r\n", header_foreground, 1, 1);
 
