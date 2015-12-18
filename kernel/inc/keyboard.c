@@ -119,7 +119,7 @@ static inline string __vreadstr(bool stdEcho)
         rch = getKeycode();
         if(echoOn)
         {
-            printAt(itos10(rch), white, 0, 0);
+//            printAt(itos10(rch), white, 0, 0);
             switch(rch)
             {
             case 19424: // Left Arrow
