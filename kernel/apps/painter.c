@@ -48,7 +48,7 @@ int painter(string args)
                 paintY = 23;
             }
 
-            printAt("*",yellow,paintX,paintY);
+            printAt("*",0xDD,paintX,paintY);
 
             int key = getKeycode() / KC_MAGIC_VAL;
 
@@ -61,7 +61,7 @@ int painter(string args)
                     break;
                 case 72:
                     // Up Arrow Pressed
-                    printAt("*",black,paintX,paintY);
+                    printAt("*",0x00,paintX,paintY);
                     paintY--;
                     break;
                 case -54:
@@ -69,7 +69,7 @@ int painter(string args)
                     break;
                 case 80:
                     // Down Arrow Pressed
-                    printAt("*",black,paintX,paintY);
+                    printAt("*",0x00,paintX,paintY);
                     paintY++;
                     break;
                 case -46:
@@ -77,7 +77,7 @@ int painter(string args)
                     break;
                 case 75:
                     // Left Arrow Pressed
-                    printAt("*",black,paintX,paintY);
+                    printAt("*",0x00,paintX,paintY);
                     paintX--;
                     break;
                 case -51:
@@ -85,7 +85,7 @@ int painter(string args)
                     break;
                 case 77:
                     // Right Arrow Pressed
-                    printAt("*",black,paintX,paintY);
+                    printAt(" ",0x00,paintX,paintY);
                     paintX++;
                     break;
                 case -49:
