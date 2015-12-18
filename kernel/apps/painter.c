@@ -8,7 +8,7 @@ int painter(string args)
     {
         print("\nPainter is a simple drawing app that dosen't draw... yet",red);
     }
-    else if (streql(splitArg(args, 1),"-NEW"))
+    else
     {
         while (true)
         {
@@ -62,31 +62,6 @@ int painter(string args)
                 case -70:
                     // Spacebar Released
                     print("\nSpacebar Released",red);
-                    break;
-                default:
-                    break;
-            }
-        }
-    }
-    else if (streql(splitArg(args, 1),""))
-    {
-        while (true)
-        {
-            // 0x01     : ESCAPE    : Exit the progarm
-            // 0x4E     : NUMPAD 6  : Move Cursor Right
-            // 0x38     : SPACE BAR : Do Nothing Atm :)
-
-            int key = waitUntilKey(3, 0x01, 0x4E, 0x38);
-
-            printint(key,red);
-
-            switch (key)
-            {
-                case 0x01:
-                    return 0;
-                    break;
-                case 0x4E:
-                    print("OMG!",yellow);
                     break;
                 default:
                     break;
