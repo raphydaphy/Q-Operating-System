@@ -30,7 +30,7 @@ int painter(string args)
         print("\nTo use it, type 'painter' on the command line.",red);
         print("\nUse the arrow keys to draw lines on your screen.",red);
         print("\nPress the spacebar to reset your drawing.",red);
-        print("\nUse Alt+X to change the X location of your pen and Alt+Y to change the Y location.",red);
+        print("\nPress X to change the X location of your pen and Y to change the Y location.",red);
     }
     else
     {
@@ -97,7 +97,7 @@ int painter(string args)
                 case -82:
                     // X Released
                     printAt(" ",screen_color,paintX,paintY);
-                    
+
                     drawFrame(header_background, 0, 0, 80, 4);
                     printAt("What X Posiiton do you want to move the pen to?\r\n", header_foreground, 1, 1);
 
