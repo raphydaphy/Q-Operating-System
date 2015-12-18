@@ -22,6 +22,16 @@ void resetPainter()
     drawBorder(screen_background, 0, 4, 80, sh - 1);
 }
 
+static inline void printStatus(bool inColorMode)
+{
+    // The trailing spaces clears out junky characters! Keep them
+    // Also the 181 and 198 are hybrid boxed drawing chars. Not adding them
+    printCharAt((char) 181, black, 2, 24);
+    printAt(inColorMode ? " PENCIL "
+                        : " ERASER ", dark_grey, 3, 24);
+    printCharAt((char) 198, black, 11, 24);
+}
+
 int painter(string args)
 {
     if (streql(splitArg(args, 1), "-H"))
@@ -36,7 +46,8 @@ int painter(string args)
     {
         // Run the setup function for painter
         resetPainter();
-
+        bool isDrawing = true;
+#define GET_PAINT_COLOR isDrawing ? 0x00 : screen_color
         // Begin the actual painter program
         while (true)
         {
@@ -60,72 +71,80 @@ int painter(string args)
             }
 
             printAt("*",0xDD,paintX,paintY);
+            printStatus(isDrawing);
 
             int key = getKeycode() / KC_MAGIC_VAL;
 
             switch (key)
             {
-                case 1:
-                    // Escape Pressed
-                    clearScreen();
-                    return 0;
-                    break;
-                case 72:
-                    // Up Arrow Pressed
-                    printAt("*",0x00,paintX,paintY);
-                    paintY--;
-                    break;
-                case 80:
-                    // Down Arrow Pressed
-                    printAt("*",0x00,paintX,paintY);
-                    paintY++;
-                    break;
-                case 75:
-                    // Left Arrow Pressed
-                    printAt("*",0x00,paintX,paintY);
-                    paintX--;
-                    break;
-                case 77:
-                    // Right Arrow Pressed
-                    printAt(" ",0x00,paintX,paintY);
-                    paintX++;
-                    break;
-                case 57:
-                    // Spacebar Pressed
-                    resetPainter();
-                    break;
-                case -82:
-                    // X Released
-                    printAt(" ",screen_color,paintX,paintY);
+            case 1:
+                // Escape Pressed
+                clearScreen();
+                return 0;
+            case 72:
+                // Up Arrow Pressed
+                printAt(" ", GET_PAINT_COLOR, paintX, paintY);
+                paintY--;
+                break;
+            case 80:
+                // Down Arrow Pressed
+                printAt(" ", GET_PAINT_COLOR, paintX, paintY);
+                paintY++;
+                break;
+            case 75:
+                // Left Arrow Pressed
+                printAt(" ", GET_PAINT_COLOR, paintX, paintY);
+                paintX--;
+                break;
+            case 77:
+                // Right Arrow Pressed
+                printAt(" ", GET_PAINT_COLOR, paintX, paintY);
+                paintX++;
+                break;
+            case 57:
+                // Spacebar Pressed
+                resetPainter();
+                break;
+            case 0x2E:
+                // C pressed
+                isDrawing = true;
+                break;
+            case 0x12:
+                // E pressed
+                isDrawing = false;
+                break;
+            case -82:
+                // X Released
+                printAt(" ",screen_color,paintX,paintY);
 
-                    drawFrame(header_background, 0, 0, 80, 4);
-                    printAt("What X Posiiton do you want to move the pen to?\r\n", header_foreground, 1, 1);
+                drawFrame(header_background, 0, 0, 80, 4);
+                printAt("What X Posiiton do you want to move the pen to?\r\n", header_foreground, 1, 1);
 
-                    cursorX = 1;
-                    cursorY = 2;
+                cursorX = 1;
+                cursorY = 2;
 
-                    // we need to make the text below when input show in a blue on aqua font...
-                    paintX = stoi(readstr());
+                // we need to make the text below when input show in a blue on aqua font...
+                paintX = stoi(readstr());
 
-                    painterIntro();
-                    break;
-                case -106:
-                    // Y Pressed
-                    printAt(" ",screen_color,paintX,paintY);
+                painterIntro();
+                break;
+            case -106:
+                // Y Pressed
+                printAt(" ",screen_color,paintX,paintY);
 
-                    drawFrame(header_background, 0, 0, 80, 4);
-                    printAt("What Y Posiiton do you want to move the pen to?\r\n", header_foreground, 1, 1);
+                drawFrame(header_background, 0, 0, 80, 4);
+                printAt("What Y Posiiton do you want to move the pen to?\r\n", header_foreground, 1, 1);
 
-                    cursorX = 1;
-                    cursorY = 2;
+                cursorX = 1;
+                cursorY = 2;
 
-                    // we need to make the text below when input show in a blue on aqua font...
-                    paintY = stoi(readstr());
+                // we need to make the text below when input show in a blue on aqua font...
+                paintY = stoi(readstr());
 
-                    painterIntro();
-                    break;
-                default:
-                    break;
+                painterIntro();
+                break;
+            default:
+                break;
             }
         }
     }
