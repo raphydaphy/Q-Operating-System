@@ -22,6 +22,16 @@ void resetPainter()
     drawBorder(screen_background, 0, 4, 80, sh - 1);
 }
 
+static inline void printStatus(bool inColorMode)
+{
+    // The trailing spaces clears out junky characters! Keep them
+    // Also the 181 and 198 are hybrid boxed drawing chars. Not adding them
+    printCharAt((char) 181, black, 2, 24);
+    printAt(inColorMode ? " PENCIL "
+                        : " ERASER ", dark_grey, 3, 24);
+    printCharAt((char) 198, black, 11, 24);
+}
+
 int painter(string args)
 {
     if (streql(splitArg(args, 1), "-H"))
@@ -61,6 +71,7 @@ int painter(string args)
             }
 
             printAt("*",0xDD,paintX,paintY);
+            printStatus(isDrawing);
 
             int key = getKeycode() / KC_MAGIC_VAL;
 
