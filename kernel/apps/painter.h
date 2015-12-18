@@ -3,6 +3,6 @@
 
 #include "../inc/qdio.h"
 
-void painter(string args);
+int painter(string args);
 
 #endif

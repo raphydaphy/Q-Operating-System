@@ -18,6 +18,7 @@
 #include "intUtils.h"
 #include "isr.h"
 #include "kbDetect.h"
+#include "keyboard.h"
 #include "kheap.h"
 #include "list.h"
 #include "math.h"
