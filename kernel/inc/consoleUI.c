@@ -239,4 +239,3 @@ int waitUntilKey(const int count, ...) {
         va_start(ap, count); // Redo...
     }
 }
-
