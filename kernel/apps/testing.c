@@ -157,6 +157,9 @@ void test(string args)
         println("Sorting in POST_ORDER order", white);
         mappedList = tree_foldOrder(fullTree, POST_ORDER);
         println(list_toString(mappedList), white);
+        
+        println("Node count should be 5", white);
+        printint(tree_countNodes(fullTree), white);
     }
     else if(streql(args,"-Y"))
     {

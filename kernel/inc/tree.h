@@ -28,4 +28,6 @@ tree_t tree_init(node_t*);
 
 list_t tree_foldOrder(tree_t, tree_order);
 
+uint32 tree_countNodes(tree_t);
+
 #endif
