@@ -31,6 +31,7 @@
 #include "timer.h"
 #include "graphUtils.h"
 #include "stdarg.h"
+#include "tree.h"
 
 // Q Applications
 #include "../apps/painter.h"
@@ -47,6 +48,5 @@
 #include "../apps/setup.h"
 #include "../apps/hi.h"
 #include "../apps/stackVM.h"
-
 
 #endif

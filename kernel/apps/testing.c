@@ -8,6 +8,7 @@ void test(string args)
         print("\nThis file is in charge of testing the data types embedded in Q-OS.",black);
         print("\nAccepted Arguments:\n-list\tTests the list.c file\n-set \ttests the set.c file", black);
         print("\n-strb\ttests the strbuilder.c file\n-y   \tshould return the current year...",black);
+        print("\n-tree\ttests the tree.c file",black);
     }
     else if(streql(args, "-LIST"))//For testing lists
     {
@@ -135,9 +136,32 @@ void test(string args)
         list_destroy(&tmp);
         strbuilder_destroy(&test_strb);
     }
+    else if(streql(args, "-TREE")) 
+    {
+        println("Creating a tree [[(1), +, (2)], *, (3)]", white);
+        node_t leaf1 = leafless_node_init(makeIntElement(1));
+        node_t leaf2 = leafless_node_init(makeIntElement(2));
+        node_t leaf3 = leafless_node_init(makeIntElement(3));
+        node_t nodePlus = node_init(makeCharElement('+'), &leaf1, &leaf2);
+        node_t nodeTimes = node_init(makeCharElement('*'), &nodePlus, &leaf3);
+        tree_t fullTree = tree_init(&nodeTimes);
+
+        println("Sorting in IN_ORDER order", white);
+        list_t mappedList = tree_foldOrder(fullTree, IN_ORDER);
+        println(list_toString(mappedList), white);
+
+        println("Sorting in PRE_ORDER order", white);
+        mappedList = tree_foldOrder(fullTree, PRE_ORDER);
+        println(list_toString(mappedList), white);
+
+        println("Sorting in POST_ORDER order", white);
+        mappedList = tree_foldOrder(fullTree, POST_ORDER);
+        println(list_toString(mappedList), white);
+    }
     else if(streql(args,"-Y"))
     {
        //getTime() test
        printint(getTime("year"),white);
     }
 }
+
