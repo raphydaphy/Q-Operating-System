@@ -156,3 +156,13 @@ void evalFunc(string mathFunction)
         x++;
     }
 }
+
+// this is going to be a calculus function to return the gradient rise at any point on a graph with a run as set below
+int getRise(int x)
+{
+    // we currently have no use for this
+    //double run = 0.00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000001;
+
+    // we are currently limited to a single function in calculus so this will actually be the correct answer
+    return x * 2;
+}

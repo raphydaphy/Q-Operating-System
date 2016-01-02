@@ -60,7 +60,7 @@ void oldWriter()
 
 	writing = true;
 	printAt(writerContents,black,1,5);
-	readStr(writerContents,WRITERSIZE,false);
+	writerContents = readstr();
 	writing = false;
 }
 
@@ -99,12 +99,13 @@ static inline void moveCursorRight(uint16 *curX, uint16 *curY, uint32 *index)
 static inline void printStatus(uint16 curX, uint16 curY, bool inCmdMode)
 {
     // The trailing spaces clears out junky characters! Keep them
-    printCharAt((char) V_S, black, 1, 24);
+    // Also the 181 and 198 are hybrid boxed drawing chars. Not adding them
+    printCharAt((char) 181, black, 1, 24);
     printAt(inCmdMode ? " CMD     " : " INS     ", dark_grey, 2, 24);
     printAt(itos10(curX - 1), black, 7, 24);
     printAt(":     ", black, 10, 24);
     printAt(itos10(curY - 5), black, 12, 24);
-    printCharAt((char) V_S, black, 16, 24);
+    printCharAt((char) 198, black, 16, 24);
 }
 
 static inline void reprintText(uint16* curX, uint16* curY, uint32* index, strbuilder_t data)
@@ -154,8 +155,7 @@ string initWriter()
 	cursorX = 1;
 	updateCursor();
 
-    // Checking user's capslock state
-    bool inCmdMode = true, shiftDown = false, capslDown = capslock;
+    bool inCmdMode = true;
     uint16 curX = 1, curY = 5;
     uint32 index = 0;
     strbuilder_t data = strbuilder_init();
@@ -179,9 +179,6 @@ string initWriter()
             case 0x17:
                 inCmdMode = false;
                 break;
-            case 0x3A:
-                capslDown = !capslDown;
-                break;
             case 0x18:
                 appendln(&data, &curX, &curY, &index);
                 inCmdMode = false;
@@ -197,23 +194,12 @@ string initWriter()
                 break;
             }
         } else {
-            k = getAnyKey();
+            k = getKeycode() / KC_MAGIC_VAL;
             char charInput = ' ';
             switch(k)
             {
             case 0x01:
                 inCmdMode = true;
-                break;
-            case 0x2A:
-            case 0x36:
-                shiftDown = true;
-                break;
-            case 0xAA:
-            case 0xB6:
-                shiftDown = false;
-                break;
-            case 0x3A:
-                capslDown = !capslDown;
                 break;
             case 0x1C:
 				cursorBoundsCheck(&curX, &curY, &index);
@@ -241,22 +227,7 @@ string initWriter()
             default:
                 if(k < 59 && k > 0)
                 {
-                    if(shiftDown && !capslDown)
-                    {
-                        charInput = kbShiftChars[k];
-                    }
-                    else if(capslDown && !shiftDown)
-                    {
-                        charInput = kbCapslchars[k];
-                    }
-                    else if(shiftDown && capslDown)
-                    {
-                        charInput = kbSCModchars[k];
-                    }
-                    else
-                    {
-                        charInput = kbLowerChars[k];
-                    }
+                    charInput = retCorrespChar(kbShiftChars[k], kbLowerChars[k]);
                     if(charInput == 0)
                     {
                         break;
@@ -276,7 +247,6 @@ end: // Sorry for the mom spaghetti code
         msg = "";
     }
     strbuilder_destroy(&data);
-    capslock = capslDown;
     cursorX = 1;
 	cursorY = 5;
     print(msg, black);
@@ -285,11 +255,11 @@ end: // Sorry for the mom spaghetti code
 
 void writer(string args)
 {
-	if (streql(splitArg(args, 1),"-h"))
+	if (streql(splitArg(args, 1),"-H"))
 	{
 		writerHelp();
 	}
-	else if (streql(splitArg(args, 1),"stable"))
+	else if (streql(splitArg(args, 1),"STABLE"))
 	{
 		oldWriter();
 	}

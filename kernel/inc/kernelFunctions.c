@@ -16,10 +16,10 @@ void launchShell()
     const int cmdSize = 128;
 
     //Store sanitized user command (no arguments)
-    char cmdStr[cmdSize];
+    string cmdStr = NULL;
 
     //Gets user raw command from command line
-    char fullArgs[cmdSize];
+    string fullArgs = NULL;
 
     //First space (first word means actual command)
     int fs = 1;
@@ -43,7 +43,7 @@ void launchShell()
     #define BIGCLEAR clearScreen(); printIntro();
     #define MKDIR print("\nThis Command is Reserved for when we have a FAT32 or better FileSystem...", 0x3F);
     #define RMFILE print("\nThis Command is Reserved for when we have a FAT32 or better FileSystem...", 0x3F);
-    #define SEARCHFOR string searchTerm = (string) kmalloc(cmdSize * sizeof(char)); print("\nDictionary File Name>  ", white); readStr(cmdStr, cmdSize, false); print("\nSearch Term>  ", green); readStr(searchTerm, cmdSize, false); if (findInDictionary(cmdStr,searchTerm)) { print("\nWe found the word!",white); }
+    #define SEARCHFOR string searchTerm = NULL; print("\nDictionary File Name>  ", white); cmdStr = readstr(); print("\nSearch Term>  ", green); searchTerm = readstr(); if (findInDictionary(cmdStr,searchTerm)) { print("\nWe found the word!",white); }
     #define CMDNOTFOUND print("\n", white); print(cmdStr, white); print(": Command Not Found ", white);
 
     printIntro();
@@ -67,7 +67,7 @@ void launchShell()
             typingCmd = true;
             newCmd = true;
 
-            readStr(fullArgs, cmdSize, false);
+            fullArgs = toUpper(readstr());
 
             typingCmd = false;
 
@@ -101,24 +101,25 @@ void launchShell()
             }
 
             if (streql(strTrim(cmdStr), ""))            {   HELP;                   }
-            else if(streql(cmdStr, "help"))             {   BIGHELP;                }
-            else if(streql(cmdStr, "system"))           {   system(fullArgs);       }
-            else if(streql(cmdStr, "skip"))             {   skip(fullArgs);         }
-            else if(streql(cmdStr, "files"))            {   files(fullArgs);        }
-            else if(streql(cmdStr, "cat"))              {   cat(fullArgs);          }
-            else if(streql(cmdStr,"execute"))           {   execute(fullArgs);      }
-            else if(streql(cmdStr,"switch"))            {   SWITCHDIR;              }
-            else if(streql(cmdStr,"writer"))            {   writer(fullArgs);       }
-            else if(streql(cmdStr, "calc"))             {   calc(fullArgs);         }
-            else if(streql(cmdStr, "clear"))            {   clearScreen();          }
-            else if(streql(cmdStr, "test"))             {   test(fullArgs);         }
-            else if(streql(cmdStr, "newdir"))           {   MKDIR;                  }
-            else if(streql(cmdStr, "erase"))            {   RMFILE;                 }
-        	else if(streql(cmdStr, "me"))               {   me(fullArgs);           }
-        	else if(streql(cmdStr, "hi"))               {   hi(fullArgs);           }
-        	else if(streql(cmdStr, "search"))           {   SEARCHFOR;              }
-          else if(streql(cmdStr, "pci"))              {   PciInit();               }
-        	else if(streql(cmdStr, "svm"))              {
+            else if(streql(cmdStr, "HELP"))             {   BIGHELP;                }
+            else if(streql(cmdStr, "SYSTEM"))           {   system(fullArgs);       }
+            else if(streql(cmdStr, "SKIP"))             {   skip(fullArgs);         }
+            else if(streql(cmdStr, "FILES"))            {   files(fullArgs);        }
+            else if(streql(cmdStr, "CAT"))              {   cat(fullArgs);          }
+            else if(streql(cmdStr,"EXECUTE"))           {   execute(fullArgs);      }
+            else if(streql(cmdStr,"SWITCH"))            {   SWITCHDIR;              }
+            else if(streql(cmdStr,"WRITER"))            {   writer(fullArgs);       }
+            else if(streql(cmdStr, "CALC"))             {   calc(fullArgs);         }
+            else if(streql(cmdStr, "CLEAR"))            {   clearScreen();          }
+            else if(streql(cmdStr, "TEST"))             {   test(fullArgs);         }
+            else if(streql(cmdStr, "NEWDIR"))           {   MKDIR;                  }
+            else if(streql(cmdStr, "ERASE"))            {   RMFILE;                 }
+        	else if(streql(cmdStr, "ME"))               {   me(fullArgs);           }
+        	else if(streql(cmdStr, "HI"))               {   hi(fullArgs);           }
+        	else if(streql(cmdStr, "SEARCH"))           {   SEARCHFOR;              }
+            else if(streql(cmdStr, "PAINTER"))          {   painter(fullArgs);      }
+            else if(streql(cmdStr, "PCI"))              {   pciInit();              }
+        	else if(streql(cmdStr, "SVM"))              {
         	    string hworld = "Hello, world!";
         	    int ops[] = {
         	        blnk,           // Clears the terminal

@@ -9,7 +9,7 @@ added by telip007, based on OS DEV github repo
 
 #pragma once
 
-#include "../inc/qdio.h"
+#include "../qdio.h"
 
 const char *PciDeviceName(uint32 vendorId, uint32 deviceId);
 const char *PciClassName(uint32 classCode, uint32 subclass, uint32 progIntf);

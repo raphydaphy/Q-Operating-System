@@ -218,7 +218,7 @@ void page_fault(registers_t regs)
     {
         print("reserved ", dark_grey);
     }
-    print(") at 0x", dark_grey);
+    print(") at ", dark_grey);
     printhex(faulting_address, dark_grey);
     print("\n", dark_grey);
     PANIC("Page fault");

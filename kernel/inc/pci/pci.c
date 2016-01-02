@@ -34,9 +34,9 @@ static void PciVisit(uint32 bus, uint32 dev, uint32 func)
 }
 
 // ------------------------------------------------------------------------------------------------
-void PciInit()
+void pciInit()
 {
-    printf("PCI Initialization\n");
+    printf("\nPCI Initialization\n");
     for (uint32 bus = 0; bus < 256; ++bus)
     {
         for (uint32 dev = 0; dev < 32; ++dev)

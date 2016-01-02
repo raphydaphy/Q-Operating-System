@@ -145,7 +145,6 @@ void messageBox(string txt, ...) {
     printAt(onscreenTxt, desc_foreground, 21, 13);
     printAt("[OKAY]", desc_foreground, 37, 17);
 
-    waitUntilKey(1, 0x9C);
     waitUntilKey(1, 0x1C);
 
     strcpy(vidmem, oldmem);
@@ -189,9 +188,16 @@ static inline string __vMessageBoxIn(string txt, bool isPasswd) {
 
     cursorX = deleteStopX = 21;
     cursorY = startCmdY = 16;
-    int strLen = 59 - 21;
-    string inputBuf = (string) kmalloc(strLen * sizeof(char));
-    readStr(inputBuf, strLen, isPasswd);
+//    int strLen = 59 - 21;
+    string inputBuf = NULL;
+    if(isPasswd)
+    {
+        inputBuf = readpasswd(inputBuf);
+    }
+    else
+    {
+        inputBuf = readstr(inputBuf);
+    }
 
     strcpy(vidmem, oldmem);
     return inputBuf;
@@ -216,48 +222,20 @@ string messageBox_Pass(string txt, ...) {
 
 int waitUntilKey(const int count, ...) {
     va_list ap;
-    int kIndex, ckey;
-    uint8 value;
+    int kIndex, ckey, val;
     va_start(ap, count);
     while(true)
     {
-        // if a key is presesd
-        if(inportb(0x64) & 0x1)
-        {
-            value = inportb(0x60);
-            for(kIndex = 0; kIndex < count; kIndex++) {
-                ckey = va_arg(ap, int);
-                if(value == ckey)
-                {
-                    va_end(ap);
-                    return ckey;
-                }
+        val = getKeycode();
+        for(kIndex = 0; kIndex < count; kIndex++) {
+            ckey = va_arg(ap, int) * KC_MAGIC_VAL;
+            if(val == ckey)
+            {
+                va_end(ap);
+                return ckey / KC_MAGIC_VAL;
             }
-            va_end(ap);
-            va_start(ap, count); // Redo...
         }
-    }
-}
-
-// Watch out... getkey waits until the key is released
-int getKey() {
-    while(true)
-    {
-        // if a key is presesd
-        uint8 value = getAnyKey();
-        if(value < 59) {
-            return value;
-        }
-    }
-}
-
-int getAnyKey() {
-    while(true)
-    {
-        // if a key is presesd
-        if(inportb(0x64) & 0x1)
-        {
-            return inportb(0x60);
-        }
+        va_end(ap);
+        va_start(ap, count); // Redo...
     }
 }

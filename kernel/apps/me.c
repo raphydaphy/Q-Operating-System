@@ -49,12 +49,12 @@ void me(string args)
 {
     if (!hasSetup)
     {
-        if (streql(splitArg(args, 1), "-h"))
+        if (streql(splitArg(args, 1), "-H"))
         {
             // a super legit help section brought to you by @plankp
             print("\nMe is here to help you... Believe me...", brown);
         }
-        else if (streql(splitArg(args, 1), "test") && !hasSetup)
+        else if (streql(splitArg(args, 1), "TEST") && !hasSetup)
         {
             hasSetup = true;
             messageBox("\nYou have skipped the Me setup process.");
@@ -235,7 +235,7 @@ void me(string args)
     else if (streql(splitArg(args, 1),""))
     {
         querying = true;
-        char* meArgs = "";
+        string meArgs = NULL;
 
         while (querying)
         {
@@ -243,7 +243,7 @@ void me(string args)
 
             //meArgs = "";
             print("me>  ",green);
-            readStr(meArgs,128,false);
+            meArgs = readstr();
 
             print(answer(meArgs,0),red);
         }
