@@ -8,7 +8,7 @@
 
 #pragma once
 
-#include "../inc/qdio.h"
+#include "/inc/qdio.h"
 
 void PciInit();
 
