@@ -7,13 +7,13 @@
 #include "inc/error.h"
 #include "inc/paging.h"
 #include "inc/initrd.h"
-#include "inc/keyboard.h"
 #include "inc/kbDetect.h"
 #include "inc/descriptorTables.h"
 #include "inc/assemblyFunctions.h"
 #include "inc/consoleUI.h"
 #include "inc/math.h"
 #include "inc/list.h"
+
 
 #include "apps/me/actparse.h"
 
@@ -39,10 +39,10 @@ int kmain(struct multiboot* mboot_ptr)
     // Initialize the initial ramdisk, and set it as the filesystem root.
     fs_root = initialize_initrd(initrd_location);
 
-    initialize_keyboard();
 
     printIntro();
     launchShell();
+    PciInit();
 
     return 0;
 }
@@ -57,4 +57,3 @@ uint32 findInitrd(struct multiboot* mboot_ptr)
     placement_address = initrd_end;
     return initrd_location;
 }
-

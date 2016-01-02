@@ -1,6 +1,7 @@
 #include "calc.h"
 
-static string calcInput = NULL;
+#define CALC_SIZE 128
+static char calcInput[CALC_SIZE];
 
 // There are 52 alphabets
 static float varList[52];
@@ -99,27 +100,27 @@ void mathError(mathExcept ID)
 
 void calc(string args)
 {
-    if(streql(splitArg(args, 1), "") || streql(splitArg(args, 1), "-H"))
+    if(streql(splitArg(args, 1), "") || streql(splitArg(args, 1), "-h"))
     {
        calcHelp();
     }
-    else if(streql(splitArg(args, 1), "-POW"))
+    else if(streql(splitArg(args, 1), "-pow"))
     {
         newline();
         print("Number>  ",dark_grey);
-        calcInput = readstr();
+        readStr(calcInput, CALC_SIZE,false);
         newline();
     	printfloat(powerOfTen(stoi(calcInput)), white);
     }
-      else if(streql(splitArg(args, 1), "-RAN"))
+      else if(streql(splitArg(args, 1), "-ran"))
     {
         newline();
         print("max Number>  ",dark_grey);
-        calcInput = readstr();
+        readStr(calcInput, CALC_SIZE,false);
         newline();
         printint(maxrand(stoi(calcInput)), white);
     }
-    else if(streql(splitArg(args, 1), "-MCR"))
+    else if(streql(splitArg(args, 1), "-mcr"))
     {
         //TODO: Add the predefined functions in here too
         newline();
@@ -133,10 +134,7 @@ void calc(string args)
     }
     else
     {
-        if(calcInput != NULL)
-        {
-            memset(calcInput, 0, strlen(calcInput));
-        }
+        memset(calcInput, 0, CALC_SIZE);
         strbuilder_t simStack = strbuilder_init();
         bool complete = false;
         int cpyCount = 1;

@@ -3,6 +3,10 @@
 
 #include "../inc/qdio.h"
 
+#ifndef WRITERSIZE
+#define WRITERSIZE 1024
+#endif
+
 // create character holders for the writer program
 string writerContents;
 

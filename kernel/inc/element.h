@@ -23,8 +23,6 @@ typedef struct {
     int hash;
 } element_t;
 
-string element_toString(element_t);
-
 string etos(element_t);
 
 int etoi(element_t);

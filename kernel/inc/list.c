@@ -1,5 +1,4 @@
 #include "list.h"
-#include "strbuilder.h"
 
 list_t list_init() {
     return list_init_s(GROWTH_FACTOR);
@@ -69,12 +68,6 @@ inline void list_addc(list_t* lst, char e) {
     __vlist_add(lst, makeCharElement(e), lst->size);
 }
 
-inline void list_addAll(list_t* lst, list_t es) {
-    for(uint32 iter = 0; iter < es.size; iter++) {
-        list_adde(lst, es.data[iter]);
-    }
-}
-
 inline void list_inserts(list_t* lst, string e, uint32 i) {
     __vlist_add(lst, makeStrElement(e), i);
 }
@@ -89,12 +82,6 @@ inline void list_insertf(list_t* lst, float e, uint32 i) {
 
 inline void list_insertc(list_t* lst, char e, uint32 i) {
     __vlist_add(lst, makeCharElement(e), i);
-}
-
-inline void list_insertAll(list_t* lst, list_t es, uint32 i) {
-    for(uint32 iter = 0; iter < es.size; iter++) {
-        __vlist_add(lst, es.data[iter], i + iter);
-    }
 }
 
 inline string list_gets(list_t lst, uint32 index) {
@@ -208,21 +195,5 @@ void list_flip(list_t* lst) {
 void list_destroy(list_t* lst) {
     kfree(lst->data);
     lst->capt = lst->size = 0;
-}
-
-string list_toString(list_t lst)
-{
-    strbuilder_t sb = strbuilder_init();
-    strbuilder_append(&sb, "[");
-    strbuilder_append(&sb, element_toString(lst.data[0]));
-    for(uint16 i = 1; i < lst.size; i++)
-    {
-        strbuilder_append(&sb, ", ");
-        strbuilder_append(&sb, element_toString(lst.data[i]));
-    }
-    strbuilder_append(&sb, "]");
-    string msg = strbuilder_tostr(sb);
-    strbuilder_destroy(&sb);
-    return msg;
 }
 

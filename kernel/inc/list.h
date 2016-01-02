@@ -29,8 +29,6 @@ void list_addf(list_t*, float);
 
 void list_addc(list_t*, char);
 
-void list_addAll(list_t*, list_t);
-
 #define list_insert(lst, e) \
     list_inserts(lst, e)
 
@@ -41,8 +39,6 @@ void list_inserti(list_t*, int, uint32);
 void list_insertf(list_t*, float, uint32);
 
 void list_insertc(list_t*, char, uint32);
-
-void list_insertAll(list_t*, list_t, uint32);
 
 #define list_get(lst, i) \
     list_gets(lst, i)
@@ -118,7 +114,5 @@ void list_flip(list_t*);
 void list_destroy(list_t*);
 
 etype list_getType(list_t, uint32);
-
-string list_toString(list_t);
 
 #endif

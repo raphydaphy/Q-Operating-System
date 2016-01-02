@@ -3,14 +3,13 @@
 void test(string args)
 {
     args = splitArg(args, 1);
-    if(streql(args, "") || streql(args, "-H"))
+    if(streql(args, "") || streql(args, "-h"))
     {
         print("\nThis file is in charge of testing the data types embedded in Q-OS.",black);
         print("\nAccepted Arguments:\n-list\tTests the list.c file\n-set \ttests the set.c file", black);
         print("\n-strb\ttests the strbuilder.c file\n-y   \tshould return the current year...",black);
-        print("\n-tree\ttests the tree.c file",black);
     }
-    else if(streql(args, "-LIST"))//For testing lists
+    else if(streql(args, "-list"))//For testing lists
     {
         newline();
         list_t test_list = list_init();
@@ -56,7 +55,7 @@ void test(string args)
         printint(test_list.capt, white);
         list_destroy(&test_list);
     }
-    else if(streql(args,"-SET"))
+    else if(streql(args,"-set"))
     {
         set_t test_set = set_init();
         for(uint8 i = 0; i < 4; i++)
@@ -108,7 +107,7 @@ void test(string args)
         set_destroy(&tmp);
         set_destroy(&test_set);
     }
-    else if(streql(args, "-STRB"))
+    else if(streql(args, "-strb"))
     {
         static const string bak = "Hello, world ";
         static const uint32 bln = 13;
@@ -136,35 +135,9 @@ void test(string args)
         list_destroy(&tmp);
         strbuilder_destroy(&test_strb);
     }
-    else if(streql(args, "-TREE")) 
-    {
-        println("Creating a tree [[(1), +, (2)], *, (3)]", white);
-        node_t leaf1 = leafless_node_init(makeIntElement(1));
-        node_t leaf2 = leafless_node_init(makeIntElement(2));
-        node_t leaf3 = leafless_node_init(makeIntElement(3));
-        node_t nodePlus = node_init(makeCharElement('+'), &leaf1, &leaf2);
-        node_t nodeTimes = node_init(makeCharElement('*'), &nodePlus, &leaf3);
-        tree_t fullTree = tree_init(&nodeTimes);
-
-        println("Sorting in IN_ORDER order", white);
-        list_t mappedList = tree_foldOrder(fullTree, IN_ORDER);
-        println(list_toString(mappedList), white);
-
-        println("Sorting in PRE_ORDER order", white);
-        mappedList = tree_foldOrder(fullTree, PRE_ORDER);
-        println(list_toString(mappedList), white);
-
-        println("Sorting in POST_ORDER order", white);
-        mappedList = tree_foldOrder(fullTree, POST_ORDER);
-        println(list_toString(mappedList), white);
-        
-        println("Node count should be 5", white);
-        printint(tree_countNodes(fullTree), white);
-    }
-    else if(streql(args,"-Y"))
+    else if(streql(args,"-y"))
     {
        //getTime() test
        printint(getTime("year"),white);
     }
 }
-

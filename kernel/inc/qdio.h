@@ -18,7 +18,6 @@
 #include "intUtils.h"
 #include "isr.h"
 #include "kbDetect.h"
-#include "keyboard.h"
 #include "kheap.h"
 #include "list.h"
 #include "math.h"
@@ -31,10 +30,8 @@
 #include "timer.h"
 #include "graphUtils.h"
 #include "stdarg.h"
-#include "tree.h"
 
 // Q Applications
-#include "../apps/painter.h"
 #include "../apps/user.h"
 #include "../apps/execute.h"
 #include "../apps/calc.h"
