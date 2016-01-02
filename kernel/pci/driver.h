@@ -9,8 +9,8 @@
 
 
 
-#include "/inc/qdio.h"
-#include "/inc/assemblyFunctions.h"
+#include "../inc/qdio.h"
+#include "../inc/assemblyFunctions.h"
 
 
 // ------------------------------------------------------------------------------------------------
