@@ -7,13 +7,6 @@ uint8 inportb (uint16 _port)
     return rv;
 }
 
-uint16 inportw (uint16 _port)
-{
-	uint16 rv;
-	__asm__ __volatile__ ("inw %1, %0" : "=a" (rv) : "dN" (_port));
-    return rv;
-}
-
 void outportb (uint16 _port, uint8 _data)
 {
 	__asm__ __volatile__ ("outb %1, %0" : : "dN" (_port), "a" (_data));
@@ -23,6 +16,34 @@ void outportw(uint16 _port, uint16 _data)
 {
 	__asm__ __volatile__ ("outw %1, %0" : : "dN" (_port), "a" (_data));
 }
+
+uint16 IoRead16(uint16 _port)
+{
+	uint16 rv;
+	__asm__ __volatile__ ("inw %w1, %w0" : "=a" (rv) : "dN" (_port));
+		return rv;
+}
+
+void IoWrite32(uint16 _port, uint32 _data)
+{
+	__asm__ __volatile__ ("outl %1, %0" : : "dN" (_port), "a" (_data));
+}
+
+uint32 IoRead32(uint16 _port)
+{
+	uint32 rv;
+	__asm__ __volatile__ ("inl %w1, %0" : "=a" (rv) : "dN" (_port));
+		return rv;
+}
+
+/*
+
+
+void io_wait()
+{
+    __asm__ volatile("jmp 1f;1:jmp 1f;1:");
+}
+*/
 
 void halt()
 {
@@ -44,7 +65,7 @@ void shutdown()
 {
     // Ok... Suposingly this only reboots the os...
     asm_powoff();
-    
+
 /* OLD SHUTDOWN SEQUENCE. does not work on some VM
     __asm__ __volatile__ ("cli");
 		while(true) {

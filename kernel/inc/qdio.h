@@ -32,6 +32,9 @@
 #include "graphUtils.h"
 #include "stdarg.h"
 #include "tree.h"
+#include "pci/pci.h"
+#include "pci/driver.h"
+#include "pci/registry.h"
 
 // Q Applications
 #include "../apps/painter.h"

@@ -14,7 +14,10 @@ typedef unsigned int uint32;
 typedef signed long long int64;
 typedef unsigned long long uint64;
 
-typedef char* string; 
+
+typedef uint64*  uintptr_t;
+
+typedef char* string;
 
 //define boolean type and boolean literals
 typedef _Bool bool;
@@ -34,4 +37,3 @@ typedef unsigned short	WCHAR;
 typedef unsigned long	DWORD;
 
 #endif
-

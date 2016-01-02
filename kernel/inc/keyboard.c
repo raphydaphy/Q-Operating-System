@@ -219,7 +219,7 @@ static void kb_callback()
 {
     if(inportb(0x64) & 0x1)
     {
-        int16 value = inportw(0x60);
+        int16 value = IoRead16(0x60);
         switch(value)
         {
         case 7453:      // Ctrl Down
