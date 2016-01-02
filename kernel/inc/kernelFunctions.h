@@ -2,9 +2,9 @@
 #define KERNELFUNCTIONS_H
 
 #include "qdio.h"
-#include "pci.h"
-#include "driver.h"
-#include "registry.h"
+#include "../pci/pci.h"
+#include "../pci/driver.h"
+#include "../pci/registry.h"
 
 void printIntro();
 
