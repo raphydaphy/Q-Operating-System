@@ -55,7 +55,7 @@ void pciInit()
     char mac_addr[6];
     for(int i = 0; i < 6; ++i)
     {
-        mac_address[i] = inportb(0x0200 + i); /*ioaddr is the base address obtainable from the PCI device configuration space.*/
+        mac_addr[i] = inportb(0x0200 + i); /*ioaddr is the base address obtainable from the PCI device configuration space.*/
     }
 
 
