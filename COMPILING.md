@@ -30,7 +30,7 @@ After it's finished run:
 
     . ./set_path.sh
 
-Note: you need to do that every time you start new console sessioi. Or permanently change your $PATH.
+Note: you need to do that every time you start new console session. Or permanently change your $PATH.
 
 Compiling Q-OS
 --------------
