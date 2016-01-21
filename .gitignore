@@ -10,3 +10,4 @@ kernel/o/
 *.swp
 *.d
 genInitrd/make_initrd
+cross/
