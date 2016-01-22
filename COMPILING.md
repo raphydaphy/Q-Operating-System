@@ -12,6 +12,9 @@ Needed packages
     ISL (optional)
     CLooG (optional)
 
+    wget (yes, there are systems that don't have it)
+    tar (in case there are systems that don't have this too...)
+
 For Mac users:
 If you use OS X 10.7 or older you need to install gcc and do this:
 
