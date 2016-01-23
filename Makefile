@@ -40,7 +40,7 @@ INITRD:=initrd.img
 GENINITRD_DIR:=genInitrd
 #note: this should be replaced with something better
 INITRD_REMOVE:=./make_initrd ./make_initrd.c ./initrd.img ./README.md
-INITRD_CONTENT:=$(filter-out $(INITRD_REMOVE),$(shell cd $(GENINITRD_DIR); find -type f))
+INITRD_CONTENT:=$(filter-out $(INITRD_REMOVE),$(shell cd $(GENINITRD_DIR); find . -type f))
 GENINITRD_ARGS:=$(foreach file,$(INITRD_CONTENT),$(patsubst ./%,%,$(file)) $(patsubst ./%,%,$(file)))
 
 -include $(DEPFILES)
@@ -64,7 +64,7 @@ $(INITRD):
 	@cp $(GENINITRD_DIR)/initrd.img $(IMGDIR)/boot/
 
 %.o: %.c Makefile
-	@$(CC) $(CFLAGS) -MMD -MP -c $< -o $@
+	$(CC) $(CFLAGS) -MMD -MP -c $< -o $@
 
 %.ao: %.asm
 	$(ASM) $(ASMFLAGS) -o $@ $<
