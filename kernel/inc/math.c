@@ -2,9 +2,9 @@
 
 //CHRONO VARIABLES
 //Time functions from http://wiki.osdev.org/CMOS
-int century_register = 0x90;                                // Set by ACPI table parsing code if possible
+int century_register = 0x00;                                // Set by ACPI table parsing code if possible
 
-#define CURRENT_YEAR 2015
+#define CURRENT_YEAR 2016
 unsigned char second;
 unsigned char minute;
 unsigned char hour;
@@ -285,8 +285,8 @@ enum {
 };
 
 int get_update_in_progress_flag() {
-    outportb(cmos_address, 0x9A);
-    return (inportb(cmos_data) & 0x90);
+    outportb(cmos_address, 0x0A);
+    return (inportb(cmos_data) & 0x80);
 }
 
 unsigned char get_RTC_register(int reg) {
@@ -309,12 +309,12 @@ void read_rtc() {
     //       to avoid getting dodgy/inconsistent values due to RTC updates
 
     while (get_update_in_progress_flag());                // Make sure an update isn't in progress
-    second = get_RTC_register(0x90);
-    minute = get_RTC_register(0x92);
-    hour = get_RTC_register(0x94);
-    day = get_RTC_register(0x97);
-    month = get_RTC_register(0x98);
-    year = get_RTC_register(0x99);
+    second = get_RTC_register(0x00);
+    minute = get_RTC_register(0x02);
+    hour = get_RTC_register(0x04);
+    day = get_RTC_register(0x07);
+    month = get_RTC_register(0x08);
+    year = get_RTC_register(0x09);
     if(century_register != 0) {
         century = get_RTC_register(century_register);
     }
@@ -329,12 +329,12 @@ void read_rtc() {
         last_century = century;
 
         while (get_update_in_progress_flag());           // Make sure an update isn't in progress
-        second = get_RTC_register(0x90);
-        minute = get_RTC_register(0x92);
-        hour = get_RTC_register(0x94);
-        day = get_RTC_register(0x97);
-        month = get_RTC_register(0x98);
-        year = get_RTC_register(0x99);
+        second = get_RTC_register(0x00);
+        minute = get_RTC_register(0x02);
+        hour = get_RTC_register(0x04);
+        day = get_RTC_register(0x07);
+        month = get_RTC_register(0x08);
+        year = get_RTC_register(0x09);
         if(century_register != 0) {
             century = get_RTC_register(century_register);
         }
@@ -342,30 +342,30 @@ void read_rtc() {
              (last_day != day) || (last_month != month) || (last_year != year) ||
              (last_century != century) );
 
-    registerB = get_RTC_register(0x9B);
+    registerB = get_RTC_register(0x0B);
 
     // Convert BCD to binary values if necessary
 
-    if (!(registerB & 0x94)) {
-        second = (second & 0x9F) + ((second / 16) * 10);
-        minute = (minute & 0x9F) + ((minute / 16) * 10);
-        hour = ( (hour & 0x9F) + (((hour & 0x70) / 16) * 10) ) | (hour & 0x90);
-        day = (day & 0x9F) + ((day / 16) * 10);
-        month = (month & 0x9F) + ((month / 16) * 10);
-        year = (year & 0x9F) + ((year / 16) * 10);
+    if (!(registerB & 0x04)) {
+        second = (second & 0x0F) + ((second / 16) * 10);
+        minute = (minute & 0x0F) + ((minute / 16) * 10);
+        hour = ( (hour & 0x0F) + (((hour & 0x70) / 16) * 10) ) | (hour & 0x80);
+        day = (day & 0x0F) + ((day / 16) * 10);
+        month = (month & 0x0F) + ((month / 16) * 10);
+        year = (year & 0x0F) + ((year / 16) * 10);
         if(century_register != 0) {
-            century = (century & 0x9F) + ((century / 16) * 10);
+            century = (century & 0x0F) + ((century / 16) * 10);
         }
     }
 
     // Convert 12 hour clock to 24 hour clock if necessary
-
-    if (!(registerB & 0x92) && (hour & 0x90)) {
+	
+    if (!(registerB & 0x02) && (hour & 0x80)) {
         hour = ((hour & 0x7F) + 12) % 24;
     }
 
     // Calculate the full (4-digit) year
-
+	
     if(century_register != 0) {
         year += century * 100;
     } else {
