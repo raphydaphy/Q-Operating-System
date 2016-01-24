@@ -3,15 +3,16 @@
 ASM:=nasm
 #ASM flags
 ASMFLAGS:=-f elf32
+LD:=i686-elf-ld
 
 #C compiler
-CC:=gcc
+CC:=i686-elf-gcc
 #C compiler flags
 WARNINGS:=-Wall -Wextra #-pedantic -Wshadow -Wpointer-arith -Wcast-align \
             #-Wwrite-strings -Wmissing-prototypes -Wmissing-declarations \
             #-Wredundant-decls -Wnested-externs -Winline -Wno-long-long \
             #-Wuninitialized -Wconversion -Wstrict-prototypes -Werror
-CFLAGS:=-m32 -ffreestanding -std=c99 -Werror -pedantic $(WARNINGS)
+CFLAGS:=-ffreestanding -std=c99 -Werror -pedantic $(WARNINGS)
 #object file directory
 
 ODIR:=kernel/o
@@ -39,7 +40,7 @@ INITRD:=initrd.img
 GENINITRD_DIR:=genInitrd
 #note: this should be replaced with something better
 INITRD_REMOVE:=./make_initrd ./make_initrd.c ./initrd.img ./README.md
-INITRD_CONTENT:=$(filter-out $(INITRD_REMOVE),$(shell cd $(GENINITRD_DIR); find -type f))
+INITRD_CONTENT:=$(filter-out $(INITRD_REMOVE),$(shell cd $(GENINITRD_DIR); find . -type f))
 GENINITRD_ARGS:=$(foreach file,$(INITRD_CONTENT),$(patsubst ./%,%,$(file)) $(patsubst ./%,%,$(file)))
 
 -include $(DEPFILES)
@@ -54,7 +55,7 @@ $(ISO): $(KERNEL) $(INITRD)
 
 $(KERNEL): $(CSOURCES) $(ASOURCES) $(COBJECTS) $(AOBJECTS)
 	@mkdir -p $(IMGDIR)/boot/
-	@ld -m elf_i386 -T $(DIR)/link.ld $(AOBJECTS) $(COBJECTS) -o $(IMGDIR)/boot/$@
+	@$(LD) -m elf_i386 -T $(DIR)/link.ld $(AOBJECTS) $(COBJECTS) -o $(IMGDIR)/boot/$@
 
 $(INITRD):
 
@@ -63,7 +64,7 @@ $(INITRD):
 	@cp $(GENINITRD_DIR)/initrd.img $(IMGDIR)/boot/
 
 %.o: %.c Makefile
-	@$(CC) $(CFLAGS) -MMD -MP -c $< -o $@
+	$(CC) $(CFLAGS) -MMD -MP -c $< -o $@
 
 %.ao: %.asm
 	$(ASM) $(ASMFLAGS) -o $@ $<
