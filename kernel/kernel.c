@@ -7,10 +7,15 @@
 #include "inc/error.h"
 #include "inc/paging.h"
 #include "inc/initrd.h"
+#include "inc/keyboard.h"
 #include "inc/kbDetect.h"
 #include "inc/descriptorTables.h"
 #include "inc/assemblyFunctions.h"
+#include "inc/consoleUI.h"
 #include "inc/math.h"
+#include "inc/list.h"
+
+#include "apps/me/actparse.h"
 
 extern uint32 placement_address;
 
@@ -21,34 +26,35 @@ uint32 findInitrd(struct multiboot*);
 
 int kmain(struct multiboot* mboot_ptr)
 {
-	clearScreen();
+    clearScreen();
 
-	init_descriptor_tables();
-	__asm__ __volatile__("sti");
+    init_descriptor_tables();
+    __asm__ __volatile__("sti");
 
-	uint32 initrd_location = findInitrd(mboot_ptr);
-	initialize_paging();
+    init_timer(50);
 
-	// Initialize the initial ramdisk, and set it as the filesystem root.
-	fs_root = initialize_initrd(initrd_location);
+    uint32 initrd_location = findInitrd(mboot_ptr);
+    initialize_paging();
 
-	printIntro();
+    // Initialize the initial ramdisk, and set it as the filesystem root.
+    fs_root = initialize_initrd(initrd_location);
 
-	println(PRO_TIP, 0x0F);
-	kbHelp();
+    initialize_keyboard();
 
-	launchShell();
+    printIntro();
+    launchShell();
 
-	return 0;
+    return 0;
 }
 
 uint32 findInitrd(struct multiboot* mboot_ptr)
 {
-	// Find the location of our initial ramdisk.
-	ASSERT(mboot_ptr->mods_count > 0);
-	uint32 initrd_location = *((uint32*)mboot_ptr->mods_addr);
-	uint32 initrd_end = *(uint32*)(mboot_ptr->mods_addr+4);
-	// Don't trample our module with placement accesses, please!
-	placement_address = initrd_end;
-	return initrd_location;
+    // Find the location of our initial ramdisk.
+    ASSERT(mboot_ptr->mods_count > 0);
+    uint32 initrd_location = *((uint32*)mboot_ptr->mods_addr);
+    uint32 initrd_end = *(uint32*)(mboot_ptr->mods_addr+4);
+    // Don't trample our module with placement accesses, please!
+    placement_address = initrd_end;
+    return initrd_location;
 }
+

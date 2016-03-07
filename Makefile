@@ -6,12 +6,12 @@ ASMFLAGS:=-f elf32
 
 #C compiler
 CC:=gcc
-#C coompiler flags
+#C compiler flags
 WARNINGS:=-Wall -Wextra #-pedantic -Wshadow -Wpointer-arith -Wcast-align \
             #-Wwrite-strings -Wmissing-prototypes -Wmissing-declarations \
             #-Wredundant-decls -Wnested-externs -Winline -Wno-long-long \
-            #-Wuninitialized -Wconversion -Wstrict-prototypes
-CFLAGS:=-m32 -ffreestanding -std=c99 $(WARNINGS)
+            #-Wuninitialized -Wconversion -Wstrict-prototypes -Werror
+CFLAGS:=-m32 -ffreestanding -std=c99 -Werror -pedantic $(WARNINGS)
 #object file directory
 
 ODIR:=kernel/o
@@ -74,7 +74,8 @@ qemu: $(ISO)
 .PHONY clean:
 # -f needed to  avoid error when file doesn't exist
 	@rm -rf $(ODIR)
-	@rm $(AOBJECTS)
-	@rm $(COBJECTS)
+	@rm -f $(DEPFILES)
+	@rm -f $(AOBJECTS)
+	@rm -f $(COBJECTS)
 	@rm -f $(IMGDIR)/boot/$(KERNEL)
 	@rm -f $(ISO)

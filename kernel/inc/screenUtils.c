@@ -2,7 +2,7 @@
 #include "screenUtils.h"
 
 //Initialize the variables created in screen.h
-bool writing = 0, progexit = 0, layout = 0, ctrl = 0, typingCmd = 0;
+bool writing = 0, layout = 0, ctrl = 0, typingCmd = 0;
 uint8 startCmdY = 0, startCmdX = 0;
 bool newCmd = 0;
 
@@ -10,12 +10,23 @@ bool newCmd = 0;
 uint32 cursorX = 0, cursorY = 0, deleteStopX = 0;
 const uint8 sw = 80,sh = 26,sd = 2;
 
-void clearLine(uint8 from, uint8 to)
+void printIntro()
 {
-    string vidmem=(string)0xb8000;
+    writing = false;
+
+    // Some good colors for background: 66, 88, 99, CC, EE
+    drawFrame(header_background, 0, 0, 80, 4);
+
+    printAt("Welcome to Q OS\r\n", header_foreground, 1, 1);
+    printAt("You are using version 0.06",desc_foreground,1,2);
+}
+
+void clearLine(uint8 from, uint8 to,int toColor)
+{
+    unsigned char* vidmem=(unsigned char*)0xb8000;
     for(uint16 i = sw * from * sd; i < (sw * to * sd); i++)
     {
-        vidmem[i] = 0x0;
+        vidmem[i] = toColor;
     }
 }
 
@@ -29,56 +40,67 @@ void updateCursor()
     outportb(0x3D5, temp >> 8);                                                 // ASM to send the high byte across the bus
     outportb(0x3D4, 15);                                                        // Another CRT Control Register to Select Send Low byte
     outportb(0x3D5, temp);                                                      // Use ASM outportb function again to send the Low byte of the cursor location
+
 }
+
 
 void clearScreen()
 {
-    clearLine(0, sh - 1);
+    clearLine(0, sh - 1,screen_color);
     cursorX = 0;
     cursorY = 0;
     updateCursor();
+
+    printIntro();
+
+    drawBorder(screen_background, 0, 4, 80, sh - 1);
+    actualY = 3;
 }
 
 void scrollUp(uint8 lineNumber)
 {
     string vidmem = (string) 0xb8000;
-    clearLine(0, lineNumber - 1);
+    clearLine(0, lineNumber - 1,screen_color);
     for (uint16 i = 0; i<sw * (sh - 1) * 2; i++)
     {
         vidmem[i] = vidmem[i+sw*2*lineNumber];
     }
-    clearLine(sh-1-lineNumber,sh-1);
-    if((cursorY - lineNumber) < 0 ) 
-    {
-        cursorY = 0;
-        cursorX = 0;
-    } 
-    else 
-    {
-        cursorY -= lineNumber;
-    }
+    clearLine(sh-1-lineNumber,sh-1,screen_color);
+    cursorY -= lineNumber;
+    cursorX = 1;
+
+    printIntro();
+    drawBorder(screen_background, 0, 4, 80, sh - 1);
+
+
     updateCursor();
 }
 
 
 void newLineCheck()
 {
-    if(cursorY >= sh - 1)
+    if(cursorY >= (uint8)(sh - 2))
     {
+        //paintScreen(screen_color);
         scrollUp(1);
     }
+
+    //paintScreen(screen_color);
 }
 
 void kprintch(char c, int b, bool incDelStop)
 {
-    string vidmem = (string) 0xb8000;     
+    string vidmem = (string) 0xb8000;
     switch(c)
     {
     case (0x08): // Backspace
-        if(cursorX > 0) 
+        if(cursorX > 1)
         {
             cursorX--;
-            if (incDelStop) deleteStopX--;
+            if (incDelStop)
+            {
+                deleteStopX--;
+            }
             vidmem[(cursorY * sw + cursorX)*sd] = 0x00;
         }
         break;
@@ -92,24 +114,46 @@ void kprintch(char c, int b, bool incDelStop)
     }
     case ('\r'):
         cursorX = 0;
-        if (incDelStop) deleteStopX = 0;
+        if (incDelStop)
+        {
+            deleteStopX = 0;
+        }
         break;
     case ('\n'):
-        cursorX = 0;
-        if (incDelStop) deleteStopX = 0;
+        cursorX = 1;
+        if (incDelStop)
+        {
+            deleteStopX = 0;
+        }
         cursorY++;
+        actualY++;
+
+        if (actualY >= 24)
+        {
+            clearScreen();
+
+            cursorX = 1;
+            cursorY = 5;
+            actualY = 5;
+        }
         break;
     default:
-        vidmem [((cursorY * sw + cursorX))*sd] = c;
-        vidmem [((cursorY * sw + cursorX))*sd+1] = b;
+        vidmem [(cursorY * sw + cursorX)*sd] = c;
+        vidmem [(cursorY * sw + cursorX)*sd+1] = b;
         cursorX++;
-        if (incDelStop) deleteStopX++;
+        if (incDelStop)
+        {
+            deleteStopX++;
+        }
         break;
     }
     if(cursorX >= sw)
     {
         cursorX = 0;
-        if (incDelStop) deleteStopX = 0;
+        if (incDelStop)
+        {
+            deleteStopX = 0;
+        }
         cursorY++;
     }
     updateCursor();
@@ -124,19 +168,24 @@ void printch(char c, int b)
 
 void print(string ch, int bh)
 {
-    uint8 length = strlength(ch);
+    uint8 length = strlen(ch);
     for(uint16 i = 0; i < length; i++)
     {
         printch(ch[i], bh);
     }
 }
 
+void printf(string str, ...)
+{
+    va_list ap;
+    va_start(ap, str);
+    string msg = __vstrformat(str, ap);
+    va_end(ap);
+    print(msg, black);
+}
+
 void moveCursorX(int x) {
     cursorX += x;
-    while(cursorX < 0) {
-        cursorX += sw;
-        cursorY -= 1;
-    }
     while(cursorX >= sw) {
         cursorX -= sw;
         cursorY += 1;
@@ -150,3 +199,4 @@ void moveCursorY(int y) {
     updateCursor();
     newLineCheck();
 }
+

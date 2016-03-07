@@ -9,6 +9,7 @@
 #include "byteUtils.h"
 #include "stringUtils.h"
 #include "intTypeDefs.h"
+#include "screenUtils.h"
 
 typedef struct
 {
@@ -26,5 +27,9 @@ typedef struct
 // Initialises the initial ramdisk. It gets passed the address of the multiboot module,
 // and returns a completed filesystem node.
 fs_node_t *initialize_initrd(uint32 location);
+
+fs_node_t* makeFile(string, uint32);
+
+fs_node_t* makeDir(string);
 
 #endif

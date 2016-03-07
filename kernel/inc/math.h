@@ -1,8 +1,11 @@
 #ifndef MATH_H
 #define MATH_H
 
+#include "timer.h"
+#include "intUtils.h"
 #include "charUtils.h"
 #include "screenUtils.h"
+#include "assemblyFunctions.h" // Here is where the inportb and outportb is
 
 // We;; obviously fifty digits of PI isn't accurate enough..
 #ifndef PI
@@ -44,6 +47,20 @@ long ceil(double);
 long floor(double);
 
 double abs(double);
+
+int factorial(int);
+
+long addRange(long, long);
+
+long subRange(long, long);
+
+float sin(int ang);
+
+float cos(int ang);
+
+double rand();
+
+int maxrand(int max);
 
 //Chrono function
 int get_update_in_progress_flag();

@@ -35,7 +35,7 @@ typedef struct fs_node
     uint32 gid;         // The owning group.
     uint32 flags;       // Includes the node type. See #defines above.
     uint32 inode;       // This is device-specific - provides a way for a filesystem to identify files.
-    uint32 length;      // Size of the file, in bytes.
+    uint64 length;      // Size of the file, in bytes.
     uint32 impl;        // An implementation-defined number.
     read_type_t read;
     write_type_t write;

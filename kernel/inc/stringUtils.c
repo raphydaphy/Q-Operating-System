@@ -1,13 +1,28 @@
 #include "stringUtils.h"
+#include "strbuilder.h" // THIS LINE MUST BE HERE!!!
+#include "kheap.h" // THIS LINE MUST BE HERE!!!
 
-uint16 strlength(string ch)
+int lastArg(string args)
+{
+	int tmp = 0;
+	while (true)
+	{
+		tmp++;
+		if (streql(splitArg(args, tmp)," "))
+		{
+			return tmp - 1;
+		}
+    }
+}
+
+uint16 strlen(string ch)
 {
     uint16 i = 0;
     while(ch[++i]);
     return i;
 }
 
-bool strEql(string ch1,string ch2)
+bool streql(string ch1,string ch2)
 {
     /* Zero from strcmp means ch1 eq ch2 */
     return strcmp(ch1, ch2) == 0;
@@ -70,7 +85,7 @@ string strTrim(string str)
     if(str[0] == '\0')
         return str;
 
-    len = strlength(str);
+    len = strlen(str);
     endp = str + len;
 
     /* Move the front and back pointers to address the first non-whitespace
@@ -105,15 +120,14 @@ string strTrim(string str)
 
 #define INT_DIGITS 19       /* enough for 64 bit integer */
 
-/*
- * Based off itoa from opensource apple com.
- */
-string itos(int i, uint8 base) {
+string itos(int i, uint8 base)
+{
     /* Room for INT_DIGITS digits, - and '\0' */
     static char buf[INT_DIGITS + 2];
     string p = buf + INT_DIGITS + 1;  /* points to terminating '\0' */
     bool isNeg = false;
-    if (i < 0) {
+    if (i < 0)
+	{
         isNeg = true;
         i = -i;
     }
@@ -147,6 +161,47 @@ string ftos(float f) {
     return p;
 }
 
+string get0Arg(string rawArgs)
+{
+    bool zeroArgGenOver = false;
+    string curArg = (string) kmalloc(10 * sizeof(char));
+    string zeroArg = rawArgs;
+
+    uint16 tmp = 0;
+    uint16 modTmp = (tmp + 1);
+    while (!zeroArgGenOver && modTmp < arrLength(rawArgs))
+    {
+        modTmp = tmp + 1;
+
+        // For Debug:
+        //printint(tmp,grey);
+
+        char curArgChar = rawArgs[tmp];
+        char curArgCharString[] = { curArgChar, '\0' };
+
+        if (streql(curArgCharString," "))
+        {
+            zeroArgGenOver = true;
+            memset(curArg, '\0', 128);
+            zeroArg = curArg;
+            kfree(curArg);
+            return zeroArg;
+        }
+        else
+        {
+            print(curArgCharString,white);
+            strcat(curArg,curArgCharString);
+        }
+
+        tmp++;
+    }
+
+    kfree(curArg);
+    return zeroArg;
+}
+
+static int convValidate;
+
 int stoi(string s)
 {
     int msg = 0;
@@ -157,13 +212,41 @@ int stoi(string s)
         i++;
     }
     while(s[i]) {
-        if (isnum(s[i])) {
-            msg *= 10;
-            msg += ctoi(s[i]);
-        } else break;
+        msg *= 10;
+        convValidate = ntoi(s[i]);
+        if(convValidate == -1) break;
+        msg += convValidate;
         i++;
     }
     if (hasN) msg = -msg;
+    return msg;
+}
+
+int htoi(string s)
+{
+    int msg = 0;
+    bool hasN = false;
+    uint16 i = 0;
+    if (s[0] == '-') {
+        hasN = true;
+        i++;
+    }
+    while(s[i]) {
+        msg *= 10;
+        convValidate = ctoi(s[i]);
+        if(convValidate == -1) break;
+        msg += convValidate;
+        i++;
+    }
+    if (hasN) msg = -msg;
+    return msg;
+}
+
+uint32 stoc(string str) {
+    uint32 msg = 0;
+    do
+      msg += abs(*str++);
+    while (*str != 0);
     return msg;
 }
 
@@ -195,17 +278,25 @@ double stod(string s)
     return msg;
 }
 
-string splitArg(string args, int argc) {//argc is the argument the program needs (argument n)
+string splitArg(string args, int argc) {// argc is the argument the program needs (argument n)
     int i = 0;
     int j = 0;
     int argLoc = 0;
 
-    char fargs[1028] = {0};
+    static char fargs[1028];
+    memset(fargs, 0, 1028);
     while(args[i] != 0 && args[i] != 10) {
 		if(args[i] == 32) {
 	    	argLoc += 1;
 		}
-		if(argLoc == argc) {
+		if(argc == 0) {
+		    while(args[i + j] != 32 && args[i + j] != 0) {
+				fargs[j] = args[i + j];
+				j++;
+			}
+	    	break;
+		}
+		else if(argLoc == argc) {
 		    while(args[i+j+1] != 32 && args[i+j+1] != 0) {
 				fargs[j] = args[i+j+1];
 				j++;
@@ -217,7 +308,7 @@ string splitArg(string args, int argc) {//argc is the argument the program needs
     i = 0;
     j = 0;
 
-    return (string)fargs;
+    return fargs;
 }
 
 string sentenceCase(string s) {
@@ -247,4 +338,65 @@ string toLower(string s) {
     }
     return s;
 }
- 
+
+int strHash(string s) {
+    int tmp = stoc(s) * 10;
+    tmp &= (tmp ^ 7) >> 4;
+    return tmp;
+}
+
+inline string __vstrformat(string str, va_list ap)
+{
+    strbuilder_t msg = strbuilder_init();
+    char curChar;
+    do {
+        curChar = *str++;
+        if(curChar == '%')
+        {
+            curChar = *str++;
+            switch(curChar)
+            {
+            case '%':
+                strbuilder_appendc(&msg, '%');
+                break;
+            case 'd':
+            case 'i':
+                strbuilder_appendi(&msg, va_arg(ap, int));
+                break;
+            case 'o':
+                strbuilder_append(&msg, itos8(va_arg(ap, int)));
+                break;
+            case 'x':
+                strbuilder_append(&msg, toLower(itos16(va_arg(ap, int))));
+                break;
+            case 'X':
+                strbuilder_append(&msg, toUpper(itos16(va_arg(ap, int))));
+                break;
+            case 'f':
+            case 'F':
+                strbuilder_appendf(&msg, va_arg(ap, double));
+                break;
+            case 'c':
+                strbuilder_appendc(&msg, va_arg(ap, int));
+                break;
+            case 's':
+                strbuilder_append(&msg, va_arg(ap, string));
+                break;
+            }
+        }
+        else
+        {
+            strbuilder_appendc(&msg, curChar);
+        }
+    } while (*str != 0);
+    return strbuilder_tostr(msg);
+}
+
+string strformat(string str, ...)
+{
+    va_list ap;
+    va_start(ap, str);
+    string msg = __vstrformat(str, ap);
+    va_end(ap);
+    return msg;
+}

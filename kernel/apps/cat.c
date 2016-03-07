@@ -1,28 +1,23 @@
 #include "cat.h"
 
-void cat(fs_node_t* fsnode)
+void cat(string args)
 {
-    newline();
-    if ((fsnode->flags & 0x7) == FS_FILE)
+    string fileName = splitArg(args, 1);
+    if(streql(fileName, "") || streql(fileName, "-H"))
     {
-        const uint32 rbuff = fsnode->length;
-        char buf[rbuff];
-        uint32 sz = read_fs(fsnode, 0, rbuff, (uint8*) buf);
-        uint32 j;
-        for (j = 0; j < sz; j++)
-            printch(buf[j], 0x0F);
-        newline();
+        println("\nHelp file for cat:", black);
+        println("cat [OPTION] | <path>", black);
+        println("OPTION:", black);
+        print("\t-h", black);
+        return;
     }
+    ASSERT(strlen(fileName) < MAX_FNAME_LEN);
+    catTheFile(finddir_fs(fs_root, fileName));
 }
 
-bool findInDictionary(fs_node_t* fsnode,int dictionaryLength,string searchTerm)
+void catTheFile(fs_node_t* fsnode)
 {
     newline();
-
-	// Current letter and word that we are analyzing
-    char* curChar;
-	char* curWord = "";
-
     if ((fsnode->flags & 0x7) == FS_FILE)
     {
         const uint32 rbuff = fsnode->length;
@@ -31,28 +26,60 @@ bool findInDictionary(fs_node_t* fsnode,int dictionaryLength,string searchTerm)
         uint32 j;
         for (j = 0; j < sz; j++)
         {
-            print("So Far So Gud",0x0E);
-            curChar = buf[j];
-            if (strEql(curChar," "))
-			{
-				// The curWord value now stores the next word in the dictionary so now we can see if the word
-                //we are looking for is the same as the one we are currently on...
-				for(uint8 tmp = 0; tmp < dictionaryLength; tmp++)
-				{
-                    printint(tmp,0x0D);
-					if (strEql(curWord,searchTerm))
-					{
-						print("We found the word in the dictionary!",0x0D);
-						return true;
-                    }
-				}
-				curWord = "";
-			}
-			else
-			{
-				strcat(curWord,curChar);
-			}
+            printch(buf[j], white);
         }
         newline();
     }
+}
+
+bool findInDictionary(string dictionary,string searchWord)
+{
+    ASSERT(strlen(dictionary) < MAX_FNAME_LEN);
+    if (lookup(finddir_fs(fs_root, dictionary),searchWord))
+    {
+        return true;
+    }
+    else
+    {
+        return false;
+    }
+}
+
+bool lookup(fs_node_t* fsnode, string searchTerm)
+{
+    searchTerm = toUpper(searchTerm);
+
+    // Current letter and word that we are analyzing
+    char curChar;
+
+    if ((fsnode->flags & 0x7) == FS_FILE)
+    {
+        const uint64 rbuff = fsnode->length;
+        char buf[rbuff];
+        uint64 sz = read_fs(fsnode, 0, rbuff, (uint8*) buf);
+        uint64 j;
+
+        string curWord = (string) kmalloc(10 * sizeof(char));
+
+        for (j = 0; j < sz; j++)
+        {
+
+            char curCharString[] = { curChar, '\0' };
+            curChar = buf[j];
+
+            if (streql(curCharString, " "))
+            {
+                if (streql(curWord, searchTerm))
+                {
+                    return true;
+                }
+                memset(curWord, '\0', 128);
+            }
+            else
+            {
+                strcat(curWord,curCharString);
+            }
+        }
+    }
+    return false;
 }

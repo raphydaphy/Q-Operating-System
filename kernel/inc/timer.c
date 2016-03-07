@@ -4,17 +4,28 @@
 #include "timer.h"
 
 uint32 tick = 0;
+uint32 freq = 0;
 
-static void timer_callback(registers_t regs)
+static void timer_callback()
 {
     tick++;
-    print("Tick: ", 0x0F);
-    printint(tick, 0x0F);
-    printch('\n', 0x0F);
+}
+
+void waitTicks(uint32 dist) {
+    uint32 final = tick + dist;
+    while(tick < final);
+    // Do nothing...
+}
+
+void waitSeconds(uint32 dist) {
+    uint32 final = tick + dist * freq;
+    while(tick < final);
+    // Do nothing...
 }
 
 void init_timer(uint32 frequency)
 {
+    freq = frequency;
     // Firstly, register our timer callback.
     register_interrupt_handler(IRQ0, &timer_callback);
 

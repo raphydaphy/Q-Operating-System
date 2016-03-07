@@ -6,9 +6,9 @@
 #include "charUtils.h"
 #include "intTypeDefs.h"
 
-uint16 strlength(string);
+uint16 strlen(string);
 
-bool strEql(string, string);
+bool streql(string, string);
 
 uint8 strcmp(string, string);
 
@@ -30,9 +30,17 @@ string itos(int, uint8);
 
 string ftos(float);
 
+string get0Arg(string);
+
+int lastArg(string);
+
 string splitArg(string, int);
 
 int stoi(string);
+
+int htoi(string);
+
+uint32 stoc(string);
 
 double stod(string);
 
@@ -41,5 +49,9 @@ string sentenceCase(string);
 string toUpper(string);
 
 string toLower(string);
+
+int strHash(string);
+
+string strformat(string, ...);
 
 #endif

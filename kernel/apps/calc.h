@@ -2,29 +2,27 @@
 #define CALC_H
 
 #include "../inc/math.h"
+#include "../inc/list.h"
+#include "../inc/hashmap.h"
 #include "../inc/kbDetect.h"
 #include "../inc/byteUtils.h"
 #include "../inc/charUtils.h"
+#include "../inc/strbuilder.h"
 #include "../inc/intTypeDefs.h"
 #include "../inc/stringUtils.h"
 #include "../inc/screenUtils.h"
 
-#ifndef CALCSIZE
-#define CALCSIZE 128
-#endif
-
-// math storage variables
-char calcInput[CALCSIZE + 2]; // For `+0`
-int mathOp[CALCSIZE];
-double tempNum;
-double strNum[CALCSIZE];
-int strNumCount;
+typedef enum
+{
+    START_W_OP,
+    DIV_BY_ZERO,
+    ILLEGAL_OP,
+    INVAID_MACRO,
+    OTHER
+} mathExcept;
 
 // Initializes the variable map! IMPORTANT!
 void initialize_calc();
-
-// contatination function for the calculator app
-double concat(double, double);
 
 // main calc() function to run from kernel.c
 void calc(string);
@@ -33,6 +31,10 @@ void calc(string);
 void calcHelp();
 
 // mathError() function to print an error message
-void mathError(uint8);
+void mathError(mathExcept);
+
+float calc_parse(strbuilder_t);
+
+float evaluate(list_t);
 
 #endif
